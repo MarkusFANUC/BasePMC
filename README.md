@@ -15,11 +15,11 @@ This is an open source project intially developed by an employee of FCH, now mai
  the necessary programs, feel free to contact the maintainer of this project or your FANUC contact person.
  Please put the following programs from the [gnuwin32 project](http://gnuwin32.sourceforge.net/) 
  into the BasePMC Utility folder:
-  *date part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
-  *[gawk](https://sourceforge.net/projects/gnuwin32/files/gawk/)
-  *[grep](https://sourceforge.net/projects/gnuwin32/files/grep/)
-  *[sed](https://sourceforge.net/projects/gnuwin32/files/sed/) 
-  *sleep part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
+  *d ate part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
+  * [gawk](https://sourceforge.net/projects/gnuwin32/files/gawk/)
+  * [grep](https://sourceforge.net/projects/gnuwin32/files/grep/)
+  * [sed](https://sourceforge.net/projects/gnuwin32/files/sed/) 
+  * sleep part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
   
 In addition you need to the gnuwin32 tools you will also need to put mcpp from the 
 [mcpp project](http://mcpp.sourceforge.net/)
