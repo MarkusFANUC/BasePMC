@@ -15,7 +15,7 @@ This is an open source project intially developed by an employee of FCH, now mai
  the necessary programs, feel free to contact the maintainer of this project or your FANUC contact person.
  Please put the following programs from the [gnuwin32 project](http://gnuwin32.sourceforge.net/) 
  into the BasePMC Utility folder:
-  *d ate part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
+  * date part of [CoreUtils](https://sourceforge.net/projects/gnuwin32/files/coreutils/)
   * [gawk](https://sourceforge.net/projects/gnuwin32/files/gawk/)
   * [grep](https://sourceforge.net/projects/gnuwin32/files/grep/)
   * [sed](https://sourceforge.net/projects/gnuwin32/files/sed/) 
@@ -24,6 +24,7 @@ This is an open source project intially developed by an employee of FCH, now mai
 In addition you need to the gnuwin32 tools you will also need to put mcpp from the 
 [mcpp project](http://mcpp.sourceforge.net/)
  * [mcpp](https://sourceforge.net/projects/mcpp/files/mcpp/V.2.7.2/mcpp-2.7.2-bin.zip/download?use_mirror=kumisystems&download=) 
+
 into the BasePMC Utility folder.
 We are aware that gnuwin32 is deprecated and it will be one of our tasks to update to the latest equivalent 
 tools. 
