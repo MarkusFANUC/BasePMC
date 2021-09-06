@@ -15,7 +15,7 @@
 //:        :       :       :handwheel_support == 0 and pmc_type == 2 ||      :
 //:        :       :       :pmc_type == 6 ; SETTCH added                     :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -593,7 +593,7 @@ _PATH__: handle mode selection
 _PATH__: inc feed mode selection
 *)
 #endif
-#if handwheel_support > 0 || pmc_type == 2 || pmc_type == 6
+#if handwheel_support > 0 || pmc_type < 3
                  RD        K_INC__PATH__        ;"key inc feed"
    #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
@@ -827,7 +827,7 @@ _PATH__: global variable  M_INC__PATH__ (inc feed mode selected)
 *)
 #endif
                  RD        MINC__PATH__         ;"mode incremental feed"
-#if handwheel_support > 0 || pmc_type == 2 || pmc_type == 6
+#if handwheel_support > 0 || pmc_type < 3
                  OR        MH__PATH__           ;"mode handle"
                  AND       incsel__PATH__       ;"inc selected"
 #else

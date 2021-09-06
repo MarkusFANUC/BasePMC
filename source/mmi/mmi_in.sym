@@ -19,7 +19,10 @@
 //:        :       :       :path 11-15 added                                 :
 //:        :       :       :variable K_MESRST added                          :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:21.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
+//:        :       :       :variables K_AX_B and K_INCR added                :
+//:--------------------------------------------------------------------------:
+//:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -49,6 +52,9 @@
 #endif
 #if operatorspanel == 2
    #include "op_55keys_in.sym"
+   #if virtual_op_panel == 1 && start_address_op > 0
+      #include "op_55vkeys_in.sym"
+   #endif
 #endif
 #if operatorspanel == 3
    #include "i_pend_in.sym"
@@ -59,6 +65,13 @@
 // -----------------------------------------------
 #if handwheel_support == 2
    #include "hmop_in.sym"
+#endif
+
+// -----------------------------------------------
+// portable manual pulse generator 
+// -----------------------------------------------
+#if handwheel_support == 3
+   #include "pmpg_in.sym"
 #endif
 
 // -----------------------------------------------
@@ -223,6 +236,8 @@ iDoor,__DOOR_KEY,button prot. door,
 // byte
 // -----------------------------------
 OPMAP,E9540,op map start address,
+K_AX_B,E9544,keys for axis selection,
+K_INCR,E9545,keys for increment selection,
 FOVRS,E9556,feed override in %,
 SOVRS,E9558,spindle override in %,
 
@@ -251,9 +266,7 @@ K_CYSP,E9543.1,key cycle stop,
 K_PGSP,E9543.2,pgm stop key,
 
 K_RST,E9543.3,reset key,
-#if start_address_op == 0
 K_EMG,E9543.4,virtual emg stop key,
-#endif
 
 #if handwheel_support == 2
 K_MESRST,E9543.7,message reset key
@@ -293,12 +306,19 @@ K_MC4,E9548.4,key macro call 3,
 // -------------------------------------------------------
 // global variables E9560.0 - E9569.7
 // -------------------------------------------------------
-
+#if handwheel_support == 2
 HMOP_ACT,E9560.0,hmop active,
 RE_HMOP_ACT,E9560.1,re hmop active,
+#endif
+#if handwheel_support == 3
+PMPG_ACT,E9560.0,pmpg active,
+#endif
+#if operatorspanel == 0 || soft_op_panel == 1
 SOP_ACT,E9560.2,software op active,
 RE_SOP_ACT,E9560.3,re sop active,
 FE_SOP_ACT,E9560.4,fe sop active,
+#endif
+
 K_PATH+,E9560.5,key path plus,
 K_PATH-,E9560.6,key path minus,
 K_PSYN,E9560.7,key path sync,
@@ -320,8 +340,17 @@ K_PKEY,E9561.1,memory protection key,
 // -----------------------------------
 // bool
 // -----------------------------------
+#if handwheel_support == 2
 mhmop_act,E9570.0,memory hmop active,
-msop_act,E9570.1,memory sop active,
-reksop,E9570.2,re key sop,
-mksop,E9570.3,memory key sop,
-sopscreen,E9570.4,sop screen selected,
+#endif
+#if handwheel_support == 3
+mpmpg_act,E9570.0,memory pmpg active,
+rempg_act,E9570.1,re pmpg active,
+pmpg_on,E9570.2,portable mpg switched on,
+#endif
+#if operatorspanel == 0 || soft_op_panel == 1
+msop_act,E9570.3,memory sop active,
+reksop,E9570.4,re key sop,
+mksop,E9570.5,memory key sop,
+sopscreen,E9570.6,sop screen selected,
+#endif

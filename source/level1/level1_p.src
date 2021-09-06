@@ -15,7 +15,8 @@
 //:        :       :       :pmc_type < 3 || pmc_type == 6                    :
 //:        :       :       :DCS alarms added to emergency stop               :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.07.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+//:        :       :       :virtual operator's panel added, SOP modified     :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -35,6 +36,11 @@ _PATH__: emergency stop
 *)
 #endif
                  RD        iK_ESP               ;"button emergency stop"
+#if operatorspanel == 2 && virtual_op_panel == 1 && start_address_op > 0
+                 RD.STK    iV_K_EMG             ;"op55: virtual emg key"
+                 OR.NOT    VIRTUAL_OP           ;"virtual op with 55key"
+                 AND.STK   
+#endif
 #if dcs_support == 1
                  RD.STK    *SGOPN               ;"guard state doors closed"
                  OR        *ESP__PATH__         ;"emergency stop signal"
@@ -47,20 +53,16 @@ _PATH__: emergency stop
                  OR.NOT    DCS_ACT              ;"dual check safety active"
                  AND.STK   
 #endif
-#if operatorspanel == 0
+#if operatorspanel == 0 || soft_op_panel == 1
                  AND.NOT   sopemg               ;"emergency stop from sop"
-#endif
-#if soft_op_panel == 1 && operatorspanel != 0
-   #if pmc_type < 3 || pmc_type == 6
-                 RD.STK.NOT sopemg              ;"emergency stop from sop"
-                 OR.NOT    SOP_RUN              ;"software op-panel active"
-                 AND.STK
-   #else
-                 AND.NOT   sopemg               ;"emergency stop from sop"
-   #endif
 #endif
 #if start_address_op == 0
+   #if operatorspanel == 1
                  AND.NOT   K_EMG                ;"emgergency stop key"
+   #endif
+   #if operatorspanel == 2
+                 AND       iV_K_EMG             ;op55: virtual emg key
+   #endif
                  WRT.NOT   L_EMG__PATH__        ;"led emg stop key"
 #endif
                  WRT       *ESP__PATH__         ;"emergency stop signal"

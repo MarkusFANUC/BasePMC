@@ -1,0 +1,286 @@
+//:--------------------------------------------------------------------------:
+//: File              : pmpg_in.src                                          :
+//: Creation date     : 21.12.2018                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs portable manual pulse generator               :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ------------------------------------
+// key 1st axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 1st axis
+*)
+#endif
+                 RD        iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_5AX            ;"pmpg: input 5th axis"
+                 AND.NOT   iPMPG_6AX            ;"pmpg: input 6th axis"
+                 WRT       K_1AX                ;"key 1st axis"
+
+// ------------------------------------
+// key 2nd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 2nd axis
+*)
+#endif
+                 RD        iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_5AX            ;"pmpg: input 5th axis"
+                 AND.NOT   iPMPG_6AX            ;"pmpg: input 6th axis"
+                 WRT       K_2AX                ;"key 2nd axis"
+
+// ------------------------------------
+// key 3rd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 3rd axis
+*)
+#endif
+                 RD        iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_5AX            ;"pmpg: input 5th axis"
+                 AND.NOT   iPMPG_6AX            ;"pmpg: input 6th axis"
+                 WRT       K_3AX                ;"key 3rd axis"
+
+// ------------------------------------
+// key 4th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 4th axis
+*)
+#endif
+                 RD        iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_5AX            ;"pmpg: input 5th axis"
+                 AND.NOT   iPMPG_6AX            ;"pmpg: input 6th axis"
+                 WRT       K_4AX                ;"key 4th axis"
+
+// ------------------------------------
+// key 5th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 5th axis
+*)
+#endif
+                 RD        iPMPG_5AX            ;"pmpg: input 5th axis"
+                 AND.NOT   iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_6AX            ;"pmpg: input 6th axis"
+                 WRT       K_5AX                ;"key 5th axis"
+
+// ------------------------------------
+// key 6th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 6th axis
+*)
+#endif
+                 RD        iPMPG_6AX            ;"pmpg: input 6th axis"
+                 AND.NOT   iPMPG_1AX            ;"pmpg: input 1st axis"
+                 AND.NOT   iPMPG_2AX            ;"pmpg: input 2nd axis"
+                 AND.NOT   iPMPG_3AX            ;"pmpg: input 3rd axis"
+                 AND.NOT   iPMPG_4AX            ;"pmpg: input 4th axis"
+                 AND.NOT   iPMPG_5AX            ;"pmpg: input 5th axis"
+                 WRT       K_6AX                ;"key 6th axis"
+
+// ------------------------------------
+// key 1 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+key 1 increment
+*)
+#endif
+                 RD        iPMPG_X1             ;"pmpg: input x1"
+                 AND.NOT   iPMPG_X10            ;"pmpg: input x10"
+                 AND.NOT   iPMPG_X100           ;"pmpg: input x100"
+                 AND.NOT   iPMPG_X1000          ;"pmpg: input x1000"
+                 WRT       K_X1                 ;"key 1 increment"
+
+// ------------------------------------
+// key 10 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+key 10 increment
+*)
+#endif
+                 RD        iPMPG_X10            ;"pmpg: input x10"
+                 AND.NOT   iPMPG_X1             ;"pmpg: input x1"
+                 AND.NOT   iPMPG_X100           ;"pmpg: input x100"
+                 AND.NOT   iPMPG_X1000          ;"pmpg: input x1000"
+                 WRT       K_X10                ;"key 10 increment"
+
+// ------------------------------------
+// key 100 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+key 100 increment
+*)
+#endif
+                 RD        iPMPG_X100           ;"pmpg: input x100"
+                 AND.NOT   iPMPG_X1             ;"pmpg: input x1"
+                 AND.NOT   iPMPG_X10            ;"pmpg: input x10"
+                 AND.NOT   iPMPG_X1000          ;"pmpg: input x1000"
+                 WRT       K_X100               ;"key 100 increment"
+
+// ------------------------------------
+// key 1000 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+key 1000 increment
+*)
+#endif
+                 RD        iPMPG_X1000          ;"pmpg: input x1000"
+                 AND.NOT   iPMPG_X1             ;"pmpg: input x1"
+                 AND.NOT   iPMPG_X10            ;"pmpg: input x10"
+                 AND.NOT   iPMPG_X100           ;"pmpg: input x100"
+                 WRT       K_X1000              ;"key 1000 increment"
+
+
+#if operatorspanel == 0 || soft_op_panel == 1
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\pmpg_in_p01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+   #if nbr_of_path > 1
+      #include "..\..\include\pmpg_in_p02.src"
+   #endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+   #if nbr_of_path > 2
+      #include "..\..\include\pmpg_in_p03.src"
+   #endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+   #if nbr_of_path > 3
+      #include "..\..\include\pmpg_in_p04.src"
+   #endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+   #if nbr_of_path > 4
+      #include "..\..\include\pmpg_in_p05.src"
+   #endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+   #if nbr_of_path > 5
+      #include "..\..\include\pmpg_in_p06.src"
+   #endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+   #if nbr_of_path > 6
+      #include "..\..\include\pmpg_in_p07.src"
+   #endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+   #if nbr_of_path > 7
+      #include "..\..\include\pmpg_in_p08.src"
+   #endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+   #if nbr_of_path > 8
+      #include "..\..\include\pmpg_in_p09.src"
+   #endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+   #if nbr_of_path > 9
+      #include "..\..\include\pmpg_in_p10.src"
+   #endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+   #if nbr_of_path > 10
+      #include "..\..\include\pmpg_in_p11.src"
+   #endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+   #if nbr_of_path > 11
+      #include "..\..\include\pmpg_in_p12.src"
+   #endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+   #if nbr_of_path > 12
+      #include "..\..\include\pmpg_in_p13.src"
+   #endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+   #if nbr_of_path > 13
+      #include "..\..\include\pmpg_in_p14.src"
+   #endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+   #if nbr_of_path > 14
+      #include "..\..\include\pmpg_in_p15.src"
+   #endif
+#endif
+
+

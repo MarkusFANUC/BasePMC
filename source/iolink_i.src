@@ -15,7 +15,8 @@
 //:        :       :       :safety operator panel + small op with general    :
 //:        :       :       :DI/DO included                                   :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
+//:        :       :       :handwheel_support == 3                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -28,7 +29,7 @@
 #include "..\config.def"
 
 // ---------------------------------------------------------------------------
-// title
+// Title
 // ---------------------------------------------------------------------------
 %@7
 $TITLE 'I/O Link i for MBasePMC\n'
@@ -144,7 +145,7 @@ $CHANNEL1
    #if start_address_op > 0
    $GROUP
      ; Group       Mode        Safety      MPG
-      #if handwheel_support == 1
+      #if handwheel_support == 1 || handwheel_support == 3
        0           0           NO          1
       #else
        0           0           NO          0
@@ -153,13 +154,13 @@ $CHANNEL1
          ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
       #if start_address_op == 1
            1       PMC1    X0100   9       Y0100   5       Small_operator_panel
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
            MPG     PMC1    X0112   3       0       0       Handwheel
          #endif
       #endif
       #if start_address_op == 2
            1       PMC1    X0006   9       Y0000   5       Small_operator_panel
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
            MPG     PMC1    X0018   3       0       0       Handwheel
          #endif
       #endif
@@ -206,13 +207,13 @@ $CHANNEL1
    $GROUP
      ; Group       Mode        Safety      MPG
       #if dcs_support == 1
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
        0           0           PMC         1
          #else
        0           0           PMC         0
          #endif
       #else
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
        0           0           NO          1
          #else
        0           0           NO          0
@@ -222,13 +223,13 @@ $CHANNEL1
          ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
       #if start_address_op == 1
            1       PMC1    X0100   12      Y0100   8       Operator_panel
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
            MPG     PMC1    X0112   3       0       0       Handwheel
          #endif
       #endif
       #if start_address_op == 2
            1       PMC1    X0006   12      Y0000   8       Operator_panel
-         #if handwheel_support == 1
+         #if handwheel_support == 1 || handwheel_support == 3
            MPG     PMC1    X0018   3       0       0       Handwheel
          #endif
       #endif

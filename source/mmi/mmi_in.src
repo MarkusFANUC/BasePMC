@@ -16,6 +16,11 @@
 //:27.07.19: 2.0.0 :Blp    :sop selection by screen notification             :
 //:        :       :       :path 11-15 added                                 :
 //:--------------------------------------------------------------------------:
+//:21.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
+//:--------------------------------------------------------------------------:
+//:25.06.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+//:        :       :       :virtual operator's panel added                   :
+//:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
 
@@ -92,6 +97,12 @@ key path sync
 *)
       #endif
                  RD        iF_K_D01             ;"op55: key D01"
+      #if virtual_op_panel == 1 && start_address_op > 0
+                 AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 RD.STK    iV_K_D01             ;"op55: virtual key D01"
+                 AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 OR.STK    
+      #endif
                  WRT       K_PSYN               ;"key path sync"
 
 // ---------------------------------------------------------------------------
@@ -103,6 +114,12 @@ key path+
 *)
       #endif
                  RD        iF_K_D02             ;"op55: key D02"
+      #if virtual_op_panel == 1 && start_address_op > 0
+                 AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 RD.STK    iV_K_D02             ;"op55: virtual key D02"
+                 AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 OR.STK    
+      #endif
                  WRT       K_PATH+              ;"key path plus"
 
 // ---------------------------------------------------------------------------
@@ -115,6 +132,12 @@ key path-
 *)
          #endif
                  RD        iF_K_D03             ;"op55: key D03"
+         #if virtual_op_panel == 1 && start_address_op > 0
+                 AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 RD.STK    iV_K_D03             ;"op55: virtual key D03"
+                 AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 OR.STK    
+         #endif
                  WRT       K_PATH-              ;"key path minus"
       #endif
    #endif
@@ -128,7 +151,13 @@ key path-
 protection door
 *)
       #endif
-                 RD        iF_K_E04             ;"op55: key E02"
+                 RD        iF_K_E04             ;"op55: key E04"
+         #if virtual_op_panel == 1 && start_address_op > 0
+                 AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 RD.STK    iV_K_E04             ;"op55: virtual key E04"
+                 AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
+                 OR.STK    
+         #endif
                  WRT       K_DOOR               ;"key unlock prot. door"
    #endif
 #endif
@@ -217,52 +246,12 @@ rising edge hmop active
 // ---------------------------------------------------------------------------
 // enable / disable software operator panel
 // ---------------------------------------------------------------------------
-   #if pmc_type < 3 || pmc_type == 6
-      #if net_comment == 1
-(*
-enable software operator panel
-*)
-      #endif
-                 RD        MDCHEN               ;"mode change enable"
-      #if operatorspanel == 1                      // small operator's panel
-                 AND       iS_K_D07             ;"op30: key D07"
-      #endif
-      #if operatorspanel == 2                      // standard operator's panel
-                 AND       iF_K_D12             ;"op55: key D12"
-      #endif
-      #if operatorspanel == 3                      // iPendant
-                 AND       iP_K_01              ;"ip: key 01"
-      #endif
-                 AND       FICYCL               ;"first cycle finished"
-                 AND.NOT   mksop                ;"memory key sop"
-                 WRT       reksop               ;"re key sop"
-
-                 RD        MDCHEN               ;"mode change enable"
-      #if operatorspanel == 1                      // small operator's panel
-                 AND       iS_K_D07             ;"op30: key D07"
-      #endif
-      #if operatorspanel == 2                      // standard operator's panel
-                 AND       iF_K_D12             ;"op55: key D12"
-      #endif
-      #if operatorspanel == 3                      // iPendant
-                 AND       iP_K_01              ;"ip: key 01"
-      #endif
-                 AND       FICYCL               ;"first cycle finished"
-                 WRT       mksop                ;"memory key sop"
-
-                 RD        reksop               ;"re key sop"
-                 AND.NOT   SOP_ACT              ;"software op active"
-                 RD.STK    SOP_ACT              ;"software op active"
-                 AND.NOT   reksop               ;"re key sop"
-                 OR.STK    
-                 WRT       SOP_ACT              ;"software op active"
-   #else
-      #if net_comment == 1
+   #if net_comment == 1
 (*
 enable software operator panel
 F523 = 2, F524 = 8 (802h = 2050d
 *)
-      #endif
+   #endif
                  RD        LOG1                 ;"logic one"
                  EQW       
                            2050
@@ -286,8 +275,6 @@ F523 = 2, F524 = 8 (802h = 2050d
                  AND       sopscreen            ;"sop screen selected"
                  OR.STK    
                  WRT       SOP_ACT              ;"software op active"
-   #endif
-
 
                  RD        SOP_RUN              ;"software op-panel active"
                  AND.NOT   SOP_ACT              ;"software op active"
@@ -352,6 +339,10 @@ operator panel key input map
       #endif
    #endif
                  CALL      Op_Keyb_55_In        ;"op. 55-key inputs"
+   #if virtual_op_panel == 1 && start_address_op > 0
+                 RDNT      iK_ESP               ;"button emergency stop"
+                 RST       VIRTUAL_OP           ;"Virtual operator panel 55Key"
+   #endif
 #endif
 
 #if operatorspanel == 3                         // iPendant
@@ -464,6 +455,337 @@ enable mpg of iPendant
 #if handwheel_support == 2
                  RD        HMOP_ACT             ;"memory hmop acitve"
                  CALL      Hmop_In              ;"hmop inputs"
+#endif
+
+#if handwheel_support == 3
+// ---------------------------------------------------------------------------
+// enable Portable manual pulse generator 
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+enable Portable manual pulse generator
+*)
+   #endif
+                 RD       MDCHEN_P01           ;"P01:mode change enable"
+                 AND       PATH_P01             ;"path 01 selected"
+   #if nbr_of_path > 1
+                 RD.STK    MDCHEN_P02           ;"P02:mode change enable"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 2
+                 RD.STK    MDCHEN_P03           ;"P03:mode change enable"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 3
+                 RD.STK    MDCHEN_P04           ;"P04:mode change enable"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 4
+                 RD.STK    MDCHEN_P05           ;"P05:mode change enable"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 5
+                 RD.STK    MDCHEN_P06           ;"P06:mode change enable"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 6
+                 RD.STK    MDCHEN_P07           ;"P07:mode change enable"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 7
+                 RD.STK    MDCHEN_P08           ;"P08:mode change enable"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 8
+                 RD.STK    MDCHEN_P09           ;"P09:mode change enable"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 9
+                 RD.STK    MDCHEN_P10           ;"P10:mode change enable"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 10
+                 RD.STK    MDCHEN_P11           ;"P11:mode change enable"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 11
+                 RD.STK    MDCHEN_P12           ;"P12:mode change enable"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 12
+                 RD.STK    MDCHEN_P13           ;"P13:mode change enable"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 13
+                 RD.STK    MDCHEN_P14           ;"P14:mode change enable"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 14
+                 RD.STK    MDCHEN_P15           ;"P15:mode change enable"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK    
+   #endif
+                 OR        PMPG_ACT             ;"pmpg active"
+                 RD.STK    iPMPG_X1             ;"pmpg: input x1"
+                 OR        iPMPG_X10            ;"pmpg: input x10"
+                 OR        iPMPG_X100           ;"pmpg: input x100"
+                 OR        iPMPG_X1000          ;"pmpg: input x1000"
+                 AND.STK   
+                 WRT       PMPG_ACT             ;"pmpg active"
+
+// ---------------------------------------------------------------------------
+// force active path to handle mode when pmpg is switched on 
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+force active path to handle mode when pmpg is switched on
+*)
+   #endif
+   #if operatorspanel > 0
+                 RD        PMPG_ACT             ;"pmpg active"
+                 AND.NOT   mpmpg_act            ;"memory pmpg active"
+	  #if soft_op_panel == 1
+                 AND.NOT    SOP_ACT             ;"software op active"
+      #endif
+                 WRT       rempg_act            ;"re pmpg active"
+
+                 RD        PMPG_ACT             ;"pmpg active"
+      #if soft_op_panel == 1
+                 AND.NOT    SOP_ACT             ;"software op active"
+      #endif
+                 WRT       mpmpg_act            ;"memory pmpg active"
+
+                 RD        PATH_P01             ;"path 01 selected"
+      #if nbr_of_path > 1
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+      #endif
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P01           ;"P01:force to mode handle"
+      #if nbr_of_path > 1
+                 RD        PATH_P02             ;"path 02 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P02           ;"P02:force to mode handle"
+      #endif
+      #if nbr_of_path > 2
+                 RD        PATH_P03             ;"path 03 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P03           ;"P03:force to mode handle"
+      #endif
+      #if nbr_of_path > 3
+                 RD        PATH_P04             ;"path 04 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P04           ;"P04:force to mode handle"
+      #endif
+      #if nbr_of_path > 4
+                 RD        PATH_P05             ;"path 05 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P05           ;"P05:force to mode handle"
+      #endif
+      #if nbr_of_path > 5
+                 RD        PATH_P06             ;"path 06 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P06           ;"P06:force to mode handle"
+      #endif
+      #if nbr_of_path > 6
+                 RD        PATH_P07             ;"path 07 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P07           ;"P07:force to mode handle"
+      #endif
+      #if nbr_of_path > 7
+                 RD        PATH_P08             ;"path 08 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P08           ;"P08:force to mode handle"
+      #endif
+      #if nbr_of_path > 8
+                 RD        PATH_P09             ;"path 09 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P09           ;"P09:force to mode handle"
+      #endif
+      #if nbr_of_path > 9
+                 RD        PATH_P10             ;"path 10 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P10           ;"P10:force to mode handle"
+      #endif
+      #if nbr_of_path > 10
+                 RD        PATH_P11             ;"path 11 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P11           ;"P11:force to mode handle"
+      #endif
+      #if nbr_of_path > 11
+                 RD        PATH_P12             ;"path 12 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P12           ;"P12:force to mode handle"
+      #endif
+      #if nbr_of_path > 12
+                 RD        PATH_P13             ;"path 13 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P13           ;"P13:force to mode handle"
+      #endif
+      #if nbr_of_path > 13
+                 RD        PATH_P14             ;"path 14 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P14           ;"P14:force to mode handle"
+      #endif
+      #if nbr_of_path > 14
+                 RD        PATH_P15             ;"path 15 selected"
+                 RD.STK    MDCHEN               ;"mode change enable"
+                 AND       PATHSYN              ;"path synchronization signal"
+                 OR.STK    
+                 AND       rempg_act            ;"re pmpg active"
+                 SET       SET_HD_P15           ;"P15:force to mode handle"
+      #endif
+   #endif
+
+// ---------------------------------------------------------------------------
+// conditions to call portable manual pulse coder module 
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+conditions to call portable manual pulse coder module
+*)
+   #endif
+                 RD        M_HD_P01             ;"P01:mode HANDLE selected"
+                 AND       PATH_P01             ;"path 01 selected"
+   #if nbr_of_path > 1
+                 RD.STK    M_HD_P02             ;"P02:mode HANDLE selected"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 2
+                 RD.STK    M_HD_P03             ;"P03:mode HANDLE selected"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 3
+                 RD.STK    M_HD_P04             ;"P04:mode HANDLE selected"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 4
+                 RD.STK    M_HD_P05             ;"P05:mode HANDLE selected"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 5
+                 RD.STK    M_HD_P06             ;"P06:mode HANDLE selected"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 6
+                 RD.STK    M_HD_P07             ;"P07:mode HANDLE selected"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 7
+                 RD.STK    M_HD_P08             ;"P08:mode HANDLE selected"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 8
+                 RD.STK    M_HD_P09             ;"P09:mode HANDLE selected"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 9
+                 RD.STK    M_HD_P10             ;"P10:mode HANDLE selected"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 10
+                 RD.STK    M_HD_P11             ;"P11:mode HANDLE selected"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 11
+                 RD.STK    M_HD_P12             ;"P12:mode HANDLE selected"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 12
+                 RD.STK    M_HD_P13             ;"P13:mode HANDLE selected"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 13
+                 RD.STK    M_HD_P14             ;"P14:mode HANDLE selected"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK    
+   #endif
+   #if nbr_of_path > 14
+                 RD.STK    M_HD_P15             ;"P15:mode HANDLE selected"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK    
+   #endif
+                 AND       PMPG_ACT             ;"pmpg active"
+                 WRT       pmpg_on              ;"portable mpg switched on"
+
+                 RD        pmpg_on              ;"portable mpg switched on"
+                 CALL      Pmpg_In              ;"pmpg inputs"
+
+// ---------------------------------------------------------------------------
+// led portable manual pulse generator active 
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+led portable manual pulse generator active
+*)
+   #endif
+                 RD        pmpg_on              ;"portable mpg switched on"
+                 WRT       oPMPG_LED            ;"pmpg: led"
 #endif
 
 // -----------------------------------------------

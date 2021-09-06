@@ -1,4 +1,4 @@
-FlNew PMC_PMiA_Mem_D.LAD /Pmctype=Power Motion i-A PMC(MEM-D,EXI) /overwrite
+FlNew PMC_PMiA_Mem_D.LAD /Pmctype=Power Motion i-A PMC(MEM-D,FLT) /overwrite
 FlOpen PMC_PMiA_Mem_D.LAD
 MnemonicToSrc /file=..\sysprm.mne /init=0
 MnemonicToSrc /file=..\symbol.csv

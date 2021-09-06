@@ -11,7 +11,10 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
+//:        :       :       :*IT signal is accelerated when wp coordinate     :
+//:        :       :       :preset is executed or hold to run button is      :
+//:        :       :       :pressed.                                         :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -190,17 +193,20 @@ _PATH__: brake control
 _PATH__: delay brake released
 *)
    #endif
-   #if dcs_support == 1
-                 RD        *SGOPN               ;"guard state doors closed"
-                 OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       relb_6th__PATH__     ;"release brake 6th axis"
-   #else
                  RD        relb_6th__PATH__     ;"release brake 6th axis"
-   #endif
-                 AND.NOT   WPRST6__PATH__       ;"wp coord preset 6th axis"
                  TMRB      
                            0
                            96
+                 WRT       brel_6th__PATH__     ;"brake 6th axis released"
+
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       brel_6th__PATH__     ;"brake 6th axis released"
+   #else
+                 RD        brel_6th__PATH__     ;"brake 6th axis released"
+   #endif
+                 AND.NOT   WPRST6__PATH__       ;"wp coord preset 6th axis"
                  WRT       *IT6__PATH__         ;"interlock 6th axis"
 
 // ---------------------------------------------------------------------------

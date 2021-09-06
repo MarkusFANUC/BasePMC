@@ -15,7 +15,8 @@
 //:        :       :       :pmc_type < 3 || pmc_type == 6                    :
 //:        :       :       :path 11-15 added                                 :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.07.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+//:        :       :       :virtual operator's panel added, SOP modified     :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -257,18 +258,21 @@ transfering monitoring bit00 to DCSPMC
 *)
       #endif
                  RD.NOT    sopemg               ;"emergency stop from sop"
-      #if soft_op_panel == 1 && operatorspanel != 0
-         #if pmc_type < 3 || pmc_type == 6
-                 OR.NOT    SOP_RUN              ;"software op-panel active"
-         #endif
-      #endif
-      #if start_address_op == 0
+      #if operatorspanel == 1 && start_address_op == 0
                  AND.NOT   K_EMG                ;"emgergency stop key"
+      #endif
+      #if operatorspanel == 2 && start_address_op == 0 
+                 AND       iV_K_EMG             ;"op55: virtual emg key"
+      #endif
+      #if operatorspanel == 2 && start_address_op > 0 && virtual_op_panel == 1 
+                 RD.STK    iV_K_EMG             ;"op55: virtual emg key"
+                 OR.NOT    VIRTUAL_OP           ;"virtual op with 55key"
+                 AND.STK   
       #endif
                  WRT       TPMG00               ;"interface to DCS bit00"
    #endif
 
-   #if operatorspanel != 0 && soft_op_panel == 0 && start_address_op == 0
+   #if operatorspanel == 1 && soft_op_panel == 0 && start_address_op == 0
 // ---------------------------------------------------------------------------
 // transfering monitoring bit00 to DCSPMC (EMG STOP switch)
 // ---------------------------------------------------------------------------
@@ -279,6 +283,23 @@ transfering monitoring bit00 to DCSPMC
 *)
       #endif
                  RD.NOT    K_EMG                ;"virtual emg stop key"
+                 WRT       TPMG00               ;"interface to DCS bit00"
+   #endif
+
+   #if operatorspanel == 2 && soft_op_panel == 0
+// ---------------------------------------------------------------------------
+// transfering monitoring bit00 to DCSPMC (EMG STOP switch)
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+transfering monitoring bit00 to DCSPMC
+(EMG STOP switch)
+*)
+      #endif
+                 RD        iV_K_EMG             ;"op55: virtual emg key"
+      #if virtual_op_panel == 1 && start_address_op > 0
+                 OR.NOT    VIRTUAL_OP           ;"virtual op with 55key"
+      #endif
                  WRT       TPMG00               ;"interface to DCS bit00"
    #endif
 #endif

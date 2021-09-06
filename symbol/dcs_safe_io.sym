@@ -13,7 +13,7 @@
 //:--------------------------------------------------------------------------:
 //:16.07.18: 2.0.0 :Blp    :address range for path 11-15 added               :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -36,81 +36,6 @@
 *SGOPN,R1000.0,guard state doors closed,
 HTR,R1000.1,hold to run button,
 SET_M01,R1000.2,setup mode 01,
-#if spindle_support_P01 > -1 && (pmc_type != 2 && pmc_type < 6)
-   #if spindle_support_P01 == 1 
-EXOF2_P01,R1000.3,P01:spindle excitation off,
-   #endif
-   #if nbr_of_path > 1
-      #if spindle_support_P02 == 1
-EXOF2_P02,R1000.4,P02:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 2
-      #if spindle_support_P03 == 1
-EXOF2_P03,R1000.5,P03:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 3
-      #if spindle_support_P04 == 1
-EXOF2_P04,R1000.6,P04:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 4
-      #if spindle_support_P05 == 1
-EXOF2_P05,R1000.7,P05:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 5
-      #if spindle_support_P06 == 1
-EXOF2_P06,R1001.0,P06:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 6
-      #if spindle_support_P07 == 1
-EXOF2_P07,R1001.1,P07:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 7
-      #if spindle_support_P08 == 1
-EXOF2_P08,R1001.2,P08:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 8
-      #if spindle_support_P09 == 1
-EXOF2_P09,R1001.3,P09:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 9
-      #if spindle_support_P10 == 1
-EXOF2_P10,R1001.4,P10:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 10
-      #if spindle_support_P11 == 1
-EXOF2_P11,R1001.5,P11:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 11
-      #if spindle_support_P12 == 1
-EXOF2_P12,R1001.6,P12:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 12
-      #if spindle_support_P13 == 1
-EXOF2_P13,R1001.7,P13:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 13
-      #if spindle_support_P14 == 1
-EXOF2_P14,R1002.0,P14:spindle excitation off,
-      #endif
-   #endif
-   #if nbr_of_path > 14
-      #if spindle_support_P15 == 1
-EXOF2_P15,R1002.1,P15:spindle excitation off,
-      #endif
-   #endif
-#endif
 
 // -------------------------------------------------------
 // safe outputs R1010.0 - R1019.7
@@ -123,163 +48,89 @@ EXOF2_P15,R1002.1,P15:spindle excitation off,
 // bool
 // -----------------------------------
 #if spindle_support_P01 == 1 
-   #if (pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P01,R1010.0,P01:spin. monit. logic A,
-SP_MON_B_P01,R1010.1,P01:spin. monit. logic B,
-   #else
 SP_STO_MON_P01,R1010.0,P01:spindle sto monitoring,
-   #endif
 #endif
+
 #if nbr_of_path > 1
    #if spindle_support_P02 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P02,R1010.2,P02:spin. monit. logic A,
-SP_MON_B_P02,R1010.3,P02:spin. monit. logic B,
-      #else
 SP_STO_MON_P02,R1010.1,P02:spindle sto monitoring,
-      #endif
    #endif
 #endif
 
 #if nbr_of_path > 2
    #if spindle_support_P03 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P03,R1010.4,P03:spin. monit. logic A,
-SP_MON_B_P03,R1010.5,P03:spin. monit. logic B,
-      #else
 SP_STO_MON_P03,R1010.2,P03:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 3
    #if spindle_support_P04 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P04,R1010.6,P04:spin. monit. logic A,
-SP_MON_B_P04,R1010.7,P04:spin. monit. logic B,
-      #else
 SP_STO_MON_P04,R1010.3,P04:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 4
    #if spindle_support_P05 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P05,R1011.0,P05:spin. monit. logic A,
-SP_MON_B_P05,R1011.1,P05:spin. monit. logic B,
-      #else
 SP_STO_MON_P05,R1010.4,P05:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 5
    #if spindle_support_P06 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P06,R1011.2,P06:spin. monit. logic A,
-SP_MON_B_P06,R1011.3,P06:spin. monit. logic B,
-      #else
 SP_STO_MON_P06,R1010.5,P06:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 6
    #if spindle_support_P07 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P07,R1011.4,P07:spin. monit. logic A,
-SP_MON_B_P07,R1011.5,P07:spin. monit. logic B,
-      #else
 SP_STO_MON_P07,R1010.6,P07:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 #if nbr_of_path > 7
    #if spindle_support_P08 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P08,R1011.6,P08:spin. monit. logic A,
-SP_MON_B_P08,R1011.7,P08:spin. monit. logic B,
-      #else
 SP_STO_MON_P08,R1010.7,P08:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 8
    #if spindle_support_P09 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P09,R1012.0,P09:spin. monit. logic A,
-SP_MON_B_P09,R1012.1,P09:spin. monit. logic B,
-      #else
 SP_STO_MON_P09,R1011.0,P09:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 9
    #if spindle_support_P10 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P10,R1012.2,P10:spin. monit. logic A,
-SP_MON_B_P10,R1012.3,P10:spin. monit. logic B,
-      #else
 SP_STO_MON_P10,R1011.1,P10:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 10
    #if spindle_support_P11 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P11,R1012.4,P11:spin. monit. logic A,
-SP_MON_B_P11,R1012.5,P11:spin. monit. logic B,
-      #else
 SP_STO_MON_P11,R1011.2,P11:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 11
    #if spindle_support_P12 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P12,R1012.6,P12:spin. monit. logic A,
-SP_MON_B_P12,R1012.7,P12:spin. monit. logic B,
-      #else
 SP_STO_MON_P12,R1011.3,P12:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 12
    #if spindle_support_P13 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P13,R1013.0,P13:spin. monit. logic A,
-SP_MON_B_P13,R1013.1,P13:spin. monit. logic B,
-      #else
 SP_STO_MON_P13,R1011.4,P13:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 13
    #if spindle_support_P14 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P14,R1013.2,P14:spin. monit. logic A,
-SP_MON_B_P14,R1013.3,P14:spin. monit. logic B,
-      #else
 SP_STO_MON_P14,R1011.5,P14:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 
 #if nbr_of_path > 14
    #if spindle_support_P15 == 1 && spindle_support_P01 > -1
-      #if(pmc_type != 2 && pmc_type < 6)
-SP_MON_A_P15,R1013.4,P15:spin. monit. logic A,
-SP_MON_B_P15,R1013.5,P15:spin. monit. logic B,
-      #else
 SP_STO_MON_P15,R1011.6,P15:spindle sto monitoring,
-	  #endif
    #endif
 #endif
 

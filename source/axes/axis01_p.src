@@ -11,7 +11,10 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
+//:        :       :       :*IT signal is accelerated when wp coordinate     :
+//:        :       :       :preset is executed or hold to run button is      :
+//:        :       :       :pressed.                                         :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -190,17 +193,20 @@ _PATH__: brake control
 _PATH__: delay brake released
 *)
    #endif
-   #if dcs_support == 1
-                 RD        *SGOPN               ;"guard state doors closed"
-                 OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       relb_1st__PATH__     ;"release brake 1st axis"
-   #else
                  RD        relb_1st__PATH__     ;"release brake 1st axis"
-   #endif
-                 AND.NOT   WPRST1__PATH__       ;"wp coord preset 1st axis"
                  TMRB      
                            0
                            96
+                 WRT       brel_1st__PATH__     ;"brake 1st axis released"
+
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       brel_1st__PATH__     ;"brake 1st axis released"
+   #else
+                 RD        brel_1st__PATH__     ;"brake 1st axis released"
+   #endif
+                 AND.NOT   WPRST1__PATH__       ;"wp coord preset 1st axis"
                  WRT       *IT1__PATH__         ;"interlock 1st axis"
 
 // ---------------------------------------------------------------------------

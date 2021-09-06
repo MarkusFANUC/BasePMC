@@ -11,7 +11,8 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:03.05.21: 3.0.0 :Blp    :Forcing of SETMEM__PATH__ by reset at abnormal   :
+//:        :       :       :termination added                                :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -45,7 +46,7 @@ N06096 = xxxx (starting at Oxxxx)
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro start enable
+_PATH__: one touch macro start enable
 *)
 #endif
                  RD.NOT    REF_OK__PATH__       ;"all axis referenced"
@@ -58,7 +59,7 @@ one touch macro start enable
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro call start impulse (>=32ms)
+_PATH__: one touch macro call start impulse (>=32ms)
 *)
 #endif
                  RD        MCST1__PATH__        ;"macro call 1 start"
@@ -75,7 +76,7 @@ one touch macro call start impulse (>=32ms)
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro call 1
+_PATH__: one touch macro call 1
 *)
 #endif
                  RD        K_MC1__PATH__        ;"key macro call 1"
@@ -101,7 +102,7 @@ one touch macro call 1
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro call 2
+_PATH__: one touch macro call 2
 *)
 #endif
                  RD        K_MC2__PATH__        ;"key macro call 2"
@@ -127,7 +128,7 @@ one touch macro call 2
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro call 3
+_PATH__: one touch macro call 3
 *)
 #endif
                  RD        K_MC3__PATH__        ;"key macro call 3"
@@ -153,7 +154,7 @@ one touch macro call 3
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-one touch macro call 4
+_PATH__: one touch macro call 4
 *)
 #endif
                  RD        K_MC4__PATH__        ;"key macro call 4"
@@ -176,7 +177,7 @@ one touch macro call 4
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-mode switching request
+_PATH__: mode switching request
 *)
 #endif
                  RD        M_HD__PATH__         ;"mode HANDLE selected"
@@ -285,7 +286,7 @@ mode switching request
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-mode switching acknowledge one touch macro call
+_PATH__: mode switching acknowledge one touch macro call
 *)
 #endif
                  RD        MCRQ__PATH__         ;"mode change request signal"
@@ -357,11 +358,24 @@ mode switching acknowledge one touch macro call
                  WRT       MCFIN__PATH__        ;"mode change completion signal"
 
 // ---------------------------------------------------------------------------
+// _PATH__: In case of abnormal termination MEM mode will be called by reset
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: In case of abnormal termination MEM mode will be called by reset
+*)
+#endif
+               RD        MCSP__PATH__           ;"OTM abnormal end"
+               AND       MCEXE__PATH__          ;"macro call exec. signal"
+               AND       RE_RST__PATH__         ;"rising edge reset"
+               SET       SETMEM__PATH__         ;"force to mode mem"
+
+// ---------------------------------------------------------------------------
 // _PATH__: custom macro variable #1000 (used to detect one touch macro call in custo macro)
 // ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-custom macro variable #1000 (used to detect one touch macro call in custo macro)
+_PATH__: custom macro variable #1000 (used to detect one touch macro call in custo macro)
 *)
 #endif
                  RD        MCEXE__PATH__        ;"macro call executing signal"

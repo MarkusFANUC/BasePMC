@@ -39,6 +39,7 @@
 # Other source related files
 \Utility\*.*
 \INCLUDE\*.*
+*.i
 
 # Log files
 compilerlog.txt

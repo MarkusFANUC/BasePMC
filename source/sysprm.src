@@ -15,6 +15,9 @@
 //:--------------------------------------------------------------------------:
 //:26.09.16: 2.0.0 :Blp    :I/O group assignment changed                     :
 //:--------------------------------------------------------------------------:
+//:26.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed, Function Block and       :
+//:        :       :       :floating point added, I/O link removed           :
+//:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
 
@@ -34,162 +37,192 @@
 // pmc type
 // ---------------------------------------------------------------------------
 // -----------------------------------
-// 0i-D
-// -----------------------------------
-#if pmc_type == 1
-4 0i-D PMC
-#endif
-// -----------------------------------
 // Power Motion i-A
 // -----------------------------------
-#if pmc_type == 2
+#if pmc_type == 1
    #if pmc_mem_type == 0
-4 Power Motion i-A PMC(MEM-B,EXI)
+      #if function_block == 1
+4 Power Motion i-A PMC(MEM-B,FB,FLT)
+      #else
+4 Power Motion i-A PMC(MEM-B,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 1
-4 Power Motion i-A PMC(MEM-C,EXI)
+      #if function_block == 1
+4 Power Motion i-A PMC(MEM-C,FB,FLT)
+      #else
+4 Power Motion i-A PMC(MEM-C,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 2
-4 Power Motion i-A PMC(MEM-D,EXI)
+      #if function_block == 1
+4 Power Motion i-A PMC(MEM-D,FB,FLT)
+      #else
+4 Power Motion i-A PMC(MEM-D,FLT)
+      #endif
    #endif
 #endif
-// -----------------------------------
-// 30i-A
-// -----------------------------------
-#if pmc_type == 3
-   #if pmc_mem_type == 1 || pmc_mem_type == 2
-4 30i-A PMC(MEM-C)
-   #else
-4 30i-A PMC
-   #endif
-#endif
-// -----------------------------------
-// 31i-A
-// -----------------------------------
-#if pmc_type == 4
-   #if pmc_mem_type == 1 ||pmc_mem_type == 2
-4 31i-A PMC(MEM-C)
-   #else
-4 31i-A PMC
-   #endif
-#endif
-// -----------------------------------
-// 32i-A
-// -----------------------------------
-#if pmc_type == 5
-   #if pmc_mem_type == 1 || pmc_mem_type == 2
-4 32i-A PMC(MEM-C)
-   #else
-4 32i-A PMC
-   #endif
-#endif
+
 // -----------------------------------
 // 35i-B
 // -----------------------------------
-#if pmc_type == 6
+#if pmc_type == 2
    #if pmc_mem_type == 0
-4 35i-B PMC(MEM-B,EXI)
+      #if function_block == 1
+4 35i-B PMC(MEM-B,FB,FLT)
+      #else
+4 35i-B PMC(MEM-B,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 1
-4 35i-B PMC(MEM-C,EXI)
+      #if function_block == 1
+4 35i-B PMC(MEM-C,FB,FLT)
+      #else
+4 35i-B PMC(MEM-C,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 2
-4 35i-B PMC(MEM-D,EXI)
+      #if function_block == 1
+4 35i-B PMC(MEM-D,FB,FLT)
+      #else
+4 35i-B PMC(MEM-D,FLT)
+      #endif
    #endif
 #endif
-// -----------------------------------
-// 30i-B
-// -----------------------------------
-#if pmc_type == 7
-   #if pmc_mem_type == 0
-4 30i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-4 30i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-4 30i-B PMC(MEM-D,EXI)
-   #endif
-   #if pmc_mem_type == 3 || nbr_of_path > 10
-4 30i-B PMC(MEM-E,EXI)
-   #endif
-#endif
-// -----------------------------------
-// 31i-B
-// -----------------------------------
-#if pmc_type == 8
-   #if pmc_mem_type == 0
-4 31i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-4 31i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-4 31i-B PMC(MEM-D,EXI)
-   #endif
-#endif
-// -----------------------------------
-// 32i-B
-// -----------------------------------
-#if pmc_type == 9
-   #if pmc_mem_type == 0
-4 32i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-4 32i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-4 32i-B PMC(MEM-D,EXI)
-   #endif
-#endif
+
 // -----------------------------------
 // 0i-F
 // -----------------------------------
-#if pmc_type == 10
+#if pmc_type == 3
    #if pmc_mem_type == 0
-4 0i-F PMC(MEM-B,EXI)
+      #if function_block == 1
+4 0i-F PMC(MEM-B,FB,FLT)
+      #else
+4 0i-F PMC(MEM-B,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 1
-4 0i-F PMC(MEM-C,EXI)
+      #if function_block == 1
+4 0i-F PMC(MEM-C,FB,FLT)
+      #else
+4 0i-F PMC(MEM-C,FLT)
+      #endif
    #endif
+   
    #if pmc_mem_type == 2
-4 0i-F PMC(MEM-D,EXI)
+      #if function_block == 1
+4 0i-F PMC(MEM-D,FB,FLT)
+      #else
+4 0i-F PMC(MEM-D,FLT)
+      #endif
+   #endif
+#endif
+
+// -----------------------------------
+// 32i-B
+// -----------------------------------
+#if pmc_type == 4
+   #if pmc_mem_type == 0
+      #if function_block == 1
+4 32i-B PMC(MEM-B,FB,FLT)
+      #else
+4 32i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 1
+      #if function_block == 1
+4 32i-B PMC(MEM-C,FB,FLT)
+      #else
+4 32i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 2
+      #if function_block == 1
+4 32i-B PMC(MEM-D,FB,FLT)
+      #else
+4 32i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+#endif
+
+// -----------------------------------
+// 31i-B
+// -----------------------------------
+#if pmc_type == 5
+   #if pmc_mem_type == 0
+      #if function_block == 1
+4 31i-B PMC(MEM-B,FB,FLT)
+      #else
+4 31i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 1
+      #if function_block == 1
+4 31i-B PMC(MEM-C,FB,FLT)
+      #else
+4 31i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 2
+      #if function_block == 1
+4 31i-B PMC(MEM-D,FB,FLT)
+      #else
+4 31i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+#endif
+
+// -----------------------------------
+// 30i-B
+// -----------------------------------
+#if pmc_type == 6
+   #if pmc_mem_type == 0
+      #if function_block == 1
+4 30i-B PMC(MEM-B,FB,FLT)
+      #else
+4 30i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 1
+      #if function_block == 1
+4 30i-B PMC(MEM-C,FB,FLT)
+      #else
+4 30i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 2
+      #if function_block == 1
+4 30i-B PMC(MEM-D,FB,FLT)
+      #else
+4 30i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 3 || nbr_of_path > 10
+      #if function_block == 1
+4 30i-B PMC(MEM-E,FB,FLT)
+      #else
+4 30i-B PMC(MEM-E,FLT)
+      #endif
    #endif
 #endif
 
 // ---------------------------------------------------------------------------
 // I/O link assignment selection function
 // ---------------------------------------------------------------------------
-#if io_link_type == 0
-   #if start_address_op == 1 || start_address_op == 2
-11 USE
-      #if operatorspanel == 1
-         #if handwheel_support < 2
-12 2
-         #else
-12 3
-         #endif
-      #endif
-      #if operatorspanel == 2
-         #if handwheel_support < 2
-12 1
-         #else
-12 2
-         #endif
-      #endif
-   #else
-      #if handwheel_support == 2
-11 USE
-12 1
-      #else
 11 UNUSE
 12 0
-      #endif
-   #endif
-#else
-11 UNUSE
-12 0
-#endif
 13 UNUSE
 14 0
 15 UNUSE
@@ -203,6 +236,33 @@
 31 1
 32 -1
 33 0
+
+// ---------------------------------------------------------------------------
+// Function Block
+// ---------------------------------------------------------------------------
+#if function_block == 1
+100 NO
+101 0-0
+102 0-0
+103 0-0
+104 0-0
+105 0-0
+111 0-0
+112 0-0
+113 0-0
+114 0-0
+115 0-0
+121 0-0
+122 0-0
+123 0-0
+124 0-0
+125 0-0
+131 0-0
+132 0-0
+141 0-0
+142 0-0
+#endif
+
 %
 // ---------------------------------------------------------------------------
 // title
@@ -212,127 +272,176 @@
 02
 
 // -----------------------------------
-// 0i-D
-// -----------------------------------
-#if pmc_type == 1
-03 0i-D PMC
-#endif
-// -----------------------------------
 // Power Motion i-A
 // -----------------------------------
-#if pmc_type == 2
+#if pmc_type == 1
    #if pmc_mem_type == 0
-03 Power Motion i-A PMC(MEM-B,EXI)
+      #if function_block == 1
+03 PMi-A PMC(MEM-B,FB,FLT)
+      #else
+03 PMi-A PMC(MEM-B,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 1
-03 Power Motion i-A PMC(MEM-C,EXI)
+      #if function_block == 1
+03 PMi-A PMC(MEM-C,FB,FLT)
+      #else
+03 PMi-A PMC(MEM-C,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 2
-03 Power Motion i-A PMC(MEM-D,EXI)
+      #if function_block == 1
+03 PMi-A PMC(MEM-D,FB,FLT)
+      #else
+03 PMi-A PMC(MEM-D,FLT)
+      #endif
    #endif
 #endif
-// -----------------------------------
-// 30i-A
-// -----------------------------------
-#if pmc_type == 3
-   #if pmc_mem_type == 1 || pmc_mem_type == 2
-03 30i-A PMC(MEM-C)
-   #else
-03 30i-A PMC(MEM-B)
-   #endif
-#endif
-// -----------------------------------
-// 31i-A
-// -----------------------------------
-#if pmc_type == 4
-   #if pmc_mem_type == 1 || pmc_mem_type == 2
-03 31i-A PMC(MEM-C)
-   #else
-03 31i-A PMC(MEM-B)
-   #endif
-#endif
-// -----------------------------------
-// 32i-A
-// -----------------------------------
-#if pmc_type == 5
-   #if pmc_mem_type == 1 || pmc_mem_type == 2
-03 32i-A PMC(MEM-C)
-   #else
-03 32i-A PMC(MEM-B)
-   #endif
-#endif
+
 // -----------------------------------
 // 35i-B
 // -----------------------------------
-#if pmc_type == 6
+#if pmc_type == 2
    #if pmc_mem_type == 0
-03 35i-B PMC(MEM-B,EXI)
+      #if function_block == 1
+03 35i-B PMC(MEM-B,FB,FLT)
+      #else
+03 35i-B PMC(MEM-B,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 1
-03 35i-B PMC(MEM-C,EXI)
+      #if function_block == 1
+03 35i-B PMC(MEM-C,FB,FLT)
+      #else
+03 35i-B PMC(MEM-C,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 2
-03 35i-B PMC(MEM-D,EXI)
+      #if function_block == 1
+03 35i-B PMC(MEM-D,FB,FLT)
+      #else
+03 35i-B PMC(MEM-D,FLT)
+      #endif
    #endif
 #endif
-// -----------------------------------
-// 30i-B
-// -----------------------------------
-#if pmc_type == 7
-   #if pmc_mem_type == 0
-03 30i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-03 30i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-03 30i-B PMC(MEM-D,EXI)
-   #endif
-   #if pmc_mem_type == 3 || nbr_of_path > 10
-03 30i-B PMC(MEM-E,EXI)
-   #endif
-#endif
-// -----------------------------------
-// 31i-B
-// -----------------------------------
-#if pmc_type == 8
-   #if pmc_mem_type == 0
-03 31i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-03 31i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-03 31i-B PMC(MEM-D,EXI)
-   #endif
-#endif
-// -----------------------------------
-// 32i-B
-// -----------------------------------
-#if pmc_type == 9
-   #if pmc_mem_type == 0
-03 32i-B PMC(MEM-B,EXI)
-   #endif
-   #if pmc_mem_type == 1
-03 32i-B PMC(MEM-C,EXI)
-   #endif
-   #if pmc_mem_type == 2
-03 32i-B PMC(MEM-D,EXI)
-   #endif
-#endif
+
 // -----------------------------------
 // 0i-F
 // -----------------------------------
-#if pmc_type == 10
+#if pmc_type == 3
    #if pmc_mem_type == 0
-03 0i-F PMC(MEM-B,EXI)
+      #if function_block == 1
+03 0i-F PMC(MEM-B,FB,FLT)
+      #else
+03 0i-F PMC(MEM-B,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 1
-03 0i-F PMC(MEM-C,EXI)
+      #if function_block == 1
+03 0i-F PMC(MEM-C,FB,FLT)
+      #else
+03 0i-F PMC(MEM-C,FLT)
+      #endif
    #endif
    #if pmc_mem_type == 2
-03 0i-F PMC(MEM-D,EXI)
+      #if function_block == 1
+03 0i-F PMC(MEM-D,FB,FLT)
+      #else
+03 0i-F PMC(MEM-D,FLT)
+      #endif
    #endif
 #endif
-08 P. BLOESCH
+
+// -----------------------------------
+// 32i-B
+// -----------------------------------
+#if pmc_type == 4
+   #if pmc_mem_type == 0
+      #if function_block == 1
+03 32i-B PMC(MEM-B,FB,FLT)
+      #else
+03 32i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   #if pmc_mem_type == 1
+      #if function_block == 1
+03 32i-B PMC(MEM-C,FB,FLT)
+      #else
+03 32i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   #if pmc_mem_type == 2
+      #if function_block == 1
+03 32i-B PMC(MEM-D,FB,FLT)
+      #else
+03 32i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+#endif
+
+// -----------------------------------
+// 31i-B
+// -----------------------------------
+#if pmc_type == 5
+   #if pmc_mem_type == 0
+      #if function_block == 1
+03 31i-B PMC(MEM-B,FB,FLT)
+      #else
+03 31i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   #if pmc_mem_type == 1
+      #if function_block == 1
+03 31i-B PMC(MEM-C,FB,FLT)
+      #else
+03 31i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   #if pmc_mem_type == 2
+      #if function_block == 1
+03 31i-B PMC(MEM-D,FB,FLT)
+      #else
+03 31i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+#endif
+
+// -----------------------------------
+// 30i-B
+// -----------------------------------
+#if pmc_type == 6
+   #if pmc_mem_type == 0
+      #if function_block == 1
+03 30i-B PMC(MEM-B,FB,FLT)
+      #else
+03 30i-B PMC(MEM-B,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 1
+      #if function_block == 1
+03 30i-B PMC(MEM-C,FB,FLT)
+      #else
+03 30i-B PMC(MEM-C,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 2
+      #if function_block == 1
+03 30i-B PMC(MEM-D,FB,FLT)
+      #else
+03 30i-B PMC(MEM-D,FLT)
+      #endif
+   #endif
+   
+   #if pmc_mem_type == 3 || nbr_of_path > 10
+      #if function_block == 1
+03 30i-B PMC(MEM-E,FB,FLT)
+      #else
+03 30i-B PMC(MEM-E,FLT)
+      #endif
+   #endif
+#endif
+
+08 PMC Dev
 %

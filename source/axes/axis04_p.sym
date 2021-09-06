@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_4th__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq4__PATH__,R__ADDR__629.0,_PATH__:req wp coord preset 4th ax,
 relb_4th__PATH__,R__ADDR__629.1,_PATH__:release brake 4th axis,
 4th_soff__PATH__,R__ADDR__629.2,_PATH__:4th axis servo off,
 1st_svf4__PATH__,R__ADDR__629.3,_PATH__:1st servo off 4th axis,
+brel_4th__PATH__,R__ADDR__629.4,_PATH__:brake 4th axis released,
 #endif

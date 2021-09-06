@@ -18,7 +18,7 @@
 //:        :       :       :4th and 5th M-code added                         :
 //:        :       :       :PMC axis control signals for path 11-15 added    :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:03.05.21: 3.0.0 :Blp    :MCSP signal added                                :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -337,6 +337,7 @@ SPP8__PATH__,F__ADDR__522.7,_PATH__:8th axis sp index signal,
 #if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
 MCEXE__PATH__,F__ADDR__512.0,_PATH__:macro call exec. signal,
 MCRQ__PATH__,F__ADDR__512.1,_PATH__:mode change req. signal
+MCSP__PATH__,F__ADDR__512.2,_PATH__:abnormal end signal
 MD1R__PATH__,F__ADDR__513.0,_PATH__:mode notification 1,
 MD2R__PATH__,F__ADDR__513.1,_PATH__:mode notification 2,
 MD4R__PATH__,F__ADDR__513.2,_PATH__:mode notification 4,

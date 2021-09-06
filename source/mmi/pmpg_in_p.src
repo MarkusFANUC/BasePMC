@@ -1,0 +1,55 @@
+//:--------------------------------------------------------------------------:
+//: File              : pmpg_in__PATH__.src                                      :
+//: Creation date     : 21.12.2018                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs portable manual pulse generator (path)        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: in case of SOP active, copy axes keys the path specific variables
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: in case of SOP active, copy axes keys the path specific variables
+*)
+#endif
+                 RD        SOP_RUN              ;"software op-panel active"
+                 AND       PATH__PATH__         ;"path xx selected"
+                 OR        
+                           1
+                           K_AX_B               ;"keys for axis selection"
+                           192
+                           K_AX_B__PATH__       ;"_PATH__: byte axes key"
+// ---------------------------------------------------------------------------
+// _PATH__: in case of SOP active, copy increment keys the path specific variables
+// ---------------------------------------------------------------------------
+(*
+_PATH__: in case of SOP active, copy increment keys the path specific variables
+*)
+
+                 RD        SOP_RUN              ;"software op-panel active"
+                 AND       PATH__PATH__         ;"path xx selected"
+                 OR        
+                           1
+                           K_INCR               ;"keys for increment selection"
+                           240
+                           K_INCR__PATH__       ;"_PATH__: byte increment keys"

@@ -15,7 +15,7 @@
 //:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
 //:        :       :       :keys for one touch macro added                   :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, SOP removed      :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -39,7 +39,8 @@ iF_S_OVR1,__I_SPI_OVR_BIT1,op55: spindle override bit1,
 iF_S_OVR2,__I_SPI_OVR_BIT2,op55: spindle override bit2,
 #endif
 #if start_address_op == 0
-iF_K_A12,__KEY_PROTECT,op55: key A12,
+iV_PKEY,__KEY_PROTECT,op55: virtual protect key,
+iV_K_EMG,__KEY_EMGSTOP,op55: virtual emg key,
 #else
 iF_PKEY,__KEY_PROTECT,op55: input protect key,
 #endif
@@ -56,7 +57,11 @@ iF_K_A08,__KEY_MODE_HANDLE,op55: key A08,
 
 iF_K_A09,__KEY_7TH_AXIS,op55: key A09,
 iF_K_A10,__KEY_8TH_AXIS,op55: key A10,
+#if start_address_op  == 0
+iF_K_A11,__KEY_RST,op55: key A11,
+#else
 iF_K_A11,__KEY_A11,op55: key A11,
+#endif
 
 iF_K_B01,__KEY_SINGLE_BLOCK,op55: key B01,
 iF_K_B02,__KEY_BLOCK_SKIP,op55: key B02,
@@ -71,7 +76,6 @@ iF_K_B08,__KEY_FACTOR_X1000,op55: key B08,
 iF_K_B09,__KEY_1ST_AXIS,op55: key B09,
 iF_K_B10,__KEY_2ND_AXIS,op55: key B10,
 iF_K_B11,__KEY_3RD_AXIS,op55: key B11,
-iF_K_B12,__KEY_RST,op55: key B12,
 
 iF_K_C01,__KEY_RESTART,op55: key C01,
 iF_K_C02,__KEY_PGM_TEST,op55: key C02,
@@ -88,7 +92,6 @@ iF_K_C08,__KEY_MC4,op55: key C08,
 iF_K_C09,__KEY_4TH_AXIS,op55: key C09,
 iF_K_C10,__KEY_5TH_AXIS,op55: key C10,
 iF_K_C11,__KEY_6TH_AXIS,op55: key C11,
-iF_K_C12,__KEY_EMGSTOP,op55: key C12,
 
 iF_K_D01,__KEY_PATH_SYN,op55: key D01,
 iF_K_D02,__KEY_PATH_PLUS,op55: key D02,
@@ -103,10 +106,6 @@ iF_K_D08,__KEY_D08,op55: key D08,
 iF_K_D09,__KEY_AXIS_PLUS,op55: key D09,
 iF_K_D10,__KEY_RAPID_TRAVERSE,op55: key D10,
 iF_K_D11,__KEY_AXIS_MINUS,op55: key D11,
-
-#if soft_op_panel == 1
-iF_K_D12,__KEY_SOPACT,op55: key D12,
-#endif
 
 iF_K_E01,__KEY_CYCLE_STOP,op55: key E01,
 iF_K_E02,__KEY_CYCLE_START,op55: key E02,
@@ -125,9 +124,6 @@ iF_K_E08,__KEY_E08,op55: key E08,
 iF_K_E09,__KEY_SPINDLE_CW,op55: key E09,
 iF_K_E10,__KEY_SPINDLE_STOP,op55: key E10,
 iF_K_E11,__KEY_SPINDLE_CCW,op55: key E11,
-#endif
-#if start_address_op  == 0
-iF_K_E12,__KEY_E12,op55: key E12,
 #endif
 
 // ===========================================================================
@@ -168,6 +164,10 @@ iF_K_E12,__KEY_E12,op55: key E12,
 // -----------------------------------
 // bool
 // -----------------------------------
+#if virtual_op_panel == 1 && start_address_op > 0
+VIRTUAL_OP,E9750.0,virtual op with 55key,
+V_OP_SW,E9750.1,switching to virtual op,
+#endif
 
 // -------------------------------------------------------
 // local variables E9752.0 - E9759.7

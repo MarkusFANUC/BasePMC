@@ -14,7 +14,7 @@
 //:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
 //:        :       :       :led for one touch macro added                    :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -73,7 +73,7 @@ L_STL__PATH__,R__ADDR__923.0,_PATH__:led cycle start lamp,
 L_SPL__PATH__,R__ADDR__923.1,_PATH__:led cycle stop,
 L_PGSP__PATH__,R__ADDR__923.2,_PATH__:led program stop,
 
-#if start_address_op == 0 || handwheel_support == 2
+#if start_address_op == 0 || handwheel_support == 2 || virtual_op_panel == 1
 L_RST__PATH__,R__ADDR__923.3,_PATH__:led rst key,
 #endif
 

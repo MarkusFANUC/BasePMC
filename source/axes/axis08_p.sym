@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_8th__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq8__PATH__,R__ADDR__693.0,_PATH__:req wp coord preset 8th ax,
 relb_8th__PATH__,R__ADDR__693.1,_PATH__:release brake 8th axis,
 8th_soff__PATH__,R__ADDR__693.2,_PATH__:8th axis servo off,
 1st_svf8__PATH__,R__ADDR__693.3,_PATH__:1st servo off 8th axis,
+brel_8th__PATH__,R__ADDR__693.4,_PATH__:brake 8th axis released,
 #endif

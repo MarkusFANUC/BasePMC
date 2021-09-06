@@ -6,6 +6,32 @@
     NewMP_BasePMC library.
 
 --------------------------------------------------------------------------------
+Version 2.0.0 -> 3.0.0
+--------------------------------------------------------------------------------
+---------------------------------------
+News:
+---------------------------------------
+- Portable manual pulse generator (A13B-0206-Cxyz#....) added
+- Selection of Function Blocks added
+- Support of Floating Point functions
+- Virtual operator's panel added. This panel can be used in parallel to the
+  Standard machine operator's panel with 55 keys when X/Y addresses are selected
+
+---------------------------------------
+Modifications:
+---------------------------------------
+- In case of brake control, the activation of the interlock signal is accelerated
+  when wp coordinate preset is executed or hold to run button is pressed. 
+- Selection 3xi-A and 0i-D controls removed
+- Selection of I/O Link removed
+- In case of abnormal termination of One Touch Macro Call, MEM mode will be forced
+  by RESET
+
+---------------------------------------
+Bug fixes:
+---------------------------------------
+
+--------------------------------------------------------------------------------
 Version 1.1.0 -> 2.0.0
 --------------------------------------------------------------------------------
 ---------------------------------------

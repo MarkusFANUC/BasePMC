@@ -11,7 +11,10 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
+//:        :       :       :*IT signal is accelerated when wp coordinate     :
+//:        :       :       :preset is executed or hold to run button is      :
+//:        :       :       :pressed.                                         :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -190,17 +193,20 @@ _PATH__: brake control
 _PATH__: delay brake released
 *)
    #endif
-   #if dcs_support == 1
-                 RD        *SGOPN               ;"guard state doors closed"
-                 OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       relb_4th__PATH__     ;"release brake 4th axis"
-   #else
                  RD        relb_4th__PATH__     ;"release brake 4th axis"
-   #endif
-                 AND.NOT   WPRST4__PATH__       ;"wp coord preset 4th axis"
                  TMRB      
                            0
                            96
+                 WRT       brel_4th__PATH__     ;"brake 4th axis released"
+
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       brel_4th__PATH__     ;"brake 4th axis released"
+   #else
+                 RD        brel_4th__PATH__     ;"brake 4th axis released"
+   #endif
+                 AND.NOT   WPRST4__PATH__       ;"wp coord preset 4th axis"
                  WRT       *IT4__PATH__         ;"interlock 4th axis"
 
 // ---------------------------------------------------------------------------

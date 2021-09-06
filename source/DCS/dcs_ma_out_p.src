@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -30,21 +30,19 @@ _PATH__: output signals
 -------------------------------------------------*)
 #endif
 
-#if pmc_type == 2 || pmc_type >= 6
-   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
 // ---------------------------------------------------------------------------
 // _PATH__: spindle torque on
 // replace T_BIT000 with the real spindle STO output Yxxx.y
 // ---------------------------------------------------------------------------
-      #if net_comment == 1
+   #if net_comment == 1
 (*
 _PATH__: spindle torque on
 replace T_BIT000 with the real spindle STO output Yxxx.y
 *)
-      #endif
+   #endif
                  RD        SP_TRQ_ON__PATH__    ;"spindle torque on"
                  WRT       T_BIT000             ;"temporary bit 000"
-   #endif
 #endif
 
 // ---------------------------------------------------------------------------

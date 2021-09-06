@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :code for 0i-D and 3xi-A removed                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -29,27 +29,7 @@ _PATH__: input signals
 -------------------------------------------------*)
 #endif
 
-#if pmc_type !=2 && pmc_type < 6
-   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-// ---------------------------------------------------------------------------
-// _PATH__:spindle excitation
-// this signal will be DCS I/O cross checked
-// replace LOG1 with the real input signal Xxxx.y
-// ---------------------------------------------------------------------------
-      #if net_comment == 1
-(*
-_PATH__:spindle excitation
-this signal will be DCS I/O cross checked
-replace LOG1 with the real input signal Xxxx.y
-*)
-      #endif
-                 RD        LOG1             ;"logic one"
-                 WRT       EXOF2__PATH__    ;"_PATH__:spindle exitation off"
-   #endif
-#endif
-   
-#if pmc_type == 2 || pmc_type >= 6
-   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
 // ---------------------------------------------------------------------------
 // _PATH__:input spindle safe torque off
 // spindle safe torque off (STO) monitor
@@ -63,5 +43,4 @@ replace LOG1 with the real input signal Xxxx.y
       #endif
                  RD        LOG1             ;"logic one"
                  WRT       SP_STO__PATH__  ;"_PATH__:spindle STO state"
-   #endif
 #endif

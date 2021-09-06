@@ -1,5 +1,5 @@
-FlNew PMC_30iA_Mem_C.LAD /Pmctype=30i-A PMC(MEM-C) /overwrite
-FlOpen PMC_30iA_Mem_C.LAD
+FlNew PMC_32iB_Mem_C_FB.LAD /Pmctype=32i-B PMC(MEM-C,FB,FLT) /overwrite
+FlOpen PMC_32iB_Mem_C_FB.LAD
 MnemonicToSrc /file=..\sysprm.mne /init=0
 MnemonicToSrc /file=..\symbol.csv
 MnemonicToSrc /warning=1 /file=..\MBasePMC.mne

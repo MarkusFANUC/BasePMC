@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_7th__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq7__PATH__,R__ADDR__677.0,_PATH__:req wp coord preset 7th ax,
 relb_7th__PATH__,R__ADDR__677.1,_PATH__:release brake 7th axis,
 7th_soff__PATH__,R__ADDR__677.2,_PATH__:7th axis servo off,
 1st_svf7__PATH__,R__ADDR__677.3,_PATH__:1st servo off 7th axis,
+brel_7th__PATH__,R__ADDR__677.4,_PATH__:brake 7th axis released,
 #endif

@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_6th__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq6__PATH__,R__ADDR__661.0,_PATH__:req wp coord preset 6th ax,
 relb_6th__PATH__,R__ADDR__661.1,_PATH__:release brake 6th axis,
 6th_soff__PATH__,R__ADDR__661.2,_PATH__:6th axis servo off,
 1st_svf6__PATH__,R__ADDR__661.3,_PATH__:1st servo off 6th axis,
+brel_6th__PATH__,R__ADDR__661.4,_PATH__:brake 6th axis released,
 #endif

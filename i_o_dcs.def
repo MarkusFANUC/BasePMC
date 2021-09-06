@@ -14,7 +14,7 @@
 //:--------------------------------------------------------------------------:
 //:08.06.18: 2.0.0 :Blp    :Definitions for spindle STO added                :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:26.06.20: 3.0.0 :Blp    :3xi-A amd 0i-D removed                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -48,13 +48,6 @@
 // switch to activate setup mode
 // ---------------------------------------------------------------------------
    #define  __SETUP_SWITCH          X8.3
-
-// ---------------------------------------------------------------------------
-// serial spindle excitation off
-// this functionality will be included in case of 0i-D and 3xi-A controls
-// ---------------------------------------------------------------------------
-// The code for the inputs for the serial spindle excitation off signals need 
-// to be modified at the beginning of the sub-program Machine_Inputs.
 
 // ---------------------------------------------------------------------------
 // serial spindle safe torque off STO (LEVEL-UP ALPHA iSP-B, BETA iSVSP-B)

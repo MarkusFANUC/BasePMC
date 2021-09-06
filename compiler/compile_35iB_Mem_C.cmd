@@ -1,4 +1,4 @@
-FlNew PMC_35iB_Mem_C.LAD /Pmctype=35i-B PMC(MEM-C,EXI) /overwrite
+FlNew PMC_35iB_Mem_C.LAD /Pmctype=35i-B PMC(MEM-C,FLT) /overwrite
 FlOpen PMC_35iB_Mem_C.LAD
 MnemonicToSrc /file=..\sysprm.mne /init=0
 MnemonicToSrc /file=..\symbol.csv

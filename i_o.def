@@ -13,7 +13,7 @@
 //:--------------------------------------------------------------------------:
 //:08.06.18: 2.0.0 :Blp    :Definitions for spindle STO added                :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:20.12.18: 2.1.0 :Blp    :I/O for portable manual pulse generator added    :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -51,6 +51,25 @@
       #define  __PATH_MINUS         X15.6
       #define  __PATH_MINUS_LAMP    Y11.6
    #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// portable manual pulse generator (A13B-0206-Cxyz#....)
+// ---------------------------------------------------------------------------
+#if handwheel_support == 3
+   #define  __PMPG_SELECTOR_X1      X4.4
+   #define  __PMPG_SELECTOR_X10     X4.5
+   #define  __PMPG_SELECTOR_X100    X4.6
+   #define  __PMPG_SELECTOR_X1000   X4.7
+
+   #define  __PMPG_SELECTOR_AXIS_1  X5.0
+   #define  __PMPG_SELECTOR_AXIS_2  X5.1
+   #define  __PMPG_SELECTOR_AXIS_3  X5.2
+   #define  __PMPG_SELECTOR_AXIS_4  X5.3
+   #define  __PMPG_SELECTOR_AXIS_5  X5.4
+   #define  __PMPG_SELECTOR_AXIS_6  X5.5
+
+   #define  __PMPG_LED              Y10.2
 #endif
 
 // ---------------------------------------------------------------------------

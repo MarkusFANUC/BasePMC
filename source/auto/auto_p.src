@@ -13,7 +13,7 @@
 //:--------------------------------------------------------------------------:
 //:04.07.17: 2.0.0 :Blp    :key message reset added                          :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -53,7 +53,7 @@ _PATH__: rising edge reset signal and signal for machine message reset
 
                  RD        RST__PATH__          ;"resetting signal"
                  WRT       m_rst__PATH__        ;"memory reset"
-#if start_address_op == 0 || handwheel_support == 2
+#if start_address_op == 0 || handwheel_support == 2 || virtual_op_panel == 1
                  WRT       L_RST__PATH__        ;"led rst key"
 #endif
                  RD        B_RST__PATH__        ;"button reset"

@@ -1,0 +1,118 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55vkeys_in.sym                                    :
+//: Creation date     : 01.07.2021                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs for the virtual operator's      :
+//:                   : panel with 55-keys                                   :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+iV_FOVR,E9900,op55: virtual fovr switch,
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+iV_PKEY,E9901.4,op55: virtual protect key,
+iV_K_EMG,E9902.4,op55: virtual emg key,
+
+#if spindle_support_P01 > -1
+iV_S_OVR0,E9900.6,op55: virtual spindle ovr bit0,
+iV_S_OVR1,E9900.7,op55: virtual spindle ovr bit1,
+iV_S_OVR2,E9901.0,op55: virtual spindle ovr bit2,
+#endif
+
+iV_K_A01,E9904.0,op55: virtual key A01,
+iV_K_A02,E9904.1,op55: virtual key A02,
+iV_K_A03,E9904.2,op55: virtual key A03,
+iV_K_A04,E9904.3,op55: virtual key A04,
+
+iV_K_A05,E9906.4,op55: virtual key A05,
+iV_K_A06,E9906.5,op55: virtual key A06,
+iV_K_A07,E9906.6,op55: virtual key A07,
+iV_K_A08,E9906.7,op55: virtual key A08,
+
+iV_K_A09,E9909.0,op55: virtual key A09,
+iV_K_A10,E9909.1,op55: virtual key A10,
+iV_K_A11,E9909.2,op55: virtual key A11,
+iV_K_A12,E9909.3,op55: virtual key A12,
+
+iV_K_B01,E9904.4,op55: virtual key B01,
+iV_K_B02,E9904.5,op55: virtual key B02,
+iV_K_B03,E9904.6,op55: virtual key B03,
+iV_K_B04,E9904.7,op55: virtual key B04,
+
+iV_K_B05,E9907.0,op55: virtual key B05,
+iV_K_B06,E9907.1,op55: virtual key B06,
+iV_K_B07,E9907.2,op55: virtual key B07,
+iV_K_B08,E9907.3,op55: virtual key B08,
+
+iV_K_B09,E9909.4,op55: virtual key B09,
+iV_K_B10,E9909.5,op55: virtual key B10,
+iV_K_B11,E9909.6,op55: virtual key B11,
+iV_K_B12,E9909.7,op55: virtual key B12,
+
+iV_K_C01,E9905.0,op55: virtual key C01,
+iV_K_C02,E9905.1,op55: virtual key C02,
+iV_K_C03,E9905.2,op55: virtual key C03,
+iV_K_C04,E9905.3,op55: virtual key C04,
+
+iV_K_C05,E9907.4,op55: virtual key C05,
+iV_K_C06,E9907.5,op55: virtual key C06,
+iV_K_C07,E9907.6,op55: virtual key C07,
+iV_K_C08,E9907.7,op55: virtual key C08,
+
+iV_K_C09,E9910.0,op55: virtual key C09,
+iV_K_C10,E9910.1,op55: virtual key C10,
+iV_K_C11,E9910.2,op55: virtual key C11,
+iV_K_C12,E9910.3,op55: virtual key C12,
+
+iV_K_D01,E9905.4,op55: virtual key D01,
+iV_K_D02,E9905.5,op55: virtual key D02,
+iV_K_D03,E9905.6,op55: virtual key D03,
+iV_K_D04,E9905.7,op55: virtual key D04,
+
+iV_K_D05,E9908.0,op55: virtual key D05,
+iV_K_D06,E9908.1,op55: virtual key D06,
+iV_K_D07,E9908.2,op55: virtual key D07,
+iV_K_D08,E9908.3,op55: virtual key D08,
+
+iV_K_D09,E9910.4,op55: virtual key D09,
+iV_K_D10,E9910.5,op55: virtual key D10,
+iV_K_D11,E9910.6,op55: virtual key D11,
+iV_K_D12,E9910.7,op55: virtual key D12,
+
+iV_K_E01,E9906.0,op55: virtual key E01,
+iV_K_E02,E9906.1,op55: virtual key E02,
+iV_K_E03,E9906.2,op55: virtual key E03,
+iV_K_E04,E9906.3,op55: virtual key E04,
+
+iV_K_E05,E9908.4,op55: virtual key E05,
+iV_K_E06,E9908.5,op55: virtual key E06,
+iV_K_E07,E9908.6,op55: virtual key E07,
+iV_K_E08,E9908.7,op55: virtual key E08,
+
+iV_K_E09,E9911.0,op55: virtual key E09,
+iV_K_E10,E9911.1,op55: virtual key E10,
+iV_K_E11,E9911.2,op55: virtual key E11,
+iV_K_E12,E9911.3,op55: virtual key E12,
+

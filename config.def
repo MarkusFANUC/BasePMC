@@ -16,7 +16,11 @@
 //:--------------------------------------------------------------------------:
 //:08.06.18: 2.0.0 :Blp    :Definitions for 15 path added                    :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:07.12.18: 2.1.0 :Blp    :Portable manual pulse generator                  :
+//:        :       :       :(A13B-0206-Cxyz#...) added                       :
+//:--------------------------------------------------------------------------:
+//:22.06.21: 3.0.0 :Blp    :0i-D and 3xi-A removed, Function Block added     :
+//:        :       :       :I/O link removed, virtual operator's panel added :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -36,43 +40,39 @@
 
 
 // Used for the axis key assignment on the small operator's panel with 30 keys
-// A02B-0309-C151#M,#T
+// A02B-0338-C151#M,#T
 
 // ---------------------------------------------------------------------------
 // PMC type
 // ---------------------------------------------------------------------------
-//    1  0i-D  PMC
-//    2  Power Motion i-A PMC
-//    3  30i-A PMC
-//    4  31i-A PMC
-//    5  32i-A PMC
-//    6  35i-B PMC
-//    7  30i-B PMC
-//    8  31i-B PMC
-//    9  32i-B PMC
-//   10  0i-F  PMC
+//    1  Power Motion i-A PMC
+//    2  35i-B PMC
+//    3  0i-F  PMC
+//    4  32i-B PMC
+//    5  31i-B PMC
+//    6  30i-B PMC
 
-   #define  pmc_type                   10
+   #define  pmc_type                   5
+
+
+// ---------------------------------------------------------------------------
+// Function Block
+// ---------------------------------------------------------------------------
+//    0  no Function Block support
+//    1  Function Block support
+
+   #define  function_block             0
 
 
 // ---------------------------------------------------
 // PMC memory type
 // ---------------------------------------------------
-// 0 = Memory B            (all types)
-// 1 = Memory C            (3xi-A/B/PMi-A/0i-F controls)
-// 2 = Memory D            (3xi-B/PMi-A/0i-F controls)
+// 0 = Memory B
+// 1 = Memory C
+// 2 = Memory D
 // 3 = Memory E            (30i-B nbr_of_path > 10)
 
-   #define  pmc_mem_type               2
-
-
-// ---------------------------------------------------------------------------
-// I/O Link type
-// ---------------------------------------------------------------------------
-//    0  I/O Link          (all types)
-//    1  I/O Link i        (3xi-B/PMi-A/0i-F controls)
-
-   #define  io_link_type               1
+   #define  pmc_mem_type               0
 
 
 // ---------------------------------------------------------------------------
@@ -81,7 +81,7 @@
 // Selection of number of CNC path
 // 1-15
 
-   #define  nbr_of_path                2
+   #define  nbr_of_path                3
 
 // Note: When nbr_of_path > 8 the PMC Memory C or Memory D must be used
 //       pmc_mem_type 1 or 2 
@@ -106,7 +106,7 @@
 //    0  =  Normal use
 //    1  =  Control is used for demonstration
 
-   #define  demo_control            1
+   #define  demo_control               1
 
 
 // ---------------------------------------------------------------------------
@@ -117,7 +117,7 @@
 //    0  =  No emergency stop by-pass
 //    1  =  Emergency stop by-pass
 
-   #define  emergency_by_pass          1
+   #define  emergency_by_pass          0
 
 
 // Note: If the emergency_by_pass equal 1, you must define
@@ -136,6 +136,17 @@
 
    #define  operatorspanel             2
 
+// ---------------------------------------------------------------------------
+// Virtual operator's panel
+// ---------------------------------------------------------------------------
+//    0 = No virtual operator's panel with 55 keys
+//    1 = Virtual operator's panel with 55 keys
+
+   #define virtual_op_panel            1
+
+
+// In case of operatorspanel equal 2 and start_address_op equal 1 or 2 a
+// virtual operator's panel with 55 keys for remote control can be added.
 
 // ---------------------------------------------------
 // Supplementary software operator's panel
@@ -144,7 +155,7 @@
 //    1  =  Software operator's panel     (30i/31i/32i option -J960 required)
 //                                        (35i-B, PMi-A Basic option 2 required)
 
-   #define  soft_op_panel              0
+   #define  soft_op_panel              1
 
 
 // In case of operatorspanel equal 1, 2 or 3 a software operator's panel can be
@@ -158,9 +169,9 @@
 //
 //    0  =  E9900 / E9920
 //    1  =  X0100 / Y0100
-//    2  =  X0006 / Y000044
+//    2  =  X0006 / Y0000
 
-   #define  start_address_op           1
+   #define  start_address_op           2
 
 
 // Note: If the emergency_by_pass equal 1, you must define
@@ -191,11 +202,9 @@
 //
 //    0  =  One language supported
 //    1  =  Five languages supported
-//    2  =  External message file (PMC message multi-language -S977)
+//    2  =  External message file
 
-   #define  language_support           2
-
-// Note: -S977 isn't required for 3xi-B/Pmi-A and 0i-F controls
+   #define  language_support           0
 
 // ---------------------------------------------------
 // Select language for one language support
@@ -216,7 +225,7 @@
 //
 //    0  =  One M-code per block
 //    1  =  Up to three M-codes per block
-//    2  =  Up to five M-codes per block (3xi-B/PMi-A/0i-F controls)
+//    2  =  Up to five M-codes per block
 
    #define  m_code_support             2
 
@@ -228,8 +237,8 @@
 //    0  =  No support
 //    1  =  T-code
 
-   #define  t_code_support_P01         1        // T-code support path 01
-   #define  t_code_support_P02         0        // T-code support path 02
+   #define  t_code_support_P01         0        // T-code support path 01
+   #define  t_code_support_P02         1        // T-code support path 02
    #define  t_code_support_P03         0        // T-code support path 03
    #define  t_code_support_P04         0        // T-code support path 04
    #define  t_code_support_P05         0        // T-code support path 05
@@ -252,7 +261,7 @@
 // B-code
 // ---------------------------------------------------------------------------
 // Selection of B-code support
-// (In case of 3xi-A/B controls option 2nd auxiliary function -J920 is required)
+// (In case of 3xi-B controls option 2nd auxiliary function -J920 is required)
 //
 //    0  =  No support
 //    1  =  B-code
@@ -283,15 +292,15 @@
 // Selection of spindle support
 //
 //    0  =  No spindle
-//    1  =  Serial spindle    (3xi-A/B and PMi-A controls option -J850 required)
-//    2  =  Analog spindle    (3xi-A/B controls option -J860 required)
+//    1  =  Serial spindle    (3xi-B and PMi-A controls option -J850 required)
+//    2  =  Analog spindle    (3xi-B controls option -J860 required)
 //    3  =  Analog spindle I/O module A (12-BIT ANALOG OUTPUT MODULE ADA02A)
 //    4  =  PMC axis used as a spindle (30i/31i/32i option -J804 required)
 //                                     (35i-B, PMi-A: basic option 1 required)
 //    5  =  Spindle control with servo motor (option -J978 required)
 
-   #define  spindle_support_P01        1        // spindle support path 01
-   #define  spindle_support_P02        0        // spindle support path 02
+   #define  spindle_support_P01        0        // spindle support path 01
+   #define  spindle_support_P02        5        // spindle support path 02
    #define  spindle_support_P03        0        // spindle support path 03
    #define  spindle_support_P04        0        // spindle support path 04
    #define  spindle_support_P05        0        // spindle support path 05
@@ -313,7 +322,7 @@
 // spindle_sv_axis_Pxx
 
    #define  spindle_sv_axis_P01        1        // axis nbr. for spindle path 01
-   #define  spindle_sv_axis_P02        1        // axis nbr. for spindle path 02
+   #define  spindle_sv_axis_P02        3        // axis nbr. for spindle path 02
    #define  spindle_sv_axis_P03        1        // axis nbr. for spindle path 03
    #define  spindle_sv_axis_P04        1        // axis nbr. for spindle path 04
    #define  spindle_sv_axis_P05        1        // axis nbr. for spindle path 05
@@ -344,15 +353,15 @@
 // Spindle orientation
 // ---------------------------------------------------
 // Selection of the spindle orientation
-// (In case of 3xi-A/B and PMi-A controls option Spindle orientation -J853 is
+// (In case of 3xi-B and PMi-A controls option Spindle orientation -J853 is
 // required)
 //
 //    0  =  No spindle orientation
 //    1  =  Spindle orientation (One position)
 //    2  =  Spindle orientation (External stop position)
 
-   #define  spindle_orientation_P01    1        // spindle orientation path 01
-   #define  spindle_orientation_P02    0        // spindle orientation path 02
+   #define  spindle_orientation_P01    0        // spindle orientation path 01
+   #define  spindle_orientation_P02    1        // spindle orientation path 02
    #define  spindle_orientation_P03    0        // spindle orientation path 03
    #define  spindle_orientation_P04    0        // spindle orientation path 04
    #define  spindle_orientation_P05    0        // spindle orientation path 05
@@ -373,12 +382,12 @@
 // Rigid tapping
 // ---------------------------------------------------
 // Selection of rigid tapping
-// (In case of 3xi-A/B controls option Rigid tap -J828 is required)
+// (In case of 3xi-B controls option Rigid tap -J828 is required)
 
 //    0  =  No rigid tapping
 //    1  =  Rigid tapping
 
-   #define  rigid_tapping_P01          1        // rigid tapping path 01
+   #define  rigid_tapping_P01          -1        // rigid tapping path 01
    #define  rigid_tapping_P02          0        // rigid tapping path 02
    #define  rigid_tapping_P03          0        // rigid tapping path 03
    #define  rigid_tapping_P04          0        // rigid tapping path 04
@@ -400,13 +409,13 @@
 // Cs Contour Control
 // ---------------------------------------------------
 // Selection of Cs Contour Control
-// (In case of 3xi-A/B controls option Cs contouring control -J852 is required)
+// (In case of 3xi-B controls option Cs contouring control -J852 is required)
 
 //    0  =  No Cs Contour Control
 //    1  =  Cs Contour Control (serial spindle)
 
-   #define  cs_contour_ctrl_P01        1        // cs contour control path 01
-   #define  cs_contour_ctrl_P02        0        // cs contour control path 02
+   #define  cs_contour_ctrl_P01        0        // cs contour control path 01
+   #define  cs_contour_ctrl_P02        1        // cs contour control path 02
    #define  cs_contour_ctrl_P03        0        // cs contour control path 03
    #define  cs_contour_ctrl_P04        0        // cs contour control path 04
    #define  cs_contour_ctrl_P05        0        // cs contour control path 05
@@ -431,10 +440,10 @@
 //    0  =  No coolant
 //    1  =  Coolant
 
-   #define  coolant_support_P01        0        // coolant support path 01
-   #define  coolant_support_P02        0        // coolant support path 02
-   #define  coolant_support_P03        0        // coolant support path 03
-   #define  coolant_support_P04        0        // coolant support path 04
+   #define  coolant_support_P01        -1        // coolant support path 01
+   #define  coolant_support_P02        1        // coolant support path 02
+   #define  coolant_support_P03        1        // coolant support path 03
+   #define  coolant_support_P04        1        // coolant support path 04
    #define  coolant_support_P05        0        // coolant support path 05
    #define  coolant_support_P06        0        // coolant support path 06
    #define  coolant_support_P07        0        // coolant support path 07
@@ -487,7 +496,7 @@
 
 // Will be only included in case of standard machine operator's panel with
 // 55keys (operatorspanel 2)
-// Only valid for 30i/31i/32i/0i-TD/0i-MD/0i-F controls
+// Only valid for 30i/31i/32i/0i-F controls
 
 // Hint: if you set otmc_support_P01 equal -1 the code for the
 // one touch macro call support of all path will not be included
@@ -529,7 +538,7 @@
 //    6  iPendant (for CNC)
 //    8  Standard machine operator's panel
 
-   #define  axis_number_P01            4        // number of axis path 01
+   #define  axis_number_P01            2        // number of axis path 01
    #define  axis_number_P02            6        // number of axis path 02
    #define  axis_number_P03            1        // number of axis path 03
    #define  axis_number_P04            1        // number of axis path 04
@@ -558,8 +567,9 @@
 //    0  =  No handwheel
 //    1  =  One handwheel
 //    2  =  Handy machine operator's panel (A02B-0259-C221/C241)
+//    3  =  Portable manual pulse generator (A13B-0206-Cxyz#....)
 
-   #define  handwheel_support          0
+   #define  handwheel_support          3
 
 // ---------------------------------------------------
 // Reference position return
@@ -578,18 +588,18 @@
 
 
    #define  ref_dir_1st_axis_P01       -1     // ref. return 1st axis path 01
-   #define  ref_dir_2nd_axis_P01       0    // ref. return 2nd axis path 01
+   #define  ref_dir_2nd_axis_P01       0     // ref. return 2nd axis path 01
    #define  ref_dir_3rd_axis_P01       0     // ref. return 3rd axis path 01
    #define  ref_dir_4th_axis_P01       0     // ref. return 4th axis path 01
    #define  ref_dir_5th_axis_P01       0     // ref. return 5th axis path 01
-   #define  ref_dir_6th_axis_P01       0     // ref. return 6th axis path 01
+   #define  ref_dir_6th_axis_P01       3     // ref. return 6th axis path 01
    #define  ref_dir_7th_axis_P01       0     // ref. return 7th axis path 01
    #define  ref_dir_8th_axis_P01       0     // ref. return 8th axis path 01
 
    #define  ref_dir_1st_axis_P02       -1     // ref. return 1st axis path 02
    #define  ref_dir_2nd_axis_P02       0     // ref. return 2nd axis path 02
    #define  ref_dir_3rd_axis_P02       0     // ref. return 3rd axis path 02
-   #define  ref_dir_4th_axis_P02       0    // ref. return 4th axis path 02
+   #define  ref_dir_4th_axis_P02       0     // ref. return 4th axis path 02
    #define  ref_dir_5th_axis_P02       0     // ref. return 5th axis path 02
    #define  ref_dir_6th_axis_P02       0     // ref. return 6th axis path 02
    #define  ref_dir_7th_axis_P02       0     // ref. return 7th axis path 02

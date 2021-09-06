@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_2nd__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq2__PATH__,R__ADDR__597.0,_PATH__:req wp coord preset 2nd ax,
 relb_2nd__PATH__,R__ADDR__597.1,_PATH__:release brake 2nd axis,
 2nd_soff__PATH__,R__ADDR__597.2,_PATH__:2nd axis servo off,
 1st_svf2__PATH__,R__ADDR__597.3,_PATH__:1st servo off 2nd axis,
+brel_2nd__PATH__,R__ADDR__597.4,_PATH__:brake 2nd axis released,
 #endif

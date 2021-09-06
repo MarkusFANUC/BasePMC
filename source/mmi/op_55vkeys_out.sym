@@ -1,0 +1,107 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55vkeys_out.sym                                   :
+//: Creation date     : 22.06.2021                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of outputs for the virtual operator's     :
+//:                   : panel with 55-keys                                   :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// outputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+oV_L_A01,E9920.0,op55: virtual led A01,
+oV_L_A02,E9920.1,op55: virtual led A02,
+oV_L_A03,E9920.2,op55: virtual led A03,
+oV_L_A04,E9920.3,op55: virtual led A04,
+
+oV_L_A05,E9922.4,op55: virtual led A05,
+oV_L_A06,E9922.5,op55: virtual led A06,
+oV_L_A07,E9922.6,op55: virtual led A07,
+oV_L_A08,E9922.7,op55: virtual led A08,
+
+oV_L_A09,E9925.0,op55: virtual led A09,
+oV_L_A10,E9925.1,op55: virtual led A10,
+oV_L_A11,E9925.2,op55: virtual led A11,
+oV_L_A12,E9925.3,op55: virtual led A12,
+
+oV_L_B01,E9920.4,op55: virtual led B01,
+oV_L_B02,E9920.5,op55: virtual led B02,
+oV_L_B03,E9920.6,op55: virtual led B03,
+oV_L_B04,E9920.7,op55: virtual led B04,
+
+oV_L_B05,E9923.0,op55: virtual led B05,
+oV_L_B06,E9923.1,op55: virtual led B06,
+oV_L_B07,E9923.2,op55: virtual led B07,
+oV_L_B08,E9923.3,op55: virtual led B08,
+
+oV_L_B09,E9925.4,op55: virtual led B09,
+oV_L_B10,E9925.5,op55: virtual led B10,
+oV_L_B11,E9925.6,op55: virtual led B11,
+oV_L_B12,E9925.7,op55: virtual led B12,
+
+oV_L_C01,E9921.0,op55: virtual led C01,
+oV_L_C02,E9921.1,op55: virtual led C02,
+oV_L_C03,E9921.2,op55: virtual led C03,
+oV_L_C04,E9921.3,op55: virtual led C04,
+
+oV_L_C05,E9923.4,op55: virtual led C05,
+oV_L_C06,E9923.5,op55: virtual led C06,
+oV_L_C07,E9923.6,op55: virtual led C07,
+oV_L_C08,E9923.7,op55: virtual led C08,
+
+oV_L_C09,E9926.0,op55: virtual led C09,
+oV_L_C10,E9926.1,op55: virtual led C10,
+oV_L_C11,E9926.2,op55: virtual led C11,
+oV_L_C12,E9926.3,op55: virtual led C12,
+
+oV_L_D01,E9921.4,op55: virtual led D01,
+oV_L_D02,E9921.5,op55: virtual led D02,
+oV_L_D03,E9921.6,op55: virtual led D03,
+oV_L_D04,E9921.7,op55: virtual led D04,
+
+oV_L_D05,E9924.0,op55: virtual led D05,
+oV_L_D06,E9924.1,op55: virtual led D06,
+oV_L_D07,E9924.2,op55: virtual led D07,
+oV_L_D08,E9924.3,op55: virtual led D08,
+
+oV_L_D09,E9926.4,op55: virtual led D09,
+oV_L_D10,E9926.5,op55: virtual led D10,
+oV_L_D11,E9926.6,op55: virtual led D11,
+oV_L_D12,E9926.7,op55: virtual led D12,
+
+oV_L_E01,E9922.0,op55: virtual led E01,
+oV_L_E02,E9922.1,op55: virtual led E02,
+oV_L_E03,E9922.2,op55: virtual led E03,
+oV_L_E04,E9922.3,op55: virtual led E04,
+
+oV_L_E05,E9924.4,op55: virtual led E05,
+oV_L_E06,E9924.5,op55: virtual led E06,
+oV_L_E07,E9924.6,op55: virtual led E07,
+oV_L_E08,E9924.7,op55: virtual led E08,
+
+oV_L_E09,E9927.0,op55: virtual led E09,
+oV_L_E10,E9927.1,op55: virtual led E10,
+oV_L_E11,E9927.2,op55: virtual led E11,
+oV_L_E12,E9927.3,op55: virtual led E12,

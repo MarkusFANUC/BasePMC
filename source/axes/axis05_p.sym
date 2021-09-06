@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:05.11.18:2.1.0  :Blp    :variable brel_5th__PATH__ added                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -103,4 +103,5 @@ wppsreq5__PATH__,R__ADDR__645.0,_PATH__:req wp coord preset 5th ax,
 relb_5th__PATH__,R__ADDR__645.1,_PATH__:release brake 5th axis,
 5th_soff__PATH__,R__ADDR__645.2,_PATH__:5th axis servo off,
 1st_svf5__PATH__,R__ADDR__645.3,_PATH__:1st servo off 5th axis,
+brel_5th__PATH__,R__ADDR__645.4,_PATH__:brake 5th axis released,
 #endif

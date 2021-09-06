@@ -16,7 +16,7 @@
 //:--------------------------------------------------------------------------:
 //:02.02.18: 2.0.0 :Blp    :spindle STO added                                :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :code 0i-D and 3xi-A removed                      :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -41,97 +41,20 @@ _PATH__: this module manages the first serial spindle.
 #endif
 
 #if dcs_support == 1
-  #if (pmc_type != 2 && pmc_type < 6)
-// ---------------------------------------------------------------------------
-// spindle exitation
-// ---------------------------------------------------------------------------
-    #if net_comment == 1
-// ---------------------------------------------------------------------------
-// spindle exitation
-// this signal will be DCS I/O cross checked
-// ---------------------------------------------------------------------------
-(*
-spindle exitation
-this signal will be DCS I/O cross checked
-*)
-    #endif
-    #if demo_control == 1
-                 RD        LOG1             ;"logic one"
-    #else
-                 RD        EXOFA__PATH__    ;"spindle exitation off"
-    #endif
-                 WRT       EXOF1__PATH__    ;"spindle exitation off"
-
-// ---------------------------------------------------------------------------
-// Monitoring logic for Safe Spindle rotation by Hand:
-// Alarm results if Spindle is excitated (EXOF=0) when
-//   - Door is open
-//   - Hold to Run button is not pressed or setup mode is not active
-// ---------------------------------------------------------------------------
-    #if net_comment == 1
-(*
-Monitoring logic for Safe Spindle rotation by Hand:
-Alarm results if Spindle is excitated (EXOF=0) when
-   - Door is open
-   - Hold to Run button is not pressed or setup mode 01
-     is not active
-*)
-    #endif
-    #if cs_contour_ctrl__PATH__ == 1
-                 RD.NOT    HTR                  ;"hold to run button"
-                 OR.NOT    SET_M01              ;"setup mode 01"
-                 AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   EXOF1__PATH__        ;"spindle exitation off"
-                 AND       FSCSL__PATH__        ;"Cs contour ctrl active"
-                 RD.STK.NOT LOG1                ;"logic one"
-                 AND.NOT   FSCSL__PATH__        ;"Cs contour ctrl active"
-                 OR.STK    
-                 TMRB      
-                           0
-                           500
-                 WRT       SP_MON_A__PATH__     ;"spindle monitoring logic A"
-                 RD.NOT    HTR                  ;"hold to run button"
-                 OR.NOT    SET_M01              ;"setup mode 01"
-                 AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   EXOF1__PATH__        ;"spindle exitation off"
-                 AND.NOT   FSCSL__PATH__        ;"Cs contour ctrl active"
-                 RD.STK.NOT LOG1                ;"logic one"
-                 AND       FSCSL__PATH__        ;"Cs contour ctrl active"
-                 OR.STK    
-                 TMRB      
-                           0
-                           500
-                 WRT       SP_MON_B__PATH__     ;"spindle monitoring logic B"
-    #else
-                 RD.NOT    LOG1                 ;"logic one"
-                 WRT       SP_MON_A__PATH__     ;"spindle monitoring logic A"
-
-                 RD.NOT    HTR                  ;"hold to run button"
-                 OR.NOT    SET_M01              ;"setup mode 01"
-                 AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   EXOF1__PATH__        ;"spindle exitation off"
-                 TMRB      
-                           0
-                           500
-                 WRT       SP_MON_B__PATH__     ;"spindle monitoring logic B"
-    #endif
-  #endif
-  #if (pmc_type == 2 || pmc_type >= 6) 
 // ---------------------------------------------------------------------------
 // spindle torque on
 // replace T_BIT000 with the spindle torque output Yxxx.y
 // ---------------------------------------------------------------------------
-      #if net_comment == 1
+   #if net_comment == 1
 (*
 spindle torque on
 replace T_BIT000 with the spindle torque output Yxxx.y
 *)
-      #endif
+   #endif
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        DCS_S02              ;"DCS speed set 2"
                  WRT.NOT   SP_STO_MON__PATH__   ;"spindle safe torque off"
                  WRT       T_BIT000             ;"temporary bit 000"
-  #endif
 #endif
 
 // ---------------------------------------------------------------------------
@@ -587,47 +510,15 @@ _PATH__: DCS spindle specific monitoring signal
    #endif
                  WRT       MRSP1__PATH__        ;"1st spindle monit. result"
 
-   #if (pmc_type != 2 && pmc_type < 6)
 // ---------------------------------------------------------------------------
 // _PATH__: DCS spindle safety check deactivation at closed doors and emergency stop
 // ---------------------------------------------------------------------------
-      #if net_comment == 1
+   #if net_comment == 1
 (*
 _PATH__: DCS spindle safety check deactivation at closed doors and
 emergency stop
 *)
-      #endif
-                 RD        *SGOPN               ;"guard state doors closed"
-                 OR        EXOF1__PATH__        ;"spindle exitation off"
-                 RD.STK.NOT *ESP__PATH__        ;"emergency stop signal"
-                 AND       *SMC                 ;"MCC contact state(group)"
-                 OR.STK    
-                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
-
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety zero speed monitoring
-// ---------------------------------------------------------------------------
-      #if net_comment == 1
-(*
-_PATH__: DCS safety zero speed monitoring
-*)
-      #endif
-                 RD.NOT    DCS_S02              ;"DCS speed set 2"
-                 AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   EXOF1__PATH__        ;"spindle exitation off"
-                 WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
    #endif
-
-   #if (pmc_type == 2 || pmc_type >= 6) 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS spindle safety check deactivation at closed doors and emergency stop
-// ---------------------------------------------------------------------------
-      #if net_comment == 1
-(*
-_PATH__: DCS spindle safety check deactivation at closed doors and
-emergency stop
-*)
-      #endif
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        SP_STO_MON__PATH__   ;"spindle safe torque off"
                  WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
@@ -635,16 +526,15 @@ emergency stop
 // ---------------------------------------------------------------------------
 // _PATH__: DCS safety zero speed monitoring
 // ---------------------------------------------------------------------------
-      #if net_comment == 1
+   #if net_comment == 1
 (*
 _PATH__: DCS safety zero speed monitoring
 *)
-      #endif
+   #endif
                  RD.NOT    DCS_S02              ;"DCS speed set 2"
                  AND.NOT   *SGOPN               ;"guard state doors closed"
                  AND.NOT   SP_STO_MON__PATH__   ;"spindle safe torque off"
                  WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
-   #endif
 
 // ---------------------------------------------------------------------------
 // _PATH__: DCS selection of safety speed set 2

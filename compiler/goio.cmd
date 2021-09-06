@@ -1,12 +1,5 @@
 echo off
 
-if %OS%==Windows_NT goto start
-echo Automatic compilation is only supported on Windows 2000. You will
-echo have to manually compile the ladder from the mnemonic file base.mne.
-goto done
-
-:start
-
 copy IoLink_i.FIL Link_i.FIL > NUL
 if exist *.txt del *.txt
 echo Compiling I/O Link i

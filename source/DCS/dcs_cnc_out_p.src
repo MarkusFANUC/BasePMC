@@ -13,7 +13,7 @@
 //:--------------------------------------------------------------------------:
 //:13.07.18: 2.0.0 : Blp   :spindle safe torque off included                 :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :code for 0i-D and 3xi-A removed                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -230,25 +230,7 @@ _PATH__: checking position information effect signals
                  WRT       POSEx_NOK__PATH__    ;"pose information not ok"
 
 
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
-// ---------------------------------------------------------------------------
-// _PATH__: DCS spindle safety check deactivation at closed doors and emergency stop
-// ---------------------------------------------------------------------------
-   #if net_comment == 1
-(*
-_PATH__: DCS spindle safety check deactivation at closed doors and
-emergency stop
-*)
-   #endif
-                 RD        *SGOPN               ;"guard state doors closed"
-                 OR        EXOF2__PATH__        ;"spindle exitation off"
-                 RD.STK.NOT *ESP__PATH__        ;"emergency stop signal"
-                 AND       *SMC                 ;"MCC contact state(group)"
-                 OR.STK    
-                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
-#endif
-
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type == 2 || pmc_type >= 6)
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
 // ---------------------------------------------------------------------------
 // _PATH__: DCS spindle safety check deactivation at closed doors and spindle STO
 // ---------------------------------------------------------------------------
@@ -295,22 +277,7 @@ _PATH__:  spindle: selection of safety speed set 2
                  RD        DCS_S02              ;"DCS speed set 2"
                  WRT       SPA1__PATH__         ;"saf. sel. A 1st spindle"
 
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
-// ---------------------------------------------------------------------------
-// _PATH__: spindle: safety zero speed monitoring
-// ---------------------------------------------------------------------------
-   #if net_comment == 1
-(*
-_PATH__: spindle: safety zero speed monitoring
-*)
-   #endif
-                 RD.NOT    DCS_S02              ;"DCS speed set 2"
-                 AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   EXOF2__PATH__        ;"spindle exitation off"
-                 WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
-#endif
-
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type == 2 || pmc_type >= 6)
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
 // ---------------------------------------------------------------------------
 // spindle: safety zero speed monitoring
 // ---------------------------------------------------------------------------
@@ -339,35 +306,6 @@ _PATH__: checking spindle specific MCC off signals
                  RD.NOT    *MCFP1__PATH__       ;"MCC off signal 1st spin."
    #endif
                  WRT       MCFPx_NOK__PATH__    ;"mcc spindles not ok"
-
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
-// ---------------------------------------------------------------------------
-// _PATH__: Monitoring logic for Safe Spindle rotation by Hand:
-// Alarm results if Spindle is excitated (EXOF=0) when
-// - Door is open
-// - Hold to Run button is not pressed or setup mode 01 is not active
-// ---------------------------------------------------------------------------
-   #if net_comment == 1
-(*
-_PATH__: Monitoring logic for Safe Spindle rotation by Hand:
-Alarm results if Spindle is excitated (EXOF=0) when
-   - Door is open
-   - Hold to Run button is not pressed or setup mode 01
-     is not active
-*)
-   #endif
-                 RD.NOT    HTR              ;"hold to run button"
-                 OR.NOT    SET_M01          ;"setup mode 01"
-                 AND.NOT   *SGOPN           ;"guard state doors closed"
-                 AND.NOT   EXOF2__PATH__    ;"spindle exitation off"
-                 TMRB      
-                           0
-                           500
-                 WRT       SP_MON_A__PATH__ ;"spindle monitoring logic A"
-
-                 RD.NOT    LOG1             ;"logic one"
-                 WRT       SP_MON_B__PATH__ ;"spindle monitoring logic B"
-#endif
 
 // ---------------------------------------------------------------------------
 // _PATH__: checking spindle specific monitoring signals

@@ -1,5 +1,5 @@
-FlNew PMC_31iA_Mem_C.LAD /Pmctype=31i-A PMC(MEM-C) /overwrite
-FlOpen PMC_31iA_Mem_C.LAD
+FlNew PMC_PMiA_Mem_C_FB.LAD /Pmctype=Power Motion i-A PMC(MEM-C,FB,FLT) /overwrite
+FlOpen PMC_PMiA_Mem_C_FB.LAD
 MnemonicToSrc /file=..\sysprm.mne /init=0
 MnemonicToSrc /file=..\symbol.csv
 MnemonicToSrc /warning=1 /file=..\MBasePMC.mne

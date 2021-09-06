@@ -16,7 +16,7 @@
 //:24.07.18: 2.0.0 :Blp    :spindle.src -> spictrl.src, path 11-15 added     :
 //:        :       :       :Call for up to 5 M-Codes added                   :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -206,6 +206,12 @@ iPendant_In      SP                             ;"iPendant inputs"
 #if handwheel_support == 2                      // Handy operator's panel
 Hmop_In  SP                                     ;"hmop inputs"
    #include "mmi\hmop_in.src"
+                 SPE
+#endif
+
+#if handwheel_support == 3                      // portable manual pulse generator
+Pmpg_In  SP                                     ;"pmpg inputs"
+      #include "mmi\pmpg_in.src"
                  SPE
 #endif
 

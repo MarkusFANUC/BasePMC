@@ -11,7 +11,7 @@
 //:--------------------------------------------------------------------------:
 //: Date   :Version: Sign  :Description                                      :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, SOP modified     :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -41,7 +41,15 @@ _PATH__:emergency stop
 #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
                  AND.NOT   MCFPx_NOK__PATH__    ;"_PATH__:mcc spindles not ok"
 #endif
-#if operatorspanel == 0 || soft_op_panel == 1 || start_address_op == 0
+#if operatorspanel == 0 || soft_op_panel == 1
                  AND       TPMF00               ;"interface from PMC bit00"
+#endif
+#if operatorspanel == 1 && soft_op_panel == 0 && start_address_op == 0
+                 AND       TPMF00               ;"interface from PMC bit00"
+#endif
+#if operatorspanel == 2 && soft_op_panel == 0
+    #if (virtual_op_panel == 1 || start_address_op == 0)
+                 AND       TPMF00               ;"interface from PMC bit00"
+    #endif
 #endif
                  WRT       *ESP__PATH__         ;"_PATH__:emergency stop signal"

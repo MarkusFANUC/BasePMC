@@ -14,7 +14,7 @@
 //:--------------------------------------------------------------------------:
 //:12.07.18: 2.0.0 :Blp    :address range for path 11-15 modified            :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -67,7 +67,7 @@ MCFPx_NOK__PATH__,R0030.3,_PATH__:mcc spindles not ok,
 RSPs_NOK__PATH__,R0030.4,_PATH__:rsp monitoring not ok,
 #endif
 
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type == 2 || pmc_type >= 6)
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
 SP_TRQ_ON__PATH__,R0030.5,_PATH__:spindle torque on,
 #endif
 

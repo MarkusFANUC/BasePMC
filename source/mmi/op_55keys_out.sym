@@ -1,5 +1,5 @@
 //:--------------------------------------------------------------------------:
-//: File              : op_55keys.sym                                        :
+//: File              : op_55keys_out.sym                                    :
 //: Creation date     : 20.09.2013                                           :
 //: Last modification : see table below                                      :
 //: Author            : FANUC FA Switzerland / Peter Bloesch                 :
@@ -15,7 +15,7 @@
 //:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
 //:        :       :       :keys for one touch macro added                   :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:02.07.21: 3.0.0 :Blp    :LED SOP removed                                  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -98,10 +98,6 @@ oF_L_D08,__LED_D08,op55: led D08,
 oF_L_D09,__LED_AXIS_PLUS,op55: led D09,
 oF_L_D10,__LED_RAPID_TRAVERSE,op55: led D10,
 oF_L_D11,__LED_AXIS_MINUS,op55: led D11,
-
-#if operatorspanel == 0 || soft_op_panel == 1
-oF_L_D12,__LED_SOPACT,op55: led D12,
-#endif
 
 oF_L_E01,__LED_CYCLE_STOP,op55: led E01,
 oF_L_E02,__LED_CYCLE_START,op55: led E02,
