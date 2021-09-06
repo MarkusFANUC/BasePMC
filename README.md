@@ -23,7 +23,7 @@ This is an open source project intially developed by an employee of FCH, now mai
   
 In addition you need to the gnuwin32 tools you will also need to put mcpp from the 
 [mcpp project](http://mcpp.sourceforge.net/)
- *[mcpp](https://sourceforge.net/projects/mcpp/files/mcpp/V.2.7.2/mcpp-2.7.2-bin.zip/download?use_mirror=kumisystems&download=) 
+ * [mcpp](https://sourceforge.net/projects/mcpp/files/mcpp/V.2.7.2/mcpp-2.7.2-bin.zip/download?use_mirror=kumisystems&download=) 
 into the BasePMC Utility folder.
 We are aware that gnuwin32 is deprecated and it will be one of our tasks to update to the latest equivalent 
 tools. 
