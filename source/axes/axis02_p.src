@@ -1,0 +1,352 @@
+//:--------------------------------------------------------------------------:
+//: File              : axis02__PATH__.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Management of 2nd axis                               :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: overtravel check
+// if there are limit switches for the 2nd axis,
+// replace LOG1 with the real input signals Xxxx.y
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: overtravel check
+if there are limit switches for the 2nd axis,
+replace LOG1 with the real input signals Xxxx.y
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       *+L2__PATH__         ;"overtravel + 1st axis"
+
+                 RD        LOG1                 ;"logic one"
+                 WRT       *-L2__PATH__         ;"overtravel - 1st axis"
+
+// ---------------------------------------------------------------------------
+// reference position return
+// ---------------------------------------------------------------------------
+#if ref_dir_2nd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+   #include "axis02ref__PATH__.src"       // reference position return 2nd axis
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: led 2nd axis selected
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: led 2nd axis selected
+*)
+#endif
+                 RD        M_K2AX__PATH__       ;"memory 2nd axis selected"
+#if ref_dir_1st_axis__PATH__ > -1
+                 AND.NOT   REFRUN__PATH__       ;"reference return active"
+   #if ref_dir_2nd_axis__PATH__ > 0
+                 OR        R_REF2__PATH__       ;"reference return 2nd axis"
+   #endif
+#endif
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       L_2AX__PATH__        ;"led 2nd axis sel."
+
+// ---------------------------------------------------------------------------
+// _PATH__: jog feed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: jog feed
+*)
+#endif
+                 RD        M_K2AX__PATH__       ;"memory 2nd axis selected"
+                 AND       M_KPLUS__PATH__      ;"memory axis plus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_2nd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_2p__PATH__      ;"ref: move 2nd axis +dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 2 && spindle_support_P01 > -1
+                 AND.NOT   EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+                 WRT       J2+__PATH__          ;"feed 2nd axis + direction"
+                 WRT       L_2AXP__PATH__       ;"led 2nd axis + dir."
+
+                 RD        M_K2AX__PATH__       ;"memory 2nd axis selected"
+                 AND       M_KMINUS__PATH__     ;"memory axis minus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_2nd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_2m__PATH__      ;"ref: move 2nd axis -dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 2 && spindle_support_P01 > -1
+                 AND.NOT   EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+                 WRT       J2-__PATH__          ;"feed 2nd axis - direction"
+                 WRT       L_2AXM__PATH__       ;"led 2nd axis - dir."
+
+// ---------------------------------------------------------------------------
+// _PATH__: workpiece coordinate system preset
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: workpiece coordinate system preset
+*)
+#endif
+                 RD        REQWP2__PATH__       ;"req wp coord preset 2nd axis"
+                 AND       WPRST2__PATH__       ;"wp coord. preset 2nd axis"
+                 AND       WPSF2__PATH__        ;"wp coord. preset fin 2nd axis"
+                 OR        RST__PATH__          ;"resetting signal"
+                 RST       REQWP2__PATH__       ;"req wp coord preset 2nd axis"
+
+                 RD        M102__PATH__         ;"wp coord preset 2nd axis"
+                 AND       WPRST2__PATH__       ;"wp coord preset 2nd axis"
+                 AND       WPSF2__PATH__        ;"wp coord preset fin 2nd ax"
+                 RST       M102__PATH__         ;"wp coord preset 2nd axis"
+
+                 RD        FE_RST__PATH__       ;"falling edge reset"
+                 AND       wppsreq2__PATH__     ;"req wp coord. preset 2nd ax"
+                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
+                 AND.NOT   PGMRUN__PATH__       ;"program running"
+                 OR.STK    
+                 OR        REQWP2__PATH__       ;"req wp coord preset 2nd axis"
+                 OR        M102__PATH__         ;"wp coord preset 2nd axis"
+                 RD.STK    WPRST2__PATH__       ;"wp coord. preset 2nd axis"
+                 AND.NOT   WPSF2__PATH__        ;"wp coord. preset fin 2nd axis"
+                 OR.STK    
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       WPRST2__PATH__       ;"wp coord. preset 2nd axis"
+
+                 RD        FEPGMT__PATH__       ;"falling edge program test"
+                 AND       PGMRUN__PATH__       ;"program running"
+                 RD.STK    wppsreq2__PATH__     ;"req wp coord. preset 2nd ax"
+                 AND.NOT   FE_RST__PATH__       ;"falling edge reset"
+                 OR.STK    
+                 WRT       wppsreq2__PATH__     ;"req wp coord. preset 2nd ax"
+
+#if brake_2nd_axis__PATH__ == 0
+// ---------------------------------------------------------------------------
+// _PATH__: axis interlock
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis interlock
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       POW_OK__PATH__       ;"power supply axis ok"
+   #else
+                 RD        POW_OK__PATH__       ;"power suply axis ok"
+   #endif
+                 AND.NOT   WPRST2__PATH__       ;"wp coord. preset 2nd axis"
+                 WRT       *IT2__PATH__         ;"interlock 2nd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    POW_OK__PATH__       ;"power suply axis ok"
+                 WRT       SVF2__PATH__         ;"servo off 2nd axis"
+#else
+// ---------------------------------------------------------------------------
+// _PATH__: brake control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: brake control
+*)
+   #endif
+                 RD        POW_OK__PATH__       ;"power supply axis ok"
+                 AND       SA2__PATH__          ;"2nd axis servo ready"
+                 WRT       relb_2nd__PATH__     ;"release brake 2nd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake released
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake released
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       relb_2nd__PATH__     ;"release brake 2nd axis"
+   #else
+                 RD        relb_2nd__PATH__     ;"release brake 2nd axis"
+   #endif
+                 AND.NOT   WPRST2__PATH__       ;"wp coord preset 2nd axis"
+                 TMRB      
+                           0
+                           96
+                 WRT       *IT2__PATH__         ;"interlock 2nd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake clamped
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake clamped
+*)
+   #endif
+                 RD.NOT    relb_2nd__PATH__     ;"release brake 2nd axis"
+                 TMRB      
+                           0
+                           48
+                 WRT       2nd_soff__PATH__     ;"2nd axis servo off"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 OR        1st_svf2__PATH__     ;"1st servo off 2nd axis"
+                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
+                 WRT       1st_svf2__PATH__     ;"1st servo off 2nd axis"
+
+                 RD        1st_svf2__PATH__     ;"1st servo off 2nd axis"
+                 OR        2nd_soff__PATH__     ;"2nd axis servo off"
+                 WRT       SVF2__PATH__         ;"servo off 2nd axis"
+#endif
+// ---------------------------------------------------------------------------
+// _PATH__: external deceleration
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: external deceleration
+*)
+#endif
+                 RD.NOT    SETUP__PATH__        ;"set-up active"
+                 WRT       *+ED2__PATH__        ;"external dec. + 2nd axis"
+                 WRT       *-ED2__PATH__        ;"external dec. - 2nd axis"
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// _PATH__: DCS MCC off signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS MCC off signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        *MCFV2__PATH__       ;"MCC off signal 2nd axis"
+   #endif
+                 WRT       M*MCFV2__PATH__      ;"2nd axis MCC off signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS monitoring result signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS monitoring result signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        RSV2__PATH__         ;"monitoring result 2nd axis"
+   #endif
+                 WRT       MRSV2__PATH__        ;"2nd axis monit. result"
+
+// ---------------------------------------------------------------------------
+// _PATH__: position information effect signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+DCS position information effect signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        POSE2__PATH__        ;"pos. inf. effect 2nd axis"
+   #endif
+                 WRT       MPOSE2__PATH__       ;"2nd axis pos. inf. effect"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety check activation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety check activation
+*)
+   #endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 WRT       *VLDV2__PATH__       ;"safety check req. 2nd ax."
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety zero speed monitoring
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety zero speed monitoring
+*)
+   #endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SVZR2__PATH__        ;"zero mon. req. 2nd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS selection of safety speed set 2
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS selection of safety speed set 2
+*)
+   #endif
+                 RD        DCS_S02              ;"DCS speed set 2"
+                 WRT       SVA2__PATH__         ;"saf. sel. sig. A 2nd axis"
+#endif
+
+#if brake_2nd_axis__PATH__ == 1
+// ---------------------------------------------------------------------------
+// _PATH__: management of the brake output
+// replace T_BIT000 with the real brake output Yxxx.y
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: management of the brake output
+replace T_BIT000 with the real brake output Yxxx.y
+*)
+   #endif
+
+   #if dcs_support == 0
+                 RD        relb_2nd__PATH__     ;"release brake 2nd axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #else
+                 RD        relb_2nd__PATH__     ;"release brake 2nd axis"
+                 AND       *BRK2__PATH__        ;"Safety Brake sig. 2nd axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #endif
+#endif
+
+

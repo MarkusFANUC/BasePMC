@@ -1,0 +1,514 @@
+//:--------------------------------------------------------------------------:
+//: File              : auto.src                                             :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : automatic operation                                  :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:18.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// synchronuous program start
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+synchronuous program start
+*)
+   #endif
+
+                 RD        K_ST                 ;"key cycle start"
+                 AND       MDCHEN               ;"mode change enable"
+                 AND       ST_EN                ;"program start enable"
+                 AND       PATHSYN              ;"path syncronization signal"
+                 WRT       SYNST                ;"synchronous start"
+#endif
+
+// ---------------------------------------------------------------------------
+// P01:automatic modes
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+P01:automatic modes
+*)
+#endif
+                 CALLU     Auto_P01             ;"P01:automatic modes"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P02             ;"P02:automatic modes"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P03             ;"P03:automatic modes"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P04             ;"P04:automatic modes"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P05             ;"P05:automatic modes"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P06             ;"P06:automatic modes"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P07             ;"P07:automatic modes"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P08             ;"P08:automatic modes"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P09             ;"P09:automatic modes"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P10             ;"P10:automatic modes"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P11             ;"P11:automatic modes"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P12             ;"P12:automatic modes"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P13             ;"P13:automatic modes"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P14             ;"P14:automatic modes"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:automatic modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:automatic modes
+*)
+   #endif
+                 CALLU     Auto_P15             ;"P15:automatic modes"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable OP (automatic operation lamp)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable OP (automatic operation lamp)
+*)
+#endif
+                 RD        OP_P01               ;"P01:automatic operation lamp"
+#if nbr_of_path > 1
+                 OR        OP_P02               ;"P02:automatic operation lamp"
+#endif
+#if nbr_of_path > 2
+                 OR        OP_P03               ;"P03:automatic operation lamp"
+#endif
+#if nbr_of_path > 3
+                 OR        OP_P04               ;"P04:automatic operation lamp"
+#endif
+#if nbr_of_path > 4
+                 OR        OP_P05               ;"P05:automatic operation lamp"
+#endif
+#if nbr_of_path > 5
+                 OR        OP_P06               ;"P06:automatic operation lamp"
+#endif
+#if nbr_of_path > 6
+                 OR        OP_P07               ;"P07:automatic operation lamp"
+#endif
+#if nbr_of_path > 7
+                 OR        OP_P08               ;"P08:automatic operation lamp"
+#endif
+#if nbr_of_path > 8
+                 OR        OP_P09               ;"P09:automatic operation lamp"
+#endif
+#if nbr_of_path > 9
+                 OR        OP_P10               ;"P10:automatic operation lamp"
+#endif
+#if nbr_of_path > 10
+                 OR        OP_P11               ;"P11:automatic operation lamp"
+#endif
+#if nbr_of_path > 11
+                 OR        OP_P12               ;"P12:automatic operation lamp"
+#endif
+#if nbr_of_path > 12
+                 OR        OP_P13               ;"P13:automatic operation lamp"
+#endif
+#if nbr_of_path > 13
+                 OR        OP_P14               ;"P14:automatic operation lamp"
+#endif
+#if nbr_of_path > 14
+                 OR        OP_P15               ;"P15:automatic operation lamp"
+#endif
+                 WRT       OP                   ;"automatic operation lamp"
+
+// ---------------------------------------------------------------------------
+// global variable RESET
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable RESET
+*)
+#endif
+                 RD        RST_P01              ;"P01:resetting signal"
+#if nbr_of_path > 1
+                 OR        RST_P02              ;"P02:resetting signal"
+#endif
+#if nbr_of_path > 2
+                 OR        RST_P03              ;"P03:resetting signal"
+#endif
+#if nbr_of_path > 3
+                 OR        RST_P04              ;"P04:resetting signal"
+#endif
+#if nbr_of_path > 4
+                 OR        RST_P05              ;"P05:resetting signal"
+#endif
+#if nbr_of_path > 5
+                 OR        RST_P06              ;"P06:resetting signal"
+#endif
+#if nbr_of_path > 6
+                 OR        RST_P07              ;"P07:resetting signal"
+#endif
+#if nbr_of_path > 7
+                 OR        RST_P08              ;"P08:resetting signal"
+#endif
+#if nbr_of_path > 8
+                 OR        RST_P09              ;"P09:resetting signal"
+#endif
+#if nbr_of_path > 9
+                 OR        RST_P10              ;"P10:resetting signal"
+#endif
+#if nbr_of_path > 10
+                 OR        RST_P11              ;"P11:resetting signal"
+#endif
+#if nbr_of_path > 11
+                 OR        RST_P12              ;"P12:resetting signal"
+#endif
+#if nbr_of_path > 12
+                 OR        RST_P13              ;"P13:resetting signal"
+#endif
+#if nbr_of_path > 13
+                 OR        RST_P14              ;"P14:resetting signal"
+#endif
+#if nbr_of_path > 14
+                 OR        RST_P15              ;"P15:resetting signal"
+#endif
+                 WRT       RESET                ;"reset active"
+
+// ---------------------------------------------------------------------------
+// global variable MESRST
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable MESRST
+*)
+#endif
+                 RD        MESRST_P01           ;"P01:message reset"
+#if nbr_of_path > 1
+                 OR        MESRST_P02           ;"P02:message reset"
+#endif
+#if nbr_of_path > 2
+                 OR        MESRST_P03           ;"P03:message reset"
+#endif
+#if nbr_of_path > 3
+                 OR        MESRST_P04           ;"P04:message reset"
+#endif
+#if nbr_of_path > 4
+                 OR        MESRST_P05           ;"P05:message reset"
+#endif
+#if nbr_of_path > 5
+                 OR        MESRST_P06           ;"P06:message reset"
+#endif
+#if nbr_of_path > 6
+                 OR        MESRST_P07           ;"P07:message reset"
+#endif
+#if nbr_of_path > 7
+                 OR        MESRST_P08           ;"P08:message reset"
+#endif
+#if nbr_of_path > 8
+                 OR        MESRST_P09           ;"P09:message reset"
+#endif
+#if nbr_of_path > 9
+                 OR        MESRST_P10           ;"P10:message reset"
+#endif
+#if nbr_of_path > 10
+                 OR        MESRST_P11           ;"P11:message reset"
+#endif
+#if nbr_of_path > 11
+                 OR        MESRST_P12           ;"P12:message reset"
+#endif
+#if nbr_of_path > 12
+                 OR        MESRST_P13           ;"P13:message reset"
+#endif
+#if nbr_of_path > 13
+                 OR        MESRST_P14           ;"P14:message reset"
+#endif
+#if nbr_of_path > 14
+                 OR        MESRST_P15           ;"P15:message reset"
+#endif
+                 WRT        MESRST              ;"message reset"
+
+// ---------------------------------------------------------------------------
+// global variable ST_EN (start enable all path)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable ST_EN (start enable all path)
+*)
+#endif
+                 RD.NOT    ST_EN_P01            ;"P01:program start enable"
+#if nbr_of_path > 1
+                 OR.NOT    ST_EN_P02            ;"P02:program start enable"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    ST_EN_P03            ;"P03:program start enable"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    ST_EN_P04            ;"P04:program start enable"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    ST_EN_P05            ;"P05:program start enable"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    ST_EN_P06            ;"P06:program start enable"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    ST_EN_P07            ;"P07:program start enable"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    ST_EN_P08            ;"P08:program start enable"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    ST_EN_P09            ;"P09:program start enable"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    ST_EN_P10            ;"P10:program start enable"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    ST_EN_P11            ;"P11:program start enable"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    ST_EN_P12            ;"P12:program start enable"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    ST_EN_P13            ;"P13:program start enable"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    ST_EN_P14            ;"P14:program start enable"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    ST_EN_P15            ;"P15:program start enable"
+#endif
+                 WRT.NOT   ST_EN                ;"program start enable"
+
+// ---------------------------------------------------------------------------
+// message: PROGRAM START DISABLED
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: PROGRAM START DISABLED
+*)
+#endif
+                 RD        M_STDIS_P01          ;"P01:message start disable"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    M_STDIS_P02          ;"P02:message start disable"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 2
+                 RD.STK    M_STDIS_P03          ;"P03:message start disable"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 3
+                 RD.STK    M_STDIS_P04          ;"P04:message start disable"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 4
+                 RD.STK    M_STDIS_P05          ;"P05:message start disable"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 5
+                 RD.STK    M_STDIS_P06          ;"P06:message start disable"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 6
+                 RD.STK    M_STDIS_P07          ;"P07:message start disable"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 7
+                 RD.STK    M_STDIS_P08          ;"P08:message start disable"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 8
+                 RD.STK    M_STDIS_P09          ;"P09:message start disable"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 9
+                 RD.STK    M_STDIS_P10          ;"P10:message start disable"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 10
+                 RD.STK    M_STDIS_P11          ;"P11:message start disable"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 11
+                 RD.STK    M_STDIS_P12          ;"P12:message start disable"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 12
+                 RD.STK    M_STDIS_P13          ;"P13:message start disable"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 13
+                 RD.STK    M_STDIS_P14          ;"P14:message start disable"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK    
+#endif
+#if nbr_of_path > 14
+                 RD.STK    M_STDIS_P15          ;"P15:message start disable"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK    
+#endif
+                 WRT       M_2103               ;"pgm start disabled"

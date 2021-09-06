@@ -1,0 +1,284 @@
+//:--------------------------------------------------------------------------:
+//: File              : level1.src                                           :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Include file for level 1 code                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:19.10.17: 2.0.0 :Blp    :SOP_RUN will only be included in case of         :
+//:        :       :       :pmc_type < 3 || pmc_type == 6                    :
+//:        :       :       :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// emergency stop
+// ---------------------------------------------------------------------------
+#if emergency_by_pass == 1
+   #include "emg_sim.src"                 // simulation of emergency stop signal
+#endif
+
+#if soft_op_panel == 1 || operatorspanel == 0
+// ---------------------------------------------------------------------------
+// software operator panel emg stop switch
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+software operator panel emg stop switches
+*)
+   #endif
+                 RD        OUT0_P01             ;"SOP: general purpose switch 1"
+   #if nbr_of_path > 1
+                 OR        OUT0_P02             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 2
+                 OR        OUT0_P03             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 3
+                 OR        OUT0_P04             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 4
+                 OR        OUT0_P05             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 5
+                 OR        OUT0_P06             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 6
+                 OR        OUT0_P07             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 7
+                 OR        OUT0_P08             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 8
+                 OR        OUT0_P09             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 9
+                 OR        OUT0_P10             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 10
+                 OR        OUT0_P11             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 11
+                 OR        OUT0_P12             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 12
+                 OR        OUT0_P13             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 13
+                 OR        OUT0_P14             ;"SOP: general purpose switch 1"
+   #endif
+   #if nbr_of_path > 14
+                 OR        OUT0_P15             ;"SOP: general purpose switch 1"
+   #endif
+                 WRT       sopemg               ;"emergency stop from sop"
+#endif
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\level1_p01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\..\include\level1_p02.src"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\..\include\level1_p03.src"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\..\include\level1_p04.src"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\..\include\level1_p05.src"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\..\include\level1_p06.src"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\..\include\level1_p07.src"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\..\include\level1_p08.src"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\..\include\level1_p09.src"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\..\include\level1_p10.src"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\..\include\level1_p11.src"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\..\include\level1_p12.src"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\..\include\level1_p13.src"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\..\include\level1_p14.src"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\..\include\level1_p15.src"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable EMG_STP (emergency stop active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable EMG_STP (emergency stop active)
+*)
+#endif
+                 RD.NOT    *ESP_P01             ;"emergency stop signal"
+#if nbr_of_path > 1
+                 OR.NOT    *ESP_P02             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    *ESP_P03             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    *ESP_P04             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    *ESP_P05             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    *ESP_P06             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    *ESP_P07             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    *ESP_P08             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    *ESP_P09             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    *ESP_P10             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    *ESP_P11             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    *ESP_P12             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    *ESP_P13             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    *ESP_P14             ;"emergency stop signal"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    *ESP_P15             ;"emergency stop signal"
+#endif
+                 WRT       EMG_STP              ;"emergency stop active"
+
+#if dcs_support == 1
+   #if operatorspanel == 0 || soft_op_panel == 1 
+
+// ---------------------------------------------------------------------------
+// transfering monitoring bit00 to DCSPMC (SOP EMG STOP switch)
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+transfering monitoring bit00 to DCSPMC
+(SOP EMG STOP switch)
+*)
+      #endif
+                 RD.NOT    sopemg               ;"emergency stop from sop"
+      #if soft_op_panel == 1 && operatorspanel != 0
+         #if pmc_type < 3 || pmc_type == 6
+                 OR.NOT    SOP_RUN              ;"software op-panel active"
+         #endif
+      #endif
+      #if start_address_op == 0
+                 AND.NOT   K_EMG                ;"emgergency stop key"
+      #endif
+                 WRT       TPMG00               ;"interface to DCS bit00"
+   #endif
+
+   #if operatorspanel != 0 && soft_op_panel == 0 && start_address_op == 0
+// ---------------------------------------------------------------------------
+// transfering monitoring bit00 to DCSPMC (EMG STOP switch)
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+transfering monitoring bit00 to DCSPMC
+(EMG STOP switch)
+*)
+      #endif
+                 RD.NOT    K_EMG                ;"virtual emg stop key"
+                 WRT       TPMG00               ;"interface to DCS bit00"
+   #endif
+#endif

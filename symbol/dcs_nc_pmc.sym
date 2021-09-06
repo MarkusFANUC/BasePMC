@@ -1,0 +1,221 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_nc_pmc.sym                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbol definitions for CNC <-> PMC interface of      :
+//:                   : DCSPMC                                               :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:29.09.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Include files
+// ===========================================================================
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\include\dcs_nc_pmc_p01.sym"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\include\dcs_nc_pmc_p02.sym"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\include\dcs_nc_pmc_p03.sym"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\include\dcs_nc_pmc_p04.sym"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\include\dcs_nc_pmc_p05.sym"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\include\dcs_nc_pmc_p06.sym"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\include\dcs_nc_pmc_p07.sym"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\include\dcs_nc_pmc_p08.sym"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\include\dcs_nc_pmc_p09.sym"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\include\dcs_nc_pmc_p10.sym"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\include\dcs_nc_pmc_p11.sym"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\include\dcs_nc_pmc_p12.sym"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\include\dcs_nc_pmc_p13.sym"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\include\dcs_nc_pmc_p14.sym"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\include\dcs_nc_pmc_p15.sym"
+#endif
+
+
+// ===========================================================================
+// Input signal to the PMC from the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+*MCF,F0000.1,MCC off signal(group),
+*DCALM,F0000.7,MCC off signal(system),
+SPS01,F0007.0,Safety Position Switch 01,
+SPS02,F0007.1,Safety Position Switch 02,
+SPS03,F0007.2,Safety Position Switch 03,
+SPS04,F0007.3,Safety Position Switch 04,
+SPS05,F0007.4,Safety Position Switch 05,
+SPS06,F0007.5,Safety Position Switch 06,
+SPS07,F0007.6,Safety Position Switch 07,
+SPS08,F0007.7,Safety Position Switch 08,
+SPS09,F0008.0,Safety Position Switch 09,
+SPS10,F0008.1,Safety Position Switch 10,
+SPS11,F0008.2,Safety Position Switch 11,
+SPS12,F0008.3,Safety Position Switch 12,
+SPS13,F0008.4,Safety Position Switch 13,
+SPS14,F0008.5,Safety Position Switch 14,
+SPS15,F0008.6,Safety Position Switch 15,
+SPS16,F0008.7,Safety Position Switch 16,
+SPS17,F0009.0,Safety Position Switch 17,
+SPS18,F0009.1,Safety Position Switch 18,
+SPS19,F0009.2,Safety Position Switch 19,
+SPS20,F0009.3,Safety Position Switch 20,
+SPS21,F0009.4,Safety Position Switch 21,
+SPS22,F0009.5,Safety Position Switch 22,
+SPS23,F0009.6,Safety Position Switch 23,
+SPS24,F0009.7,Safety Position Switch 24,
+SPS25,F0010.0,Safety Position Switch 25,
+SPS26,F0010.1,Safety Position Switch 26,
+SPS27,F0010.2,Safety Position Switch 27,
+SPS28,F0010.3,Safety Position Switch 28,
+SPS29,F0010.4,Safety Position Switch 29,
+SPS30,F0010.5,Safety Position Switch 30,
+SPS31,F0010.6,Safety Position Switch 31,
+SPS32,F0010.7,Safety Position Switch 32,
+TPMF00,F0017.0,interface from PMC bit00,
+TPMF01,F0017.1,interface from PMC bit01,
+TPMF02,F0017.2,interface from PMC bit02,
+TPMF03,F0017.3,interface from PMC bit03,
+TPMF04,F0017.4,interface from PMC bit04,
+TPMF05,F0017.5,interface from PMC bit05,
+TPMF06,F0017.6,interface from PMC bit06,
+TPMF07,F0017.7,interface from PMC bit07,
+*OPIHB,F0019.0,guard open inhibit(group),
+TPMF08,F0037.0,interface from PMC bit08,
+TPMF09,F0037.1,interface from PMC bit09,
+TPMF10,F0037.2,interface from PMC bit10,
+TPMF11,F0037.3,interface from PMC bit11,
+TPMF12,F0037.4,interface from PMC bit12,
+TPMF13,F0037.5,interface from PMC bit13,
+TPMF14,F0037.6,interface from PMC bit14,
+TPMF15,F0037.7,interface from PMC bit15,
+
+// ===========================================================================
+// Output signal from the PMC to the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+*SMC,G0000.6,MCC contact state(group),
+TDCG00,G0017.0,interface to PMC bit00,
+TDCG01,G0017.1,interface to PMC bit01,
+TDCG02,G0017.2,interface to PMC bit02,
+TDCG03,G0017.3,interface to PMC bit03,
+TDCG04,G0017.4,interface to PMC bit04,
+TDCG05,G0017.5,interface to PMC bit05,
+TDCG06,G0017.6,interface to PMC bit06,
+TDCG07,G0017.7,interface to PMC bit07,
+TDCG08,G0037.0,interface to PMC bit08,
+TDCG09,G0037.1,interface to PMC bit09,
+TDCG10,G0037.2,interface to PMC bit10,
+TDCG11,G0037.3,interface to PMC bit11,
+TDCG12,G0037.4,interface to PMC bit12,
+TDCG13,G0037.5,interface to PMC bit13,
+TDCG14,G0037.6,interface to PMC bit14,
+TDCG15,G0037.7,interface to PMC bit15,
+

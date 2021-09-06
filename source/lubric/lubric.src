@@ -1,0 +1,124 @@
+//:--------------------------------------------------------------------------:
+//: File              : LUBRIC.SRC                                           :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Lubrication with level and pressure control          :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// central lubrication
+// ---------------------------------------------------------------------------
+// -----------------------------------------------
+// stand-by
+// -----------------------------------------------
+#if net_comment == 1
+(*
+stand-by
+*)
+#endif
+                 RD        AXMOV                ;"axes moving"
+                 AND       sta_by               ;"stand-by lubrication"
+                 WRT       stbyim               ;"lubr. impuls after stand-by"
+
+                 RD.NOT    AXMOV                ;"axes moving"
+                 TMR       7
+                 WRT       sta_by               ;"stand-by lubrication"
+
+// -----------------------------------------------
+// time between two Lubrication cycles
+// -----------------------------------------------
+#if net_comment == 1
+(*
+time between two Lubrication cycles
+*)
+#endif
+                 RD.NOT    LUBON                ;"lubrication cycle active"
+                 AND.NOT   sta_by               ;"stand-by lubrication"
+                 AND       POW_OK               ;"power suply axis ok"
+                 TMR       8
+                 WRT       timimp               ;"time pulse for lubrication"
+
+                 RD        timimp               ;"time pulse for lubrication"
+                 OR        stbyim               ;"impulse after stand-by"
+                 OR        P_ON_I               ;"power on impulse"
+                 RD.STK    LUBON                ;"lubrication cycle active"
+                 AND.NOT   lubstp               ;"stop lubrication cycle"
+#if demo_control == 0
+                 AND.NOT   lutout               ;"lubrication time out"
+#endif
+                 OR.STK
+                 AND       POW_OK               ;"power suply axis ok"
+                 WRT       LUBON                ;"lubrication cycle active"
+                 WRT       oLUB                 ;"output lubrication on"
+
+// -----------------------------------------------
+// lubrication time
+// -----------------------------------------------
+#if net_comment == 1
+(*
+lubrication time
+*)
+#endif
+                 RD        LUBON                ;"lubrication cycle active"
+
+#if demo_control == 0
+                 AND       iPLUB                ;"lubrication pressure ok"
+#endif
+                 TMR       10
+                 WRT       lubstp               ;"stop lubrication cycle"
+
+// -----------------------------------------------
+// time out
+// -----------------------------------------------
+#if demo_control == 0
+   #if net_comment == 1
+(*
+time out
+*)
+   #endif
+                 RD        LUBON                ;"lubrication cycle active"
+                 AND.NOT   iPLUB                ;"lubrication pressure ok"
+                 TMR       9
+                 WRT       lutout               ;"lubrication time out"
+
+                 RD        lutout               ;"lubrication time out"
+                 RD.STK    E_LUB                ;"lubrication error"
+                 AND.NOT   iPLUB                ;"lubrication pressure ok"
+                 OR.STK
+                 WRT       E_LUB                ;"lubrication error"
+                 WRT       M_1002               ;"error central lubrication"
+#endif
+
+// -----------------------------------------------
+// level check
+// -----------------------------------------------
+#if demo_control == 0
+   #if net_comment == 1
+(*
+level check
+*)
+   #endif
+                 RD.NOT    iLLUB                ;"level central lubrication"
+                 AND.NOT   ALARM                ;"alarm message active"
+                 WRT       M_2100               ;"check central lubrication"
+#endif
+

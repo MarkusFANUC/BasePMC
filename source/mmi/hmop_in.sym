@@ -1,0 +1,129 @@
+//:--------------------------------------------------------------------------:
+//: File              : hmop.sym                                             :
+//: Creation date     : 09.10.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       :                                                      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+iH_FOVR,__HMOP_FEED_OVR_ADDR,hmop: feed override,
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+iH_FOVR_EN,__HMOP_OVREN,hmop: feed override enable,
+iH_S_ON,___HMOP_KEY_OPERATION,hmop: operation switch,
+
+iH_ACKLCD,__HMOP_ACKLCD,hmop: ack lcd display request,
+
+iH_KEY11,__HMOP_KEY_AXES_SELECT,hmop: key 11,
+iH_KEY12,__HMOP_KEY_MODE_REF,hmop: key 12,
+iH_KEY13,__HMOP_KEY_SP_START,hmop: key 13,
+iH_KEY14,__HMOP_KEY_SP_STOP,hmop: key 14,
+iH_KEY15,__HMOP_KEY_RESET,hmop: key 15,
+
+iH_KEY21,__HMOP_KEY_MODE_HANDLE,hmop: key 21,
+iH_KEY22,__HMOP_KEY_MODE_JOG,hmop: key 22,
+iH_KEY23,__HMOP_KEY_SP_INC,hmop: key 23,
+iH_KEY24,__HMOP_KEY_SP_DEC,hmop: key 24,
+iH_KEY25,__HMOP_KEY_AXIS_PLUS,hmop: key 25,
+
+iH_KEY31,__HMOP_KEY_FACTOR,hmop: key 31,
+iH_KEY32,__HMOP_KEY_MODE_MEM,hmop: key 32,
+iH_KEY33,__HMOP_KEY_FUNCTION,hmop: key 33,
+iH_KEY34,__HMOP_KEY_MESSAGE,hmop: key 34,
+iH_KEY35,__HMOP_KEY_RAPID_TRAVERSE,hmop: key 35,
+
+iH_KEY41,__HMOP_KEY_SINGLE_BLOCK,hmop: key 41,
+iH_KEY42,__HMOP_KEY_DRY_RUN,hmop: key 42,
+iH_KEY43,__HMOP_KEY_CYCLE_START,hmop: key 43,
+iH_KEY44,__HMOP_KEY_CYCLE_STOP,hmop: key 44,
+iH_KEY45,__HMOP_KEY_AXIS_MINUS,hmop: key 45,
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9770.0 - E9771.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+H_KEY_AX,E9770.0,hmop key XYZ456,
+H_KEY_F1,E9770.1,hmop key F1,
+
+// -------------------------------------------------------
+// local variables E9772.0 - E9789.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+hactr_set,E9772,hmop axes ctr preset,           // 2 Bytes
+hactr_cnt,E9774,hmop axes ctr count value,      // 4 Bytes (count + work)
+hactr_work,E9776,hmop axes ctr work,
+
+// reserved area E9779
+
+// -----------------------------------
+// bool
+// -----------------------------------
+hmaxax,E9780.0,hmop max nbr of axes,
+hmaxfact,E9780.1,hmop max nbr of inc factor,
+hupspovr,E9780.2,hmop max spindle ovr,
+hdnspovr,E9780.3,hmop min spindle ovr,
+hmaxsp,E9780.4,hmop max spindle ovr,
+hefovr,E9780.5,error decoding f-override,
+hesovr,E9780.6,err decoding s-override,
+hedsovr,E9780.7,err divb spindle override,
+
+hesubsovr,E9781.0,err subb spindle override,
+

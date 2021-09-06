@@ -1,0 +1,2148 @@
+//:--------------------------------------------------------------------------:
+//: File              : hmop_in.src                                          :
+//: Creation date     : 25.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs handy machine operator's panel                :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:03.09.14: 1.1.0 :Blp    :In case of 1 path, the variable PCHANGE is not   :
+//:        :       :       :defined and must not be used                     :
+//:--------------------------------------------------------------------------:
+//:31.07.18: 2.0.0 :Blp    :path 11-15 added                                 :
+//:        :       :       :in case of SOP, edit enable of SOP will be used  :
+//:        :       :       :message reset key added                          :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ------------------------------------
+// memory F1 key
+// ------------------------------------
+#if net_comment == 1
+(*
+memory F1 key
+*)
+#endif
+                 RD        iH_KEY33             ;"hmop: key 33"
+                 WRT       H_KEY_F1             ;"hmop key F1"
+
+// ------------------------------------
+// memory protect key
+// ------------------------------------
+#if net_comment == 1
+(*
+memory protect key
+*)
+#endif
+#if operatorspanel == 0
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+#endif
+#if operatorspanel == 1
+   #if start_address_op == 0 && pgm_protect_key == 1
+                 RD        iS_K_A07             ;"op30: key A07"
+                 WRT       K_PKEY               ;"memory protection key"
+   #else
+      #if soft_op_panel == 1
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+      #else
+                 RD        LOG1                 ;"logic 1"
+                 WRT       K_PKEY               ;"memory protection key"
+      #endif
+   #endif
+#endif
+#if operatorspanel == 2
+   #if pgm_protect_key == 1
+      #if start_address_op == 0
+                 RD        iF_K_A12             ;"op55: key A12"
+                 WRT       K_PKEY               ;"memory protection key"
+         #else
+                 RD        iF_PKEY              ;"op55: input protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+         #endif
+   #else
+      #if soft_op_panel == 1
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+      #else
+                 RD        LOG1                 ;"logic 1"
+                 WRT       K_PKEY               ;"memory protection key"
+      #endif
+   #endif
+#endif
+#if operatorspanel == 3
+   #if soft_op_panel == 1
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+      #else
+                 RD        LOG1                 ;"logic 1"
+                 WRT       K_PKEY               ;"memory protection key"
+   #endif      
+#endif
+
+// TODO: soft op + normal panel
+
+// ------------------------------------
+// RESET key
+// ------------------------------------
+   #if net_comment == 1
+(*
+RESET key
+*)
+   #endif
+                 RD        iH_KEY15             ;"hmop: key 15"
+                 WRT       K_RST                ;"reset key"
+
+// ---------------------------------------------------------------------------
+// nc modes
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key mem mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key mem mode
+*)
+#endif
+                 RD        iH_KEY32             ;"hmop: key 32"
+                 WRT       K_MMEM               ;"key mode mem"
+
+// ------------------------------------
+// key single block
+// ------------------------------------
+#if net_comment == 1
+(*
+key single block
+*)
+#endif
+                 RD        iH_KEY41             ;"hmop: key 41"
+                 WRT       K_SBK                ;"key single block"
+
+// ------------------------------------
+// key dry run
+// ------------------------------------
+#if net_comment == 1
+(*
+key dry run
+*)
+#endif
+                 RD        iH_KEY42             ;"hmop: key 42"
+                 WRT       K_DRN                ;"key dry run"
+
+// ------------------------------------
+// key ref mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key ref mode
+*)
+#endif
+                 RD        iH_KEY12             ;"hmop: key 12"
+                 WRT       K_MREF               ;"key mode ref"
+
+// ------------------------------------
+// key jog mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key jog mode
+*)
+#endif
+                 RD        iH_KEY22             ;"hmop: key 22"
+                 WRT       K_MJ                 ;"key mode jog"
+
+
+// ------------------------------------
+// key inc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key inc mode
+*)
+#endif
+                 RD        iH_KEY21             ;"hmop: key 21"
+                 AND       H_KEY_F1             ;"hmop key F1"
+                 WRT       K_INC                ;"key inc feed"
+
+// ------------------------------------
+// key handle mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key handle mode
+*)
+#endif
+                 RD        iH_KEY21             ;"hmop: key 21"
+                 AND.NOT   H_KEY_F1             ;"hmop key F1"
+                 WRT       K_HD                 ;"key handle"
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key cycle start
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle start
+*)
+#endif
+
+                 RD        iH_KEY43             ;"hmop: key 43"
+                 WRT       K_ST                 ;"key cycle start"
+
+// ------------------------------------
+// key cycle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle stop
+*)
+#endif
+                 RD        iH_KEY44             ;"hmop: key 44"
+                 WRT       K_CYSP               ;"key cycle stop"
+
+
+// ------------------------------------
+// key plus direction
+// ------------------------------------
+#if net_comment == 1
+(*
+key plus direction
+*)
+#endif
+                 RD        iH_KEY25             ;"hmop: key 25"
+                 WRT       K_PLUS               ;"key plus direction"
+
+// ------------------------------------
+// key rapid traverse
+// ------------------------------------
+#if net_comment == 1
+(*
+key rapid traverse
+*)
+#endif
+                 RD        iH_KEY35             ;"hmop: key 35"
+                 WRT       K_RT                 ;"key rapid traverse"
+
+// ------------------------------------
+// key minus direction
+// ------------------------------------
+#if net_comment == 1
+(*
+key minus direction
+*)
+#endif
+                 RD        iH_KEY45             ;"hmop: key 45"
+                 WRT       K_MINUS              ;"key minus direction"
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+#if spindle_support_P01 > -1
+// ------------------------------------
+// key spindle clockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle clockwise
+*)
+   #endif
+                 RD        iH_KEY13             ;"hmop: key 13"
+                 AND.NOT   H_KEY_F1             ;"hmop key F1"
+                 WRT       K_SPCW               ;"key spindle cw"
+
+// ------------------------------------
+// key spindle counterclockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle counterclockwise
+*)
+   #endif
+                 RD        iH_KEY13             ;"hmop: key 13"
+                 AND       H_KEY_F1             ;"hmop key F1"
+                 WRT       K_SPCCW              ;"key spindle counterclockwise"
+
+// ------------------------------------
+// key spindle stop
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle stop
+*)
+   #endif
+                 RD        iH_KEY14             ;"hmop: key 14"
+                 WRT       K_SPSP               ;"key spindle stop"
+#endif
+
+// ------------------------------------
+// _PATH__: key message reset
+// ------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: key message reset
+*)
+   #endif
+                 RD        iH_KEY34             ;"hmop: key 34"
+                 WRT       K_MESRST             ;"message reset key"
+
+// ---------------------------------------------------------------------------
+// initialisation of axis counter
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+initialisation of axis counter
+*)
+#endif
+                 RD        PATH_P01             ;"path 01 selected"
+                 NUMEB
+                           2
+#if axis_number_P01 < 2
+                           0
+#endif
+#if axis_number_P01 == 2
+                           1
+#endif
+#if axis_number_P01 == 3
+                           2
+#endif
+#if axis_number_P01 == 4
+                           3
+#endif
+#if axis_number_P01 == 5
+                           4
+#endif
+#if axis_number_P01 == 6
+                           5
+#endif
+#if axis_number_P01 == 7
+                           6
+#endif
+#if axis_number_P01 == 8
+                           7
+#endif
+                           hactr_set            ;"hmop axes ctr preset"
+
+#if nbr_of_path > 1
+                 RD        PATH_P02             ;"path 02 selected"
+                 NUMEB
+                           2
+   #if axis_number_P02 < 2
+                           0
+   #endif
+   #if axis_number_P02 == 2
+                           1
+   #endif
+   #if axis_number_P02 == 3
+                           2
+   #endif
+   #if axis_number_P02 == 4
+                           3
+   #endif
+   #if axis_number_P02 == 5
+                           4
+   #endif
+   #if axis_number_P02 == 6
+                           5
+   #endif
+   #if axis_number_P02 == 7
+                           6
+   #endif
+   #if axis_number_P02 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 2
+                 RD        PATH_P03             ;"path 03 selected"
+                 NUMEB
+                           2
+   #if axis_number_P03 < 2
+                           0
+   #endif
+   #if axis_number_P03 == 2
+                           1
+   #endif
+   #if axis_number_P03 == 3
+                           2
+   #endif
+   #if axis_number_P03 == 4
+                           3
+   #endif
+   #if axis_number_P03 == 5
+                           4
+   #endif
+   #if axis_number_P03 == 6
+                           5
+   #endif
+   #if axis_number_P03 == 7
+                           6
+   #endif
+   #if axis_number_P03 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 3
+                 RD        PATH_P04             ;"path 02 selected"
+                 NUMEB
+                           2
+   #if axis_number_P04 < 2
+                           0
+   #endif
+   #if axis_number_P04 == 2
+                           1
+   #endif
+   #if axis_number_P04 == 3
+                           2
+   #endif
+   #if axis_number_P04 == 4
+                           3
+   #endif
+   #if axis_number_P04 == 5
+                           4
+   #endif
+   #if axis_number_P04 == 6
+                           5
+   #endif
+   #if axis_number_P04 == 7
+                           6
+   #endif
+   #if axis_number_P04 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 4
+                 RD        PATH_P05             ;"path 05 selected"
+                 NUMEB
+                           2
+   #if axis_number_P05 < 2
+                           0
+   #endif
+   #if axis_number_P05 == 2
+                           1
+   #endif
+   #if axis_number_P05 == 3
+                           2
+   #endif
+   #if axis_number_P05 == 4
+                           3
+   #endif
+   #if axis_number_P05 == 5
+                           4
+   #endif
+   #if axis_number_P05 == 6
+                           5
+   #endif
+   #if axis_number_P05 == 7
+                           6
+   #endif
+   #if axis_number_P05 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 5
+                 RD        PATH_P06             ;"path 06 selected"
+                 NUMEB
+                           2
+   #if axis_number_P06 < 2
+                           0
+   #endif
+   #if axis_number_P06 == 2
+                           1
+   #endif
+   #if axis_number_P06 == 3
+                           2
+   #endif
+   #if axis_number_P06 == 4
+                           3
+   #endif
+   #if axis_number_P06 == 5
+                           4
+   #endif
+   #if axis_number_P06 == 6
+                           5
+   #endif
+   #if axis_number_P06 == 7
+                           6
+   #endif
+   #if axis_number_P06 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 6
+                 RD        PATH_P07             ;"path 07 selected"
+                 NUMEB
+                           2
+   #if axis_number_P07 < 2
+                           0
+   #endif
+   #if axis_number_P07 == 2
+                           1
+   #endif
+   #if axis_number_P07 == 3
+                           2
+   #endif
+   #if axis_number_P07 == 4
+                           3
+   #endif
+   #if axis_number_P07 == 5
+                           4
+   #endif
+   #if axis_number_P07 == 6
+                           5
+   #endif
+   #if axis_number_P07 == 7
+                           6
+   #endif
+   #if axis_number_P07 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 7
+                 RD        PATH_P08             ;"path 08 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P08 < 2
+                           0
+   #endif
+   #if axis_number_P08 == 2
+                           1
+   #endif
+   #if axis_number_P08 == 3
+                           2
+   #endif
+   #if axis_number_P08 == 4
+                           3
+   #endif
+   #if axis_number_P08 == 5
+                           4
+   #endif
+   #if axis_number_P08 == 6
+                           5
+   #endif
+   #if axis_number_P08 == 7
+                           6
+   #endif
+   #if axis_number_P08 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 8
+                 RD        PATH_P09             ;"path 09 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P09 < 2
+                           0
+   #endif
+   #if axis_number_P09 == 2
+                           1
+   #endif
+   #if axis_number_P09 == 3
+                           2
+   #endif
+   #if axis_number_P09 == 4
+                           3
+   #endif
+   #if axis_number_P09 == 5
+                           4
+   #endif
+   #if axis_number_P09 == 6
+                           5
+   #endif
+   #if axis_number_P09 == 7
+                           6
+   #endif
+   #if axis_number_P09 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 9
+                 RD        PATH_P10             ;"path 10 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P10 < 2
+                           0
+   #endif
+   #if axis_number_P10 == 2
+                           1
+   #endif
+   #if axis_number_P10 == 3
+                           2
+   #endif
+   #if axis_number_P10 == 4
+                           3
+   #endif
+   #if axis_number_P10 == 5
+                           4
+   #endif
+   #if axis_number_P10 == 6
+                           5
+   #endif
+   #if axis_number_P10 == 7
+                           6
+   #endif
+   #if axis_number_P10 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+
+#if nbr_of_path > 10
+                 RD        PATH_P11             ;"path 11 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P11 < 2
+                           0
+   #endif
+   #if axis_number_P11 == 2
+                           1
+   #endif
+   #if axis_number_P11 == 3
+                           2
+   #endif
+   #if axis_number_P11 == 4
+                           3
+   #endif
+   #if axis_number_P11 == 5
+                           4
+   #endif
+   #if axis_number_P11 == 6
+                           5
+   #endif
+   #if axis_number_P11 == 7
+                           6
+   #endif
+   #if axis_number_P11 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 11
+                 RD        PATH_P12             ;"path 12 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P12 < 2
+                           0
+   #endif
+   #if axis_number_P12 == 2
+                           1
+   #endif
+   #if axis_number_P12 == 3
+                           2
+   #endif
+   #if axis_number_P12 == 4
+                           3
+   #endif
+   #if axis_number_P12 == 5
+                           4
+   #endif
+   #if axis_number_P12 == 6
+                           5
+   #endif
+   #if axis_number_P12 == 7
+                           6
+   #endif
+   #if axis_number_P12 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 12
+                 RD        PATH_P13             ;"path 13 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P13 < 2
+                           0
+   #endif
+   #if axis_number_P13 == 2
+                           1
+   #endif
+   #if axis_number_P13 == 3
+                           2
+   #endif
+   #if axis_number_P13 == 4
+                           3
+   #endif
+   #if axis_number_P13 == 5
+                           4
+   #endif
+   #if axis_number_P13 == 6
+                           5
+   #endif
+   #if axis_number_P13 == 7
+                           6
+   #endif
+   #if axis_number_P13 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 13
+                 RD        PATH_P14             ;"path 14 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P14 < 2
+                           0
+   #endif
+   #if axis_number_P14 == 2
+                           1
+   #endif
+   #if axis_number_P14 == 3
+                           2
+   #endif
+   #if axis_number_P14 == 4
+                           3
+   #endif
+   #if axis_number_P14 == 5
+                           4
+   #endif
+   #if axis_number_P14 == 6
+                           5
+   #endif
+   #if axis_number_P14 == 7
+                           6
+   #endif
+   #if axis_number_P14 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+#if nbr_of_path > 14
+                 RD        PATH_P15             ;"path 15 selected"
+                 NUMEB     
+                           2
+   #if axis_number_P15 < 2
+                           0
+   #endif
+   #if axis_number_P15 == 2
+                           1
+   #endif
+   #if axis_number_P15 == 3
+                           2
+   #endif
+   #if axis_number_P15 == 4
+                           3
+   #endif
+   #if axis_number_P15 == 5
+                           4
+   #endif
+   #if axis_number_P15 == 6
+                           5
+   #endif
+   #if axis_number_P15 == 7
+                           6
+   #endif
+   #if axis_number_P15 == 8
+                           7
+   #endif
+                           hactr_set            ;"hmop axes ctr preset"
+#endif
+
+
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           2
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+
+                 RD.NOT    LOG1                 ;"logic one"
+#if axis_number_P01 > 1
+                 RD.STK    M_K2AX_P01           ;"P01:memory 2nd axis selected"
+   #if axis_number_P01 > 3
+                 OR        M_K4AX_P01           ;"memory 4th axis selected"
+   #endif
+   #if axis_number_P01 > 5
+                 OR        M_K6AX_P01           ;"memory 6th axis selected"
+   #endif
+   #if axis_number_P01 > 7
+                 OR        M_K8AX_P01           ;"memory 8th axis selected"
+   #endif
+                 AND       PATH_P01             ;"path 01 selected"
+                 OR.STK
+#endif
+
+#if nbr_of_path > 1
+   #if axis_number_P02 > 1
+                 RD.STK    M_K2AX_P02           ;"P02:memory 2nd axis selected"
+      #if axis_number_P02 > 3
+                 OR        M_K4AX_P02           ;"P02:memory 4th axis selected"
+      #endif
+      #if axis_number_P02 > 5
+                 OR        M_K6AX_P02           ;"P02:memory 6th axis selected"
+      #endif
+      #if axis_number_P02 > 7
+                 OR        M_K8AX_P02           ;"P02:memory 8th axis selected"
+      #endif
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 1
+                 RD.STK    M_K2AX_P03           ;"P03:memory 2nd axis selected"
+      #if axis_number_P03 > 3
+                 OR        M_K4AX_P03           ;"P03:memory 4th axis selected"
+      #endif
+      #if axis_number_P03 > 5
+                 OR        M_K6AX_P03           ;"P03:memory 6th axis selected"
+      #endif
+      #if axis_number_P03 > 7
+                 OR        M_K8AX_P03           ;"P03:memory 8th axis selected"
+      #endif
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 1
+                 RD.STK    M_K2AX_P04           ;"P04:memory 2nd axis selected"
+      #if axis_number_P04 > 3
+                 OR        M_K4AX_P04           ;"P04:memory 4th axis selected"
+      #endif
+      #if axis_number_P04 > 5
+                 OR        M_K6AX_P04           ;"P04:memory 6th axis selected"
+      #endif
+      #if axis_number_P04 > 7
+                 OR        M_K8AX_P04           ;"P04:memory 8th axis selected"
+      #endif
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 1
+                 RD.STK    M_K2AX_P05           ;"P05:memory 2nd axis selected"
+      #if axis_number_P05 > 3
+                 OR        M_K4AX_P05           ;"P05:memory 4th axis selected"
+      #endif
+      #if axis_number_P05 > 5
+                 OR        M_K6AX_P05           ;"P05:memory 6th axis selected"
+      #endif
+      #if axis_number_P05 > 7
+                 OR        M_K8AX_P05           ;"P05:memory 8th axis selected"
+      #endif
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 1
+                 RD.STK    M_K2AX_P06           ;"P06:memory 2nd axis selected"
+      #if axis_number_P06 > 3
+                 OR        M_K4AX_P06           ;"P06:memory 4th axis selected"
+      #endif
+      #if axis_number_P06 > 5
+                 OR        M_K6AX_P06           ;"P06:memory 6th axis selected"
+      #endif
+      #if axis_number_P06 > 7
+                 OR        M_K8AX_P06           ;"P06:memory 8th axis selected"
+      #endif
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 1
+                 RD.STK    M_K2AX_P07           ;"P07:memory 2nd axis selected"
+      #if axis_number_P07 > 3
+                 OR        M_K4AX_P07           ;"P07:memory 4th axis selected"
+      #endif
+      #if axis_number_P07 > 5
+                 OR        M_K6AX_P07           ;"P07:memory 6th axis selected"
+      #endif
+      #if axis_number_P07 > 7
+                 OR        M_K8AX_P07           ;"P07:memory 8th axis selected"
+      #endif
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 1
+                 RD.STK    M_K2AX_P08           ;"P08:memory 2nd axis selected"
+      #if axis_number_P08 > 3
+                 OR        M_K4AX_P08           ;"P08:memory 4th axis selected"
+      #endif
+      #if axis_number_P08 > 5
+                 OR        M_K6AX_P08           ;"P08:memory 6th axis selected"
+      #endif
+      #if axis_number_P08 > 7
+                 OR        M_K8AX_P08           ;"P08:memory 8th axis selected"
+      #endif
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 1
+                 RD.STK    M_K2AX_P09           ;"P09:memory 2nd axis selected"
+      #if axis_number_P09 > 3
+                 OR        M_K4AX_P09           ;"P09:memory 4th axis selected"
+      #endif
+      #if axis_number_P09 > 5
+                 OR        M_K6AX_P09           ;"P09:memory 6th axis selected"
+      #endif
+      #if axis_number_P09 > 7
+                 OR        M_K8AX_P09           ;"P09:memory 8th axis selected"
+      #endif
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 1
+                 RD.STK    M_K2AX_P10           ;"P10:memory 2nd axis selected"
+      #if axis_number_P10 > 3
+                 OR        M_K4AX_P10           ;"P10:memory 4th axis selected"
+      #endif
+      #if axis_number_P10 > 5
+                 OR        M_K6AX_P10           ;"P10:memory 6th axis selected"
+      #endif
+      #if axis_number_P10 > 7
+                 OR        M_K8AX_P10           ;"P10:memory 8th axis selected"
+      #endif
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if axis_number_P11 > 1
+                 RD.STK    M_K2AX_P11           ;"P11:memory 2nd axis selected"
+      #if axis_number_P11 > 3
+                 OR        M_K4AX_P11           ;"P11:memory 4th axis selected"
+      #endif
+      #if axis_number_P11 > 5
+                 OR        M_K6AX_P11           ;"P11:memory 6th axis selected"
+      #endif
+      #if axis_number_P11 > 7
+                 OR        M_K8AX_P11           ;"P11:memory 8th axis selected"
+      #endif
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 1
+                 RD.STK    M_K2AX_P12           ;"P12:memory 2nd axis selected"
+      #if axis_number_P12 > 3
+                 OR        M_K4AX_P12           ;"P12:memory 4th axis selected"
+      #endif
+      #if axis_number_P12 > 5
+                 OR        M_K6AX_P12           ;"P12:memory 6th axis selected"
+      #endif
+      #if axis_number_P12 > 7
+                 OR        M_K8AX_P12           ;"P12:memory 8th axis selected"
+      #endif
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 1
+                 RD.STK    M_K2AX_P13           ;"P13:memory 2nd axis selected"
+      #if axis_number_P13 > 3
+                 OR        M_K4AX_P13           ;"P13:memory 4th axis selected"
+      #endif
+      #if axis_number_P13 > 5
+                 OR        M_K6AX_P13           ;"P13:memory 6th axis selected"
+      #endif
+      #if axis_number_P13 > 7
+                 OR        M_K8AX_P13           ;"P13:memory 8th axis selected"
+      #endif
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 1
+                 RD.STK    M_K2AX_P14           ;"P14:memory 2nd axis selected"
+      #if axis_number_P14 > 3
+                 OR        M_K4AX_P14           ;"P14:memory 4th axis selected"
+      #endif
+      #if axis_number_P14 > 5
+                 OR        M_K6AX_P14           ;"P14:memory 6th axis selected"
+      #endif
+      #if axis_number_P14 > 7
+                 OR        M_K8AX_P14           ;"P14:memory 8th axis selected"
+      #endif
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 1
+                 RD.STK    M_K2AX_P15           ;"P15:memory 2nd axis selected"
+      #if axis_number_P15 > 3
+                 OR        M_K4AX_P15           ;"P15:memory 4th axis selected"
+      #endif
+      #if axis_number_P15 > 5
+                 OR        M_K6AX_P15           ;"P15:memory 6th axis selected"
+      #endif
+      #if axis_number_P15 > 7
+                 OR        M_K8AX_P15           ;"P15:memory 8th axis selected"
+      #endif
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       T_BIT000             ;"temporary bit 000"
+
+                 RD.NOT    LOG1                 ;"logic one"
+#if axis_number_P01 > 2
+                 RD.STK    M_K3AX_P01           ;"memory 3rd axis selected"
+   #if axis_number_P01 > 3
+                 OR        M_K4AX_P01           ;"memory 4th axis selected"
+   #endif
+   #if axis_number_P01 > 6
+                 OR        M_K7AX_P01           ;"memory 7th axis selected"
+   #endif
+   #if axis_number_P01 > 7
+                 OR        M_K8AX_P01           ;"memory 8th axis selected"
+   #endif
+                 AND       PATH_P01             ;"path 01 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 2
+                 RD.STK    M_K3AX_P02           ;"P02:memory 3rd axis selected"
+      #if axis_number_P02 > 3
+                 OR        M_K4AX_P02           ;"P02:memory 4th axis selected"
+      #endif
+      #if axis_number_P02 > 6
+                 OR        M_K7AX_P02           ;"P02:memory 7th axis selected"
+      #endif
+      #if axis_number_P02 > 7
+                 OR        M_K8AX_P02           ;"P02:memory 8th axis selected"
+      #endif
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 2
+                 RD.STK    M_K3AX_P03           ;"P03:memory 3rd axis selected"
+      #if axis_number_P03 > 3
+                 OR        M_K4AX_P03           ;"P03:memory 4th axis selected"
+      #endif
+      #if axis_number_P03 > 6
+                 OR        M_K7AX_P03           ;"P03:memory 7th axis selected"
+      #endif
+      #if axis_number_P03 > 7
+                 OR        M_K8AX_P03           ;"P03:memory 8th axis selected"
+      #endif
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 2
+                 RD.STK    M_K3AX_P04           ;"P04:memory 3rd axis selected"
+      #if axis_number_P04 > 3
+                 OR        M_K4AX_P04           ;"P04:memory 4th axis selected"
+      #endif
+      #if axis_number_P04 > 6
+                 OR        M_K7AX_P04           ;"P04:memory 7th axis selected"
+      #endif
+      #if axis_number_P04 > 7
+                 OR        M_K8AX_P04           ;"P04:memory 8th axis selected"
+      #endif
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 2
+                 RD.STK    M_K3AX_P05           ;"P05:memory 3rd axis selected"
+      #if axis_number_P05 > 3
+                 OR        M_K4AX_P05           ;"P05:memory 4th axis selected"
+      #endif
+      #if axis_number_P05 > 6
+                 OR        M_K7AX_P05           ;"P05:memory 7th axis selected"
+      #endif
+      #if axis_number_P05 > 7
+                 OR        M_K8AX_P05           ;"P05:memory 8th axis selected"
+      #endif
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 2
+                 RD.STK    M_K3AX_P06           ;"P06:memory 3rd axis selected"
+      #if axis_number_P06 > 3
+                 OR        M_K4AX_P06           ;"P06:memory 4th axis selected"
+      #endif
+      #if axis_number_P06 > 6
+                 OR        M_K7AX_P06           ;"P06:memory 7th axis selected"
+      #endif
+      #if axis_number_P06 > 7
+                 OR        M_K8AX_P06           ;"P06:memory 8th axis selected"
+      #endif
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 2
+                 RD.STK    M_K3AX_P07           ;"P07:memory 3rd axis selected"
+      #if axis_number_P07 > 3
+                 OR        M_K4AX_P07           ;"P07:memory 4th axis selected"
+      #endif
+      #if axis_number_P07 > 6
+                 OR        M_K7AX_P07           ;"P07:memory 7th axis selected"
+      #endif
+      #if axis_number_P07 > 7
+                 OR        M_K8AX_P07           ;"P07:memory 8th axis selected"
+      #endif
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 2
+                 RD.STK    M_K3AX_P08           ;"P08:memory 3rd axis selected"
+      #if axis_number_P08 > 3
+                 OR        M_K4AX_P08           ;"P08:memory 4th axis selected"
+      #endif
+      #if axis_number_P08 > 6
+                 OR        M_K7AX_P08           ;"P08:memory 7th axis selected"
+      #endif
+      #if axis_number_P08 > 7
+                 OR        M_K8AX_P08           ;"P08:memory 8th axis selected"
+      #endif
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 2
+                 RD.STK    M_K3AX_P09           ;"P09:memory 3rd axis selected"
+      #if axis_number_P09 > 3
+                 OR        M_K4AX_P09           ;"P09:memory 4th axis selected"
+      #endif
+      #if axis_number_P09 > 6
+                 OR        M_K7AX_P09           ;"P09:memory 7th axis selected"
+      #endif
+      #if axis_number_P09 > 7
+                 OR        M_K8AX_P09           ;"P09:memory 8th axis selected"
+      #endif
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 2
+                 RD.STK    M_K3AX_P10           ;"P10:memory 3rd axis selected"
+      #if axis_number_P10 > 3
+                 OR        M_K4AX_P10           ;"P10:memory 4th axis selected"
+      #endif
+      #if axis_number_P10 > 6
+                 OR        M_K7AX_P10           ;"P10:memory 7th axis selected"
+      #endif
+      #if axis_number_P10 > 7
+                 OR        M_K8AX_P10           ;"P10:memory 8th axis selected"
+      #endif
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if axis_number_P11 > 2
+                 RD.STK    M_K3AX_P11           ;"P11:memory 3rd axis selected"
+      #if axis_number_P11 > 3
+                 OR        M_K4AX_P11           ;"P11:memory 4th axis selected"
+      #endif
+      #if axis_number_P11 > 6
+                 OR        M_K7AX_P11           ;"P11:memory 7th axis selected"
+      #endif
+      #if axis_number_P11 > 7
+                 OR        M_K8AX_P11           ;"P11:memory 8th axis selected"
+      #endif
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 2
+                 RD.STK    M_K3AX_P12           ;"P12:memory 3rd axis selected"
+      #if axis_number_P12 > 3
+                 OR        M_K4AX_P12           ;"P12:memory 4th axis selected"
+      #endif
+      #if axis_number_P12 > 6
+                 OR        M_K7AX_P12           ;"P12:memory 7th axis selected"
+      #endif
+      #if axis_number_P12 > 7
+                 OR        M_K8AX_P12           ;"P12:memory 8th axis selected"
+      #endif
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 2
+                 RD.STK    M_K3AX_P13           ;"P13:memory 3rd axis selected"
+      #if axis_number_P13 > 3
+                 OR        M_K4AX_P13           ;"P13:memory 4th axis selected"
+      #endif
+      #if axis_number_P13 > 6
+                 OR        M_K7AX_P13           ;"P13:memory 7th axis selected"
+      #endif
+      #if axis_number_P13 > 7
+                 OR        M_K8AX_P13           ;"P13:memory 8th axis selected"
+      #endif
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 2
+                 RD.STK    M_K3AX_P14           ;"P14:memory 3rd axis selected"
+      #if axis_number_P14 > 3
+                 OR        M_K4AX_P14           ;"P14:memory 4th axis selected"
+      #endif
+      #if axis_number_P14 > 6
+                 OR        M_K7AX_P14           ;"P14:memory 7th axis selected"
+      #endif
+      #if axis_number_P14 > 7
+                 OR        M_K8AX_P14           ;"P14:memory 8th axis selected"
+      #endif
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 2
+                 RD.STK    M_K3AX_P15           ;"P15:memory 3rd axis selected"
+      #if axis_number_P15 > 3
+                 OR        M_K4AX_P15           ;"P15:memory 4th axis selected"
+      #endif
+      #if axis_number_P15 > 6
+                 OR        M_K7AX_P15           ;"P15:memory 7th axis selected"
+      #endif
+      #if axis_number_P15 > 7
+                 OR        M_K8AX_P15           ;"P15:memory 8th axis selected"
+      #endif
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       T_BIT001             ;"temporary bit 001"
+
+                 RD.NOT    LOG1                 ;"logic one"
+#if axis_number_P01 > 4
+                 RD.STK    M_K5AX_P01           ;"memory 5th axis selected"
+      #if axis_number_P01 > 5
+                 OR        M_K6AX_P01           ;"memory 6th axis selected"
+      #endif
+      #if axis_number_P01 > 6
+                 OR        M_K7AX_P01           ;"memory 7th axis selected"
+      #endif
+      #if axis_number_P01 > 7
+                 OR        M_K8AX_P01           ;"memory 8th axis selected"
+      #endif
+                 AND       PATH_P01             ;"path 01 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 4
+                 RD.STK    M_K5AX_P02           ;"P02:memory 5th axis selected"
+      #if axis_number_P02 > 5
+                 OR        M_K6AX_P02           ;"P02:memory 6th axis selected"
+      #endif
+      #if axis_number_P02 > 6
+                 OR        M_K7AX_P02           ;"P02:memory 7th axis selected"
+      #endif
+      #if axis_number_P02 > 7
+                 OR        M_K8AX_P02           ;"P02:memory 8th axis selected"
+      #endif
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 4
+                 RD.STK    M_K5AX_P03           ;"P03:memory 5th axis selected"
+      #if axis_number_P03 > 5
+                 OR        M_K6AX_P03           ;"P03:memory 6th axis selected"
+      #endif
+      #if axis_number_P03 > 6
+                 OR        M_K7AX_P03           ;"P03:memory 7th axis selected"
+      #endif
+      #if axis_number_P03 > 7
+                 OR        M_K8AX_P03           ;"P03:memory 8th axis selected"
+      #endif
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 4
+                 RD.STK    M_K5AX_P04           ;"P04:memory 5th axis selected"
+      #if axis_number_P04 > 5
+                 OR        M_K6AX_P04           ;"P04:memory 6th axis selected"
+      #endif
+      #if axis_number_P04 > 6
+                 OR        M_K7AX_P04           ;"P04:memory 7th axis selected"
+      #endif
+      #if axis_number_P04 > 7
+                 OR        M_K8AX_P04           ;"P04:memory 8th axis selected"
+      #endif
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 4
+                 RD.STK    M_K5AX_P05           ;"P05:memory 5th axis selected"
+      #if axis_number_P05 > 5
+                 OR        M_K6AX_P05           ;"P05:memory 6th axis selected"
+      #endif
+      #if axis_number_P05 > 6
+                 OR        M_K7AX_P05           ;"P05:memory 7th axis selected"
+      #endif
+      #if axis_number_P05 > 7
+                 OR        M_K8AX_P05           ;"P05:memory 8th axis selected"
+      #endif
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 4
+                 RD.STK    M_K5AX_P06           ;"P06:memory 5th axis selected"
+      #if axis_number_P06 > 5
+                 OR        M_K6AX_P06           ;"P06:memory 6th axis selected"
+      #endif
+      #if axis_number_P06 > 6
+                 OR        M_K7AX_P06           ;"P06:memory 7th axis selected"
+      #endif
+      #if axis_number_P06 > 7
+                 OR        M_K8AX_P06           ;"P06:memory 8th axis selected"
+      #endif
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 4
+                 RD.STK    M_K5AX_P07           ;"P07:memory 5th axis selected"
+      #if axis_number_P07 > 5
+                 OR        M_K6AX_P07           ;"P07:memory 6th axis selected"
+      #endif
+      #if axis_number_P07 > 6
+                 OR        M_K7AX_P07           ;"P07:memory 7th axis selected"
+      #endif
+      #if axis_number_P07 > 7
+                 OR        M_K8AX_P07           ;"P07:memory 8th axis selected"
+      #endif
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 4
+                 RD.STK    M_K5AX_P08           ;"P08:memory 5th axis selected"
+      #if axis_number_P08 > 5
+                 OR        M_K6AX_P08           ;"P08:memory 6th axis selected"
+      #endif
+      #if axis_number_P08 > 6
+                 OR        M_K7AX_P08           ;"P08:memory 7th axis selected"
+      #endif
+      #if axis_number_P08 > 7
+                 OR        M_K8AX_P08           ;"P08:memory 8th axis selected"
+      #endif
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 4
+                 RD.STK    M_K5AX_P09           ;"P09:memory 5th axis selected"
+      #if axis_number_P09 > 5
+                 OR        M_K6AX_P09           ;"P09:memory 6th axis selected"
+      #endif
+      #if axis_number_P09 > 6
+                 OR        M_K7AX_P09           ;"P09:memory 7th axis selected"
+      #endif
+      #if axis_number_P09 > 7
+                 OR        M_K8AX_P09           ;"P09:memory 8th axis selected"
+      #endif
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 4
+                 RD.STK    M_K5AX_P10           ;"P10:memory 5th axis selected"
+      #if axis_number_P10 > 5
+                 OR        M_K6AX_P10           ;"P10:memory 6th axis selected"
+      #endif
+      #if axis_number_P10 > 6
+                 OR        M_K7AX_P10           ;"P10:memory 7th axis selected"
+      #endif
+      #if axis_number_P10 > 7
+                 OR        M_K8AX_P10           ;"P10:memory 8th axis selected"
+      #endif
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 4
+                 RD.STK    M_K5AX_P11           ;"P11:memory 5th axis selected"
+      #if axis_number_P11 > 5
+                 OR        M_K6AX_P11           ;"P11:memory 6th axis selected"
+      #endif
+      #if axis_number_P11 > 6
+                 OR        M_K7AX_P11           ;"P11:memory 7th axis selected"
+      #endif
+      #if axis_number_P11 > 7
+                 OR        M_K8AX_P11           ;"P11:memory 8th axis selected"
+      #endif
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 4
+                 RD.STK    M_K5AX_P12           ;"P12:memory 5th axis selected"
+      #if axis_number_P12 > 5
+                 OR        M_K6AX_P12           ;"P12:memory 6th axis selected"
+      #endif
+      #if axis_number_P12 > 6
+                 OR        M_K7AX_P12           ;"P12:memory 7th axis selected"
+      #endif
+      #if axis_number_P12 > 7
+                 OR        M_K8AX_P12           ;"P12:memory 8th axis selected"
+      #endif
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 4
+                 RD.STK    M_K5AX_P13           ;"P13:memory 5th axis selected"
+      #if axis_number_P13 > 5
+                 OR        M_K6AX_P13           ;"P13:memory 6th axis selected"
+      #endif
+      #if axis_number_P13 > 6
+                 OR        M_K7AX_P13           ;"P13:memory 7th axis selected"
+      #endif
+      #if axis_number_P13 > 7
+                 OR        M_K8AX_P13           ;"P13:memory 8th axis selected"
+      #endif
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 4
+                 RD.STK    M_K5AX_P14           ;"P14:memory 5th axis selected"
+      #if axis_number_P14 > 5
+                 OR        M_K6AX_P14           ;"P14:memory 6th axis selected"
+      #endif
+      #if axis_number_P14 > 6
+                 OR        M_K7AX_P14           ;"P14:memory 7th axis selected"
+      #endif
+      #if axis_number_P14 > 7
+                 OR        M_K8AX_P14           ;"P14:memory 8th axis selected"
+      #endif
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK    
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 4
+                 RD.STK    M_K5AX_P15           ;"P15:memory 5th axis selected"
+      #if axis_number_P15 > 5
+                 OR        M_K6AX_P15           ;"P15:memory 6th axis selected"
+      #endif
+      #if axis_number_P15 > 6
+                 OR        M_K7AX_P15           ;"P15:memory 7th axis selected"
+      #endif
+      #if axis_number_P15 > 7
+                 OR        M_K8AX_P15           ;"P15:memory 8th axis selected"
+      #endif
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK    
+   #endif
+#endif
+                 WRT       T_BIT002             ;"temporary bit 002"
+
+                 RD        RE_HMOP_ACT          ;"re hmop active"
+#if nbr_of_path > 1
+                 OR        PCHANGE              ;"path change"
+#endif
+                 MOVW      
+                           TMP_B00              ;"temporary byte 00"
+                           hactr_cnt            ;"hmop axes ctr count value"
+
+// ---------------------------------------------------------------------------
+// axis selection
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+axis selection
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// axes counter
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+axes counter
+*)
+   #endif
+                 RD        iH_KEY11             ;"hmop: key 11"
+                 WRT       H_KEY_AX             ;"hmop key XYZ456"
+
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    H_KEY_F1             ;"hmop key F1"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    H_KEY_AX             ;"hmop key XYZ456"
+                 CTRC      
+                           hactr_set            ;"hmop axes ctr preset"
+                           hactr_cnt            ;"hmop axes ctr count value"
+                 WRT       hmaxax               ;"hmop max nbr of axes"
+
+// ---------------------------------------------------------------------------
+// decoding actual selected axis
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+decoding actual selected axis
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 DECB      
+                           1
+                           hactr_cnt            ;"hmop axes ctr count value"
+                           0
+                           TMP_B00              ;"temporary byte 00"
+                 RD        T_BIT000             ;"temporary bit 000"
+                 WRT       K_1AX                ;"key 1st axis"
+                 RD        T_BIT001             ;"temporary bit 001"
+                 WRT       K_2AX                ;"key 2nd axis"
+                 RD        T_BIT002             ;"temporary bit 002"
+                 WRT       K_3AX                ;"key 3rd axis"
+                 RD        T_BIT003             ;"temporary bit 003"
+                 WRT       K_4AX                ;"key 4th axis"
+                 RD        T_BIT004             ;"temporary bit 004"
+                 WRT       K_5AX                ;"key 5th axis"
+                 RD        T_BIT005             ;"temporary bit 005"
+                 WRT       K_6AX                ;"key 6th axis"
+                 RD        T_BIT006             ;"temporary bit 006"
+                 WRT       K_7AX                ;"key 7th axis"
+                 RD        T_BIT007             ;"temporary bit 007"
+                 WRT       K_8AX                ;"key 8th axis"
+
+// ---------------------------------------------------------------------------
+// initialisation of increment factor counter
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+initialisation of increment factor counter
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           2
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD        X_10_P01             ;"P01:memory 10 increment"
+                 OR        X_1000_P01           ;"P01:memory 1000 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    X_10_P02             ;"P02:memory 10 increment"
+                 OR        X_1000_P02           ;"P02:memory 1000 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    X_10_P03             ;"P03:memory 10 increment"
+                 OR        X_1000_P03           ;"P03:memory 1000 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    X_10_P04             ;"P04:memory 10 increment"
+                 OR        X_1000_P04           ;"P04:memory 1000 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    X_10_P05             ;"P05:memory 10 increment"
+                 OR        X_1000_P05           ;"P05:memory 1000 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    X_10_P06             ;"P06:memory 10 increment"
+                 OR        X_1000_P06           ;"P06:memory 1000 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    X_10_P07             ;"P07:memory 10 increment"
+                 OR        X_1000_P07           ;"P07:memory 1000 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    X_10_P08             ;"P08:memory 10 increment"
+                 OR        X_1000_P08           ;"P08:memory 1000 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    X_10_P09             ;"P09:memory 10 increment"
+                 OR        X_1000_P09           ;"P09:memory 1000 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    X_10_P10             ;"P10:memory 10 increment"
+                 OR        X_1000_P10           ;"P10:memory 1000 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+
+#if nbr_of_path > 10
+                 RD.STK    X_10_P11             ;"P11:memory 10 increment"
+                 OR        X_1000_P11           ;"P11:memory 1000 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    X_10_P12             ;"P12:memory 10 increment"
+                 OR        X_1000_P12           ;"P12:memory 1000 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    X_10_P13             ;"P13:memory 10 increment"
+                 OR        X_1000_P13           ;"P13:memory 1000 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    X_10_P14             ;"P14:memory 10 increment"
+                 OR        X_1000_P14           ;"P14:memory 1000 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    X_10_P15             ;"P15:memory 10 increment"
+                 OR        X_1000_P15           ;"P15:memory 1000 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       T_BIT000             ;"temporary bit 000"
+
+                 RD        X_100_P01            ;"P01:memory 100 increment"
+                 OR        X_1000_P01           ;"P01:memory 1000 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    X_100_P02            ;"P02:memory 100 increment"
+                 OR        X_1000_P02           ;"P02:memory 1000 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    X_100_P03            ;"P03:memory 100 increment"
+                 OR        X_1000_P03           ;"P03:memory 1000 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    X_100_P04            ;"P04:memory 100 increment"
+                 OR        X_1000_P04           ;"P04:memory 1000 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    X_100_P05            ;"P05:memory 100 increment"
+                 OR        X_1000_P05           ;"P05:memory 1000 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    X_100_P06            ;"P06:memory 100 increment"
+                 OR        X_1000_P06           ;"P06:memory 1000 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    X_100_P07            ;"P07:memory 100 increment"
+                 OR        X_1000_P07           ;"P07:memory 1000 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    X_100_P08            ;"P08:memory 100 increment"
+                 OR        X_1000_P08           ;"P08:memory 1000 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    X_100_P09            ;"P09:memory 100 increment"
+                 OR        X_1000_P09           ;"P09:memory 1000 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    X_100_P10            ;"P10:memory 100 increment"
+                 OR        X_1000_P10           ;"P10:memory 1000 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+
+#if nbr_of_path > 10
+                 RD.STK    X_100_P11            ;"P11:memory 100 increment"
+                 OR        X_1000_P11           ;"P11:memory 1000 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    X_100_P12            ;"P12:memory 100 increment"
+                 OR        X_1000_P12           ;"P12:memory 1000 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    X_100_P13            ;"P13:memory 100 increment"
+                 OR        X_1000_P13           ;"P13:memory 1000 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    X_100_P14            ;"P14:memory 100 increment"
+                 OR        X_1000_P14           ;"P14:memory 1000 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    X_100_P15            ;"P15:memory 100 increment"
+                 OR        X_1000_P15           ;"P15:memory 1000 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       T_BIT001             ;"temporary bit 001"
+
+                 RD        RE_HMOP_ACT          ;"re hmop active"
+#if nbr_of_path > 1
+                 OR        PCHANGE              ;"path change"
+#endif
+                 MOVW
+                           TMP_B00              ;"temporary byte 00"
+                           CB100                ;"value ctrb 100"
+
+// ---------------------------------------------------------------------------
+// increment factor selection
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+increment factor selection
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// increment factor counter
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+increment factor counter
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    H_KEY_F1             ;"hmop key F1"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    iH_KEY31             ;"hmop: key 31"
+                 CTRB
+                           100
+                           3
+                 WRT       hmaxfact             ;"hmop max nbr of inc factor"
+
+// ---------------------------------------------------------------------------
+// decoding increment factor
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+decoding increment factor
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 DECB      
+                           1
+                           CB100                ;"value ctrb 100"
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD        T_BIT000             ;"temporary bit 000"
+                 WRT       K_X1                 ;"key 1 increment"
+
+                 RD        T_BIT001             ;"temporary bit 001"
+                 WRT       K_X10                ;"key 10 increment"
+
+                 RD        T_BIT002             ;"temporary bit 002"
+                 WRT       K_X100               ;"key 100 increment"
+
+                 RD        T_BIT003             ;"temporary bit 003"
+                 WRT       K_X1000              ;"key 1000 increment"
+
+// ---------------------------------------------------------------------------
+// decoding feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+initialisation of temporary variable
+*)
+#endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           2
+                           0
+                           TMP_B00              ;"temorary byte 00"
+
+#if net_comment == 1
+(*
+apply a mask to the feed override inputs
+*)
+#endif
+                 RD        iH_FOVR_EN           ;"hmop: feed override enable"
+                 MOVE
+                           0000
+                           1111
+                           iH_FOVR              ;"hmop: feed override"
+                           TMP_B00              ;"temorary byte 00"
+
+#if net_comment == 1
+(*
+decoding feed override to decimal value
+*)
+#endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic 1"
+                 CODB
+                           2
+                           16
+                           TMP_B00              ;"temorary byte 00"
+                           FOVRS                ;"feed override in %"
+                           0
+                           5
+                           10
+                           20
+                           30
+                           40
+                           50
+                           60
+                           70
+                           80
+                           90
+                           95
+                           100
+                           105
+                           110
+                           120
+                 WRT       hefovr               ;"error decoding feed override"
+
+#if spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// decoding the spindle override
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+decoding the spindle override
+*)
+   #endif
+
+// ---------------------------------------------------------------------------
+// initialisation of temporary variable
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+initialisation of temporary variable
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           2
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// copy spindle override to temp variable
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+copy spindle override to temp variable
+*)
+   #endif
+
+   #if spindle_support_P01 > 0
+                 RD        PATH_P01             ;"path 01 selected"
+                 MOVB
+                           SOV_P01              ;"P01:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+   #endif
+
+   #if nbr_of_path > 1
+      #if spindle_support_P02 > 0
+                 RD        PATH_P02             ;"path 02 selected"
+                 MOVB
+                           SOV_P02              ;"P02:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 > 0
+                 RD        PATH_P03             ;"path 03 selected"
+                 MOVB
+                           SOV_P03              ;"P03:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 > 0
+                 RD        PATH_P04             ;"path 04 selected"
+                 MOVB
+                           SOV_P04              ;"P04:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 > 0
+                 RD        PATH_P05             ;"path 05 selected"
+                 MOVB
+                           SOV_P05              ;"P05:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 > 0
+                 RD        PATH_P06             ;"path 06 selected"
+                 MOVB
+                           SOV_P06              ;"P06:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 > 0
+                 RD        PATH_P07             ;"path 07 selected"
+                 MOVB
+                           SOV_P07              ;"P07:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 > 0
+                 RD        PATH_P08             ;"path 08 selected"
+                 MOVB
+                           SOV_P08              ;"P08:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 > 0
+                 RD        PATH_P09             ;"path 09 selected"
+                 MOVB
+                           SOV_P09              ;"P09:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 > 0
+                 RD        PATH_P10             ;"path 10 selected"
+                 MOVB
+                           SOV_P10              ;"P10:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 > 0
+                 RD        PATH_P11             ;"path 11 selected"
+                 MOVB
+                           SOV_P11              ;"P11:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 > 0
+                 RD        PATH_P12             ;"path 12 selected"
+                 MOVB
+                           SOV_P12              ;"P12:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 > 0
+                 RD        PATH_P13             ;"path 13 selected"
+                 MOVB
+                           SOV_P13              ;"P13:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 > 0
+                 RD        PATH_P14             ;"path 14 selected"
+                 MOVB
+                           SOV_P14              ;"P14:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 > 0
+                 RD        PATH_P15             ;"path 15 selected"
+                 MOVB
+                           SOV_P15              ;"P15:spindle speed ovr signal"
+                           TMP_B00              ;"temporary byte 00"
+      #endif
+   #endif
+
+
+// ---------------------------------------------------------------------------
+// calculation of count value
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+calculation of count value
+value = override / 10 - 5 (0-7 -> 50-120%)
+*)
+   #endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    RE_HMOP_ACT          ;"re hmop active"
+#if nbr_of_path > 1
+                 OR        PCHANGE              ;"path change"
+#endif
+                 DIVB
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           10
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       hedsovr              ;"error divb spindle override"
+
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    RE_HMOP_ACT          ;"re hmop active"
+#if nbr_of_path > 1
+                 OR        PCHANGE              ;"path change"
+#endif
+                 SUBB
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           5
+                           CB099                ;"value ctrb 099"
+                 WRT       hesubsovr            ;"error subb spindle override"
+
+// ---------------------------------------------------------------------------
+// checking upper and lower limit of spindle override counter
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking upper and lower limit of spindle override counter
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 GEW
+                           CB099                ;"value ctrb 099"
+                           7
+                 WRT       hupspovr             ;"hmop max spindle ovr"
+
+                 RD        hupspovr             ;"hmop max spindle ovr"
+                 NUMEB
+                           2
+                           7
+                           CB099                ;"value ctrb 099"
+
+                 RD        iH_KEY23             ;"hmop: key 23"
+                 AND       H_KEY_F1             ;"hmop key F1"
+                 NUMEB     
+                           2
+                           5
+                           CB099                ;"value ctrb 099"
+
+                 RD        LOG1                 ;"logic one"
+                 LEW
+                           CB099                ;"value ctrb 099"
+                           0
+                 WRT       hdnspovr             ;"hmop min spindle ovr"
+
+                 RD        iH_KEY24             ;"hmop: key 24"
+                 AND       H_KEY_F1             ;"hmop key F1"
+                 OR        hdnspovr             ;"hmop min spindle ovr"
+                 NUMEB
+                           2
+                           0
+                           CB099                ;"value ctrb 099"
+
+// ---------------------------------------------------------------------------
+// spindle override counter
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+spindle override counter
+*)
+   #endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    iH_KEY24             ;"hmop: key 24"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    iH_KEY23             ;"hmop: key 23"
+                 AND.NOT   hupspovr             ;"hmop max spindle ovr"
+                 RD.STK    iH_KEY24             ;"hmop: key 24"
+                 AND.NOT   hdnspovr             ;"hmop min spindle ovr"
+                 OR.STK    
+                 CTRB
+                           99
+                           7
+                 WRT       hmaxsp               ;"hmop max spindle ovr"
+
+// ---------------------------------------------------------------------------
+// decoding spindle override conunter to decimal value
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+decoding spindle override conunter to decimal value
+*)
+   #endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic one"
+                 CODB
+                           1
+                           8
+                           CB099                ;"value ctrb 099"
+                           SOVRS                ;"spindle override in %"
+                           50
+                           60
+                           70
+                           80
+                           90
+                           100
+                           110
+                           120
+                 WRT       hesovr               ;"error decoding s-override"
+#endif

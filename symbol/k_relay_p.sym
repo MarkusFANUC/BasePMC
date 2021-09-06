@@ -1,0 +1,57 @@
+//:--------------------------------------------------------------------------:
+//: File              : k_relay__PATH__.sym                                      :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : symbols for the path specific keep relays            :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Keep Relay
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+NOREF1__PATH__,K000__ADDR__.0,__PATH__:no ref. return 1st axis,
+#if axis_number__PATH__ > 1
+NOREF2__PATH__,K000__ADDR__.1,__PATH__:no ref. return 2nd axis,
+#endif
+#if axis_number__PATH__ > 2
+NOREF3__PATH__,K000__ADDR__.2,__PATH__:no ref. return 3rd axis,
+#endif
+#if axis_number__PATH__ > 3
+NOREF4__PATH__,K000__ADDR__.3,__PATH__:no ref. return 4th axis,
+#endif
+#if axis_number__PATH__ > 4
+NOREF5__PATH__,K000__ADDR__.4,__PATH__:no ref. return 5th axis,
+#endif
+#if axis_number__PATH__ > 5
+NOREF6__PATH__,K000__ADDR__.5,__PATH__:no ref. return 6th axis,
+#endif
+#if axis_number__PATH__ > 6
+NOREF7__PATH__,K000__ADDR__.6,__PATH__:no ref. return 7th axis,
+#endif
+#if axis_number__PATH__ > 7
+NOREF8__PATH__,K000__ADDR__.7,__PATH__:no ref. return 8th axis,
+#endif
+
+
+

@@ -1,0 +1,287 @@
+//:--------------------------------------------------------------------------:
+//: File              : m_code.src                                           :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Decoding one m codes                                 :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// P01:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P01:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P01          ;"P01:m code decoding"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P02          ;"P02:m code decoding"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P03          ;"P03:m code decoding"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P04          ;"P04:m code decoding"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P05          ;"P05:m code decoding"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P06          ;"P06:m code decoding"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P07          ;"P07:m code decoding"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P08          ;"P08:m code decoding"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P09          ;"P09:m code decoding"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P10          ;"P10:m code decoding"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P11          ;"P11:m code decoding"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P12          ;"P12:m code decoding"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P13          ;"P13:m code decoding"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P14          ;"P14:m code decoding"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:m code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:m code decoding
+*)
+   #endif
+                 CALLU     M_Codes_P15          ;"P15:m code decoding"
+#endif
+
+// ---------------------------------------------------------------------------
+// message 2003 M-CODE OUT OF RANGE
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message 2003 M-CODE OUT OF RANGE
+*)
+#endif
+                 RD        M_NOK_P01            ;"P01:m-code out of range"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    M_NOK_P02            ;"P02:m-code out of range"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    M_NOK_P03            ;"P03:m-code out of range"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    M_NOK_P04            ;"P04:m-code out of range"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    M_NOK_P05            ;"P05:m-code out of range"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    M_NOK_P06            ;"P06:m-code out of range"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    M_NOK_P07            ;"P07:m-code out of range"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    M_NOK_P08            ;"P08:m-code out of range"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    M_NOK_P09            ;"P09:m-code out of range"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    M_NOK_P10            ;"P10:m-code out of range"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    M_NOK_P11            ;"P11:m-code out of range"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    M_NOK_P12            ;"P12:m-code out of range"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    M_NOK_P13            ;"P13:m-code out of range"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    M_NOK_P14            ;"P14:m-code out of range"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    M_NOK_P15            ;"P15:m-code out of range"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       M_2003               ;"m-code out of range"

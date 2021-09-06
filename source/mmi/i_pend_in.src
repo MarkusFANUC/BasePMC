@@ -1,0 +1,815 @@
+//:--------------------------------------------------------------------------:
+//: File              : i_pend_in.src                                        :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs iPendant for CNC                              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:05.01.15: 1.1.0 :Blp    :keys for incremental feed selection added        :
+//:        :       :       :restart of timer in case of falling edge of SOP  :
+//:--------------------------------------------------------------------------:
+//:27.07.18: 2.0.0 :Blp    :path 11-15 added, INC feed magnification         :
+//:        :       :       :always active, INC mode could not be selected    :
+//:        :       :       :in case of SOP, edit enable of SOP will be used  :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// Timeout iPendant
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+Timeout iPendant
+*)
+#endif
+                 RD        iP_KSALV         ;"ip: key state alive"
+                 AND.NOT   ipmksalv         ;"ip: mem key state alive"
+                 WRT       ipreksalv        ;"ip: re key state alive"
+
+                 RD.NOT    iP_KSALV         ;"ip: key state alive"
+                 AND       ipmksalv         ;"ip: mem key state alive"
+                 WRT       ipfeksalv        ;"ip: fe key state alive"
+
+                 RD        iP_KSALV         ;"ip: key state alive"
+                 WRT       ipmksalv         ;"ip: mem key state alive"
+
+                 RD.NOT    ipreksalv        ;"ip: re key state alive"
+                 AND.NOT   ipfeksalv        ;"ip: fe key state alive"
+#if soft_op_panel == 1
+                 AND.NOT   FE_SOP_ACT       ;"fe sop active"
+#endif
+                 AND       iP_ENB           ;"ip: operation on/off"
+                 TMRB      
+                           0
+                           1000
+                 WRT       iptimeout        ;"ip: time out"
+
+                 RD        iptimeout        ;"ip: time out"
+#if handwheel_support == 1
+                 OR        iP_MPGNG         ;"ip: mpg pulses invalid"
+#endif
+                 RD.STK    M_1004           ;"time out iPendant"
+                 AND.NOT   MESRST           ;"message reset"
+                 OR.STK    
+                 WRT       M_1004           ;"timeout iPendant"
+
+// ---------------------------------------------------------------------------
+// copying inputs to key map area
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+copying inputs to key map area
+*)
+#endif
+
+// ------------------------------------
+// memory protect key
+// ------------------------------------
+#if net_comment == 1
+(*
+memory protect key
+*)
+#endif
+#if soft_op_panel == 1
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+#else
+                 RD        LOG1                 ;"logic 1"
+                 WRT       K_PKEY               ;"memory protection key"
+#endif
+
+// ------------------------------------
+// RESET key
+// ------------------------------------
+#if net_comment == 1
+(*
+RESET key
+*)
+#endif
+                 RD        iP_K_10              ;"ip: key 10"
+                 AND       iP_KSRDY             ;"ip: key state notif."
+                 WRT       K_RST                ;"reset key"
+
+// ------------------------------------
+// key enable
+// ------------------------------------
+#if net_comment == 1
+(*
+key enable
+*)
+#endif
+                 RD        iP_KSRDY             ;"ip: key state notif."
+                 AND       iP_ENB               ;"ip: operation on/off"
+                 AND       iP_M_OPE             ;"ip: operation mode"
+                 WRT       ipkey_en             ;"ip: key enable"
+
+
+// ------------------------------------
+// key path sync
+// ------------------------------------
+   #if net_comment == 1
+(*
+key path sync
+*)
+   #endif
+                 RD        iP_K_20              ;"ip: key 20"
+                 OR        iP_K_21              ;"ip: key 21"
+                 AND       iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_PSYN               ;"key path sync"
+
+// ------------------------------------
+// key path+
+// ------------------------------------
+   #if net_comment == 1
+(*
+key path+
+*)
+   #endif
+                 RD        iP_K_20              ;"ip: key 20"
+                 AND.NOT   iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_PATH+              ;"key path plus"
+
+// ------------------------------------
+// key path-
+// ------------------------------------
+   #if nbr_of_path > 2
+      #if net_comment == 1
+(*
+key path-
+*)
+      #endif
+                 RD        iP_K_21              ;"ip: key 21"
+                 AND.NOT   iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_PATH-              ;"key path minus"
+   #endif
+
+// ------------------------------------
+// key mem mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key mem mode
+*)
+#endif
+                 RD        iP_K_76              ;"ip: key 76"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MMEM               ;"key mode mem"
+
+// ------------------------------------
+// key single block
+// ------------------------------------
+#if net_comment == 1
+(*
+key single block
+*)
+#endif
+                 RD        iP_K_12              ;"ip: key 12"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_SBK                ;"key single block"
+
+// ------------------------------------
+// key block skip
+// ------------------------------------
+#if net_comment == 1
+(*
+key block skip
+*)
+#endif
+                 RD        iP_K_16              ;"ip: key 16"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_SKIP               ;"key block skip"
+
+// ------------------------------------
+// key optional stop
+// ------------------------------------
+#if net_comment == 1
+(*
+key optional stop
+*)
+#endif
+                 RD        iP_K_53              ;"ip: key 53"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_OSTP               ;"key optional stop m01"
+
+// ------------------------------------
+// key dry run
+// ------------------------------------
+#if net_comment == 1
+(*
+key dry run
+*)
+#endif
+                 RD        iP_K_11              ;"ip: key 11"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_DRN                ;"key dry run"
+
+
+// ------------------------------------
+// key edit mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key edit mode
+*)
+#endif
+                 RD        iP_K_67              ;"ip: key 67"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MEDT               ;"key mode edit"
+
+// ------------------------------------
+// key mdi mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key mdi mode
+*)
+#endif
+                 RD        iP_K_72              ;"ip: key 72"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MMDI               ;"key mode mdi"
+
+// ------------------------------------
+// key jog mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key jog mode
+*)
+#endif
+                 RD        iP_K_83              ;"ip: key 83"
+                 AND.NOT   iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MJ                 ;"key mode jog"
+
+// ------------------------------------
+// key ref mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key ref mode
+*)
+#endif
+                 RD        iP_K_82              ;"ip: key 82"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MREF               ;"key mode ref"
+
+// ------------------------------------
+// key inc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key inc mode
+*)
+#endif
+                 RD        iP_K_83              ;"ip: key 83"
+                 AND       iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_INC                ;"key inc feed"
+
+#if handwheel_support > 0
+// ------------------------------------
+// key handle mode
+// ------------------------------------
+(*
+key handle mode
+*)
+                 RD        iP_K_80              ;"ip: key 80"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_HD                 ;"key handle"
+#endif
+
+// ------------------------------------
+// key teach in mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key teach in mode
+*)
+#endif
+                 RD        iP_K_81              ;"ip: key 81"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_TEACH              ;"key teach in"
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key cycle start
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle start
+*)
+#endif
+
+                 RD        iP_K_13              ;"ip: key 13"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_ST                 ;"key cycle start"
+
+// ------------------------------------
+// key cycle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle stop
+*)
+#endif
+                 RD        iP_K_14              ;"ip: key 14"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_CYSP               ;"key cycle stop"
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+
+// ------------------------------------
+// key 1 increment
+// ------------------------------------
+   #if net_comment == 1
+(*
+key 1 increment
+*)
+   #endif
+                 RD        iP_K_43              ;"ip: key 43"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_X1                 ;"key 1 increment"
+
+// ------------------------------------
+// key 10 increment
+// ------------------------------------
+   #if net_comment == 1
+(*
+key 10 increment
+*)
+   #endif
+                 RD        iP_K_44              ;"ip: key 44"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_X10                ;"key 10 increment"
+
+// ------------------------------------
+// key 100 increment
+// ------------------------------------
+   #if net_comment == 1
+(*
+key 100 increment
+*)
+   #endif
+                 RD        iP_K_45              ;"ip: key 45"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_X100               ;"key 100 increment"
+
+// ------------------------------------
+// key 1st axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 1st axis
+*)
+#endif
+                 RD        iP_K_54              ;"ip: key 54"
+                 OR        iP_K_55              ;"ip: key 55"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_1AX                ;"key 1st axis"
+
+// ------------------------------------
+// key 2nd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 2nd axis
+*)
+#endif
+                 RD        iP_K_15              ;"ip: key 15"
+                 OR        iP_K_60              ;"ip: key 60"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_2AX                ;"key 2nd axis"
+
+// ------------------------------------
+// key 3rd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 3rd axis
+*)
+#endif
+                 RD        iP_K_62              ;"ip: key 62"
+                 OR        iP_K_63              ;"ip: key 63"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_3AX                ;"key 3rd axis"
+
+// ------------------------------------
+// key 4th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 4th axis
+*)
+#endif
+                 RD        iP_K_65              ;"ip: key 65"
+                 OR        iP_K_66              ;"ip: key 66"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_4AX                ;"key 4th axis"
+
+// ------------------------------------
+// key 5th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 5th axis
+*)
+#endif
+                 RD        iP_K_70              ;"ip: key 70"
+                 OR        iP_K_71              ;"ip: key 71"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_5AX                ;"key 5th axis"
+
+// ------------------------------------
+// key 6th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 6th axis
+*)
+#endif
+                 RD        iP_K_73              ;"ip: key 73"
+                 OR        iP_K_74              ;"ip: key 74"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_6AX                ;"key 6th axis"
+
+
+// ------------------------------------
+// key axis + direction
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key axis + direction
+*)
+#endif
+                 RD        iP_K_55              ;"ip: key 55"
+                 OR        iP_K_60              ;"ip: key 60"
+                 OR        iP_K_63              ;"ip: key 63"
+                 OR        iP_K_66              ;"ip: key 66"
+                 OR        iP_K_71              ;"ip: key 71"
+                 OR        iP_K_74              ;"ip: key 74"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_PLUS               ;"key plus direction"
+
+// ------------------------------------
+// key axis - direction
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key axis - direction
+*)
+#endif
+                 RD        iP_K_54              ;"ip: key 54"
+                 OR        iP_K_15              ;"ip: key 15"
+                 OR        iP_K_62              ;"ip: key 62"
+                 OR        iP_K_65              ;"ip: key 65"
+                 OR        iP_K_70              ;"ip: key 70"
+                 OR        iP_K_73              ;"ip: key 73"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_MINUS              ;"key minus direction"
+
+// ------------------------------------
+// key rapid traverse
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key rapid traverse
+*)
+#endif
+                 RD        iP_K_54              ;"ip: key 54"
+                 OR        iP_K_55              ;"ip: key 55"
+                 OR        iP_K_15              ;"ip: key 15"
+                 OR        iP_K_60              ;"ip: key 60"
+                 OR        iP_K_62              ;"ip: key 62"
+                 OR        iP_K_63              ;"ip: key 63"
+                 OR        iP_K_65              ;"ip: key 65"
+                 OR        iP_K_66              ;"ip: key 66"
+                 OR        iP_K_70              ;"ip: key 70"
+                 OR        iP_K_71              ;"ip: key 71"
+                 OR        iP_K_73              ;"ip: key 73"
+                 OR        iP_K_74              ;"ip: key 74"
+                 AND       iP_K_07              ;"ip: key 07"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_RT                 ;"key rapid traverse"
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+#if spindle_support_P01 > -1
+// ------------------------------------
+// key spindle clockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: key spindle clockwise
+*)
+   #endif
+                 RD        iP_K_56              ;"ip: key 56"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_SPCW               ;"key spindle cw"
+
+// ------------------------------------
+// key spindle stop
+// ------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: key spindle stop
+*)
+   #endif
+                 RD        iP_K_61              ;"ip: key 61"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_SPSP               ;"key spindle stop"
+
+// ------------------------------------
+// key spindle counterclockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: key spindle counterclockwise
+*)
+   #endif
+                 RD        iP_K_64              ;"ip: key 64"
+                 AND       ipkey_en             ;"ip: key enable"
+                 WRT       K_SPCCW              ;"key spindle ccw"
+#endif
+
+// ---------------------------------------------------------------------------
+// decoding feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+moving feed override value to temporary variable
+*)
+#endif
+
+                 RD        PATH_P01             ;"path 01 selected"
+                 MOVW      
+                           ACTFOVR_P01          ;"P01:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#if nbr_of_path > 1
+                 RD        PATH_P02             ;"path 02 selected"
+                 MOVW      
+                           ACTFOVR_P02          ;"P02:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 2
+                 RD        PATH_P03             ;"path 03 selected"
+                 MOVW      
+                           ACTFOVR_P03          ;"P03:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 3
+                 RD        PATH_P04             ;"path 04 selected"
+                 MOVW      
+                           ACTFOVR_P04          ;"P04:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 4
+                 RD        PATH_P05             ;"path 05 selected"
+                 MOVW      
+                           ACTFOVR_P05          ;"P05:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 5
+                 RD        PATH_P06             ;"path 06 selected"
+                 MOVW      
+                           ACTFOVR_P06          ;"P06:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 6
+                 RD        PATH_P07             ;"path 07 selected"
+                 MOVW      
+                           ACTFOVR_P07          ;"P07:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 7
+                 RD        PATH_P08             ;"path 08 selected"
+                 MOVW      
+                           ACTFOVR_P08          ;"P08:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 8
+                 RD        PATH_P09             ;"path 09 selected"
+                 MOVW      
+                           ACTFOVR_P09          ;"P09:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 9
+                 RD        PATH_P10             ;"path 10 selected"
+                 MOVW      
+                           ACTFOVR_P10          ;"P10:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 10
+                 RD        PATH_P11             ;"path 11 selected"
+                 MOVW      
+                           ACTFOVR_P11          ;"P11:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 11
+                 RD        PATH_P12             ;"path 12 selected"
+                 MOVW      
+                           ACTFOVR_P12          ;"P12:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 12
+                 RD        PATH_P13             ;"path 13 selected"
+                 MOVW      
+                           ACTFOVR_P13          ;"P13:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 13
+                 RD        PATH_P14             ;"path 14 selected"
+                 MOVW      
+                           ACTFOVR_P14          ;"P14:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+#if nbr_of_path > 14
+                 RD        PATH_P15             ;"path 15 selected"
+                 MOVW      
+                           ACTFOVR_P15          ;"P15:acutal feed override in %"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+
+// ------------------------------------
+// checking if override value is within allowed range
+// ------------------------------------
+#if net_comment == 1
+(*
+checking if override value is within allowed range
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 RNGW      
+                           0
+                           120
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       ipovr_ok             ;"ip: override ok"
+
+
+
+                 RD.NOT    ipovr_ok             ;"ip: override ok"
+                 NUMEB     
+                           2
+                           100
+                           TMP_B00              ;"temporary byte 00"
+
+// ------------------------------------
+// calculation of the count value
+// value = override / 10 (0-12 -> 0 -120%)
+// ------------------------------------
+#if net_comment == 1
+(*
+calculation of the count value
+value = override / 10 (0-12 -> 0 -120%)
+*)
+#endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB      
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           10
+                           CB098                ;"value ctrb 098"
+                 WRT       ipdiverr             ;"ip division error"
+
+// ------------------------------------
+// if the value is not divisible by 10 add 1 to the value
+// ------------------------------------
+#if net_comment == 1
+(*
+if the value is not divisible by 10 add 1 to the value
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 GTD       
+                           REST                 ;"calculation remainder"
+                           0
+                 WRT       ipdivrest            ;"ip division rest"
+
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    ipdivrest            ;"ip division rest"
+                 ADDB      
+                           2
+                           CB098                ;"value ctrb 098"
+                           1
+                           CB098                ;"value ctrb 098"
+                 WRT       ipupfovr             ;"ip max feed override"
+
+// ------------------------------------
+// checking upper and lower limit of feed override
+// ------------------------------------
+#if net_comment == 1
+(*
+checking upper and lower limit of feed override
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 GEW
+                           CB098                ;"value ctrb 098"
+                           12
+                 WRT       ipupfovr             ;"ip max feed override"
+
+                 RD        ipupfovr             ;"ip max feed override"
+                 NUMEB
+                           2
+                           12
+                           CB098                ;"value ctrb 098"
+
+                 RD        iP_K_77              ;"ip: key 77"
+                 AND       iP_K_07              ;"ip: key 07"
+                 NUMEB
+                           2
+                           10
+                           CB098                ;"value ctrb 098"
+
+                 RD        LOG1                 ;"logic one"
+                 LEW
+                           CB098                ;"value ctrb 098"
+                           0
+                 WRT       ipdnfovr             ;"ip min feed override"
+
+                 RD        ipdnfovr             ;"ip min feed override"
+                 RD.STK    iP_K_07              ;"ip: key 07"
+                 AND       iP_K_75              ;"ip: key 75"
+                 OR.STK
+                 NUMEB
+                           2
+                           0
+                           CB098                ;"value ctrb 098"
+
+// ------------------------------------
+// feed override counter
+// ------------------------------------
+#if net_comment == 1
+(*
+feed override counter
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    iP_K_75              ;"ip: key 75"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    iP_K_77              ;"ip: key 77"
+                 AND.NOT   ipupfovr             ;"ip max feed override"
+                 RD.STK    iP_K_75              ;"ip: key 75"
+                 AND.NOT   ipdnfovr             ;"ip min feed override"
+                 OR.STK    
+                 AND       ipkey_en             ;"ip: key enable"
+                 CTRB
+                           98
+                           12
+                 WRT       ipmaxfovr            ;"ip max feed ovr"
+
+// ------------------------------------
+// feed override in % (steps of 10%)
+// ------------------------------------
+#if net_comment == 1
+(*
+feed override in % (steps of 10%)
+*)
+#endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB      
+                           2
+                           CB098                ;"value ctrb 098"
+                           10
+                           FOVRS                ;"feed override in %"
+                 WRT       ipefovr              ;"ip error decoding f-ovr"
+
+
+#if spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// decoding the spindle override
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+decoding the spindle override
+*)
+   #endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           1
+                           100
+                           SOVRS                ;"spindle override in %"
+
+#endif

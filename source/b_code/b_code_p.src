@@ -1,0 +1,80 @@
+//:--------------------------------------------------------------------------:
+//: File              : b_code__PATH__.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific B code support                         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// the b_code module uses the high speed M/S/T/B interface.
+// parameter setting: 3001 bit 7 = 1 (MHI)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+the b_code module uses the high speed M/S/T/B interface.
+parameter setting: 3001 bit 7 = 1 (MHI)
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal to the cnc
+*)
+#endif
+                 RD        b_fin__PATH__        ;"b code finished"
+                 AND       BF__PATH__           ;"2nd aux. function strobe"
+                 RD.STK.NOT b_fin__PATH__       ;"b code finished"
+                 AND       BFIN__PATH__         ;"2nd aux compl. signal"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       BFIN__PATH__         ;"2nd aux compl. signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: B code strobe
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: B code strobe
+*)
+#endif
+                 RD        BF__PATH__           ;"2nd aux. function strobe"
+                 AND.NOT   BFIN__PATH__         ;"2nd aux compl. signal"
+                 RD.STK.NOT BF__PATH__          ;"2nd aux. function strobe"
+                 AND       BFIN__PATH__         ;"2nd aux compl. signal"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       b_code__PATH__       ;"b code is active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition conditions
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition conditions
+*)
+#endif
+                 RD        b_code__PATH__       ;"b code is active"
+                 WRT       b_fin__PATH__        ;"b code finished"
+

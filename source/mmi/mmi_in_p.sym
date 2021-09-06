@@ -1,0 +1,150 @@
+//:--------------------------------------------------------------------------:
+//: File              : mmi_in__PATH__.sym                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : symbols of inputs man-machine-interface (path)       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :keys for one touch macro added                   :
+//:--------------------------------------------------------------------------:
+//:04.07.17: 2.0.0 :Blp    :variable K_MESRST added                          :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Internal Relay
+// ===========================================================================
+// -------------------------------------------------------
+// input map area variables R__ADDR__900.0 - R__ADDR__919.7 (global)
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+OPMAP__PATH__,R__ADDR__900,_PATH__:op map start address,
+FOVRS__PATH__,R__ADDR__916,_PATH__:feed override in %,
+SOVRS__PATH__,R__ADDR__918,_PATH__:spindle override in %,
+
+// -----------------------------------
+// bool
+// -----------------------------------
+K_MMEM__PATH__,R__ADDR__900.0,_PATH__:key mode mem,
+K_MEDT__PATH__,R__ADDR__900.1,_PATH__:key mode edit,
+K_MMDI__PATH__,R__ADDR__900.2,_PATH__:key mode mdi,
+K_DNC__PATH__,R__ADDR__900.3,_PATH__:key dnc operation mode,
+K_MREF__PATH__,R__ADDR__900.4,_PATH__:key mode ref,
+K_MJ__PATH__,R__ADDR__900.5,_PATH__:key mode jog,
+K_INC__PATH__,R__ADDR__900.6,_PATH__:key inc feed,
+K_HD__PATH__,R__ADDR__900.7,_PATH__:key handle,
+
+K_SBK__PATH__,R__ADDR__902.0,_PATH__:key single block,
+K_SKIP__PATH__,R__ADDR__902.1,_PATH__:key block skip,
+K_OSTP__PATH__,R__ADDR__902.2,_PATH__:key optional stop m01,
+K_PGMT__PATH__,R__ADDR__902.3,_PATH__:key program test,
+K_DRN__PATH__,R__ADDR__902.4,_PATH__:key dry run,
+K_REST__PATH__,R__ADDR__902.5,_PATH__:key program restart,
+K_TEACH__PATH__,R__ADDR__902.6,_PATH__:key teach in,
+
+K_ST__PATH__,R__ADDR__903.0,_PATH__:key cycle start,
+K_CYSP__PATH__,R__ADDR__903.1,_PATH__:key cycle stop,
+K_PGSP__PATH__,R__ADDR__903.2,_PATH__:pgm stop key,
+
+K_RST__PATH__,R__ADDR__903.3,_PATH__:reset key,
+
+#if handwheel_support == 2
+K_MESRST__PATH__,R__ADDR__903.7,_PATH__:message reset key,
+#endif
+
+K_1AX__PATH__,R__ADDR__904.0,_PATH__:key 1st axis,
+#if axis_number__PATH__ > 1
+K_2AX__PATH__,R__ADDR__904.1,_PATH__:key 2nd axis,
+#endif
+#if axis_number__PATH__ > 2
+K_3AX__PATH__,R__ADDR__904.2,_PATH__:key 3rd axis,
+#endif
+#if axis_number__PATH__ > 3
+K_4AX__PATH__,R__ADDR__904.3,_PATH__:key 4th axis,
+#endif
+#if axis_number__PATH__ > 4
+K_5AX__PATH__,R__ADDR__904.4,_PATH__:key 5th axis,
+#endif
+#if axis_number__PATH__ > 5
+K_6AX__PATH__,R__ADDR__904.5,_PATH__:key 6th axis,
+#endif
+#if axis_number__PATH__ > 6
+K_7AX__PATH__,R__ADDR__904.6,_PATH__:key 7th axis,
+#endif
+#if axis_number__PATH__ > 7
+K_8AX__PATH__,R__ADDR__904.7,_PATH__:key 8th axis,
+#endif
+
+K_X1__PATH__,R__ADDR__905.0,_PATH__:key 1 increment,
+K_X10__PATH__,R__ADDR__905.1,_PATH__:key 10 increment,
+K_X100__PATH__,R__ADDR__905.2,_PATH__:key 100 increment,
+K_X1000__PATH__,R__ADDR__905.3,_PATH__:key 1000 increment,
+
+K_RT__PATH__,R__ADDR__905.5,_PATH__:key rapid traverse,
+K_PLUS__PATH__,R__ADDR__905.6,_PATH__:key plus direction,
+K_MINUS__PATH__,R__ADDR__905.7,_PATH__:key minus direction,
+
+#if coolant_support__PATH__ == 1 && coolant_support_P01 > -1
+K_COOL__PATH__,R__ADDR__906.0,_PATH__:key coolant on / off,
+#endif
+
+#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
+K_SPCW__PATH__,R__ADDR__907.0,_PATH__:key spindle cw,
+K_SPCCW__PATH__,R__ADDR__907.1,_PATH__:key spindle ccw,
+K_SPSP__PATH__,R__ADDR__907.2,_PATH__:key spindle stop,
+#endif
+
+#if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
+K_MC1__PATH__,R__ADDR__908.1,_PATH__:key macro call 1,
+K_MC2__PATH__,R__ADDR__908.2,_PATH__:key macro call 2,
+K_MC3__PATH__,R__ADDR__908.3,_PATH__:key macro call 3,
+K_MC4__PATH__,R__ADDR__908.4,_PATH__:key macro call 4,
+#endif

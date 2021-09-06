@@ -1,0 +1,94 @@
+//:--------------------------------------------------------------------------:
+//: File              : mmi_out.src                                          :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Outputs man-machine-interface                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// mmi outputs
+// ---------------------------------------------------------------------------
+#if operatorspanel == 1                         // small operator's panel
+   #if net_comment == 1
+(*
+_PATH__: outputs small operator panel
+*)
+   #endif
+
+                 CALLU     Op_Keyb_30_Out       ;"op. 30-key outputs"
+#endif
+
+#if operatorspanel == 2                         // standard operator's panel
+   #if net_comment == 1
+(*
+outputs standard operator panel
+*)
+   #endif
+
+                 CALLU     Op_Keyb_55_Out       ;"op. 55-key outputs"
+#endif
+
+#if handwheel_support == 2
+                 CALLU     Hmop_Out             ;"hmop outputs"
+#endif
+
+// ---------------------------------------------------------------------------
+// led's of path switching
+// ---------------------------------------------------------------------------
+#if operatorspanel < 2
+   #if nbr_of_path > 1
+      #if net_comment == 1
+(*
+led path switching
+*)
+      #endif
+      #if nbr_of_path == 2
+                 RD        PATH_P02             ;"path 02 selected"
+                 WRT       oPathP_Lamp          ;"lamp path plus"
+      #endif
+      #if nbr_of_path > 2
+                 RD        K_PATH+              ;"key path plus"
+                 WRT       oPathP_Lamp          ;"lamp path plus"
+
+                 RD        K_PATH-              ;"key path minus"
+                 WRT       oPathM_Lamp          ;"lamp path minus"
+      #endif
+                 RD        PATHSYN              ;"Path syncronization signal"
+                 WRT       oPathSynLamp         ;"lamp path sync."
+   #endif
+#endif
+
+
+#if dcs_support == 1
+   #if operatorspanel != 2
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+_PATH__: protection door
+*)
+      #endif
+                 RD        L_DOOR               ;"key unlock prot. door"
+                 WRT       oDoorLamp            ;"lamp prot. door"
+   #endif
+#endif

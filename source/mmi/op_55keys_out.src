@@ -1,0 +1,5000 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55keys_out.src                                    :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Outputs operator's panel with 55-keys                :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:03.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :led for one touch macro added                    :
+//:--------------------------------------------------------------------------:
+//:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// led's of path switching
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+led path switching
+*)
+   #endif
+   #if nbr_of_path == 2
+                 RD        PATH_P02             ;"path 02 selected"
+                 WRT       oF_L_D02             ;"op55: led D02"
+   #endif
+   #if nbr_of_path > 2
+                 RD        K_PATH+              ;"key path plus"
+                 WRT       oF_L_D02             ;"op55: led D02"
+
+                 RD        K_PATH-              ;"key path minus"
+                 WRT       oF_L_D03             ;"op55: led D03"
+   #endif
+                 RD        PATHSYN              ;"Path syncronization signal"
+                 WRT       oF_L_D01             ;"op55: led D01"
+#endif
+
+#if start_address_op == 0
+// ------------------------------------
+// led PROT key for panel emulation
+// ------------------------------------
+   #if net_comment == 1
+(*
+led protection key for panel emulation
+*)
+   #endif
+                 RD        L_PKEY               ;"led protection key"
+                 WRT       oF_L_A12             ;"op55: led A12"
+
+// ------------------------------------
+// led RST for panel emulation
+// ------------------------------------
+   #if net_comment == 1
+(*
+led reset for panel emulation
+*)
+   #endif
+                 RD        L_RST_P01            ;"led rst key"
+                 AND       PATH_P01             ;"path 01 selected"
+   #if nbr_of_path > 1
+                 RD.STK    L_RST_P02            ;"led rst key"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 2
+                 RD.STK    L_RST_P03            ;"led rst key"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 3
+                 RD.STK    L_RST_P04            ;"led rst key"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 4
+                 RD.STK    L_RST_P05            ;"led rst key"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 5
+                 RD.STK    L_RST_P06            ;"led rst key"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 6
+                 RD.STK    L_RST_P07            ;"led rst key"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 7
+                 RD.STK    L_RST_P08            ;"led rst key"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 8
+                 RD.STK    L_RST_P09            ;"led rst key"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 9
+                 RD.STK    L_RST_P10            ;"led rst key"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 10
+                 RD.STK    L_RST_P11            ;"led rst key"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 11
+                 RD.STK    L_RST_P12            ;"led rst key"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 12
+                 RD.STK    L_RST_P13            ;"led rst key"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 13
+                 RD.STK    L_RST_P14            ;"led rst key"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 14
+                 RD.STK    L_RST_P15            ;"led rst key"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+                 WRT       oF_L_B12             ;"op55: led B12"
+
+// ------------------------------------
+// led EMG for panel emulation
+// ------------------------------------
+   #if net_comment == 1
+(*
+led emergency stop for panel emulation
+*)
+   #endif
+                 RD        L_EMG_P01            ;"led emg stop key"
+                 AND       PATH_P01             ;"path 01 selected"
+   #if nbr_of_path > 1
+                 RD.STK    L_EMG_P02            ;"led emg stop key"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 2
+                 RD.STK    L_EMG_P03            ;"led emg stop key"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 3
+                 RD.STK    L_EMG_P04            ;"led emg stop key"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 4
+                 RD.STK    L_EMG_P05            ;"led emg stop key"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 5
+                 RD.STK    L_EMG_P06            ;"led emg stop key"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 6
+                 RD.STK    L_EMG_P07            ;"led emg stop key"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 7
+                 RD.STK    L_EMG_P08            ;"led emg stop key"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 8
+                 RD.STK    L_EMG_P09            ;"led emg stop key"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 9
+                 RD.STK    L_EMG_P10            ;"led emg stop key"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 10
+                 RD.STK    L_EMG_P11            ;"led emg stop key"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 11
+                 RD.STK    L_EMG_P12            ;"led emg stop key"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 12
+                 RD.STK    L_EMG_P13            ;"led emg stop key"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 13
+                 RD.STK    L_EMG_P14            ;"led emg stop key"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 14
+                 RD.STK    L_EMG_P15            ;"led emg stop key"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+                 WRT       oF_L_C12             ;"op55: led C12"
+#endif
+
+// ---------------------------------------------------------------------------
+// led software operator panel active
+// ---------------------------------------------------------------------------
+#if operatorspanel == 0 || soft_op_panel == 1
+   #if net_comment == 1
+(*
+led software operator panel active
+*)
+   #endif
+                 RD        L_SOPRUN             ;"led sop key"
+                 WRT       oF_L_D12             ;"op55: led D12"
+#endif
+
+// ---------------------------------------------------------------------------
+// led's of operating modes
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// led mem mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led mem mode
+*)
+#endif
+                 RD        L_MMEM_P01           ;"led mode mem"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_MMEM_P02           ;"led mode mem"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_MMEM_P03           ;"led mode mem"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_MMEM_P04           ;"led mode mem"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_MMEM_P05           ;"led mode mem"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_MMEM_P06           ;"led mode mem"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_MMEM_P07           ;"led mode mem"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_MMEM_P08           ;"led mode mem"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_MMEM_P09           ;"led mode mem"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_MMEM_P10           ;"led mode mem"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_MMEM_P11           ;"led mode mem"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_MMEM_P12           ;"led mode mem"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_MMEM_P13           ;"led mode mem"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_MMEM_P14           ;"led mode mem"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_MMEM_P15           ;"led mode mem"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A01             ;"op55: led A01"
+
+// ------------------------------------
+// led edit mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led edit mode
+*)
+#endif
+                 RD        L_MEDT_P01           ;"led mode edit"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_MEDT_P02           ;"led mode edit"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_MEDT_P03           ;"led mode edit"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_MEDT_P04           ;"led mode edit"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_MEDT_P05           ;"led mode edit"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_MEDT_P06           ;"led mode edit"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_MEDT_P07           ;"led mode edit"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_MEDT_P08           ;"led mode edit"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_MEDT_P09           ;"led mode edit"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_MEDT_P10           ;"led mode edit"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_MEDT_P11           ;"led mode edit"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_MEDT_P12           ;"led mode edit"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_MEDT_P13           ;"led mode edit"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_MEDT_P14           ;"led mode edit"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_MEDT_P15           ;"led mode edit"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A02             ;"op55: led A02"
+
+// ------------------------------------
+// led mdi mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led mdi mode
+*)
+#endif
+                 RD        L_MMDI_P01           ;"led mode mdi"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_MMDI_P02           ;"led mode mdi"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_MMDI_P03           ;"led mode mdi"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_MMDI_P04           ;"led mode mdi"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_MMDI_P05           ;"led mode mdi"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_MMDI_P06           ;"led mode mdi"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_MMDI_P07           ;"led mode mdi"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_MMDI_P08           ;"led mode mdi"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_MMDI_P09           ;"led mode mdi"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_MMDI_P10           ;"led mode mdi"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_MMDI_P11           ;"led mode mdi"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_MMDI_P12           ;"led mode mdi"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_MMDI_P13           ;"led mode mdi"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_MMDI_P14           ;"led mode mdi"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_MMDI_P15           ;"led mode mdi"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A03             ;"op55: led A03"
+
+// ------------------------------------
+// led dnc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led dnc mode
+*)
+#endif
+                 RD        L_DNC_P01            ;"led dnc operation"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_DNC_P02            ;"led dnc operation"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_DNC_P03            ;"led dnc operation"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_DNC_P04            ;"led dnc operation"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_DNC_P05            ;"led dnc operation"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_DNC_P06            ;"led dnc operation"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_DNC_P07            ;"led dnc operation"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_DNC_P08            ;"led dnc operation"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_DNC_P09            ;"led dnc operation"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_DNC_P10            ;"led dnc operation"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_DNC_P11            ;"led dnc operation"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_DNC_P12            ;"led dnc operation"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_DNC_P13            ;"led dnc operation"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_DNC_P14            ;"led dnc operation"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_DNC_P15            ;"led dnc operation"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A04             ;"op55: led A04"
+
+// ------------------------------------
+// led single block
+// ------------------------------------
+#if net_comment == 1
+(*
+led single block
+*)
+#endif
+                 RD        L_SBK_P01            ;"led single block"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_SBK_P02            ;"led single block"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_SBK_P03            ;"led single block"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_SBK_P04            ;"led single block"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_SBK_P05            ;"led single block"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_SBK_P06            ;"led single block"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_SBK_P07            ;"led single block"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_SBK_P08            ;"led single block"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_SBK_P09            ;"led single block"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_SBK_P10            ;"led single block"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_SBK_P11            ;"led single block"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_SBK_P12            ;"led single block"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_SBK_P13            ;"led single block"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_SBK_P14            ;"led single block"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_SBK_P15            ;"led single block"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B01             ;"op55: led B01"
+
+// ------------------------------------
+// led block skip
+// ------------------------------------
+#if net_comment == 1
+(*
+led block skip
+*)
+#endif
+                 RD        L_SKIP_P01           ;"led block skip"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_SKIP_P02           ;"led block skip"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_SKIP_P03           ;"led block skip"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_SKIP_P04           ;"led block skip"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_SKIP_P05           ;"led block skip"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_SKIP_P06           ;"led block skip"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_SKIP_P07           ;"led block skip"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_SKIP_P08           ;"led block skip"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_SKIP_P09           ;"led block skip"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_SKIP_P10           ;"led block skip"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_SKIP_P11           ;"led block skip"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_SKIP_P12           ;"led block skip"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_SKIP_P13           ;"led block skip"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_SKIP_P14           ;"led block skip"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_SKIP_P15           ;"led block skip"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B02             ;"op55: led B02"
+
+// ------------------------------------
+// led optional stop
+// ------------------------------------
+#if net_comment == 1
+(*
+led optional stop
+*)
+#endif
+                 RD        L_OSTP_P01           ;"led optional stop m01"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_OSTP_P02           ;"led optional stop m01"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_OSTP_P03           ;"led optional stop m01"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_OSTP_P04           ;"led optional stop m01"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_OSTP_P05           ;"led optional stop m01"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_OSTP_P06           ;"led optional stop m01"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_OSTP_P07           ;"led optional stop m01"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_OSTP_P08           ;"led optional stop m01"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_OSTP_P09           ;"led optional stop m01"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_OSTP_P10           ;"led optional stop m01"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_OSTP_P11           ;"led optional stop m01"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_OSTP_P12           ;"led optional stop m01"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_OSTP_P13           ;"led optional stop m01"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_OSTP_P14           ;"led optional stop m01"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_OSTP_P15           ;"led optional stop m01"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B03             ;"op55: led B03"
+
+// ------------------------------------
+// led program restart
+// ------------------------------------
+#if net_comment == 1
+(*
+led program restart
+*)
+#endif
+                 RD        L_REST_P01           ;"led program restart"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_REST_P02           ;"led program restart"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_REST_P03           ;"led program restart"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_REST_P04           ;"led program restart"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_REST_P05           ;"led program restart"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_REST_P06           ;"led program restart"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_REST_P07           ;"led program restart"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_REST_P08           ;"led program restart"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_REST_P09           ;"led program restart"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_REST_P10           ;"led program restart"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_REST_P11           ;"led program restart"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_REST_P12           ;"led program restart"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_REST_P13           ;"led program restart"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_REST_P14           ;"led program restart"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_REST_P15           ;"led program restart"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_C01             ;"op55: led C01"
+
+// ------------------------------------
+// led program test
+// ------------------------------------
+#if net_comment == 1
+(*
+led program test
+*)
+#endif
+                 RD        L_PGMT_P01           ;"led program test"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_PGMT_P02           ;"led program test"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_PGMT_P03           ;"led program test"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_PGMT_P04           ;"led program test"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_PGMT_P05           ;"led program test"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_PGMT_P06           ;"led program test"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_PGMT_P07           ;"led program test"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_PGMT_P08           ;"led program test"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_PGMT_P09           ;"led program test"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_PGMT_P10           ;"led program test"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_PGMT_P11           ;"led program test"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_PGMT_P12           ;"led program test"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_PGMT_P13           ;"led program test"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_PGMT_P14           ;"led program test"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_PGMT_P15           ;"led program test"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_C02             ;"op55: led C02"
+
+// ------------------------------------
+// led dry run
+// ------------------------------------
+#if net_comment == 1
+(*
+led dry run
+*)
+#endif
+                 RD        L_DRN_P01            ;"led dry run"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_DRN_P02            ;"led dry run"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_DRN_P03            ;"led dry run"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_DRN_P04            ;"led dry run"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_DRN_P05            ;"led dry run"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_DRN_P06            ;"led dry run"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_DRN_P07            ;"led dry run"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_DRN_P08            ;"led dry run"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_DRN_P09            ;"led dry run"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_DRN_P10            ;"led dry run"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_DRN_P11            ;"led dry run"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_DRN_P12            ;"led dry run"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_DRN_P13            ;"led dry run"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_DRN_P14            ;"led dry run"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_DRN_P15            ;"led dry run"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_C03             ;"op55: led C03"
+
+// ------------------------------------
+// led ref mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led ref mode
+*)
+#endif
+#if ref_dir_1st_axis_P01 == -1
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_MREF_P01           ;"led mode ref"
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if ref_dir_1st_axis_P02 > -1
+                 RD.STK    L_MREF_P02           ;"led mode ref"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if ref_dir_1st_axis_P03 > -1
+                 RD.STK    L_MREF_P03           ;"led mode ref"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if ref_dir_1st_axis_P04 > -1
+                 RD.STK    L_MREF_P04           ;"led mode ref"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if ref_dir_1st_axis_P05 > -1
+                 RD.STK    L_MREF_P05           ;"led mode ref"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if ref_dir_1st_axis_P06 > -1
+                 RD.STK    L_MREF_P06           ;"led mode ref"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if ref_dir_1st_axis_P07 > -1
+                 RD.STK    L_MREF_P07           ;"led mode ref"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if ref_dir_1st_axis_P08 > -1
+                 RD.STK    L_MREF_P08           ;"led mode ref"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if ref_dir_1st_axis_P09 > -1
+                 RD.STK    L_MREF_P09           ;"led mode ref"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if ref_dir_1st_axis_P10 > -1
+                 RD.STK    L_MREF_P10           ;"led mode ref"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if ref_dir_1st_axis_P11 > -1
+                 RD.STK    L_MREF_P11           ;"led mode ref"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if ref_dir_1st_axis_P12 > -1
+                 RD.STK    L_MREF_P12           ;"led mode ref"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if ref_dir_1st_axis_P13 > -1
+                 RD.STK    L_MREF_P13           ;"led mode ref"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if ref_dir_1st_axis_P14 > -1
+                 RD.STK    L_MREF_P14           ;"led mode ref"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if ref_dir_1st_axis_P15 > -1
+                 RD.STK    L_MREF_P15           ;"led mode ref"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_A05             ;"op55: led A05"
+
+// ------------------------------------
+// led jog mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led jog mode
+*)
+#endif
+                 RD        L_MJ_P01             ;"led mode jog"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_MJ_P02             ;"led mode jog"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_MJ_P03             ;"led mode jog"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_MJ_P04             ;"led mode jog"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_MJ_P05             ;"led mode jog"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_MJ_P06             ;"led mode jog"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_MJ_P07             ;"led mode jog"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_MJ_P08             ;"led mode jog"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_MJ_P09             ;"led mode jog"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_MJ_P10             ;"led mode jog"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_MJ_P11             ;"led mode jog"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_MJ_P12             ;"led mode jog"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_MJ_P13             ;"led mode jog"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_MJ_P14             ;"led mode jog"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_MJ_P15             ;"led mode jog"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A06             ;"op55: led A06"
+
+// ------------------------------------
+// led inc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led inc mode
+*)
+#endif
+                 RD        L_INC_P01            ;"led mode inc"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_INC_P02            ;"led mode inc"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_INC_P03            ;"led mode inc"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_INC_P04            ;"led mode inc"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_INC_P05            ;"led mode inc"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_INC_P06            ;"led mode inc"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_INC_P07            ;"led mode inc"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_INC_P08            ;"led mode inc"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_INC_P09            ;"led mode inc"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_INC_P10            ;"led mode inc"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_INC_P11            ;"led mode inc"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_INC_P12            ;"led mode inc"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_INC_P13            ;"led mode inc"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_INC_P14            ;"led mode inc"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_INC_P15            ;"led mode inc"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_A07             ;"op55: led A07"
+
+#if handwheel_support > 0
+// ------------------------------------
+// led handle mode
+// ------------------------------------
+   #if net_comment == 1
+(*
+led handle mode
+*)
+   #endif
+                 RD        L_HD_P01             ;"led mode handle"
+                 AND       PATH_P01             ;"path 01 selected"
+   #if nbr_of_path > 1
+                 RD.STK    L_HD_P02             ;"led mode handle"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 2
+                 RD.STK    L_HD_P03             ;"led mode handle"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 3
+                 RD.STK    L_HD_P04             ;"led mode handle"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 4
+                 RD.STK    L_HD_P05             ;"led mode handle"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 5
+                 RD.STK    L_HD_P06             ;"led mode handle"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 6
+                 RD.STK    L_HD_P07             ;"led mode handle"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 7
+                 RD.STK    L_HD_P08             ;"led mode handle"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 8
+                 RD.STK    L_HD_P09             ;"led mode handle"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 9
+                 RD.STK    L_HD_P10             ;"led mode handle"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 10
+                 RD.STK    L_HD_P11             ;"led mode handle"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 11
+                 RD.STK    L_HD_P12             ;"led mode handle"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 12
+                 RD.STK    L_HD_P13             ;"led mode handle"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 13
+                 RD.STK    L_HD_P14             ;"led mode handle"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+   #if nbr_of_path > 14
+                 RD.STK    L_HD_P15             ;"led mode handle"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+                 WRT       oF_L_A08             ;"op55: led A08"
+#endif
+
+// ------------------------------------
+// led teach in mode
+// ------------------------------------
+#if net_comment == 1
+(*
+led teach in mode
+*)
+#endif
+                 RD        L_TEACH_P01          ;"led teach in mode"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_TEACH_P02          ;"led teach in mode"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_TEACH_P03          ;"led teach in mode"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_TEACH_P04          ;"led teach in mode"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_TEACH_P05          ;"led teach in mode"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_TEACH_P06          ;"led teach in mode"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_TEACH_P07          ;"led teach in mode"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_TEACH_P08          ;"led teach in mode"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_TEACH_P09          ;"led teach in mode"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_TEACH_P10          ;"led teach in mode"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_TEACH_P11          ;"led teach in mode"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_TEACH_P12          ;"led teach in mode"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_TEACH_P13          ;"led teach in mode"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_TEACH_P14          ;"led teach in mode"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_TEACH_P15          ;"led teach in mode"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B04             ;"op55: led B04"
+
+// ---------------------------------------------------------------------------
+// led's of nc control
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// led cycle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+led cycle stop
+*)
+#endif
+                 RD        L_SPL_P01            ;"led cycle stop"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_SPL_P02            ;"led cycle stop"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_SPL_P03            ;"led cycle stop"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_SPL_P04            ;"led cycle stop"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_SPL_P05            ;"led cycle stop"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_SPL_P06            ;"led cycle stop"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_SPL_P07            ;"led cycle stop"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_SPL_P08            ;"led cycle stop"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_SPL_P09            ;"led cycle stop"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_SPL_P10            ;"led cycle stop"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_SPL_P11            ;"led cycle stop"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_SPL_P12            ;"led cycle stop"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_SPL_P13            ;"led cycle stop"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_SPL_P14            ;"led cycle stop"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_SPL_P15            ;"led cycle stop"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_E01             ;"op55: led E01"
+
+// ------------------------------------
+// led cycle start
+// ------------------------------------
+#if net_comment == 1
+(*
+led cycle start
+*)
+#endif
+                 RD        L_STL_P01            ;"led cycle start lamp"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_STL_P02            ;"led cycle start lamp"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_STL_P03            ;"led cycle start lamp"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_STL_P04            ;"led cycle start lamp"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_STL_P05            ;"led cycle start lamp"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_STL_P06            ;"led cycle start lamp"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_STL_P07            ;"led cycle start lamp"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_STL_P08            ;"led cycle start lamp"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_STL_P09            ;"led cycle start lamp"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_STL_P10            ;"led cycle start lamp"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_STL_P11            ;"led cycle start lamp"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_STL_P12            ;"led cycle start lamp"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_STL_P13            ;"led cycle start lamp"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_STL_P14            ;"led cycle start lamp"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_STL_P15            ;"led cycle start lamp"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_E02             ;"op55: led E02"
+
+// ------------------------------------
+// led program stop
+// ------------------------------------
+#if net_comment == 1
+(*
+led program stop
+*)
+#endif
+                 RD        L_PGSP_P01           ;"led program stop"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_PGSP_P02           ;"led program stop"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_PGSP_P03           ;"led program stop"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_PGSP_P04           ;"led program stop"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_PGSP_P05           ;"led program stop"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_PGSP_P06           ;"led program stop"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_PGSP_P07           ;"led program stop"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_PGSP_P08           ;"led program stop"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_PGSP_P09           ;"led program stop"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_PGSP_P10           ;"led program stop"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_PGSP_P11           ;"led program stop"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_PGSP_P12           ;"led program stop"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_PGSP_P13           ;"led program stop"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_PGSP_P14           ;"led program stop"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_PGSP_P15           ;"led program stop"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_E03             ;"op55: led E03"
+
+#if otmc_support_P01 > -1
+// ---------------------------------------------------------------------------
+// one touch macro call
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// led macro call 1
+// ------------------------------------
+   #if net_comment == 1
+(*
+led custom macro call 1
+*)
+   #endif
+
+   #if otmc_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_MC1_P01            ;"led macro call 1"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if otmc_support_P02 == 1
+                 RD.STK    L_MC1_P02            ;"led macro call 1"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if otmc_support_P03 == 1
+                 RD.STK    L_MC1_P03            ;"led macro call 1"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if otmc_support_P04 == 1
+                 RD.STK    L_MC1_P04            ;"led macro call 1"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if otmc_support_P05 == 1
+                 RD.STK    L_MC1_P05            ;"led macro call 1"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if otmc_support_P06 == 1
+                 RD.STK    L_MC1_P06            ;"led macro call 1"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if otmc_support_P07 == 1
+                 RD.STK    L_MC1_P07            ;"led macro call 1"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if otmc_support_P08 == 1
+                 RD.STK    L_MC1_P08            ;"led macro call 1"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if otmc_support_P09 == 1
+                 RD.STK    L_MC1_P09            ;"led macro call 1"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if otmc_support_P10 == 1
+                 RD.STK    L_MC1_P10            ;"led macro call 1"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if otmc_support_P11 == 1
+                 RD.STK    L_MC1_P11            ;"led macro call 1"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if otmc_support_P12 == 1
+                 RD.STK    L_MC1_P12            ;"led macro call 1"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if otmc_support_P13 == 1
+                 RD.STK    L_MC1_P13            ;"led macro call 1"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if otmc_support_P14 == 1
+                 RD.STK    L_MC1_P14            ;"led macro call 1"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if otmc_support_P15 == 1
+                 RD.STK    L_MC1_P15            ;"led macro call 1"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_C05             ;"op55: led C05"
+
+// ------------------------------------
+// led macro call 2
+// ------------------------------------
+   #if net_comment == 1
+(*
+led custom macro call 2
+*)
+   #endif
+   #if otmc_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_MC2_P01            ;"led macro call 2"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if otmc_support_P02 == 1
+                 RD.STK    L_MC2_P02            ;"led macro call 2"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if otmc_support_P03 == 1
+                 RD.STK    L_MC2_P03            ;"led macro call 2"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if otmc_support_P04 == 1
+                 RD.STK    L_MC2_P04            ;"led macro call 2"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if otmc_support_P05 == 1
+                 RD.STK    L_MC2_P05            ;"led macro call 2"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if otmc_support_P06 == 1
+                 RD.STK    L_MC2_P06            ;"led macro call 2"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if otmc_support_P07 == 1
+                 RD.STK    L_MC2_P07            ;"led macro call 2"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if otmc_support_P08 == 1
+                 RD.STK    L_MC2_P08            ;"led macro call 2"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if otmc_support_P09 == 1
+                 RD.STK    L_MC2_P09            ;"led macro call 2"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if otmc_support_P10 == 1
+                 RD.STK    L_MC2_P10            ;"led macro call 2"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if otmc_support_P11 == 1
+                 RD.STK    L_MC2_P11            ;"led macro call 2"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if otmc_support_P12 == 1
+                 RD.STK    L_MC2_P12            ;"led macro call 2"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if otmc_support_P13 == 1
+                 RD.STK    L_MC2_P13            ;"led macro call 2"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if otmc_support_P14 == 1
+                 RD.STK    L_MC2_P14            ;"led macro call 2"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if otmc_support_P15 == 1
+                 RD.STK    L_MC2_P15            ;"led macro call 2"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_C06             ;"op55: led C06"
+
+// ------------------------------------
+// led macro call 3
+// ------------------------------------
+   #if net_comment == 1
+(*
+led custom macro call 3
+*)
+   #endif
+   #if otmc_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_MC3_P01            ;"led macro call 3"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if otmc_support_P02 == 1
+                 RD.STK    L_MC3_P02            ;"led macro call 3"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if otmc_support_P03 == 1
+                 RD.STK    L_MC3_P03            ;"led macro call 3"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if otmc_support_P04 == 1
+                 RD.STK    L_MC3_P04            ;"led macro call 3"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if otmc_support_P05 == 1
+                 RD.STK    L_MC3_P05            ;"led macro call 3"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if otmc_support_P06 == 1
+                 RD.STK    L_MC3_P06            ;"led macro call 3"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if otmc_support_P07 == 1
+                 RD.STK    L_MC3_P07            ;"led macro call 3"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if otmc_support_P08 == 1
+                 RD.STK    L_MC3_P08            ;"led macro call 3"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if otmc_support_P09 == 1
+                 RD.STK    L_MC3_P09            ;"led macro call 3"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if otmc_support_P10 == 1
+                 RD.STK    L_MC3_P10            ;"led macro call 3"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if otmc_support_P11 == 1
+                 RD.STK    L_MC3_P11            ;"led macro call 3"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if otmc_support_P12 == 1
+                 RD.STK    L_MC3_P12            ;"led macro call 3"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if otmc_support_P13 == 1
+                 RD.STK    L_MC3_P13            ;"led macro call 3"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if otmc_support_P14 == 1
+                 RD.STK    L_MC3_P14            ;"led macro call 3"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if otmc_support_P15 == 1
+                 RD.STK    L_MC3_P15            ;"led macro call 3"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_C07             ;"op55: led C07"
+
+// ------------------------------------
+// led macro call 4
+// ------------------------------------
+   #if net_comment == 1
+(*
+led custom macro call 4
+*)
+   #endif
+   #if otmc_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_MC4_P01            ;"led macro call 4"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if otmc_support_P02 == 1
+                 RD.STK    L_MC4_P02            ;"led macro call 4"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if otmc_support_P03 == 1
+                 RD.STK    L_MC4_P03            ;"led macro call 4"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if otmc_support_P04 == 1
+                 RD.STK    L_MC4_P04            ;"led macro call 4"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if otmc_support_P05 == 1
+                 RD.STK    L_MC4_P05            ;"led macro call 4"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if otmc_support_P06 == 1
+                 RD.STK    L_MC4_P06            ;"led macro call 4"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if otmc_support_P07 == 1
+                 RD.STK    L_MC4_P07            ;"led macro call 4"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if otmc_support_P08 == 1
+                 RD.STK    L_MC4_P08            ;"led macro call 4"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if otmc_support_P09 == 1
+                 RD.STK    L_MC4_P09            ;"led macro call 4"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if otmc_support_P10 == 1
+                 RD.STK    L_MC4_P10            ;"led macro call 4"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if otmc_support_P11 == 1
+                 RD.STK    L_MC4_P11            ;"led macro call 4"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if otmc_support_P12 == 1
+                 RD.STK    L_MC4_P12            ;"led macro call 4"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if otmc_support_P13 == 1
+                 RD.STK    L_MC4_P13            ;"led macro call 4"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if otmc_support_P14 == 1
+                 RD.STK    L_MC4_P14            ;"led macro call 4"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if otmc_support_P15 == 1
+                 RD.STK    L_MC4_P15            ;"led macro call 4"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_C08             ;"op55: led C08"
+#endif
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// led of protection door
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+led protection door
+*)
+   #endif
+                 RD        L_DOOR               ;"key unlock prot. door"
+                 WRT       oF_L_E04             ;"op55: led E04"
+#endif
+
+// ---------------------------------------------------------------------------
+// led's of axis selection
+// ---------------------------------------------------------------------------
+
+// ------------------------------------
+// led 1st axis selected
+// ------------------------------------
+#if net_comment == 1
+(*
+led 1st axis selected
+*)
+#endif
+                 RD        L_1AX_P01            ;"led 1st axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_1AX_P02            ;"led 1st axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_1AX_P03            ;"led 1st axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_1AX_P04            ;"led 1st axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_1AX_P05            ;"led 1st axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_1AX_P06            ;"led 1st axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_1AX_P07            ;"led 1st axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_1AX_P08            ;"led 1st axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_1AX_P09            ;"led 1st axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_1AX_P10            ;"led 1st axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_1AX_P11            ;"led 1st axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_1AX_P12            ;"led 1st axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_1AX_P13            ;"led 1st axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_1AX_P14            ;"led 1st axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_1AX_P15            ;"led 1st axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B09             ;"op55: led B09"
+
+// ------------------------------------
+// led 2nd axis selected
+// ------------------------------------
+   #if net_comment == 1
+(*
+led 2nd axis selected
+*)
+   #endif
+
+#if axis_number_P01 < 2
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_2AX_P01            ;"led 2nd axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 1
+                 RD.STK    L_2AX_P02            ;"led 2nd axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 1
+                 RD.STK    L_2AX_P03            ;"led 2nd axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 1
+                 RD.STK    L_2AX_P04            ;"led 2nd axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 1
+                 RD.STK    L_2AX_P05            ;"led 2nd axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 1
+                 RD.STK    L_2AX_P06            ;"led 2nd axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 1
+                 RD.STK    L_2AX_P07            ;"led 2nd axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 1
+                 RD.STK    L_2AX_P08            ;"led 2nd axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 1
+                 RD.STK    L_2AX_P09            ;"led 2nd axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 1
+                 RD.STK    L_2AX_P10            ;"led 2nd axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 1
+                 RD.STK    L_2AX_P11            ;"led 2nd axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 1
+                 RD.STK    L_2AX_P12            ;"led 2nd axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 1
+                 RD.STK    L_2AX_P13            ;"led 2nd axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 1
+                 RD.STK    L_2AX_P14            ;"led 2nd axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 1
+                 RD.STK    L_2AX_P15            ;"led 2nd axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_B10             ;"op55: led B10"
+
+// ------------------------------------
+// led 3rd axis selected
+// ------------------------------------
+#if net_comment == 1
+(*
+led 3rd axis selected
+*)
+#endif
+#if axis_number_P01 < 3
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_3AX_P01            ;"led 3rd axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 2
+                 RD.STK    L_3AX_P02            ;"led 3rd axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 2
+                 RD.STK    L_3AX_P03            ;"led 3rd axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 2
+                 RD.STK    L_3AX_P04            ;"led 3rd axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 2
+                 RD.STK    L_3AX_P05            ;"led 3rd axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 2
+                 RD.STK    L_3AX_P06            ;"led 3rd axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 2
+                 RD.STK    L_3AX_P07            ;"led 3rd axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 2
+                 RD.STK    L_3AX_P08            ;"led 3rd axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 2
+                 RD.STK    L_3AX_P09            ;"led 3rd axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 2
+                 RD.STK    L_3AX_P10            ;"led 3rd axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 2
+                 RD.STK    L_3AX_P11            ;"led 3rd axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 2
+                 RD.STK    L_3AX_P12            ;"led 3rd axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 2
+                 RD.STK    L_3AX_P13            ;"led 3rd axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 2
+                 RD.STK    L_3AX_P14            ;"led 3rd axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 2
+                 RD.STK    L_3AX_P15            ;"led 3rd axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_B11             ;"op55: led B11"
+
+// ------------------------------------
+// led 4th axis selected
+// ------------------------------------
+   #if net_comment == 1
+(*
+led 4th axis selected
+*)
+   #endif
+#if axis_number_P01 < 4
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_4AX_P01            ;"led 4th axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 3
+                 RD.STK    L_4AX_P02            ;"led 4th axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 3
+                 RD.STK    L_4AX_P03            ;"led 4th axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 3
+                 RD.STK    L_4AX_P04            ;"led 4th axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 3
+                 RD.STK    L_4AX_P05            ;"led 4th axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 3
+                 RD.STK    L_4AX_P06            ;"led 4th axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 3
+                 RD.STK    L_4AX_P07            ;"led 4th axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 3
+                 RD.STK    L_4AX_P08            ;"led 4th axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 3
+                 RD.STK    L_4AX_P09            ;"led 4th axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 3
+                 RD.STK    L_4AX_P10            ;"led 4th axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 3
+                 RD.STK    L_4AX_P11            ;"led 4th axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 3
+                 RD.STK    L_4AX_P12            ;"led 4th axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 3
+                 RD.STK    L_4AX_P13            ;"led 4th axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 3
+                 RD.STK    L_4AX_P14            ;"led 4th axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 3
+                 RD.STK    L_4AX_P15            ;"led 4th axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_C09             ;"op55: led C09"
+
+// ------------------------------------
+// led 5th axis selected
+// ------------------------------------
+#if net_comment == 1
+(*
+led 5th axis selected
+*)
+#endif
+#if axis_number_P01 < 5
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_5AX_P01            ;"led 5th axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 4
+                 RD.STK    L_5AX_P02            ;"led 5th axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 4
+                 RD.STK    L_5AX_P03            ;"led 5th axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 4
+                 RD.STK    L_5AX_P04            ;"led 5th axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 4
+                 RD.STK    L_5AX_P05            ;"led 5th axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 4
+                 RD.STK    L_5AX_P06            ;"led 5th axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 4
+                 RD.STK    L_5AX_P07            ;"led 5th axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 4
+                 RD.STK    L_5AX_P08            ;"led 5th axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 4
+                 RD.STK    L_5AX_P09            ;"led 5th axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 4
+                 RD.STK    L_5AX_P10            ;"led 5th axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 4
+                 RD.STK    L_5AX_P11            ;"led 5th axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 4
+                 RD.STK    L_5AX_P12            ;"led 5th axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 4
+                 RD.STK    L_5AX_P13            ;"led 5th axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 4
+                 RD.STK    L_5AX_P14            ;"led 5th axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 4
+                 RD.STK    L_5AX_P15            ;"led 5th axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_C10             ;"op55: led C10"
+
+// ------------------------------------
+// led 6th axis selected
+// ------------------------------------
+   #if net_comment == 1
+(*
+led 6th axis selected
+*)
+   #endif
+#if axis_number_P01 < 6
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_6AX_P01            ;"led 6th axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 5
+                 RD.STK    L_6AX_P02            ;"led 6th axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 5
+                 RD.STK    L_6AX_P03            ;"led 6th axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 5
+                 RD.STK    L_6AX_P04            ;"led 6th axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 5
+                 RD.STK    L_6AX_P05            ;"led 6th axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 5
+                 RD.STK    L_6AX_P06            ;"led 6th axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 5
+                 RD.STK    L_6AX_P07            ;"led 6th axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 5
+                 RD.STK    L_6AX_P08            ;"led 6th axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 5
+                 RD.STK    L_6AX_P09            ;"led 6th axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 5
+                 RD.STK    L_6AX_P10            ;"led 6th axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 5
+                 RD.STK    L_6AX_P11            ;"led 6th axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 5
+                 RD.STK    L_6AX_P12            ;"led 6th axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 5
+                 RD.STK    L_6AX_P13            ;"led 6th axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 5
+                 RD.STK    L_6AX_P14            ;"led 6th axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 5
+                 RD.STK    L_6AX_P15            ;"led 6th axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_C11             ;"op55: led C11"
+
+// ------------------------------------
+// led 7th axis selected
+// ------------------------------------
+#if net_comment == 1
+(*
+led 7th axis selected
+*)
+#endif
+#if axis_number_P01 < 7
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_7AX_P01            ;"led 7th axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 6
+                 RD.STK    L_7AX_P02            ;"led 7th axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 6
+                 RD.STK    L_7AX_P03            ;"led 7th axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 6
+                 RD.STK    L_7AX_P04            ;"led 7th axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 6
+                 RD.STK    L_7AX_P05            ;"led 7th axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 6
+                 RD.STK    L_7AX_P06            ;"led 7th axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 6
+                 RD.STK    L_7AX_P07            ;"led 7th axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 6
+                 RD.STK    L_7AX_P08            ;"led 7th axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 6
+                 RD.STK    L_7AX_P09            ;"led 7th axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 6
+                 RD.STK    L_7AX_P10            ;"led 7th axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 6
+                 RD.STK    L_7AX_P11            ;"led 7th axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 6
+                 RD.STK    L_7AX_P12            ;"led 7th axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 6
+                 RD.STK    L_7AX_P13            ;"led 7th axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 6
+                 RD.STK    L_7AX_P14            ;"led 7th axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 6
+                 RD.STK    L_7AX_P15            ;"led 7th axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_A09             ;"op55: led A09"
+
+// ------------------------------------
+// led 8th axis selected
+// ------------------------------------
+#if net_comment == 1
+(*
+led 8th axis selected
+*)
+#endif
+#if axis_number_P01 < 8
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD        L_8AX_P01            ;"led 8th axis sel."
+                 AND       PATH_P01             ;"path 01 selected"
+#endif
+#if nbr_of_path > 1
+   #if axis_number_P02 > 7
+                 RD.STK    L_8AX_P02            ;"led 8th axis sel."
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if axis_number_P03 > 7
+                 RD.STK    L_8AX_P03            ;"led 8th axis sel."
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if axis_number_P04 > 7
+                 RD.STK    L_8AX_P04            ;"led 8th axis sel."
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if axis_number_P05 > 7
+                 RD.STK    L_8AX_P05            ;"led 8th axis sel."
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if axis_number_P06 > 7
+                 RD.STK    L_8AX_P06            ;"led 8th axis sel."
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if axis_number_P07 > 7
+                 RD.STK    L_8AX_P07            ;"led 8th axis sel."
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if axis_number_P08 > 7
+                 RD.STK    L_8AX_P08            ;"led 8th axis sel."
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if axis_number_P09 > 7
+                 RD.STK    L_8AX_P09            ;"led 8th axis sel."
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if axis_number_P10 > 7
+                 RD.STK    L_8AX_P10            ;"led 8th axis sel."
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if axis_number_P11 > 7
+                 RD.STK    L_8AX_P11            ;"led 8th axis sel."
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if axis_number_P12 > 7
+                 RD.STK    L_8AX_P12            ;"led 8th axis sel."
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if axis_number_P13 > 7
+                 RD.STK    L_8AX_P13            ;"led 8th axis sel."
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if axis_number_P14 > 7
+                 RD.STK    L_8AX_P14            ;"led 8th axis sel."
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if axis_number_P15 > 7
+                 RD.STK    L_8AX_P15            ;"led 8th axis sel."
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       oF_L_A10             ;"op55: led A10"
+
+// ------------------------------------
+// led axis plus direction
+// ------------------------------------
+#if net_comment == 1
+(*
+led axis plus direction
+*)
+#endif
+                 RD        L_1AXP_P01           ;"led 1st axis + dir."
+#if axis_number_P01 > 1
+                 OR        L_2AXP_P01           ;"led 2nd axis + dir."
+#endif
+#if axis_number_P01 > 2
+                 OR        L_3AXP_P01           ;"led 3rd axis + dir."
+#endif
+#if axis_number_P01 > 3
+                 OR        L_4AXP_P01           ;"led 4th axis + dir."
+#endif
+#if axis_number_P01 > 4
+                 OR        L_5AXP_P01           ;"led 5th axis + dir."
+#endif
+#if axis_number_P01 > 5
+                 OR        L_6AXP_P01           ;"led 6th axis + dir."
+#endif
+#if axis_number_P01 > 6
+                 OR        L_7AXP_P01           ;"led 7th axis + dir."
+#endif
+#if axis_number_P01 > 7
+                 OR        L_8AXP_P01           ;"led 8th axis + dir."
+#endif
+#if ref_dir_1st_axis_P01 > -1
+                 RD.STK.NOT REFRUN_P01          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P01           ;"reference return active"
+                 OR.STK
+                 AND.STK
+#endif
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_1AXP_P02           ;"led 1st axis + dir."
+   #if axis_number_P02 > 1
+                 OR        L_2AXP_P02           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P02 > 2
+                 OR        L_3AXP_P02           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P02 > 3
+                 OR        L_4AXP_P02           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P02 > 4
+                 OR        L_5AXP_P02           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P02 > 5
+                 OR        L_6AXP_P02           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P02 > 6
+                 OR        L_7AXP_P02           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P02 > 7
+                 OR        L_8AXP_P02           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P02 > -1
+                 RD.STK.NOT REFRUN_P02          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P02           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_1AXP_P03           ;"led 1st axis + dir."
+   #if axis_number_P03 > 1
+                 OR        L_2AXP_P03           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P03 > 2
+                 OR        L_3AXP_P03           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P03 > 3
+                 OR        L_4AXP_P03           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P03 > 4
+                 OR        L_5AXP_P03           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P03 > 5
+                 OR        L_6AXP_P03           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P03 > 6
+                 OR        L_7AXP_P03           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P03 > 7
+                 OR        L_8AXP_P03           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P03 > -1
+                 RD.STK.NOT REFRUN_P03          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P03           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_1AXP_P04           ;"led 1st axis + dir."
+   #if axis_number_P04 > 1
+                 OR        L_2AXP_P04           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P04 > 2
+                 OR        L_3AXP_P04           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P04 > 3
+                 OR        L_4AXP_P04           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P04 > 4
+                 OR        L_5AXP_P04           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P04 > 5
+                 OR        L_6AXP_P04           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P04 > 6
+                 OR        L_7AXP_P04           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P04 > 7
+                 OR        L_8AXP_P04           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P04 > -1
+                 RD.STK.NOT REFRUN_P04          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P04           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_1AXP_P05           ;"led 1st axis + dir."
+   #if axis_number_P05 > 1
+                 OR        L_2AXP_P05           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P05 > 2
+                 OR        L_3AXP_P05           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P05 > 3
+                 OR        L_4AXP_P05           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P05 > 4
+                 OR        L_5AXP_P05           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P05 > 5
+                 OR        L_6AXP_P05           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P05 > 6
+                 OR        L_7AXP_P05           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P05 > 7
+                 OR        L_8AXP_P05           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P05 > -1
+                 RD.STK.NOT REFRUN_P05          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P05           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_1AXP_P06           ;"led 1st axis + dir."
+   #if axis_number_P06 > 1
+                 OR        L_2AXP_P06           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P06 > 2
+                 OR        L_3AXP_P06           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P06 > 3
+                 OR        L_4AXP_P06           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P06 > 4
+                 OR        L_5AXP_P06           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P06 > 5
+                 OR        L_6AXP_P06           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P06 > 6
+                 OR        L_7AXP_P06           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P06 > 7
+                 OR        L_8AXP_P06           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P06 > -1
+                 RD.STK.NOT REFRUN_P06          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P06           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_1AXP_P07           ;"led 1st axis + dir."
+   #if axis_number_P07 > 1
+                 OR        L_2AXP_P07           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P07 > 2
+                 OR        L_3AXP_P07           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P07 > 3
+                 OR        L_4AXP_P07           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P07 > 4
+                 OR        L_5AXP_P07           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P07 > 5
+                 OR        L_6AXP_P07           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P07 > 6
+                 OR        L_7AXP_P07           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P07 > 7
+                 OR        L_8AXP_P07           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P07 > -1
+                 RD.STK.NOT REFRUN_P07          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P07           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_1AXP_P08           ;"led 1st axis + dir."
+   #if axis_number_P08 > 1
+                 OR        L_2AXP_P08           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P08 > 2
+                 OR        L_3AXP_P08           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P08 > 3
+                 OR        L_4AXP_P08           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P08 > 4
+                 OR        L_5AXP_P08           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P08 > 5
+                 OR        L_6AXP_P08           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P08 > 6
+                 OR        L_7AXP_P08           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P08 > 7
+                 OR        L_8AXP_P08           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P08 > -1
+                 RD.STK.NOT REFRUN_P08          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P08           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_1AXP_P09           ;"led 1st axis + dir."
+   #if axis_number_P09 > 1
+                 OR        L_2AXP_P09           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P09 > 2
+                 OR        L_3AXP_P09           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P09 > 3
+                 OR        L_4AXP_P09           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P09 > 4
+                 OR        L_5AXP_P09           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P09 > 5
+                 OR        L_6AXP_P09           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P09 > 6
+                 OR        L_7AXP_P09           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P09 > 7
+                 OR        L_8AXP_P09           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P09 > -1
+                 RD.STK.NOT REFRUN_P09          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P09           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_1AXP_P10           ;"led 1st axis + dir."
+   #if axis_number_P10 > 1
+                 OR        L_2AXP_P10           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P10 > 2
+                 OR        L_3AXP_P10           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P10 > 3
+                 OR        L_4AXP_P10           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P10 > 4
+                 OR        L_5AXP_P10           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P10 > 5
+                 OR        L_6AXP_P10           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P10 > 6
+                 OR        L_7AXP_P10           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P10 > 7
+                 OR        L_8AXP_P10           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P10 > -1
+                 RD.STK.NOT REFRUN_P10          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P10           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_1AXP_P11           ;"led 1st axis + dir."
+   #if axis_number_P11 > 1
+                 OR        L_2AXP_P11           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P11 > 2
+                 OR        L_3AXP_P11           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P11 > 3
+                 OR        L_4AXP_P11           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P11 > 4
+                 OR        L_5AXP_P11           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P11 > 5
+                 OR        L_6AXP_P11           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P11 > 6
+                 OR        L_7AXP_P11           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P11 > 7
+                 OR        L_8AXP_P11           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P11 > -1
+                 RD.STK.NOT REFRUN_P11          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P11           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_1AXP_P12           ;"led 1st axis + dir."
+   #if axis_number_P12 > 1
+                 OR        L_2AXP_P12           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P12 > 2
+                 OR        L_3AXP_P12           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P12 > 3
+                 OR        L_4AXP_P12           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P12 > 4
+                 OR        L_5AXP_P12           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P12 > 5
+                 OR        L_6AXP_P12           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P12 > 6
+                 OR        L_7AXP_P12           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P12 > 7
+                 OR        L_8AXP_P12           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P12 > -1
+                 RD.STK.NOT REFRUN_P12          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P12           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_1AXP_P13           ;"led 1st axis + dir."
+   #if axis_number_P13 > 1
+                 OR        L_2AXP_P13           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P13 > 2
+                 OR        L_3AXP_P13           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P13 > 3
+                 OR        L_4AXP_P13           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P13 > 4
+                 OR        L_5AXP_P13           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P13 > 5
+                 OR        L_6AXP_P13           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P13 > 6
+                 OR        L_7AXP_P13           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P13 > 7
+                 OR        L_8AXP_P13           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P13 > -1
+                 RD.STK.NOT REFRUN_P13          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P13           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_1AXP_P14           ;"led 1st axis + dir."
+   #if axis_number_P14 > 1
+                 OR        L_2AXP_P14           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P14 > 2
+                 OR        L_3AXP_P14           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P14 > 3
+                 OR        L_4AXP_P14           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P14 > 4
+                 OR        L_5AXP_P14           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P14 > 5
+                 OR        L_6AXP_P14           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P14 > 6
+                 OR        L_7AXP_P14           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P14 > 7
+                 OR        L_8AXP_P14           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P14 > -1
+                 RD.STK.NOT REFRUN_P14          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P14           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_1AXP_P15           ;"led 1st axis + dir."
+   #if axis_number_P15 > 1
+                 OR        L_2AXP_P15           ;"led 2nd axis + dir."
+   #endif
+   #if axis_number_P15 > 2
+                 OR        L_3AXP_P15           ;"led 3rd axis + dir."
+   #endif
+   #if axis_number_P15 > 3
+                 OR        L_4AXP_P15           ;"led 4th axis + dir."
+   #endif
+   #if axis_number_P15 > 4
+                 OR        L_5AXP_P15           ;"led 5th axis + dir."
+   #endif
+   #if axis_number_P15 > 5
+                 OR        L_6AXP_P15           ;"led 6th axis + dir."
+   #endif
+   #if axis_number_P15 > 6
+                 OR        L_7AXP_P15           ;"led 7th axis + dir."
+   #endif
+   #if axis_number_P15 > 7
+                 OR        L_8AXP_P15           ;"led 8th axis + dir."
+   #endif
+   #if ref_dir_1st_axis_P15 > -1
+                 RD.STK.NOT REFRUN_P15          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P15           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_D09             ;"op55: led D09"
+
+// ------------------------------------
+// led axis minus direction
+// ------------------------------------
+#if net_comment == 1
+(*
+led axis minus direction
+*)
+#endif
+                 RD        L_1AXM_P01           ;"led 1st axis - dir."
+#if axis_number_P01 > 1
+                 OR        L_2AXM_P01           ;"led 2nd axis - dir."
+#endif
+#if axis_number_P01 > 2
+                 OR        L_3AXM_P01           ;"led 3rd axis - dir."
+#endif
+#if axis_number_P01 > 3
+                 OR        L_4AXM_P01           ;"led 4th axis - dir."
+#endif
+#if axis_number_P01 > 4
+                 OR        L_5AXM_P01           ;"led 5th axis - dir."
+#endif
+#if axis_number_P01 > 5
+                 OR        L_6AXM_P01           ;"led 6th axis - dir."
+#endif
+#if axis_number_P01 > 6
+                 OR        L_7AXM_P01           ;"led 7th axis - dir."
+#endif
+#if axis_number_P01 > 7
+                 OR        L_8AXM_P01           ;"led 8th axis - dir."
+#endif
+#if ref_dir_1st_axis_P01 > -1
+                 RD.STK.NOT REFRUN_P01          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P01           ;"reference return active"
+                 OR.STK
+                 AND.STK
+#endif
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_1AXM_P02           ;"led 1st axis - dir."
+   #if axis_number_P02 > 1
+                 OR        L_2AXM_P02           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P02 > 2
+                 OR        L_3AXM_P02           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P02 > 3
+                 OR        L_4AXM_P02           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P02 > 4
+                 OR        L_5AXM_P02           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P02 > 5
+                 OR        L_6AXM_P02           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P02 > 6
+                 OR        L_7AXM_P02           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P02 > 7
+                 OR        L_8AXM_P02           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P02 > -1
+                 RD.STK.NOT REFRUN_P02          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P02           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_1AXM_P03           ;"led 1st axis - dir."
+   #if axis_number_P03 > 1
+                 OR        L_2AXM_P03           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P03 > 2
+                 OR        L_3AXM_P03           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P03 > 3
+                 OR        L_4AXM_P03           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P03 > 4
+                 OR        L_5AXM_P03           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P03 > 5
+                 OR        L_6AXM_P03           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P03 > 6
+                 OR        L_7AXM_P03           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P03 > 7
+                 OR        L_8AXM_P03           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P03 > -1
+                 RD.STK.NOT REFRUN_P03          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P03           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_1AXM_P04           ;"led 1st axis - dir."
+   #if axis_number_P04 > 1
+                 OR        L_2AXM_P04           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P04 > 2
+                 OR        L_3AXM_P04           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P04 > 3
+                 OR        L_4AXM_P04           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P04 > 4
+                 OR        L_5AXM_P04           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P04 > 5
+                 OR        L_6AXM_P04           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P04 > 6
+                 OR        L_7AXM_P04           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P04 > 7
+                 OR        L_8AXM_P04           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P04 > -1
+                 RD.STK.NOT REFRUN_P04          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P04           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_1AXM_P05           ;"led 1st axis - dir."
+   #if axis_number_P05 > 1
+                 OR        L_2AXM_P05           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P05 > 2
+                 OR        L_3AXM_P05           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P05 > 3
+                 OR        L_4AXM_P05           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P05 > 4
+                 OR        L_5AXM_P05           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P05 > 5
+                 OR        L_6AXM_P05           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P05 > 6
+                 OR        L_7AXM_P05           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P05 > 7
+                 OR        L_8AXM_P05           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P05 > -1
+                 RD.STK.NOT REFRUN_P05          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P05           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_1AXM_P06           ;"led 1st axis - dir."
+   #if axis_number_P06 > 1
+                 OR        L_2AXM_P06           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P06 > 2
+                 OR        L_3AXM_P06           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P06 > 3
+                 OR        L_4AXM_P06           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P06 > 4
+                 OR        L_5AXM_P06           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P06 > 5
+                 OR        L_6AXM_P06           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P06 > 6
+                 OR        L_7AXM_P06           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P06 > 7
+                 OR        L_8AXM_P06           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P06 > -1
+                 RD.STK.NOT REFRUN_P06          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P06           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_1AXM_P07           ;"led 1st axis - dir."
+   #if axis_number_P07 > 1
+                 OR        L_2AXM_P07           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P07 > 2
+                 OR        L_3AXM_P07           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P07 > 3
+                 OR        L_4AXM_P07           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P07 > 4
+                 OR        L_5AXM_P07           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P07 > 5
+                 OR        L_6AXM_P07           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P07 > 6
+                 OR        L_7AXM_P07           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P07 > 7
+                 OR        L_8AXM_P07           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P07 > -1
+                 RD.STK.NOT REFRUN_P07          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P07           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_1AXM_P08           ;"led 1st axis - dir."
+   #if axis_number_P08 > 1
+                 OR        L_2AXM_P08           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P08 > 2
+                 OR        L_3AXM_P08           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P08 > 3
+                 OR        L_4AXM_P08           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P08 > 4
+                 OR        L_5AXM_P08           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P08 > 5
+                 OR        L_6AXM_P08           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P08 > 6
+                 OR        L_7AXM_P08           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P08 > 7
+                 OR        L_8AXM_P08           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P08 > -1
+                 RD.STK.NOT REFRUN_P08          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P08           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_1AXM_P09           ;"led 1st axis - dir."
+   #if axis_number_P09 > 1
+                 OR        L_2AXM_P09           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P09 > 2
+                 OR        L_3AXM_P09           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P09 > 3
+                 OR        L_4AXM_P09           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P09 > 4
+                 OR        L_5AXM_P09           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P09 > 5
+                 OR        L_6AXM_P09           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P09 > 6
+                 OR        L_7AXM_P09           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P09 > 7
+                 OR        L_8AXM_P09           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axis_P09 > -1
+                 RD.STK.NOT REFRUN_P09          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P09           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_1AXM_P10           ;"led 1st axis - dir."
+   #if axis_number_P10 > 1
+                 OR        L_2AXM_P10           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P10 > 2
+                 OR        L_3AXM_P10           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P10 > 3
+                 OR        L_4AXM_P10           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P10 > 4
+                 OR        L_5AXM_P10           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P10 > 5
+                 OR        L_6AXM_P10           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P10 > 6
+                 OR        L_7AXM_P10           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P10 > 7
+                 OR        L_8AXM_P10           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP10 > -1
+                 RD.STK.NOT REFRUN_P10          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P10           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_1AXM_P11           ;"led 1st axis - dir."
+   #if axis_number_P11 > 1
+                 OR        L_2AXM_P11           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P11 > 2
+                 OR        L_3AXM_P11           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P11 > 3
+                 OR        L_4AXM_P11           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P11 > 4
+                 OR        L_5AXM_P11           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P11 > 5
+                 OR        L_6AXM_P11           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P11 > 6
+                 OR        L_7AXM_P11           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P11 > 7
+                 OR        L_8AXM_P11           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP11 > -1
+                 RD.STK.NOT REFRUN_P11          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P11           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_1AXM_P12           ;"led 1st axis - dir."
+   #if axis_number_P12 > 1
+                 OR        L_2AXM_P12           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P12 > 2
+                 OR        L_3AXM_P12           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P12 > 3
+                 OR        L_4AXM_P12           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P12 > 4
+                 OR        L_5AXM_P12           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P12 > 5
+                 OR        L_6AXM_P12           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P12 > 6
+                 OR        L_7AXM_P12           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P12 > 7
+                 OR        L_8AXM_P12           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP12 > -1
+                 RD.STK.NOT REFRUN_P12          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P12           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_1AXM_P13           ;"led 1st axis - dir."
+   #if axis_number_P13 > 1
+                 OR        L_2AXM_P13           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P13 > 2
+                 OR        L_3AXM_P13           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P13 > 3
+                 OR        L_4AXM_P13           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P13 > 4
+                 OR        L_5AXM_P13           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P13 > 5
+                 OR        L_6AXM_P13           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P13 > 6
+                 OR        L_7AXM_P13           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P13 > 7
+                 OR        L_8AXM_P13           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP13 > -1
+                 RD.STK.NOT REFRUN_P13          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P13           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_1AXM_P14           ;"led 1st axis - dir."
+   #if axis_number_P14 > 1
+                 OR        L_2AXM_P14           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P14 > 2
+                 OR        L_3AXM_P14           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P14 > 3
+                 OR        L_4AXM_P14           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P14 > 4
+                 OR        L_5AXM_P14           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P14 > 5
+                 OR        L_6AXM_P14           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P14 > 6
+                 OR        L_7AXM_P14           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P14 > 7
+                 OR        L_8AXM_P14           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP14 > -1
+                 RD.STK.NOT REFRUN_P14          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P14           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_1AXM_P15           ;"led 1st axis - dir."
+   #if axis_number_P15 > 1
+                 OR        L_2AXM_P15           ;"led 2nd axis - dir."
+   #endif
+   #if axis_number_P15 > 2
+                 OR        L_3AXM_P15           ;"led 3rd axis - dir."
+   #endif
+   #if axis_number_P15 > 3
+                 OR        L_4AXM_P15           ;"led 4th axis - dir."
+   #endif
+   #if axis_number_P15 > 4
+                 OR        L_5AXM_P15           ;"led 5th axis - dir."
+   #endif
+   #if axis_number_P15 > 5
+                 OR        L_6AXM_P15           ;"led 6th axis - dir."
+   #endif
+   #if axis_number_P15 > 6
+                 OR        L_7AXM_P15           ;"led 7th axis - dir."
+   #endif
+   #if axis_number_P15 > 7
+                 OR        L_8AXM_P15           ;"led 8th axis - dir."
+   #endif
+   #if ref_dir_1st_axisP15 > -1
+                 RD.STK.NOT REFRUN_P15          ;"reference return active"
+                 RD.STK    500MS                ;"500 ms"
+                 AND       REFRUN_P15           ;"reference return active"
+                 OR.STK
+                 AND.STK
+   #endif
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_D11             ;"op55: led D11"
+
+// ------------------------------------
+// led manual rapid traverse
+// ------------------------------------
+#if net_comment == 1
+(*
+led manual rapid traverse
+*)
+#endif
+                 RD        L_RT_P01             ;"led rapid traverse"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_RT_P02             ;"led rapid traverse"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_RT_P03             ;"led rapid traverse"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_RT_P04             ;"led rapid traverse"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_RT_P05             ;"led rapid traverse"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_RT_P06             ;"led rapid traverse"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_RT_P07             ;"led rapid traverse"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_RT_P08             ;"led rapid traverse"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_RT_P09             ;"led rapid traverse"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_RT_P10             ;"led rapid traverse"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_RT_P11             ;"led rapid traverse"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_RT_P12             ;"led rapid traverse"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_RT_P13             ;"led rapid traverse"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_RT_P14             ;"led rapid traverse"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_RT_P15             ;"led rapid traverse"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_D10             ;"op55: led D10"
+
+// ---------------------------------------------------------------------------
+// led's of increment selection
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// led 1 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+led 1 increment
+*)
+#endif
+
+                 RD        L_X1_P01             ;"led 1 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_X1_P02             ;"led 1 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_X1_P03             ;"led 1 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_X1_P04             ;"led 1 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_X1_P05             ;"led 1 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_X1_P06             ;"led 1 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_X1_P07             ;"led 1 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_X1_P08             ;"led 1 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_X1_P09             ;"led 1 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_X1_P10             ;"led 1 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_X1_P11             ;"led 1 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_X1_P12             ;"led 1 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_X1_P13             ;"led 1 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_X1_P14             ;"led 1 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_X1_P15             ;"led 1 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B05             ;"op55: led B05"
+
+// ------------------------------------
+// led 10 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+led 10 increment
+*)
+#endif
+
+                 RD        L_X10_P01            ;"led 10 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_X10_P02            ;"led 10 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_X10_P03            ;"led 10 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_X10_P04            ;"led 10 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_X10_P05            ;"led 10 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_X10_P06            ;"led 10 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_X10_P07            ;"led 10 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_X10_P08            ;"led 10 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_X10_P09            ;"led 10 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_X10_P10            ;"led 10 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_X10_P11            ;"led 10 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_X10_P12            ;"led 10 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_X10_P13            ;"led 10 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_X10_P14            ;"led 10 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_X10_P15            ;"led 10 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B06             ;"op55: led B06"
+
+// ------------------------------------
+// led 100 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+led 100 increment
+*)
+#endif
+
+                 RD        L_X100_P01           ;"led 100 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_X100_P02           ;"led 100 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_X100_P03           ;"led 100 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_X100_P04           ;"led 100 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_X100_P05           ;"led 100 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_X100_P06           ;"led 100 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_X100_P07           ;"led 100 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_X100_P08           ;"led 100 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_X100_P09           ;"led 100 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_X100_P10           ;"led 100 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_X100_P11           ;"led 100 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_X100_P12           ;"led 100 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_X100_P13           ;"led 100 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_X100_P14           ;"led 100 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_X100_P15           ;"led 100 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B07             ;"op55: led B07"
+
+// ------------------------------------
+// led 1000 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+led 1000 increment
+*)
+#endif
+                 RD        L_X1000_P01          ;"led 1000 increment"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    L_X1000_P02          ;"led 1000 increment"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    L_X1000_P03          ;"led 1000 increment"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    L_X1000_P04          ;"led 1000 increment"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    L_X1000_P05          ;"led 1000 increment"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    L_X1000_P06          ;"led 1000 increment"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    L_X1000_P07          ;"led 1000 increment"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    L_X1000_P08          ;"led 1000 increment"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    L_X1000_P09          ;"led 1000 increment"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    L_X1000_P10          ;"led 1000 increment"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    L_X1000_P11          ;"led 1000 increment"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    L_X1000_P12          ;"led 1000 increment"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    L_X1000_P13          ;"led 1000 increment"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    L_X1000_P14          ;"led 1000 increment"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    L_X1000_P15          ;"led 1000 increment"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       oF_L_B08             ;"op55: led B08"
+
+#if spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// led's of manual spindle
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// led spindle cw
+// ------------------------------------
+   #if net_comment == 1
+(*
+led spindle cw
+*)
+   #endif
+   #if spindle_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_SPCW_P01           ;"led spindle cw"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 > 0
+                 RD.STK    L_SPCW_P02           ;"led spindle cw"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 > 0
+                 RD.STK    L_SPCW_P03           ;"led spindle cw"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 > 0
+                 RD.STK    L_SPCW_P04           ;"led spindle cw"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 > 0
+                 RD.STK    L_SPCW_P05           ;"led spindle cw"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 > 0
+                 RD.STK    L_SPCW_P06           ;"led spindle cw"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 > 0
+                 RD.STK    L_SPCW_P07           ;"led spindle cw"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 > 0
+                 RD.STK    L_SPCW_P08           ;"led spindle cw"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 > 0
+                 RD.STK    L_SPCW_P09           ;"led spindle cw"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 > 0
+                 RD.STK    L_SPCW_P10           ;"led spindle cw"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 > 0
+                 RD.STK    L_SPCW_P11           ;"led spindle cw"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 > 0
+                 RD.STK    L_SPCW_P12           ;"led spindle cw"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 > 0
+                 RD.STK    L_SPCW_P13           ;"led spindle cw"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 > 0
+                 RD.STK    L_SPCW_P14           ;"led spindle cw"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 > 0
+                 RD.STK    L_SPCW_P15           ;"led spindle cw"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_E09             ;"op55: led E09"
+
+// ------------------------------------
+// led spindle stop
+// ------------------------------------
+   #if net_comment == 1
+(*
+led spindle stop
+*)
+   #endif
+   #if spindle_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_SPSP_P01           ;"led spindle stop"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 > 0
+                 RD.STK    L_SPSP_P02           ;"led spindle stop"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 > 0
+                 RD.STK    L_SPSP_P03           ;"led spindle stop"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 > 0
+                 RD.STK    L_SPSP_P04           ;"led spindle stop"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 > 0
+                 RD.STK    L_SPSP_P05           ;"led spindle stop"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 > 0
+                 RD.STK    L_SPSP_P06           ;"led spindle stop"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 > 0
+                 RD.STK    L_SPSP_P07           ;"led spindle stop"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 > 0
+                 RD.STK    L_SPSP_P08           ;"led spindle stop"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 > 0
+                 RD.STK    L_SPSP_P09           ;"led spindle stop"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 > 0
+                 RD.STK    L_SPSP_P10           ;"led spindle stop"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 > 0
+                 RD.STK    L_SPSP_P11           ;"led spindle stop"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 > 0
+                 RD.STK    L_SPSP_P12           ;"led spindle stop"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 > 0
+                 RD.STK    L_SPSP_P13           ;"led spindle stop"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 > 0
+                 RD.STK    L_SPSP_P14           ;"led spindle stop"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 > 0
+                 RD.STK    L_SPSP_P15           ;"led spindle stop"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_E10             ;"op55: led E10"
+
+// ------------------------------------
+// led spindle ccw
+// ------------------------------------
+   #if net_comment == 1
+(*
+led spindle ccw
+*)
+   #endif
+   #if spindle_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_SPCCW_P01          ;"led spindle ccw"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 > 0
+                 RD.STK    L_SPCCW_P02          ;"led spindle ccw"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 > 0
+                 RD.STK    L_SPCCW_P03          ;"led spindle ccw"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 > 0
+                 RD.STK    L_SPCCW_P04          ;"led spindle ccw"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 > 0
+                 RD.STK    L_SPCCW_P05          ;"led spindle ccw"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 > 0
+                 RD.STK    L_SPCCW_P06          ;"led spindle ccw"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 > 0
+                 RD.STK    L_SPCCW_P07          ;"led spindle ccw"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 > 0
+                 RD.STK    L_SPCCW_P08          ;"led spindle ccw"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 > 0
+                 RD.STK    L_SPCCW_P09          ;"led spindle ccw"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 > 0
+                 RD.STK    L_SPCCW_P10          ;"led spindle ccw"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 > 0
+                 RD.STK    L_SPCCW_P11          ;"led spindle ccw"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 > 0
+                 RD.STK    L_SPCCW_P12          ;"led spindle ccw"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 > 0
+                 RD.STK    L_SPCCW_P13          ;"led spindle ccw"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 > 0
+                 RD.STK    L_SPCCW_P14          ;"led spindle ccw"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 > 0
+                 RD.STK    L_SPCCW_P15          ;"led spindle ccw"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_E11             ;"op55: led E11"
+#endif
+
+#if coolant_support_P01 > -1
+// ---------------------------------------------------------------------------
+// led coolant on
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+led coolant on
+*)
+   #endif
+   #if coolant_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        L_COOL_P01           ;"led coolant on"
+                 AND       PATH_P01             ;"path 01 selected"
+   #endif
+   #if nbr_of_path > 1
+      #if coolant_support_P02 > 0
+                 RD.STK    L_COOL_P02           ;"led coolant on"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if coolant_support_P03 > 0
+                 RD.STK    L_COOL_P03           ;"led coolant on"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if coolant_support_P04 > 0
+                 RD.STK    L_COOL_P04           ;"led coolant on"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if coolant_support_P05 > 0
+                 RD.STK    L_COOL_P05           ;"led coolant on"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if coolant_support_P06 > 0
+                 RD.STK    L_COOL_P06           ;"led coolant on"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if coolant_support_P07 > 0
+                 RD.STK    L_COOL_P07           ;"led coolant on"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if coolant_support_P08 > 0
+                 RD.STK    L_COOL_P08           ;"led coolant on"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if coolant_support_P09 > 0
+                 RD.STK    L_COOL_P09           ;"led coolant on"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if coolant_support_P10 > 0
+                 RD.STK    L_COOL_P10           ;"led coolant  on"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if coolant_support_P11 > 0
+                 RD.STK    L_COOL_P11           ;"led coolant  on"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if coolant_support_P12 > 0
+                 RD.STK    L_COOL_P12           ;"led coolant  on"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if coolant_support_P13 > 0
+                 RD.STK    L_COOL_P13           ;"led coolant  on"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if coolant_support_P14 > 0
+                 RD.STK    L_COOL_P14           ;"led coolant  on"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if coolant_support_P15 > 0
+                 RD.STK    L_COOL_P15           ;"led coolant  on"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+      #endif
+   #endif
+                 WRT       oF_L_E05             ;"op55: led E05"
+
+#endif

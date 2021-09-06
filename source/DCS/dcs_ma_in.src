@@ -1,0 +1,230 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_cnc_in.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : DCS related inputs from the machine                  :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:16.07.18: 2.0.0 :Blp    :path 11-15 added                                 :
+//:        :       :       :Behaviour of hold to run button improved         :
+//:        :       :       :path specific code transfered to external files  :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// path specific input signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+path specific input signals
+*)
+#endif
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\dcs_ma_in_P01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\..\include\dcs_ma_in_P02.src"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\..\include\dcs_ma_in_P03.src"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\..\include\dcs_ma_in_P04.src"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\..\include\dcs_ma_in_P05.src"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\..\include\dcs_ma_in_P06.src"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\..\include\dcs_ma_in_P07.src"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\..\include\dcs_ma_in_P08.src"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\..\include\dcs_ma_in_P09.src"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\..\include\dcs_ma_in_P10.src"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\..\include\dcs_ma_in_P11.src"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\..\include\dcs_ma_in_P12.src"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\..\include\dcs_ma_in_P13.src"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\..\include\dcs_ma_in_P14.src"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\..\include\dcs_ma_in_P15.src"
+#endif
+
+// ---------------------------------------------------------------------------
+// feedback main contactor
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+feedback main contactor
+*)
+#endif
+#if demo_control == 1
+                 RD.NOT    LOG1             ;"logic one"
+#else
+                 RD        i*SMC            ;"MCC state (1:off)"
+#endif
+                 WRT       M_*SMC           ;"mcc state (1: off)"
+
+// ---------------------------------------------------------------------------
+// door state signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+door state signals
+this signal will be DCS I/O cross checked
+*)
+#endif
+#if demo_control == 1
+                 RD        LOG1             ;"logic one"
+#else
+                 RD        i*SGOPN          ;"input guard state (1: closed)"
+#endif
+                 WRT       *SGOPN           ;"guard state doors closed"
+
+// ---------------------------------------------------------------------------
+// hold to run button
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+hold to run button
+this signal will be DCS I/O cross checked
+*)
+#endif
+#if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+                 WRT       HTR                  ;"hold to run button"
+#else
+                 RD        iHTR                 ;"hold to run button"
+                 AND.NOT   TDCG01               ;"interface to PMC bit01"
+                 WRT       re_ihtr              ;"re htr input"
+
+                 RD        iHTR                 ;"hold to run button"
+                 WRT       TDCG01               ;"interface to PMC bit01"
+
+                 RD        re_ihtr              ;"re htr input"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 SET       mem_htr              ;"memory re htr"
+
+                 RD        iHTR                 ;"hold to run button"
+                 AND       TPMF01               ;"interface from PMC bit01"
+                 AND       mem_htr              ;"memory re htr"
+                 WRT       HTR                  ;"hold to run button"
+
+                 RD.NOT    HTR                  ;"hold to run button"
+                 AND       m_htr                ;"memory htr"
+                 WRT       fe_htr               ;"fe hold to run"
+                 RD        HTR                  ;"hold to run button"
+                 WRT       m_htr                ;"memory htr"
+
+                 RD        fe_htr               ;"fe hold to run"
+                 OR        *SGOPN               ;"guard state doors closed"
+                 OR.NOT    TDCG01               ;"interface to PMC bit01"
+                 OR        EMG_STP              ;"emergency stop signal"
+                 RST       mem_htr              ;"memory re htr"
+#endif
+
+// ---------------------------------------------------------------------------
+// setup mode selection
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+setup mode selection
+this signal will be DCS I/O cross checked
+*)
+#endif
+#if demo_control == 1
+                 RD.NOT    LOG1             ;"logic one"
+#else
+                 RD        iSET01           ;"setup switch pos 01"
+#endif
+                 WRT       SET_M01          ;"setup mode 01"

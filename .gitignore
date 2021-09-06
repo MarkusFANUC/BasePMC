@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# Ladder files
+*.lad
+*.mem
+*.mne
+
+# Other source related files
+\Utility\*.*
+\INCLUDE\*.*
+
+# Log files
+compilerlog.txt
+FlChange.txt
+IoLog.txt

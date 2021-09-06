@@ -1,0 +1,449 @@
+//:--------------------------------------------------------------------------:
+//: File              : RefReturn__PATH__.src                                    :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific reference position return              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if ref_dir_1st_axis__PATH__ > -1
+// ---------------------------------------------------------------------------
+// _PATH__: all axes in reference position
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__:all axes in reference position
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+   #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+   #endif
+   #if axis_number__PATH__ > 1
+      #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 2
+      #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 3
+      #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZP4__PATH__          ;"ref position 4th axis"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 4
+      #if ref_dir_5th_axis__PATH__ > 0
+                 RD.STK    ZP5__PATH__          ;"ref position 5th axis"
+                 OR        NOREF5__PATH__       ;"no reference return 5th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 5
+      #if ref_dir_6th_axis__PATH__ > 0
+                 RD.STK    ZP6__PATH__          ;"ref position 6th axis"
+                 OR        NOREF6__PATH__       ;"no reference return 7th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 6
+      #if ref_dir_7th_axis__PATH__ > 0
+                 RD.STK    ZP7__PATH__          ;"ref position 6th axis"
+                 OR        NOREF7__PATH__       ;"no reference return 7th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 7
+      #if ref_dir_8th_axis__PATH__ > 0
+                 RD.STK    ZP8__PATH__          ;"ref position 8th axis"
+                 OR        NOREF8__PATH__       ;"no reference return 8th axis"
+                 AND.STK
+      #endif
+   #endif
+                 WRT       all_zp__PATH__       ;"all axis on zero position"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable: REF_OK (reference return finished)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable: REF_OK (reference return finished)
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+#if ref_dir_1st_axis__PATH__ > -1
+   #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZRF1__PATH__         ;"1st axis referenced"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+   #endif
+   #if axis_number__PATH__ > 1
+      #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZRF2__PATH__         ;"2nd axis referenced"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 2
+      #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZRF3__PATH__         ;"3rd axis referenced"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 3
+      #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZRF4__PATH__         ;"4th axis referenced"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 4
+      #if ref_dir_5th_axis__PATH__ > 0
+                 RD.STK    ZRF5__PATH__         ;"5th axis referenced"
+                 OR        NOREF5__PATH__       ;"no reference return 5th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 5
+      #if ref_dir_6th_axis__PATH__ > 0
+                 RD.STK    ZRF6__PATH__         ;"6th axis referenced"
+                 OR        NOREF6__PATH__       ;"no reference return 6th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 6
+      #if ref_dir_7th_axis__PATH__ > 0
+                 RD.STK    ZRF7__PATH__         ;"7th axis referenced"
+                 OR        NOREF7__PATH__       ;"no reference return 7th axis"
+                 AND.STK
+      #endif
+   #endif
+   #if axis_number__PATH__ > 7
+      #if ref_dir_8th_axis__PATH__ > 0
+                 RD.STK    ZRF8__PATH__         ;"8th axis referenced"
+                 OR        NOREF8__PATH__       ;"no reference return 8th axis"
+                 AND.STK
+      #endif
+   #endif
+#endif
+                 WRT       REF_OK__PATH__       ;"all axis referenced"
+
+#if ref_dir_1st_axis__PATH__ > -1
+// ---------------------------------------------------------------------------
+// _PATH__: stop reference return
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: stop reference return
+*)
+   #endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
+                 OR        ALARM                ;"alarm message active"
+                 OR.NOT    M_REF__PATH__        ;"mode ref selected"
+                 OR        all_zp__PATH__       ;"all axis on zero position"
+                 OR.NOT    *SP__PATH__          ;"feed hold signal"
+                 OR        WIN_WR               ;"windows write active"
+                 OR        SETUP__PATH__        ;"set-up active"
+   #if dcs_support == 1
+      #if mcc_test == 1
+
+                 OR        MCC_TEST             ;"mcc test running"
+      #endif
+      #if brake_test == 1
+                 OR        BRK_TEST             ;"brake test active"
+      #endif
+   #endif
+                 WRT       REFSTP__PATH__       ;"stop reference return"
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: automatic reference position return
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: automatic reference position return
+*)
+   #endif
+                 RD        M_KST__PATH__        ;"memory key cycle start"
+#if nbr_of_path > 1
+                 AND.NOT   PATHSYN              ;"Path syncronization signal"
+                 RD.STK    K_ST                 ;"key cycle start"
+                 AND       PATHSYN              ;"Path syncronization signal"
+                 OR.STK
+#endif
+                 OR        AUTREF__PATH__       ;"automatic refernce return"
+                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
+                 WRT       AUTREF__PATH__       ;"automatic refernce return"
+
+// ---------------------------------------------------------------------------
+// _PATH__: conditions to start axis specific automatic reference position 
+// return
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: conditions to start axis specific automatic reference
+position return
+*)
+   #endif
+
+// -----------------------------------------------
+// 1st axis
+// -----------------------------------------------
+   #if ref_dir_1st_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+                 AND.NOT   ZP1__PATH__          ;"ref position 1st axis"
+                 WRT       A_REF1__PATH__       ;"auto ref. return 1st axis"
+   #endif
+// -----------------------------------------------
+// 2nd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 1
+      #if ref_dir_2nd_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP2__PATH__          ;"ref position 2nd axis"
+                 WRT       A_REF2__PATH__       ;"auto ref. return 2nd axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 3rd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 2
+      #if ref_dir_3rd_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP3__PATH__          ;"ref position 3rd axis"
+                 WRT       A_REF3__PATH__       ;"auto ref. return 3rd axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 4th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 3
+      #if ref_dir_4th_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP4__PATH__          ;"ref position 4th axis"
+                 WRT       A_REF4__PATH__       ;"auto ref. return 3rd axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 5th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 4
+      #if ref_dir_5th_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZP4__PATH__          ;"ref position 4th axis"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP5__PATH__          ;"ref position 5th axis"
+                 WRT       A_REF5__PATH__       ;"auto ref. return 5th axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 6th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 5
+      #if ref_dir_6th_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZP4__PATH__          ;"ref position 4th axis"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_5th_axis__PATH__ > 0
+                 RD.STK    ZP5__PATH__          ;"ref position 5th axis"
+                 OR        NOREF5__PATH__       ;"no reference return 5th axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP6__PATH__          ;"ref position 6th axis"
+                 WRT       A_REF6__PATH__       ;"auto ref. return 6th axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 7th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 6
+      #if ref_dir_7th_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZP4__PATH__          ;"ref position 4th axis"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_5th_axis__PATH__ > 0
+                 RD.STK    ZP5__PATH__          ;"ref position 5th axis"
+                 OR        NOREF5__PATH__       ;"no reference return 5th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_6th_axis__PATH__ > 0
+                 RD.STK    ZP6__PATH__          ;"ref position 6th axis"
+                 OR        NOREF6__PATH__       ;"no reference return 6th axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP7__PATH__          ;"ref position 6th axis"
+                 WRT       A_REF7__PATH__       ;"auto ref. return 7th axis"
+      #endif
+   #endif
+
+// -----------------------------------------------
+// 8th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 7
+      #if ref_dir_8th_axis__PATH__ > 0
+                 RD        AUTREF__PATH__       ;"automatic refernce return"
+         #if ref_dir_1st_axis__PATH__ > 0
+                 RD.STK    ZP1__PATH__          ;"ref position 1st axis"
+                 OR        NOREF1__PATH__       ;"no reference return 1st axis"
+                 AND.STK
+         #endif
+         #if ref_dir_2nd_axis__PATH__ > 0
+                 RD.STK    ZP2__PATH__          ;"ref position 2nd axis"
+                 OR        NOREF2__PATH__       ;"no reference return 2nd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_3rd_axis__PATH__ > 0
+                 RD.STK    ZP3__PATH__          ;"ref position 3rd axis"
+                 OR        NOREF3__PATH__       ;"no reference return 3rd axis"
+                 AND.STK
+         #endif
+         #if ref_dir_4th_axis__PATH__ > 0
+                 RD.STK    ZP4__PATH__          ;"ref position 4th axis"
+                 OR        NOREF4__PATH__       ;"no reference return 4th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_5th_axis__PATH__ > 0
+                 RD.STK    ZP5__PATH__          ;"ref position 5th axis"
+                 OR        NOREF5__PATH__       ;"no reference return 5th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_6th_axis__PATH__ > 0
+                 RD.STK    ZP6__PATH__          ;"ref position 6th axis"
+                 OR        NOREF6__PATH__       ;"no reference return 6th axis"
+                 AND.STK
+         #endif
+         #if ref_dir_7th_axis__PATH__ > 0
+                 RD.STK    ZP7__PATH__          ;"ref position 6th axis"
+                 OR        NOREF7__PATH__       ;"no reference return 7th axis"
+                 AND.STK
+         #endif
+                 AND.NOT   ZP8__PATH__          ;"ref position 8th axis"
+                 WRT       A_REF8__PATH__       ;"auto ref. return 8th axis"
+      #endif
+   #endif
+#endif
+
+
+

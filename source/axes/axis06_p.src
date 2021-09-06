@@ -1,0 +1,350 @@
+//:--------------------------------------------------------------------------:
+//: File              : axis06__PATH__.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Management of 6th axis                               :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: overtravel check
+// if there are limit switches for the 6th axis,
+// replace LOG1 with the real input signals Xxxx.y
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: overtravel check
+if there are limit switches for the 6th axis,
+replace LOG1 with the real input signals Xxxx.y
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       *+L6__PATH__         ;"overtravel + 6th axis"
+
+                 RD        LOG1                 ;"logic one"
+                 WRT       *-L6__PATH__         ;"overtravel - 6th axis"
+
+// ---------------------------------------------------------------------------
+// reference position return
+// ---------------------------------------------------------------------------
+#if ref_dir_6th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+   #include "axis06ref__PATH__.src"       // reference position return 6th axis
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: led 6th axis selected
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: led 6th axis selected
+*)
+#endif
+                 RD        M_K6AX__PATH__       ;"memory 6th axis selected"
+#if ref_dir_1st_axis__PATH__ > -1
+                 AND.NOT   REFRUN__PATH__       ;"reference return active"
+   #if ref_dir_6th_axis__PATH__ > 0
+                 OR        R_REF6__PATH__       ;"reference return 6th axis"
+   #endif
+#endif
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       L_6AX__PATH__        ;"led 6th axis sel."
+
+// ---------------------------------------------------------------------------
+// _PATH__: jog feed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: jog feed
+*)
+#endif
+                 RD        M_K6AX__PATH__       ;"memory 6th axis selected"
+                 AND       M_KPLUS__PATH__      ;"memory axis plus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_6th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_6p__PATH__      ;"ref: move 6th axis +dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 6 && spindle_support_P01 > -1
+                 AND.NOT   EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+                 WRT       J6+__PATH__          ;"feed 6th axis + direction"
+                 WRT       L_6AXP__PATH__       ;"led 6th axis + dir."
+
+                 RD        M_K6AX__PATH__       ;"memory 6th axis selected"
+                 AND       M_KMINUS__PATH__     ;"memory axis minus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_6th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_6m__PATH__      ;"ref: move 6th axis -dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 6 && spindle_support_P01 > -1
+                 AND.NOT   EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+                 WRT       J6-__PATH__          ;"feed 6th axis - direction"
+                 WRT       L_6AXM__PATH__       ;"led 6th axis - dir."
+
+// ---------------------------------------------------------------------------
+// _PATH__: workpiece coordinate system preset
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: workpiece coordinate system preset
+*)
+#endif
+                 RD        REQWP6__PATH__       ;"req wp coord preset 6th axis"
+                 AND       WPRST6__PATH__       ;"wp coord. preset 6th axis"
+                 AND       WPSF6__PATH__        ;"wp coord. preset fin 6th axis"
+                 OR        RST__PATH__          ;"resetting signal"
+                 RST       REQWP6__PATH__       ;"req wp coord preset 6th axis"
+
+                 RD        M106__PATH__         ;"wp coord preset 6th axis"
+                 AND       WPRST6__PATH__       ;"wp coord preset 6th axis"
+                 AND       WPSF6__PATH__        ;"wp coord preset fin 6th ax"
+                 RST       M106__PATH__         ;"wp coord preset 6th axis"
+
+                 RD        FE_RST__PATH__       ;"falling edge reset"
+                 AND       wppsreq6__PATH__     ;"req wp coord. preset 6th ax"
+                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
+                 AND.NOT   PGMRUN__PATH__       ;"program running"
+                 OR.STK    
+                 OR        REQWP6__PATH__       ;"req wp coord preset 6th axis"
+                 OR        M106__PATH__         ;"wp coord preset 6th axis"
+                 RD.STK    WPRST6__PATH__       ;"wp coord. preset 6th axis"
+                 AND.NOT   WPSF6__PATH__        ;"wp coord. preset fin 6th axis"
+                 OR.STK    
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       WPRST6__PATH__       ;"wp coord. preset 6th axis"
+
+                 RD        FEPGMT__PATH__       ;"falling edge program test"
+                 AND       PGMRUN__PATH__       ;"program running"
+                 RD.STK    wppsreq6__PATH__     ;"req wp coord. preset 6th ax"
+                 AND.NOT   FE_RST__PATH__       ;"falling edge reset"
+                 OR.STK    
+                 WRT       wppsreq6__PATH__     ;"req wp coord. preset 6th ax"
+
+#if brake_6th_axis__PATH__ == 0
+// ---------------------------------------------------------------------------
+// _PATH__: axis interlock
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis interlock
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       POW_OK__PATH__       ;"power supply axis ok"
+   #else
+                 RD        POW_OK__PATH__       ;"power suply axis ok"
+   #endif
+                 AND.NOT   WPRST6__PATH__       ;"wp coord. preset 6th axis"
+                 WRT       *IT6__PATH__         ;"interlock 6th axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    POW_OK__PATH__       ;"power suply axis ok"
+                 WRT       SVF6__PATH__         ;"servo off 6th axis"
+#else
+// ---------------------------------------------------------------------------
+// _PATH__: brake control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: brake control
+*)
+   #endif
+                 RD        POW_OK__PATH__       ;"power supply axis ok"
+                 AND       SA6__PATH__          ;"6th axis servo ready"
+                 WRT       relb_6th__PATH__     ;"release brake 6th axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake released
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake released
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       relb_6th__PATH__     ;"release brake 6th axis"
+   #else
+                 RD        relb_6th__PATH__     ;"release brake 6th axis"
+   #endif
+                 AND.NOT   WPRST6__PATH__       ;"wp coord preset 6th axis"
+                 TMRB      
+                           0
+                           96
+                 WRT       *IT6__PATH__         ;"interlock 6th axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake clamped
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake clamped
+*)
+   #endif
+                 RD.NOT    relb_6th__PATH__     ;"release brake 6th axis"
+                 TMRB      
+                           0
+                           48
+                 WRT       6th_soff__PATH__     ;"6th axis servo off"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 OR        1st_svf6__PATH__     ;"1st servo off 6th axis"
+                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
+                 WRT       1st_svf6__PATH__     ;"1st servo off 6th axis"
+
+                 RD        1st_svf6__PATH__     ;"1st servo off 6th axis"
+                 OR        6th_soff__PATH__     ;"6th axis servo off"
+                 WRT       SVF6__PATH__         ;"servo off 6th axis"
+#endif
+// ---------------------------------------------------------------------------
+// _PATH__: external deceleration
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: external deceleration
+*)
+#endif
+                 RD.NOT    SETUP__PATH__        ;"set-up active"
+                 WRT       *+ED6__PATH__        ;"external dec. + 6th axis"
+                 WRT       *-ED6__PATH__        ;"external dec. - 6th axis"
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// _PATH__: DCS MCC off signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS MCC off signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        *MCFV6__PATH__       ;"MCC off signal 6th axis"
+   #endif
+                 WRT       M*MCFV6__PATH__      ;"6th axis MCC off signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS monitoring result signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS monitoring result signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        RSV6__PATH__         ;"monitoring result 6th axis"
+   #endif
+                 WRT       MRSV6__PATH__        ;"6th axis monit. result"
+
+// ---------------------------------------------------------------------------
+// _PATH__: position information effect signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+DCS position information effect signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        POSE6__PATH__        ;"pos. inf. effect 6th axis"
+   #endif
+                 WRT       MPOSE6__PATH__       ;"6th axis pos. inf. effect"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety check activation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety check activation
+*)
+   #endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 WRT       *VLDV6__PATH__       ;"safety check req. 6th ax."
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety zero speed monitoring
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety zero speed monitoring
+*)
+   #endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SVZR6__PATH__        ;"zero mon. req. 6th axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS selection of safety speed set 2
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS selection of safety speed set 2
+*)
+   #endif
+                 RD        DCS_S02              ;"DCS speed set 2"
+                 WRT       SVA6__PATH__         ;"saf. sel. sig. A 6th axis"
+#endif
+
+#if brake_6th_axis__PATH__ == 1
+// ---------------------------------------------------------------------------
+// _PATH__: management of the brake output
+// replace T_BIT000 with the real brake output Yxxx.y
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: management of the brake output
+replace T_BIT000 with the real brake output Yxxx.y
+*)
+   #endif
+
+   #if dcs_support == 0
+                 RD        relb_6th__PATH__     ;"release brake 6th axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #else
+                 RD        relb_6th__PATH__     ;"release brake 6th axis"
+                 AND       *BRK6__PATH__        ;"Safety Brake sig. 6th axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #endif
+#endif

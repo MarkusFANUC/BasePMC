@@ -1,0 +1,130 @@
+//:--------------------------------------------------------------------------:
+//: File              : mode__PATH__.sym                                         :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific symbols for the mode decoding          :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:03.09.14: 1.1.0 :Blp    :SETTCH and SETMODE added                         :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+SETMODE__PATH__,R__ADDR__080,_PATH__:mode forcing word,
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Internal Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables Rx080.0 - Rx087.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+SETMEM__PATH__,R__ADDR__080.0,_PATH__:force to mode mem,
+SETSBK__PATH__,R__ADDR__080.1,_PATH__:force to single block,
+SETDNC__PATH__,R__ADDR__080.2,_PATH__:force to dnc operation,
+SETEDT__PATH__,R__ADDR__080.3,_PATH__:force to mode edit,
+SETMDI__PATH__,R__ADDR__080.4,_PATH__:force to mode mdi,
+SETJOG__PATH__,R__ADDR__080.5,_PATH__:force to mode jog,
+SETREF__PATH__,R__ADDR__080.6,_PATH__:force mode ref,
+SET_HD__PATH__,R__ADDR__080.7,_PATH__:force to mode handle,
+
+SETINC__PATH__,R__ADDR__081.0,_PATH__:force to mode inc feed,
+SETTCH__PATH__,R__ADDR__081.1,_PATH__:force teach in,
+
+M_AUTO__PATH__,R__ADDR__082.0,_PATH__:automatic mode active,
+M_MAN__PATH__,R__ADDR__082.1,_PATH__:manual mode active,
+O_STOP__PATH__,R__ADDR__082.2,_PATH__:optional stop m01 active,
+FEPGMT__PATH__,R__ADDR__082.3,_PATH__:falling edge program test,
+MDCHEN__PATH__,R__ADDR__082.4,_PATH__:mode change enable,
+
+M_MEM__PATH__,R__ADDR__083.0,_PATH__:mode mem selected,
+M_EDT__PATH__,R__ADDR__083.1,_PATH__:mode edit selected,
+M_MDI__PATH__,R__ADDR__083.2,_PATH__:mode mdi selected,
+M_DNC__PATH__,R__ADDR__083.3,_PATH__:mode dnc selected,
+M_JOG__PATH__,R__ADDR__083.4,_PATH__:mode jog selected,
+M_REF__PATH__,R__ADDR__083.5,_PATH__:mode REF selected,
+M_HD__PATH__,R__ADDR__083.6,_PATH__:mode HANDLE selected,
+M_INC__PATH__,R__ADDR__083.7,_PATH__:mode INC selected,
+
+M_REFJ__PATH__,R__ADDR__084.0,_PATH__:jog mode during ref,
+M_TEACH__PATH__,R__ADDR__084.1,_PATH__:mode TEACH IN selected,
+D_JOGMV__PATH__,R__ADDR__084.2,_PATH__:delay jog move,
+// -------------------------------------------------------
+// local variables Rx088.0 - Rx095.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+m_mmem__PATH__,R__ADDR__088.0,_PATH__:memory mode mem,
+m_medt__PATH__,R__ADDR__088.1,_PATH__:memory mode edit,
+m_mmdi__PATH__,R__ADDR__088.2,_PATH__:memory mode mdi,
+m_mref__PATH__,R__ADDR__088.3,_PATH__:memory mode ref,
+m_mj__PATH__,R__ADDR__088.4,_PATH__:memory mode jog,
+m_mhdi__PATH__,R__ADDR__088.5,_PATH__:memory mode handle / inc,
+m_mdnc__PATH__,R__ADDR__088.6,_PATH__:memory dnc mode,
+
+mk_sbk__PATH__,R__ADDR__089.0,_PATH__:memory key single block,
+reksbk__PATH__,R__ADDR__089.1,_PATH__:re key single block,
+mkskip__PATH__,R__ADDR__089.2,_PATH__:memory key skip,
+rekskp__PATH__,R__ADDR__089.3,_PATH__:rising edge key skip,
+mkostp__PATH__,R__ADDR__089.4,_PATH__:memory key optional stop,
+rekosp__PATH__,R__ADDR__089.5,_PATH__:re key optional stop,
+mk_drn__PATH__,R__ADDR__089.6,_PATH__:memory key dry run,
+rekdrn__PATH__,R__ADDR__089.7,_PATH__:rising edge key dry run,
+
+mkpgmt__PATH__,R__ADDR__090.0,_PATH__:memory key program test,
+repgmt__PATH__,R__ADDR__090.1,_PATH__:rising edge key pgm test,
+m_pgmt__PATH__,R__ADDR__090.2,_PATH__:memory program test,
+hdsel__PATH__,R__ADDR__090.3,_PATH__:handle selected,
+incsel__PATH__,R__ADDR__090.4,_PATH__:inc selected,
+mdrefx__PATH__,R__ADDR__090.5,_PATH__:memory ref without dog,
+
+rekteach__PATH__,R__ADDR__091.0,_PATH__:re key teach in,
+mkteach__PATH__,R__ADDR__091.1,_PATH__:mem key teach in,
+m_tchin__PATH__,R__ADDR__091.2,_PATH__:memory mode teach in,
+re_krest__PATH__,R__ADDR__091.3,_PATH__:re program restart,
+mkrest__PATH__,R__ADDR__091.4,_PATH__:mem key program restart,

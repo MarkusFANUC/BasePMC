@@ -1,0 +1,590 @@
+//:--------------------------------------------------------------------------:
+//: File              : multipath.src                                        :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : multipath related symbols                            :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:21.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if nbr_of_path <= 1
+// ---------------------------------------------------------------------------
+// selection of path 01
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 01
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       PATH_P01             ;"path 01 selected"
+#endif
+
+#if nbr_of_path == 2
+// ---------------------------------------------------------------------------
+// rising edge for path switching
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+rising edge for path switching
+*)
+   #endif
+                 RD        K_PATH+              ;"key path plus"
+                 AND.NOT   mkpsel               ;"memory path selection key"
+                 WRT       repath               ;"rising edge path switching"
+
+                 RD        K_PATH+              ;"key path plus"
+                 WRT       mkpsel               ;"memory path selection key"
+
+// ---------------------------------------------------------------------------
+// path selection
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+path selection
+*)
+   #endif
+                 RD        repath               ;"rising edge path switching"
+                 AND.NOT   HEAD                 ;"path selection signal 1"
+                 RD.STK    HEAD                 ;"path selection signal 1"
+                 AND.NOT   repath               ;"rising edge path switching"
+                 OR.STK
+                 AND.NOT   PSYNREQ              ;"path synchronization request"
+                 WRT       HEAD                 ;"path selection signal 1"
+
+// ---------------------------------------------------------------------------
+// check if path changed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+check if path changed
+*)
+   #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND       PATH_P02             ;"path 02 selected"
+                 RD.STK    HEAD                 ;"path selection signal 1"
+                 AND       PATH_P01             ;"path 01 selected"
+                 OR.STK
+                 WRT       PCHANGE              ;"path change"
+
+// ---------------------------------------------------------------------------
+// selection of path 01
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 01
+*)
+   #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 WRT       PATH_P01             ;"path 01 selected"
+
+// ---------------------------------------------------------------------------
+// selection of path 02
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 02
+*)
+   #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 WRT       PATH_P02             ;"path 02 selected"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// rising edge for path switching
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+rising edge for path switching
+*)
+   #endif
+                 RD        K_PATH-              ;"key path switching -"
+                 OR        K_PATH+              ;"key path switching +"
+                 AND.NOT   mkpsel               ;"memory path selection key"
+                 WRT       repath               ;"rising edge path switching"
+
+                 RD        K_PATH-              ;"key path switching -"
+                 OR        K_PATH+              ;"key path switching +"
+                 WRT       mkpsel               ;"memory path selection key"
+
+// ---------------------------------------------------------------------------
+// initialization of path counter
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+initialization of path counter
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           2
+   #if nbr_of_path==3                           // Number of path = 3
+                           2
+   #endif
+   #if nbr_of_path==4                           // Number of path = 4
+                           3
+   #endif
+   #if nbr_of_path==5                           // Number of path = 5
+                           4
+   #endif
+   #if nbr_of_path==6                           // Number of path = 6
+                           5
+   #endif
+   #if nbr_of_path==7                           // Number of path = 7
+                           6
+   #endif
+   #if nbr_of_path==8                           // Number of path = 8
+                           7
+   #endif
+   #if nbr_of_path==9                           // Number of path = 9
+                           8
+   #endif
+   #if nbr_of_path==10                          // Number of path = 10
+                           9
+   #endif
+   #if nbr_of_path==11                          // Number of path = 11
+                           10
+   #endif
+   #if nbr_of_path==12                          // Number of path = 12
+                           11
+   #endif
+   #if nbr_of_path==13                          // Number of path = 13
+                           12
+   #endif
+   #if nbr_of_path==14                          // Number of path = 14
+                           13
+   #endif
+   #if nbr_of_path==15                          // Number of path = 15
+                           14
+   #endif
+                           pctr_set             ;"path ctr preset"
+                 RD        FICYCL               ;"first cycle finished"
+                 MOVW      
+                           pctr_cnt             ;"path ctr count value"
+                           pctr_mem             ;"path ctr memory"
+
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 OR        PSYNREQ              ;"path synchronization request"
+                 NUMEB     
+                           2
+                           0
+                           pctr_cnt             ;"path ctr count value"
+
+// ---------------------------------------------------------------------------
+// ring counter for path switching
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+ring counter for path switching
+*)
+   #endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    K_PATH-              ;"key path minus"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    repath               ;"rising edge path switching"
+                 CTRC      
+                           pctr_set             ;"path ctr preset"
+                           pctr_cnt             ;"path ctr count value"
+                 WRT       maxpath              ;"path ctr preset reached"
+
+// ---------------------------------------------------------------------------
+// check if path changed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+check if path changed
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 NEW       
+                           pctr_cnt             ;"path ctr count value"
+                           pctr_mem             ;"path ctr memory"
+                 WRT       PCHANGE              ;"path change"
+
+// ---------------------------------------------------------------------------
+// path selection
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+path selection
+*)
+   #endif
+                 RD        pctr_b00             ;"path ctr value bit00"
+                 WRT       HEAD                 ;"path selection signal 1"
+
+                 RD        pctr_b01             ;"path ctr value bit01"
+                 WRT       HEAD2                ;"path selection signal 2"
+   #if nbr_of_path > 4
+                 RD        pctr_b02             ;"path ctr value bit02"
+                 WRT       HEAD3                ;"path selection signal 3"
+   #endif
+   #if nbr_of_path > 8
+                 RD        pctr_b03             ;"path ctr value bit03"
+                 WRT       HEAD4                ;"path selection signal 4"
+   #endif
+// ---------------------------------------------------------------------------
+// selection of path 01
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 01
+*)
+   #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+   #if nbr_of_path > 4
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+   #endif
+   #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+   #endif
+                 WRT       PATH_P01             ;"path 01 selected"
+
+// ---------------------------------------------------------------------------
+// selection of path 02
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 02
+*)
+   #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+   #if nbr_of_path > 4
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+   #endif
+   #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+   #endif
+                 WRT       PATH_P02             ;"path 02 selected"
+
+// ---------------------------------------------------------------------------
+// selection of path 03
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of path 03
+*)
+   #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+   #if nbr_of_path > 4
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+   #endif
+   #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+   #endif
+                 WRT       PATH_P03             ;"path 03 selected"
+
+// ---------------------------------------------------------------------------
+// selection of path 04
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 3
+      #if net_comment == 1
+(*
+selection of path 04
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+      #if nbr_of_path > 4
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+      #endif
+      #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+      #endif
+                 WRT       PATH_P04             ;"path 04 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 05
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 4
+      #if net_comment == 1
+(*
+selection of path 05
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+      #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+      #endif
+                 WRT       PATH_P05             ;"path 05 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 06
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 5
+      #if net_comment == 1
+(*
+selection of path 06
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+      #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+      #endif
+                 WRT       PATH_P06             ;"path 06 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 07
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 6
+      #if net_comment == 1
+(*
+selection of path 07
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+      #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+      #endif
+                 WRT       PATH_P07             ;"path 07 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 08
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 7
+      #if net_comment == 1
+(*
+selection of path 08
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+      #if nbr_of_path > 8
+                 AND.NOT   HEAD4                ;"path selection signal 4"
+      #endif
+                 WRT       PATH_P08             ;"path 08 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 09
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 8
+      #if net_comment == 1
+(*
+selection of path 09
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P09             ;"path 09 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 10
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 9
+      #if net_comment == 1
+(*
+selection of path 10
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P10             ;"path 10 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 11
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 10
+      #if net_comment == 1
+(*
+selection of path 11
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P11             ;"path 11 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 12
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 11
+      #if net_comment == 1
+(*
+selection of path 12
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+                 AND.NOT   HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P12             ;"path 12 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 13
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 12
+      #if net_comment == 1
+(*
+selection of path 13
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P13             ;"path 13 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 14
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 13
+      #if net_comment == 1
+(*
+selection of path 14
+*)
+      #endif
+                 RD        HEAD                 ;"path selection signal 1"
+                 AND.NOT   HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P14             ;"path 14 selected"
+   #endif
+
+// ---------------------------------------------------------------------------
+// selection of path 15
+// ---------------------------------------------------------------------------
+   #if nbr_of_path > 14
+      #if net_comment == 1
+(*
+selection of path 15
+*)
+      #endif
+                 RD.NOT    HEAD                 ;"path selection signal 1"
+                 AND       HEAD2                ;"path selection signal 2"
+                 AND       HEAD3                ;"path selection signal 3"
+                 AND       HEAD4                ;"path selection signal 4"
+                 WRT       PATH_P15             ;"path 15 selected"
+   #endif
+
+#endif
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// Path synchronization
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+path synchronization
+*)
+   #endif
+                 RD        K_PSYN               ;"key path synchronization"
+                 AND.NOT   mpsyn                ;"memory path synchronisation ke"
+                 WRT       repsyn               ;"re path synchronization"
+
+                 RD        K_PSYN               ;"key path synchronization"
+                 WRT       mpsyn                ;"memory path synchronisation ke"
+
+                 RD        repsyn               ;"re path synchronization"
+                 AND       MDCHEN               ;"mode change enable"
+                 AND.NOT   PATHSYN              ;"path syncronization signal"
+                 RD.STK    PATHSYN              ;"path syncronization signal"
+                 AND.NOT   repsyn               ;"re path synchronization"
+                 OR.STK
+                 WRT       PATHSYN              ;"path syncronization signal"
+
+                 RD        PATHSYN              ;"path syncronization signal"
+                 AND.NOT   mpathsyn             ;"memory path synchronization"
+                 WRT       PSYNREQ              ;"path synchronization request"
+
+                 RD        PATHSYN              ;"path syncronization signal"
+                 WRT       mpathsyn             ;"memory path synchronization"
+
+// ---------------------------------------------------------------------------
+// force all path to mem mode
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+force all path to mem mode
+*)
+   #endif
+                 RD        PSYNREQ              ;"path synchronization request"
+                 AND       REF_OK               ;"all axis referenced"
+   #if soft_op_panel == 1 || operatorspanel == 0
+                 AND.NOT   SOP_RUN              ;"software op-panel active"
+   #endif
+                 SET       SETMEM_P01           ;"force to mode mem"
+                 SET       SETMEM_P02           ;"force to mode mem"
+   #if nbr_of_path > 2              // Number of path = 3
+                 SET       SETMEM_P03           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 3              // Number of path = 4
+                 SET       SETMEM_P04           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 4              // Number of path = 5
+                 SET       SETMEM_P05           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 5              // Number of path = 6
+                 SET       SETMEM_P06           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 6              // Number of path = 7
+                 SET       SETMEM_P07           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 7              // Number of path = 8
+                 SET       SETMEM_P08           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 8              // Number of path = 9
+                 SET       SETMEM_P09           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 9              // Number of path = 10
+                 SET       SETMEM_P10           ;"force to mode mem"
+   #endif
+
+   #if nbr_of_path > 10             // Number of path = 11
+                 SET       SETMEM_P11           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 11             // Number of path = 12
+                 SET       SETMEM_P12           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 12             // Number of path = 13
+                 SET       SETMEM_P13           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 13             // Number of path = 14
+                 SET       SETMEM_P14           ;"force to mode mem"
+   #endif
+   #if nbr_of_path > 14             // Number of path = 15
+                 SET       SETMEM_P15           ;"force to mode mem"
+   #endif
+
+#endif

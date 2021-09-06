@@ -1,0 +1,577 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_sop_in__PATH__.src                                    :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs software operator's panel                     :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:13.06.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: copying inputs to key map area
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: copying inputs to key map area
+*)
+#endif
+
+// ------------------------------------
+// key mem mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key mem mode
+*)
+#endif
+                 RD.NOT    M_DNC__PATH__        ;"mode dnc selected"
+                 OR.NOT    OUT3__PATH__         ;"sop: dnc mode"
+                 AND       MD1O__PATH__         ;"sop: signal md1"
+                 AND.NOT   MD2O__PATH__         ;"sop: signal md2"
+                 AND.NOT   MD4O__PATH__         ;"sop: signal md4"
+                 AND.NOT   ZRNO__PATH__         ;"sop: signal zrn"
+                 WRT       K_MMEM__PATH__       ;"key mode mem"
+                 WRT       K_MMEM               ;"key mode mem"
+
+// ------------------------------------
+// key single block
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key single block
+*)
+#endif
+                 RD        SBKO__PATH__         ;"sop: single block"
+                 WRT       K_SBK__PATH__        ;"key single block"
+
+// ------------------------------------
+// key block skip
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key block skip
+*)
+#endif
+                 RD        BDTO__PATH__         ;"sop: optional block skip"
+                 WRT       K_SKIP__PATH__       ;"key block skip"
+
+// ------------------------------------
+// key optional stop
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key optional stop
+*)
+#endif
+                 RD        OUT4__PATH__         ;"sop: optional stop m01"
+                 WRT       K_OSTP__PATH__       ;"key optional stop m01"
+
+// ------------------------------------
+// key dry run
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key dry run
+*)
+#endif
+                 RD        DRNO__PATH__         ;"sop: dry run"
+                 WRT       K_DRN__PATH__        ;"key dry run"
+
+// ------------------------------------
+// key program test
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key program test
+*)
+#endif
+                 RD        MLKO__PATH__         ;"sop: machine lock"
+                 WRT       K_PGMT__PATH__       ;"key program test"
+
+// ------------------------------------
+// key dnc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key dnc mode
+*)
+#endif
+                 RD        OUT3__PATH__         ;"sop: dnc mode"
+                 AND       M_MEM__PATH__        ;"mode mem selected"
+                 WRT       K_DNC__PATH__        ;"key dnc operation mode"
+                 WRT       K_DNC                ;"key dnc operation mode"
+
+// ------------------------------------
+// key edit mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key edit mode
+*)
+#endif
+                 RD        MD1O__PATH__         ;"sop: signal md1"
+                 AND       MD2O__PATH__         ;"sop: signal md2"
+                 AND.NOT   MD4O__PATH__         ;"sop: signal md4"
+                 AND.NOT   ZRNO__PATH__         ;"sop: signal zrn"
+                 WRT       K_MEDT__PATH__       ;"key mode edit"
+                 WRT       K_MEDT               ;"key mode edit"
+
+// ------------------------------------
+// key mdi mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key mdi mode
+*)
+#endif
+                 RD.NOT    MD1O__PATH__         ;"sop: signal md1"
+                 AND.NOT   MD2O__PATH__         ;"sop: signal md2"
+                 AND.NOT   MD4O__PATH__         ;"sop: signal md4"
+                 AND.NOT   ZRNO__PATH__         ;"sop: signal zrn"
+                 WRT       K_MMDI__PATH__       ;"key mode mdi"
+                 WRT       K_MMDI               ;"key mode mdi"
+
+// ------------------------------------
+// key jog mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key jog mode
+*)
+#endif
+                 RD        MD1O__PATH__         ;"sop: signal md1"
+                 AND.NOT   MD2O__PATH__         ;"sop: signal md2"
+                 AND       MD4O__PATH__         ;"sop: signal md4"
+                 AND.NOT   ZRNO__PATH__         ;"sop: signal zrn"
+                 WRT       K_MJ__PATH__         ;"key mode jog"
+                 WRT       K_MJ                 ;"key mode jog"
+
+// ------------------------------------
+// key ref mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key ref mode
+*)
+#endif
+                 RD        MD1O__PATH__         ;"sop: signal md1"
+                 AND.NOT   MD2O__PATH__         ;"sop: signal md2"
+                 AND       MD4O__PATH__         ;"sop: signal md4"
+                 AND       ZRNO__PATH__         ;"sop: signal zrn"
+                 WRT       K_MREF__PATH__       ;"key mode ref"
+                 WRT       K_MREF               ;"key mode ref"
+
+// ------------------------------------
+// key inc / handle mode
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key inc mode
+*)
+#endif
+                 RD.NOT    MD1O__PATH__         ;"sop: signal md1"
+                 AND.NOT   MD2O__PATH__         ;"sop: signal md2"
+                 AND       MD4O__PATH__         ;"sop: signal md4"
+                 AND.NOT   ZRNO__PATH__         ;"sop: signal zrn"
+#if handwheel_support == 0
+                 WRT       K_INC__PATH__        ;"key inc feed"
+                 WRT       K_INC                ;"key inc feed"
+#else
+                 WRT       K_HD__PATH__         ;"key handle"
+                 WRT       K_HD                 ;"key handle"
+#endif
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key cycle start
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key cycle start
+*)
+#endif
+
+                 RD        OUT2__PATH__         ;"sop: nc start"
+                 WRT       K_ST__PATH__         ;"key cycle start"
+                 WRT       K_ST                 ;"key cycle start"
+
+// ------------------------------------
+// key cycle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key cycle stop
+*)
+#endif
+                 RD        SPO__PATH__          ;"sop: feed hold"
+                 WRT       K_CYSP__PATH__       ;"key cycle stop"
+
+// ------------------------------------
+// reset key
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: reset key
+*)
+#endif
+                 RD        OUT1__PATH__         ;"sop: external reset"
+                 WRT       K_RST__PATH__        ;"rst key"
+
+
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key 1st axis
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 1st axis
+*)
+#endif
+                 RD        J1O+__PATH__         ;"sop: 1st axis + direction"
+                 OR        J1O-__PATH__         ;"sop: 1st axis - direction"
+                 AND.NOT   M_HD__PATH__         ;"mode handle selected"
+                 RD.STK    HS1AO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND.NOT   HS1BO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND.NOT   HS1CO__PATH__        ;"sop: hd axis sel. signal3"
+                 AND       M_HD__PATH__         ;"mode handle selected"
+                 OR.STK
+                 WRT       K_1AX__PATH__        ;"key 1st axis"
+
+// ------------------------------------
+// key 2nd axis
+// ------------------------------------
+#if axis_number__PATH__ > 1
+   #if net_comment == 1
+(*
+_PATH__: key 2nd axis
+*)
+   #endif
+                 RD        J2O+__PATH__         ;"sop: 2nd axis + direction"
+                 OR        J2O-__PATH__         ;"sop: 2nd axis - direction"
+                 AND.NOT   M_HD__PATH__         ;"mode handle selected"
+                 RD.STK.NOT HS1AO__PATH__       ;"sop: hd axis sel. signal1"
+                 AND       HS1BO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND.NOT   HS1CO__PATH__        ;"sop: hd axis sel. signal3"
+                 AND       M_HD__PATH__         ;"mode handle selected"
+                 OR.STK    
+                 WRT       K_2AX__PATH__        ;"key 2nd axis"
+#endif
+
+// ------------------------------------
+// key 3rd axis
+// ------------------------------------
+#if axis_number__PATH__ > 2
+   #if net_comment == 1
+(*
+_PATH__: key 3rd axis
+*)
+   #endif
+                 RD        J3O+__PATH__         ;"sop: 3rd axis + direction"
+                 OR        J3O-__PATH__         ;"sop: 3rd axis - direction"
+                 AND.NOT   M_HD__PATH__         ;"mode handle selected"
+                 RD.STK    HS1AO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND       HS1BO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND.NOT   HS1CO__PATH__        ;"sop: hd axis sel. signal3"
+                 AND       M_HD__PATH__         ;"mode handle selected"
+                 OR.STK
+                 WRT       K_3AX__PATH__        ;"key 3rd axis"
+#endif
+
+// ------------------------------------
+// key 4th axis
+// ------------------------------------
+#if axis_number__PATH__ > 3
+   #if net_comment == 1
+(*
+_PATH__: key 4th axis
+*)
+   #endif
+                 RD        J4O+__PATH__         ;"sop: 4th axis + direction,"
+                 OR        J4O-__PATH__         ;"sop: 4th axis - direction,"
+                 AND.NOT   M_HD__PATH__         ;"mode handle selected"
+                 RD.STK.NOT HS1AO__PATH__       ;"sop: hd axis sel. signal1"
+                 AND.NOT   HS1BO__PATH__        ;"sop: hd axis sel. signal1"
+                 AND       HS1CO__PATH__        ;"sop: hd axis sel. signal3"
+                 AND       M_HD__PATH__         ;"mode handle selected"
+                 OR.STK
+                 WRT       K_4AX__PATH__        ;"key 4th axis"
+#endif
+
+// ------------------------------------
+// key axis + direction
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key axis + direction
+*)
+#endif
+                 RD        J1O+__PATH__         ;"sop: 1st axis + direction"
+                 AND       K_1AX__PATH__        ;"key 1st axis"
+#if axis_number__PATH__ > 1
+                 RD.STK    J2O+__PATH__         ;"sop: 2nd axis + direction"
+                 AND       K_2AX__PATH__        ;"key 2nd axis"
+                 OR.STK
+#endif
+#if axis_number__PATH__ > 2
+                 RD.STK    J3O+__PATH__         ;"sop: 3rd axis + direction"
+                 AND       K_3AX__PATH__        ;"key 3rd axis"
+                 OR.STK    
+#endif
+#if axis_number__PATH__ > 3
+                 RD.STK    J4O+__PATH__         ;"sop: 4th axis + direction"
+                 AND       K_4AX__PATH__        ;"key 4th axis"
+                 OR.STK
+#endif
+                 WRT       K_PLUS__PATH__       ;"key plus direction"
+
+// ------------------------------------
+// key axis - direction
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key axis - direction
+*)
+#endif
+                 RD        J1O-__PATH__         ;"sop: 1st axis - direction"
+                 AND       K_1AX__PATH__        ;"key 1st axis"
+#if axis_number__PATH__ > 1
+                 RD.STK    J2O-__PATH__         ;"sop: 2nd axis - direction"
+                 AND       K_2AX__PATH__        ;"key 2nd axis"
+                 OR.STK
+#endif
+#if axis_number__PATH__ > 2
+                 RD.STK    J3O-__PATH__         ;"sop: 3rd axis - direction"
+                 AND       K_3AX__PATH__        ;"key 3rd axis"
+                 OR.STK
+#endif
+#if axis_number__PATH__ > 3
+                 RD.STK    J4O-__PATH__         ;"sop: 4th axis - direction"
+                 AND       K_4AX__PATH__        ;"key 4th axis"
+                 OR.STK
+#endif
+                 WRT       K_MINUS__PATH__      ;"key minus direction"
+
+// ------------------------------------
+// key rapid traverse
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key rapid traverse
+*)
+#endif
+                 RD        RTO__PATH__          ;"sop: manual rapid traverse"
+                 WRT       K_RT__PATH__         ;"key rapid traverse"
+
+
+// ------------------------------------
+// key 1 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 1 increment
+*)
+#endif
+                 RD.NOT    MP1O__PATH__         ;"sop: hd feed magnific. mp1"
+                 AND.NOT   MP2O__PATH__         ;"sop: hd feed magnific. mp2"
+                 WRT       K_X1__PATH__         ;"key 1 increment"
+
+// ------------------------------------
+// key 10 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 10 increment
+*)
+#endif
+                 RD        MP1O__PATH__         ;"sop: hd feed magnific. mp1"
+                 AND.NOT   MP2O__PATH__         ;"sop: hd feed magnific. mp2"
+                 WRT       K_X10__PATH__        ;"key 10 increment"
+
+// ------------------------------------
+// key 100 increment
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key 100 increment
+*)
+#endif
+                 RD.NOT    MP1O__PATH__         ;"sop: hd feed magnific. mp1"
+                 AND       MP2O__PATH__         ;"sop: hd feed magnific. mp2"
+                 WRT       K_X100__PATH__       ;"key 100 increment"
+
+// ---------------------------------------------------------------------------
+// _PATH__: decoding feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: decoding feed override
+*)
+#endif
+
+                 RD        M_AUTO__PATH__       ;"automatic mode active"
+                 NOT       
+                           1
+                           *FV0O_7O__PATH__     ;"sop: feedrate override"
+                           FOVRS__PATH__        ;"feed override in %"
+
+                 RD        M_MAN__PATH__        ;"manual mode active"
+                 NOT       
+                           2
+                           *JV0O_15O__PATH__    ;"sop: jog feed rate ovr"
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD        LOG1                 ;"logic one"
+                 RNGW      
+                           1
+                           100
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       fovrlt1__PATH__      ;"feed override 0.1<=1"
+
+                 RD        fovrlt1__PATH__      ;"feed override 0.1<=1"
+                 NUMEB     
+                           2
+                           100
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    M_MAN__PATH__        ;"manual mode active"
+                 DIVB      
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           100
+                           FOVRS__PATH__        ;"feed override in %"
+                 WRT       e_divfovr__PATH__    ;"error divb feed ovr"
+
+                 RD        LOG1                 ;"logic one"
+                 MOVW
+                           FOVRS__PATH__        ;"feed override in %"
+                           FOVRS                ;"feed override in %"
+
+#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// Spindle
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// rising edge key spindle start
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising edge key spindle start
+*)
+#endif
+                 RD        OUT6__PATH__         ;"sop: spindle on"
+                 AND.NOT   RE_SOP_ACT           ;"re sop active"
+                 AND.NOT   mkspon__PATH__       ;"mem key spindle on"
+                 WRT       rekspon__PATH__      ;"re key spindle on"
+
+                 RD        OUT6__PATH__         ;"sop: spindle on"
+                 WRT       mkspon__PATH__       ;"mem key spindle on"
+
+// ------------------------------------
+// key spindle start cw
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key spindle start cw
+*)
+#endif
+                 RD        rekspon__PATH__      ;"re key spindle on"
+                 AND.NOT   OUT7__PATH__         ;"sop: spindle ccw"
+                 WRT       K_SPCW__PATH__       ;"key spindle cw"
+
+// ------------------------------------
+// key spindle start ccw
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key spindle start ccw
+*)
+#endif
+                 RD        rekspon__PATH__      ;"re key spindle on"
+                 AND       OUT7__PATH__         ;"sop: spindle ccw"
+                 WRT       K_SPCCW__PATH__      ;"key spindle ccw"
+
+// ------------------------------------
+// key spindle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: key spindle stop
+*)
+#endif
+                 RD.NOT    OUT6__PATH__         ;"sop: spindle on"
+                 WRT       K_SPSP__PATH__       ;"key spindle stop"
+
+// ------------------------------------
+// decoding the spindle override
+// ------------------------------------
+   #if net_comment == 1
+(*
+decoding the spindle override
+*)
+   #endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           1
+                           100
+                           SOVRS                ;"spindle override in %"
+#endif
+
+#if coolant_support__PATH__ == 1 && coolant_support_P01 > -1
+// ---------------------------------------------------------------------------
+// coolant
+// ---------------------------------------------------------------------------
+// ------------------------------------
+//  key coolant on / off
+// ------------------------------------
+   #if net_comment == 1
+(*
+key coolant on / off
+*)
+   #endif
+                 RD        OUT5__PATH__         ;"sop: coolant on"
+                 AND.NOT   RE_SOP_ACT           ;"re sop active"
+                 AND.NOT   mkcon__PATH__        ;"mem key coolant on"
+                 AND.NOT   COOLON__PATH__       ;"coolant on"
+                 WRT       rekcool__PATH__      ;"re key coolant"
+
+                 RD.NOT    OUT5__PATH__         ;"sop: coolant on"
+                 AND.NOT   RE_SOP_ACT           ;"re sop active"
+                 AND       mkcon__PATH__        ;"mem key coolant on"
+                 RD.STK.NOT OUT5__PATH__         ;"sop: coolant on"
+                 AND       RE_SOP_ACT           ;"re sop active"
+                 OR.STK
+                 AND       COOLON__PATH__       ;"coolant on"
+                 WRT       fekcool__PATH__      ;"fe key coolant"
+
+                 RD        OUT5__PATH__         ;"sop: coolant on"
+                 AND.NOT   RE_SOP_ACT           ;"re sop active"
+                 WRT       mkcon__PATH__        ;"mem key coolant on"
+
+                 RD        rekcool__PATH__      ;"re key coolant"
+                 OR        fekcool__PATH__      ;"fe key coolant"
+                 WRT       K_COOL__PATH__       ;"key coolant on / off"
+
+#endif

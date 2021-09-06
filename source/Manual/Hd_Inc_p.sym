@@ -1,0 +1,121 @@
+//:--------------------------------------------------------------------------:
+//: File              : Hd_Inc__PATH__.sym                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific symbols for handle / inc modes         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Internal Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables Rx544.0 - Rx547.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+MHD1__PATH__,R__ADDR__544.0,_PATH__:memory handwheel 1st axis,
+#if axis_number__PATH__ > 1
+MHD2__PATH__,R__ADDR__544.1,_PATH__:memory handwheel 2nd axis,
+#endif
+#if axis_number__PATH__ > 2
+MHD3__PATH__,R__ADDR__544.2,_PATH__:memory handwheel 3rd axis,
+#endif
+#if axis_number__PATH__ > 3
+MHD4__PATH__,R__ADDR__544.3,_PATH__:memory handwheel 4th axis,
+#endif
+#if axis_number__PATH__ > 4
+MHD5__PATH__,R__ADDR__544.4,_PATH__:memory handwheel 5th axis,
+#endif
+#if axis_number__PATH__ > 5
+MHD6__PATH__,R__ADDR__544.5,_PATH__:memory handwheel 6th axis,
+#endif
+#if axis_number__PATH__ > 6
+MHD7__PATH__,R__ADDR__544.6,_PATH__:memory handwheel 7th axis,
+#endif
+#if axis_number__PATH__ > 7
+MHD8__PATH__,R__ADDR__544.7,_PATH__:memory handwheel 8th axis,
+#endif
+
+X_1__PATH__,R__ADDR__545.0,_PATH__:memory 1 increment,
+X_10__PATH__,R__ADDR__545.1,_PATH__:memory 10 increment,
+X_100__PATH__,R__ADDR__545.2,_PATH__:memory 100 increment,
+X_1000__PATH__,R__ADDR__545.3,_PATH__:memory 1000 increment,
+
+// -------------------------------------------------------
+// local variables Rx548.0 - Rx559.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+mhdinc__PATH__,R__ADDR__548.0,memory handle/inc mode,
+hd1sel__PATH__,R__ADDR__549.0,_PATH__:handwheel 1st axis sel.,
+#if axis_number__PATH__ > 1
+hd2sel__PATH__,R__ADDR__549.1,_PATH__:handwheel 2nd axis sel.,
+#endif
+#if axis_number__PATH__ > 2
+hd3sel__PATH__,R__ADDR__549.2,_PATH__:handwheel 3rd axis sel.,
+#endif
+#if axis_number__PATH__ > 3
+hd4sel__PATH__,R__ADDR__549.3,_PATH__:handwheel 4th axis sel.,
+#endif
+#if axis_number__PATH__ > 4
+hd5sel__PATH__,R__ADDR__549.4,_PATH__:handwheel 5th axis sel.,
+#endif
+#if axis_number__PATH__ > 5
+hd6sel__PATH__,R__ADDR__549.5,_PATH__:handwheel 6th axis sel.,
+#endif
+#if axis_number__PATH__ > 6
+hd7sel__PATH__,R__ADDR__549.6,_PATH__:handwheel 7th axis sel.,
+#endif
+#if axis_number__PATH__ > 7
+hd8sel__PATH__,R__ADDR__549.7,_PATH__:handwheel 8th axis sel.,
+#endif

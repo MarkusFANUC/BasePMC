@@ -1,0 +1,332 @@
+//:--------------------------------------------------------------------------:
+//: File              : mode.src                                             :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Mode decoding                                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// key for program write enable
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+key for program write enable
+*)
+#endif
+                 RD        K_PKEY               ;"memory protection key"
+                 WRT       KEY1                 ;"memory protect signal key1"
+                 WRT       KEY2                 ;"memory protect signal key2"
+                 WRT       KEY3                 ;"memory protect signal key3"
+                 WRT       KEY4                 ;"memory protect signal key4"
+#if start_address_op == 0
+                 WRT       L_PKEY               ;"led protection key"
+#endif
+
+// ---------------------------------------------------------------------------
+// P01:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P01:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P01           ;"P01:decoding of op. modes"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P02           ;"P02:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P03           ;"P03:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P04           ;"P04:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P05           ;"P05:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P06           ;"P06:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P07           ;"P07:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P08           ;"P08:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P09           ;"P09:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P10           ;"P10:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P11           ;"P11:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P12           ;"P12:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P13           ;"P13:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P14           ;"P14:decoding of op. modes"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:decoding of op. modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:decoding of op. modes
+*)
+   #endif
+                 CALLU     ModDec_P15           ;"P15:decoding of op. modes"
+#endif
+
+// ---------------------------------------------------------------------------
+// mode change enable of all path
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+mode change enable of all path
+*)
+   #endif
+                 RD.NOT    MDCHEN_P01           ;"P01:mode change enable"
+#if nbr_of_path > 1
+                 OR.NOT    MDCHEN_P02           ;"P02:mode change enable"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    MDCHEN_P03           ;"P03:mode change enable"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    MDCHEN_P04           ;"P04:mode change enable"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    MDCHEN_P05           ;"P05:mode change enable"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    MDCHEN_P06           ;"P06:mode change enable"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    MDCHEN_P07           ;"P07:mode change enable"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    MDCHEN_P08           ;"P08:mode change enable"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    MDCHEN_P09           ;"P09:mode change enable"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    MDCHEN_P10           ;"P10:mode change enable"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    MDCHEN_P11           ;"P11:mode change enable"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    MDCHEN_P12           ;"P12:mode change enable"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    MDCHEN_P13           ;"P13:mode change enable"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    MDCHEN_P14           ;"P14:mode change enable"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    MDCHEN_P15           ;"P15:mode change enable"
+#endif
+                 WRT.NOT   MDCHEN               ;"mode change enable"
+
+// ---------------------------------------------------------------------------
+// mode jog all path
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+mode jog all path
+*)
+   #endif
+                 RD.NOT    M_JOG_P01            ;"P01:mode jog selected"
+#if nbr_of_path > 1
+                 OR.NOT    M_JOG_P02            ;"P02:mode jog selected"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    M_JOG_P03            ;"P03:mode jog selected"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    M_JOG_P04            ;"P04:mode jog selected"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    M_JOG_P05            ;"P05:mode jog selected"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    M_JOG_P06            ;"P06:mode jog selected"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    M_JOG_P07            ;"P07:mode jog selected"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    M_JOG_P08            ;"P08:mode jog selected"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    M_JOG_P09            ;"P09:mode jog selected"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    M_JOG_P10            ;"P10:mode jog selected"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    M_JOG_P11            ;"P11:mode jog selected"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    M_JOG_P12            ;"P12:mode jog selected"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    M_JOG_P13            ;"P13:mode jog selected"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    M_JOG_P14            ;"P14:mode jog selected"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    M_JOG_P15            ;"P15:mode jog selected"
+#endif
+                 WRT.NOT   M_JOG                ;"all path jog selected"

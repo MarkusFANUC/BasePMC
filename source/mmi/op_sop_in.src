@@ -1,0 +1,240 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_sop_in.src                                        :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs software operator's panel                     :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ------------------------------------
+// software operator panel active
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: software operator panel active
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       SOP_RUN              ;"software op-panel active"
+
+// ------------------------------------
+// memory protect key
+// ------------------------------------
+#if net_comment == 1
+(*
+_PATH__: memory protect key
+*)
+#endif
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+
+// ---------------------------------------------------------------------------
+// P01:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P01:software operator panel
+*)
+   #endif
+                 RD        PATH_P01             ;"path 01 selected"
+                 CALL      Sop_In_P01           ;"P01:soft. op. inputs"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:software operator panel
+*)
+   #endif
+                 RD        PATH_P02             ;"path 02 selected"
+                 CALL      Sop_In_P02           ;"P02:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:software operator panel
+*)
+   #endif
+                 RD        PATH_P03             ;"path 03 selected"
+                 CALL      Sop_In_P03           ;"P03:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:software operator panel
+*)
+   #endif
+                 RD        PATH_P04             ;"path 04 selected"
+                 CALL      Sop_In_P04           ;"P04:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:software operator panel
+*)
+   #endif
+                 RD        PATH_P05             ;"path 05 selected"
+                 CALL      Sop_In_P05           ;"P05:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:software operator panel
+*)
+   #endif
+                 RD        PATH_P06             ;"path 06 selected"
+                 CALL      Sop_In_P06           ;"P06:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:software operator panel
+*)
+   #endif
+                 RD        PATH_P07             ;"path 07 selected"
+                 CALL      Sop_In_P07           ;"P07:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:software operator panel
+*)
+   #endif
+                 RD        PATH_P08             ;"path 08 selected"
+                 CALL      Sop_In_P08           ;"P08:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:software operator panel
+*)
+   #endif
+                 RD        PATH_P09             ;"path 09 selected"
+                 CALL      Sop_In_P09           ;"P09:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:software operator panel
+*)
+   #endif
+                 RD        PATH_P10             ;"path 10 selected"
+                 CALL      Sop_In_P10           ;"P10:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:software operator panel
+*)
+   #endif
+                 RD        PATH_P11             ;"path 11 selected"
+                 CALL      Sop_In_P11           ;"P11:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:software operator panel
+*)
+   #endif
+                 RD        PATH_P12             ;"path 12 selected"
+                 CALL      Sop_In_P12           ;"P12:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:software operator panel
+*)
+   #endif
+                 RD        PATH_P13             ;"path 13 selected"
+                 CALL      Sop_In_P13           ;"P13:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:software operator panel
+*)
+   #endif
+                 RD        PATH_P14             ;"path 14 selected"
+                 CALL      Sop_In_P14           ;"P14:soft. op. inputs"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:software operator panel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:software operator panel
+*)
+   #endif
+                 RD        PATH_P15             ;"path 15 selected"
+                 CALL      Sop_In_P15           ;"P15:soft. op. inputs"
+#endif

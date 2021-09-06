@@ -1,0 +1,288 @@
+//:--------------------------------------------------------------------------:
+//: File              : s_ana1__PATH__.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : first analog spindle                                 :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.07.18: 2.0.0 :Blp    :Rotation direction will determined by the system :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: this module manages the first analog spindle.
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: this module manages the first analog spindle.
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: moving the programmed spindle speed into the temporary variables
+// for further calculations
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: moving the programmed spindle speed into the temporary
+variables for further calculations
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVD
+                           S00-S31__PATH__      ;"spindle speed code"
+                           TMP_B00              ;"temporary byte 00"
+// ---------------------------------------------------------------------------
+// _PATH__: comparison of programmed and maximal spindle speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: comparison of programmed and maximal spindle speed
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 LED
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                 WRT       pgspok__PATH__       ;"prog. spindle speed ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: if the programmed speed is to high, the speed will be clamped
+// to the maximal allowed speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: if the programmed speed is to high, the speed will be
+clamped to the maximal allowed speed
+*)
+#endif
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 MOVD
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 AND.NOT   M_1XXX__PATH__       ;"emergency message active"
+                 AND       POW_OK__PATH__       ;"power suply axis ok"
+                 WRT       SP_S_NOK__PATH__     ;"spindle speed not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: initialisation of temporary variables (4 bytes)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: initialisation of temporary variables (4 bytes)
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           4
+                           0
+                           TMP_B04              ;"temporary byte 04"
+
+// ---------------------------------------------------------------------------
+// _PATH__: multiplication of the spindle speed with the spindle override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: multiplication of the spindle speed with the spindle
+override
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB
+                           SOV__PATH__          ;"spindle speed ovr signal"
+                           TMP_B04              ;"temporary byte 04"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           TMP_B04              ;"temporary byte 04"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emuspov__PATH__      ;"multipl. err spindle ovr."
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           100
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edispov__PATH__      ;"division err spindle ovr."
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the output value for the analog output
+// 4095 * prog. spindle speed / max. allowed speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the output value for the analog output
+4095 * prog. spindle speed / max. allowed speed
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
+
+                 RD        RST__PATH__                  ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edisps__PATH__       ;"division err spindle speed"
+
+// ---------------------------------------------------------------------------
+// _PATH__: if the value is greater than 4095 the value will be clamped to
+// 4095
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: if the value is greater than 4095 the value will be clamped
+to 4095
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 LED
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       maxsdr__PATH__       ;"max. spindle speed reached"
+
+                 RD        maxsdr__PATH__       ;"max. spindle speed reached"
+                 NUMEB
+                           4
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable: SP_RUN (spindle turning)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable: SP_RUN (spindle turning)
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 WRT       SP_RUN__PATH__       ;"spindle is turning"
+                 WRT       *SSTP__PATH__        ;"spindle stop signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: impulse to restart the timer for the speed arrival signal
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: impulse to restart the timer for the speed arrival signal
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 AND       sp_neg__PATH__       ;"memory sp negative dir."
+                 RD.STK    SP_CCW__PATH__       ;"spindle start ccw"
+                 AND.NOT   sp_neg__PATH__       ;"memory sp negative dir."
+                 OR.STK
+                 OR        RE_SCH__PATH__       ;"rising edge speed change"
+                 WRT       sr_sar__PATH__       ;"restart timer for sp_sar"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle rotation direction memory
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle rotation direction memory
+*)
+#endif
+                 RD        SP_CCW__PATH__       ;"spindle start ccw"
+                 RD.STK    sp_neg__PATH__       ;"memory sp negative dir."
+                 AND.NOT   SP_CW__PATH__        ;"spindle start cw"
+                 OR.STK
+                 WRT       sp_neg__PATH__       ;"memory sp negative dir."
+
+// ---------------------------------------------------------------------------
+// _PATH__: when stopping the spindle the output value must be 0
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: when stopping the spindle the output value must be 0
+*)
+#endif
+                 RD.NOT    SP_RUN__PATH__       ;"spindle is turning"
+                 NUMEB
+                           4
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle motor speed command
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle motor speed command
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 AND
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           4095
+                           ROXL__PATH__         ;"spindle motor speed command"
+
+// ---------------------------------------------------------------------------
+// _PATH__: PMC spindle control
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: PMC spindle control
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       SIND__PATH__         ;"spindle mode select signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay speed arrival
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: delay speed arrival
+*)
+#endif
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   sr_sar__PATH__       ;"restart timer for sp_sar"
+                 TMR       __TMR__1
+                 WRT       SP_SAR__PATH__       ;"spindle speed arrival"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle stop
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle stop
+*)
+#endif
+                 RD.NOT    SP_RUN__PATH__       ;"spindle is turning"
+                 TMR       __TMR__2
+                 WRT       SP_STP__PATH__       ;"spindle stopped"

@@ -1,0 +1,182 @@
+//:--------------------------------------------------------------------------:
+//: File              : spiori2__PATH__.src                                      :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Spindle orientation with external stop position      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the stop position
+// programming M19 S1000 (S1000 -> 100.0 degree)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the stop position
+programming M19 S1000 (S1000 -> 100.0 degree)
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    M019__PATH__         ;"spindle orientation"
+                 MULB
+                           4
+                           S00-S31__PATH__      ;"spindle speed code"
+                           4096
+                           TMP_B00              ;"temorary byte 0"
+                 WRT       em_m19__PATH__       ;"error multiplication m19"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    M019__PATH__         ;"spindle orientation"
+                 DIVB
+                           4
+                           TMP_B00              ;"temorary byte 0"
+                           3600
+                           TMP_B00              ;"temorary byte 0"
+                 WRT       ed_m19__PATH__       ;"error division m19"
+                 RD        M019__PATH__         ;"spindle orientation"
+                 MOVW
+                           TMP_B00              ;"temorary byte 0"
+                           SHA__PATH__          ;"sha00-sha11"
+
+// ---------------------------------------------------------------------------
+// _PATH__: conditions to stop the spindle orientation
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: conditions to stop the spindle orientation
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 AND.NOT   M019__PATH__         ;"spindle orientation"
+                 OR        M005__PATH__         ;"spindle stop"
+                 OR        M_MAN__PATH__        ;"manual mode active"
+                 OR        RST__PATH__          ;"resetting signal"
+                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
+#if rigid_tapping__PATH__ == 1
+                 OR        RTAP__PATH__         ;"rigid tapping in progress"
+#endif
+#if cs_contour_ctrl__PATH__ == 1
+                 OR        M027__PATH__         ;"Cs contour ctrl on"
+#endif
+#if dcs_support == 1
+                 RD.STK.NOT HTR                 ;"hold to run button"
+                 OR.NOT    SET_M01              ;"setup mode 01"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 OR.STK    
+#endif
+                 WRT       or_stp__PATH__       ;"stop spindle orientation"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle orientation
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle orientation
+*)
+#endif
+                 RD        M019__PATH__         ;"spindle orientation"
+                 AND.NOT   or_std__PATH__       ;"delay start orientation"
+                 AND.NOT   or_run__PATH__       ;"spindle orientation active"
+                 TMRB
+                           0
+                           50
+                 WRT       or_std__PATH__       ;"delay start orientation"
+
+                 RD        M019__PATH__         ;"spindle orientation"
+                 AND       or_std__PATH__       ;"delay start orientation"
+                 AND.NOT   or_run__PATH__       ;"spindle orientation active"
+                 OR        ORCMA__PATH__        ;"orientation command signal"
+                 AND.NOT   or_stp__PATH__       ;"stop spindle orientation"
+                 WRT       ORCMA__PATH__        ;"orientation command signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: orientation position change signal
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: orientation position change signal
+*)
+#endif
+                 RD        M019__PATH__         ;"spindle orientation"
+                 AND       ORCMA__PATH__        ;"orientation command signal"
+                 AND.NOT   or_run__PATH__       ;"spindle orientation active"
+                 OR        INDXA__PATH__        ;"orient stop pos. change"
+                 AND.NOT   oridxf__PATH__       ;"orient. pos. change fin"
+                 AND.NOT   or_stp__PATH__       ;"stop spindle orientation"
+                 WRT       INDXA__PATH__        ;"orient stop pos. change"
+
+                 RD        INDXA__PATH__        ;"orient stop pos. change"
+                 TMRB
+                           0
+                           50
+                 WRT       oridxf__PATH__       ;"orient. pos. change fin"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay spindle in position
+// global variable OR_FIN__PATH__ (orientation finished)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: delay spindle in position
+global variable OR_FIN__PATH__ (orientation finished)
+*)
+#endif
+                 RD        ORARA__PATH__        ;"orient. completion signal"
+#if demo_control == 1
+                 OR        LOG1                 ;"logic one"
+#endif
+                 AND       M019__PATH__         ;"spindle orientation"
+                 AND       or_run__PATH__       ;"spindle orientation active"
+                 TMRB
+                           0
+                           200
+                 WRT       OR_FIN__PATH__       ;"sp orientation finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: orientation cycle active
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: orientation cycle active
+*)
+#endif
+                 RD        INDXA__PATH__        ;"orient stop pos. change"
+                 OR        or_run__PATH__       ;"spindle orientation active"
+                 AND.NOT   OR_FIN__PATH__       ;"sp orientation finished"
+                 AND.NOT   or_stp__PATH__       ;"stop spindle orientation"
+                 WRT       or_run__PATH__       ;"spindle orientation active"
+
+// --------------------------------------------------------------------------
+// _PATH__: management of M19
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of M19
+*)
+#endif
+                 RD        M019__PATH__         ;"spindle orientation"
+                 AND       OR_FIN__PATH__       ;"sp orientation finished"
+                 RST       M019__PATH__         ;"spindle orientation"

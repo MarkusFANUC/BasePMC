@@ -1,0 +1,248 @@
+//:--------------------------------------------------------------------------:
+//: File              : m_code_1__PATH__.src                                     :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Decoding one m code per block (path specific)        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: the M-COD module uses the high speed M/S/T/B interface.
+// only one M code can be specified in one block.
+// parameter setting: N03001 bit 7 = 1 (MHI), N03404 bit 7 = 0 (M3B),
+// N03010 = 4/8, N03011 = 4/8 (PMC exec time 4ms or 8ms)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the M-COD module uses the high speed M/S/T/B interface.
+only one M code can be specified in one block.
+param. setting: N03001 bit 7 = 1 (MHI), N03404 bit 7 = 0 (M3B),
+N03010 = 4/8, N03011 = 4/8 (PMC exec time 4ms or 8ms)
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: strobe and decoding of the 1st m code 
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: strobe and decoding of the 1st m code 
+*)
+#endif
+                 RD        MF__PATH__           ;"m code strobe signal"
+                 AND.NOT   MFIN__PATH__         ;"aux. funct. compl. signal"
+                 RD.STK.NOT MF__PATH__          ;"m code strobe signal"
+                 AND       MFIN__PATH__         ;"aux. funct. compl. signal"
+                 OR.STK
+                 AND       DEN__PATH__          ;"distribution end signal"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       m1code__PATH__       ;"1st m code is active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: rising and falling edge of the 1st m code (m1code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: Rising and falling edge of the 1st m code (m1code)
+*)
+#endif
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 AND.NOT   m1codm__PATH__       ;"memory 1st m code active"
+                 WRT       rem1co__PATH__       ;"re 1st m code active"
+
+                 RD.NOT    m1code__PATH__       ;"1st m code is active"
+                 AND       m1codm__PATH__       ;"memory 1st m code active"
+                 WRT       fem1co__PATH__       ;"fe 1st m code active"
+
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 WRT       m1codm__PATH__       ;"memory 1st m code active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code range check: max. value <= table length * 8 -1
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code range check
+max. value <= table length * 8 -1
+*)
+#endif
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 GTD
+                           MFCS__PATH__         ;"m code signal"
+                           399
+                 SET       erm1co__PATH__       ;"range error 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  message M-CODE OUT OF RANGE
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: message M-CODE OUT OF RANGE
+*)
+#endif
+                 RD        erm1co__PATH__       ;"range error 1st m code"
+                 WRT       M_NOK__PATH__        ;"m-code out of range"
+
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 AND.NOT   erm1co__PATH__       ;"range error 1st m code"
+                 WRT       m1cook__PATH__       ;"impulse 1st m code ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  error handling
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: error handling
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+#if demo_control == 1
+                 OR        m1fin__PATH__        ;"1st m-function finished"
+#endif
+                 AND       erm1co__PATH__       ;"range error 1st m code"
+                 RST       erm1co__PATH__       ;"range error 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code table length (50 * 8 = 400 / M000 - M399)
+// (m_code_table_length bytes = M00 - M largest_m_code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code table length (50 * 8 = 400 / M000 - M399)
+(m_code_table_length bytes = M00 - M largest_m_code)
+*)
+#endif
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 NUMEB     
+                           1
+                           50
+                           mctabl__PATH__       ;"tab length for m code dec"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the index pointer to the m code table (1st m code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the index pointer to the m code table
+(1st m code)
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    m1cook__PATH__       ;"impulse 1st m code ok"
+                 DIVB      
+                           2
+                           MFCS__PATH__         ;"m code code signal"
+                           8
+                           ptr1mc__PATH__       ;"index ptr to 1st m code"
+                 WRT       edivm1__PATH__       ;"divsion error 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: the division rest is used to decode the related bit of the 1st
+// m code at the adress calculated by F10 DIVB 8
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the division rest is used to decode the related bit 
+of the 1st m code at the adress calculated by F10 DIVB 8
+*)
+#endif
+                 RD        m1cook__PATH__       ;"impulse 1st m code ok"
+                 DECB
+                           1
+                           REST                 ;"calculation remainder"
+                           0
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: resetting the bit of the 1st m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: resetting the bit of the 1st m code
+*)
+#endif
+                 RD        fem1co__PATH__       ;"fe 1st m code active"
+                 OR        erm1co__PATH__       ;"range error 1st m code"
+                 NUMEB
+                           1
+                           0
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: writing the byte with the decoded 1st m code into the m code table
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: writing the byte with the decoded 1st m code into
+the m code table
+*)
+#endif
+                 RD        m1cook__PATH__       ;"impulse 1st m code ok"
+                 OR        fem1co__PATH__       ;"fe 1st m code active"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m1code__PATH__       ;"1st m code is active"
+                 OR        fem1co__PATH__       ;"fe 1st m code active"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+                           ptr1mc__PATH__       ;"index ptr to 1st m code"
+                 WRT       exmwm1__PATH__       ;"error writing 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition signal of the 1st m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition signal of the 1st m code
+*)
+#endif
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 EQB
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+                           0
+                 WRT       m1exec__PATH__       ;"1st m code executed"
+
+                 RD        m1exec__PATH__       ;"1st m code executed"
+                 AND.NOT   erm1co__PATH__       ;"range error 1st m code"
+#if demo_control == 1
+                 OR        m1code__PATH__       ;"1st m code is active"
+#endif
+                 WRT       m1fin__PATH__        ;"1st m code finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal of the 1st m code to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal of the 1st m code to the cnc
+*)
+#endif
+                 RD        m1fin__PATH__        ;"1st m code finished"
+                 AND       MF__PATH__           ;"m code strobe signal"
+                 RD.STK    MFIN__PATH__         ;"aux. funct. compl. signal"
+                 AND.NOT   m1fin__PATH__        ;"1st m code finished"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       MFIN__PATH__         ;"aux. funct. compl. signal"

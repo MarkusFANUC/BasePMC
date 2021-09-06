@@ -1,0 +1,183 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55keys_in.sym                                     :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs for the operator's panel with   :
+//:                   : 55-keys                                              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :keys for one touch macro added                   :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+iF_FOVR,__FEED_OVR_ADDR,op 55keys inputs fovr switch,
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+#if spindle_support_P01 > -1
+iF_S_OVR0,__I_SPI_OVR_BIT0,op55: spindle override bit0,
+iF_S_OVR1,__I_SPI_OVR_BIT1,op55: spindle override bit1,
+iF_S_OVR2,__I_SPI_OVR_BIT2,op55: spindle override bit2,
+#endif
+#if start_address_op == 0
+iF_K_A12,__KEY_PROTECT,op55: key A12,
+#else
+iF_PKEY,__KEY_PROTECT,op55: input protect key,
+#endif
+
+iF_K_A01,__KEY_MODE_MEM,op55: key A01,
+iF_K_A02,__KEY_MODE_EDIT,op55: key A02,
+iF_K_A03,__KEY_MODE_MDI,op55: key A03,
+iF_K_A04,__KEY_DNC_MODE,op55: key A04,
+
+iF_K_A05,__KEY_MODE_REF,op55: key A05,
+iF_K_A06,__KEY_MODE_JOG,op55: key A06,
+iF_K_A07,__KEY_MODE_INC,op55: key A07,
+iF_K_A08,__KEY_MODE_HANDLE,op55: key A08,
+
+iF_K_A09,__KEY_7TH_AXIS,op55: key A09,
+iF_K_A10,__KEY_8TH_AXIS,op55: key A10,
+iF_K_A11,__KEY_A11,op55: key A11,
+
+iF_K_B01,__KEY_SINGLE_BLOCK,op55: key B01,
+iF_K_B02,__KEY_BLOCK_SKIP,op55: key B02,
+iF_K_B03,__KEY_OPT_STOP,op55: key B03,
+iF_K_B04,__KEY_TEACH,op55: key B04,
+
+iF_K_B05,__KEY_FACTOR_X1,op55: key B05,
+iF_K_B06,__KEY_FACTOR_X10,op55: key B06,
+iF_K_B07,__KEY_FACTOR_X100,op55: key B07,
+iF_K_B08,__KEY_FACTOR_X1000,op55: key B08,
+
+iF_K_B09,__KEY_1ST_AXIS,op55: key B09,
+iF_K_B10,__KEY_2ND_AXIS,op55: key B10,
+iF_K_B11,__KEY_3RD_AXIS,op55: key B11,
+iF_K_B12,__KEY_RST,op55: key B12,
+
+iF_K_C01,__KEY_RESTART,op55: key C01,
+iF_K_C02,__KEY_PGM_TEST,op55: key C02,
+iF_K_C03,__KEY_DRY_RUN,op55: key C03,
+iF_K_C04,__KEY_C04,op55: key C04,
+
+#if otmc_support_P01 > -1
+iF_K_C05,__KEY_MC1,op55: key C05,
+iF_K_C06,__KEY_MC2,op55: key C06,
+iF_K_C07,__KEY_MC3,op55: key C07,
+iF_K_C08,__KEY_MC4,op55: key C08,
+#endif
+
+iF_K_C09,__KEY_4TH_AXIS,op55: key C09,
+iF_K_C10,__KEY_5TH_AXIS,op55: key C10,
+iF_K_C11,__KEY_6TH_AXIS,op55: key C11,
+iF_K_C12,__KEY_EMGSTOP,op55: key C12,
+
+iF_K_D01,__KEY_PATH_SYN,op55: key D01,
+iF_K_D02,__KEY_PATH_PLUS,op55: key D02,
+iF_K_D03,__KEY_PATH_MINUS,op55: key D03,
+iF_K_D04,__KEY_D04,op55: key D04,
+
+iF_K_D05,__KEY_D05,op55: key D05,
+iF_K_D06,__KEY_D06,op55: key D06,
+iF_K_D07,__KEY_D07,op55: key D07,
+iF_K_D08,__KEY_D08,op55: key D08,
+
+iF_K_D09,__KEY_AXIS_PLUS,op55: key D09,
+iF_K_D10,__KEY_RAPID_TRAVERSE,op55: key D10,
+iF_K_D11,__KEY_AXIS_MINUS,op55: key D11,
+
+#if soft_op_panel == 1
+iF_K_D12,__KEY_SOPACT,op55: key D12,
+#endif
+
+iF_K_E01,__KEY_CYCLE_STOP,op55: key E01,
+iF_K_E02,__KEY_CYCLE_START,op55: key E02,
+iF_K_E03,__KEY_E03,op55: key E03,
+#if dcs_support == 1
+iF_K_E04,__KEY_DOOR,op55: key E04,
+#endif
+
+iF_K_E05,__KEY_COOLANT,op55: key E05,
+
+iF_K_E06,__KEY_E06,op55: key E06,
+iF_K_E07,__KEY_E07,op55: key E07,
+iF_K_E08,__KEY_E08,op55: key E08,
+
+#if spindle_support_P01 > -1
+iF_K_E09,__KEY_SPINDLE_CW,op55: key E09,
+iF_K_E10,__KEY_SPINDLE_STOP,op55: key E10,
+iF_K_E11,__KEY_SPINDLE_CCW,op55: key E11,
+#endif
+#if start_address_op  == 0
+iF_K_E12,__KEY_E12,op55: key E12,
+#endif
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9750.0 - E9751.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables E9752.0 - E9759.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+e_fovr,E9752.0,error decoding f-override,
+e_sovr,E9752.1,error decoding s-override,

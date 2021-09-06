@@ -1,0 +1,76 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_temporary.sym                                    :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbol definitions for DCS temporary variables       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Temporary variables for level 2
+// ===========================================================================
+// -------------------------------------------------------
+// Internal relay range R1080.0 - R1099.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+TMP_B00,R1080,temporary byte 00,
+TMP_B01,R1081,temporary byte 01,
+TMP_B02,R1082,temporary byte 02,
+TMP_B03,R1083,temporary byte 03,
+
+TMP_B04,R1084,temporary byte 04,
+TMP_B05,R1085,temporary byte 05,
+TMP_B06,R1086,temporary byte 06,
+TMP_B07,R1087,temporary byte 07,
+
+TMP_B08,R1088,temporary byte 08,
+TMP_B09,R1089,temporary byte 09,
+TMP_B10,R1090,temporary byte 10,
+TMP_B11,R1091,temporary byte 11,
+
+TMP_B12,R1092,temporary byte 12,
+TMP_B13,R1093,temporary byte 13,
+TMP_B14,R1094,temporary byte 14,
+TMP_B15,R1095,temporary byte 15,
+
+TMP_B16,R1096,temporary byte 16,
+TMP_B17,R1097,temporary byte 17,
+TMP_B18,R1098,temporary byte 18,
+TMP_B19,R1099,temporary byte 19,
+
+// -----------------------------------
+// bool
+// -----------------------------------
+T_BIT000,R1080.0,temporary bit 000,
+T_BIT001,R1080.1,temporary bit 001,
+T_BIT002,R1080.2,temporary bit 002,
+T_BIT003,R1080.3,temporary bit 003,
+T_BIT004,R1080.4,temporary bit 004,
+T_BIT005,R1080.5,temporary bit 005,
+T_BIT006,R1080.6,temporary bit 006,
+T_BIT007,R1080.7,temporary bit 007,
+
+T_BIT008,R1081.0,temporary bit 008,
+T_BIT009,R1081.1,temporary bit 009,
+T_BIT010,R1081.2,temporary bit 010,
+T_BIT011,R1081.3,temporary bit 011,
+T_BIT012,R1081.4,temporary bit 012,
+T_BIT013,R1081.5,temporary bit 013,
+T_BIT014,R1081.6,temporary bit 014,
+T_BIT015,R1081.7,temporary bit 015,

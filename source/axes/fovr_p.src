@@ -1,0 +1,154 @@
+//:--------------------------------------------------------------------------:
+//: File              : fovr__PATH__.src                                         :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : feed override                                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: memorise value of feed override switch
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: memorise value of feed override switch
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVW      
+                           FOVRS__PATH__        ;"feed override in %"
+                           MFOVRS__PATH__       ;"mem. feed-ovr switch in %"
+
+#if ref_dir_1st_axis__PATH__ > -1
+// ---------------------------------------------------------------------------
+// _PATH__: in reference mode the feed override will be fixed to override 100%
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: in reference mode the feed override will be fixed to
+override 100%
+*)
+   #endif
+                 RD        M_REF__PATH__        ;"mode ref selected"
+                 NUMEB
+                           2
+                           100
+                           FOVRS__PATH__        ;"memory feed override switch"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of feed and rapid traverse override
+// (override value = (override * (-1)) -1)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of feed and rapid traverse override
+(override value = (override * (-1)) -1)
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           2
+                           FOVRS__PATH__        ;"memory feed override switch"
+                           -1
+                           TMP_B00              ;"temorary byte 00"
+                 WRT       e_mulf__PATH__       ;"error multipl. feed/rapid"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 SUBB
+                           2
+                           TMP_B00              ;"temorary byte 00"
+                           1
+                           TMP_B00              ;"temorary byte 00"
+                 WRT       e_subf__PATH__       ;"error subtract feed/rapid"
+
+// ---------------------------------------------------------------------------
+// _PATH__: feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: feed override
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB
+                           TMP_B00              ;"temorary byte 00"
+                           *FV0-7__PATH__       ;"feed override signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: 1% step rapid traverse feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: 1% step rapid traverse feed override
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB
+                           TMP_B00              ;"temorary byte 00"
+                           *HROV__PATH__        ;"1% step rapid traverse ovr"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the jog override (override value = (override * (-100)) -1)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the jog override
+(override value = (override * (-100)) -1)
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           2
+                           FOVRS__PATH__        ;"memory feed override switch"
+                           -100
+                           TMP_B00              ;"temorary byte 00"
+                 WRT       e_mulj__PATH__       ;"error multiplication jog"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 SUBB
+                           2
+                           TMP_B00              ;"temorary byte 00"
+                           1
+                           TMP_B00              ;"temorary byte 00"
+                 WRT       e_subj__PATH__       ;"error subraction jog"
+
+                 RD        LOG1                 ;"logic one"
+                 MOVW
+                           TMP_B00              ;"temorary byte 00"
+                           *JV-15__PATH__       ;"manual feed ovr signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable FE-OVR__PATH__ (feed override in %)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable FE-OVR__PATH__ (feed override in %)*)
+#endif
+
+                 RD        LOG1                 ;"logic one"
+                 MOVW
+                           FOVRS__PATH__        ;"memory feed override switch"
+                           ACTFOVR__PATH__      ;"feed override in %"

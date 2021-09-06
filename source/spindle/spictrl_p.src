@@ -1,0 +1,412 @@
+//:--------------------------------------------------------------------------:
+//: File              : spictrl__PATH__.src                                      :
+//: Creation date     : 09.12.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Spindle control                                      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// s code decoding (uses the high speed M/S/T/B interface)
+// parameter setting: 3001 bit 7 = 1 (MHI)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+s code decoding (uses the high speed M/S/T/B interface)
+parameter setting: 3001 bit 7 = 1 (MHI)
+*)
+#endif
+
+// -----------------------------------------------
+// _PATH__: sending completition signal to the cnc
+// -----------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal to the cnc
+*)
+#endif
+                 RD        s_fin__PATH__        ;"s_code finished"
+                 AND       SF__PATH__           ;"spindle strobe signal"
+                 RD.STK.NOT s_fin__PATH__       ;"s_code finished"
+                 AND       SFIN__PATH__         ;"sp function compl. signal"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       SFIN__PATH__         ;"sp function compl. signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: s code strobe
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: s code strobe
+*)
+#endif
+                 RD        SF__PATH__           ;"spindle strobe signal"
+                 AND.NOT   SFIN__PATH__         ;"sp function compl. signal"
+                 RD.STK.NOT SF__PATH__          ;"spindle strobe signal"
+                 AND       SFIN__PATH__         ;"sp function compl. signal"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       s_code__PATH__       ;"s_code active"
+
+// -----------------------------------------------
+// _PATH__: check if programmed spindle speed changes
+// -----------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: check if programmed spindle speed changes
+*)
+#endif
+                 RD        s_code__PATH__       ;"s_code active"
+                 EQD       
+                           S00-S31__PATH__      ;"spindle speed code"
+                           mscode__PATH__       ;"memory spindle speed code"
+                 WRT       nospch__PATH__       ;"no spindle speed change"
+
+// -----------------------------------------------
+// _PATH__: memory for the actual programmed spindle speed
+// -----------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: memory for the actual programmed spindle speed
+*)
+#endif
+                 RD        s_fin__PATH__        ;"s_code finished"
+                 OR.NOT    FICYCL               ;"first cycle finished"
+                 MOVD      
+                           S00-S31__PATH__      ;"spindle speed code"
+                           mscode__PATH__       ;"memory spindle speed code"
+
+// -----------------------------------------------
+// _PATH__: rising edge of the speed change
+// -----------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising edge of the speed change
+*)
+#endif
+                 RD        s_code__PATH__       ;"s_code active"
+                 AND.NOT   nospch__PATH__       ;"no spindle speed change"
+                 AND.NOT   ms_cod__PATH__       ;"memory s_code"
+                 WRT       RE_SCH__PATH__       ;"rising edge speed change"
+
+                 RD        s_code__PATH__       ;"s_code active"
+                 WRT       ms_cod__PATH__       ;"memory s_code"
+
+// -----------------------------------------------
+// _PATH__: speed change finished
+// -----------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: speed change finished
+*)
+#endif
+                 RD        s_code__PATH__       ;"s_code active"
+                 WRT       s_fin__PATH__        ;"s_code finished"
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: manual spindle start / stop
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: manual spindle start / stop
+*)
+#endif
+                 RD        K_SPCW__PATH__       ;"key spindle cw"
+                 AND.NOT   K_SPCCW__PATH__      ;"key spindle ccw"
+                 AND.NOT   K_SPSP__PATH__       ;"key spindle stop"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       mspcw__PATH__        ;"manual spindle start cw"
+
+                 RD        K_SPCCW__PATH__      ;"key spindle ccw"
+                 AND.NOT   K_SPCW__PATH__       ;"key spindle cw"
+                 AND.NOT   K_SPSP__PATH__       ;"key spindle stop"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       mspccw__PATH__       ;"manual spindle start ccw"
+
+                 RD        K_SPSP__PATH__       ;"key spindle stop"
+                 RD.STK.NOT SP_CW__PATH__       ;"spindle start cw"
+                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
+                 OR.STK
+                 AND.NOT   K_SPCW__PATH__       ;"key spindle cw"
+                 AND.NOT   K_SPCCW__PATH__      ;"key spindle ccw"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       msp_sp__PATH__       ;"manual spindle stop"
+                 WRT       L_SPSP__PATH__       ;"led spindle stop"
+
+// ---------------------------------------------------------------------------
+// _PATH__: M00, M01: memorize spindle rotation state
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: M00, M01: memorize spindle rotation state
+*)
+#endif
+                 RD        M000__PATH__         ;"stop program run"
+                 RD.STK    M001__PATH__         ;"optional stop"
+                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 OR.STK
+                 RD.STK    SP_CW__PATH__        ;"spindle start cw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 AND.STK
+                 OR        sp_m__PATH__         ;"memory spindle turning"
+                 RD.STK.NOT ST__PATH__          ;"cycle start signal"
+                 RD.STK.NOT SP_CW__PATH__       ;"spindle start cw"
+                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
+                 OR.STK
+                 AND.STK
+                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       sp_m__PATH__         ;"memory spindle turning"
+
+                 RD        SP_CCW__PATH__       ;"spindle start ccw"
+                 OR        spccwm__PATH__       ;"memory spindle turning ccw"
+                 AND       sp_m__PATH__         ;"memory spindle turning"
+                 WRT       spccwm__PATH__       ;"memory spindle turning ccw"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle stop conditions
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle stop conditions
+*)
+#endif
+                 RD        msp_sp__PATH__       ;"manual spindle stop"
+                 OR        M005__PATH__         ;"spindle stop"
+                 OR        M000__PATH__         ;"stop program run"
+                 RD.STK    M001__PATH__         ;"optional stop"
+                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 OR.STK
+#if spindle_orientation__PATH__ > 0 && spindle_support__PATH__ == 1
+                 OR        OR_FIN__PATH__       ;"sp orientation finished"
+#endif
+                 OR        RST__PATH__          ;"resetting signal"
+                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
+                 OR        M_1XXX__PATH__       ;"emergency message active"
+#if spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5
+   #if rigid_tapping__PATH__ == 1
+                 OR        RTAP__PATH__         ;"rigid tapping in progress"
+   #endif
+#endif
+#if spindle_support__PATH__ == 1 && cs_contour_ctrl__PATH__ == 1
+                 OR        M027__PATH__         ;"Cs contour ctrl on"
+#endif
+#if dcs_support == 1
+                 RD.STK.NOT HTR                 ;"hold to run button"
+                 OR.NOT    SET_M01              ;"setup mode 01"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 OR.STK    
+#endif
+                 WRT       s_stpc__PATH__       ;"spindle stop conditions"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle start in automatic modes
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle start in automatic modes
+*)
+#endif
+                 RD        M003__PATH__         ;"spindle start clockwise"
+#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
+                 OR        M013__PATH__         ;"sp start cw coolant on"
+#endif
+                 RD.STK    ST__PATH__           ;"cycle start signal"
+                 AND       sp_m__PATH__         ;"memory spindle turning"
+                 AND.NOT   spccwm__PATH__       ;"memory spindle turning ccw"
+                 OR.STK
+                 WRT       aspcw__PATH__        ;"sp start cw in auto-mode"
+
+                 RD        M004__PATH__         ;"spindle start counterclockwise"
+#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
+                 OR        M014__PATH__         ;"sp start ccw coolant on"
+#endif
+                 RD.STK    ST__PATH__           ;"cycle start signal"
+                 AND       sp_m__PATH__         ;"memory spindle turning"
+                 AND       spccwm__PATH__       ;"memory spindle turning ccw"
+                 OR.STK
+                 WRT       aspccw__PATH__       ;"sp start ccw in auto-mode"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable SP_CW__PATH__ (spindle start clockwise)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable SP_CW__PATH__ (spindle start clockwise)
+*)
+#endif
+                 RD        aspcw__PATH__        ;"sp start cw in auto-mode"
+                 OR        mspcw__PATH__        ;"manual spindle start cw"
+                 OR        SP_CW__PATH__        ;"spindle start cw"
+                 AND.NOT   aspccw__PATH__       ;"sp start ccw in auto-mode"
+                 AND.NOT   mspccw__PATH__       ;"manual spindle start ccw"
+                 AND.NOT   s_stpc__PATH__       ;"spindle stop conditions"
+                 WRT       SP_CW__PATH__        ;"spindle start cw"
+
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       L_SPCW__PATH__       ;"led spindle cw"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable SP_CCW__PATH__ (spindle start counterclockwise)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable SP_CCW__PATH__ (spindle start counterclockwise)
+*)
+#endif
+                 RD        aspccw__PATH__       ;"sp start ccw in auto-mode"
+                 OR        mspccw__PATH__       ;"manual spindle start ccw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 AND.NOT   aspcw__PATH__        ;"sp start cw in auto-mode"
+                 AND.NOT   mspcw__PATH__        ;"manual spindle start cw"
+                 AND.NOT   s_stpc__PATH__       ;"spindle stop conditions"
+                 WRT       SP_CCW__PATH__       ;"spindle start ccw"
+
+                 RD        SP_CCW__PATH__       ;"spindle start ccw"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       L_SPCCW__PATH__      ;"led spindle ccw"
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle override
+// to show the spindle override on the screen set parameter
+// 3106 bit 5 = 1 (SOV)                                    
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle override
+to show the spindle override on the screen set parameter
+3106 bit 5 = 1 (SOV)                                    
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB      
+                           SOVRS__PATH__        ;"spindle override in %"
+                           SOV__PATH__          ;"spindle speed override"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle specific functions
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle specific functions
+*)
+#endif
+                 CALLU     SpiRun__PATH__       // SPINDLE SPEED CONTROL
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable:  SAR    (speed arrival signal)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable:  SAR__PATH__  (speed arrival signal)
+To use the SAR signal set parameter 3708 bit 0 = 1 (SAR) and a
+delay time in parameter 3740
+*)
+#endif
+                 RD        SP_SAR__PATH__       ;"spindle speed arrival"
+                 OR        SP_STP__PATH__       ;"spindle stopped"
+                 WRT       SAR__PATH__          ;"spindle speed arrival"
+
+// --------------------------------------------------------------------------
+// _PATH__: management of M03 and M04
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of M03 and M04
+*)
+#endif
+                 RD        M003__PATH__         ;"spindle start cw"
+                 AND       SP_CW__PATH__        ;"spindle start cw"
+                 RST       M003__PATH__         ;"spindle start cw"
+
+                 RD        M004__PATH__         ;"spindle start ccw"
+                 AND       SP_CCW__PATH__       ;"spindle start ccw"
+                 RST       M004__PATH__         ;"spindle start ccw"
+
+
+#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
+// --------------------------------------------------------------------------
+// _PATH__: management of M13 and M14
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of M13 and M14
+*)
+#endif
+                 RD        M013__PATH__         ;"sp start cw coolant on"
+                 AND       SP_CW__PATH__        ;"spindle start cw"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 RST       M013__PATH__         ;"sp start cw coolant on"
+
+                 RD        M014__PATH__         ;"sp start ccw coolant on"
+                 AND       SP_CCW__PATH__       ;"spindle start ccw"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 RST       M014__PATH__         ;"sp start ccw coolant on"
+#endif
+
+// --------------------------------------------------------------------------
+// _PATH__: management of M05
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of M05
+*)
+#endif
+                 RD        M005__PATH__         ;"spindle stop"
+                 AND       SP_STP__PATH__       ;"spindle stopped"
+                 RST       M005__PATH__         ;"spindle stop"
+
+
+#if dcs_support == 1
+   #if spindle_support__PATH__ == 1
+// --------------------------------------------------------------------------
+// _PATH__: checking DCS spindle specific MCC off signals
+// --------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+_PATH__: checking DCS spindle specific MCC off signals
+*)
+      #endif
+                 RD.NOT    M*MCFP1__PATH__      ;"1st spindle MCC off signal"
+                 WRT       MCFPx_NOK__PATH__    ;"mcc spindles not ok"
+
+// --------------------------------------------------------------------------
+// _PATH__: checking DCS spindle specific monitoring signals
+// --------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+_PATH__: checking DCS spindle specific monitoring signals
+*)
+      #endif
+                 RD.NOT    MRSP1__PATH__        ;"1st spindle monit. result"
+                 WRT       RSPs_NOK__PATH__     ;"rsp monitoring not ok"
+   #endif
+#endif

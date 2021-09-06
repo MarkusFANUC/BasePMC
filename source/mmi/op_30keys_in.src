@@ -1,0 +1,607 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_30keys_in.src                                     :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs operator's panel with 30-keys                 :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:27.07.18: 2.0.0 :Blp    :selection of pgm_protect_key added               :
+//:        :       :       :in case of SOP, edit enable of SOP will be used  :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// copying inputs to key map area
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+copying inputs to key map area
+*)
+#endif
+
+// ------------------------------------
+// memory protect key
+// ------------------------------------
+#if net_comment == 1
+(*
+memory protect key
+*)
+#endif
+#if start_address_op == 0 && pgm_protect_key == 1
+                 RD        iS_K_A07             ;"op30: key A07"
+                 WRT       K_PKEY               ;"memory protection key"
+#else
+   #if soft_op_panel == 1
+                 RD        KEYO                 ;"sop: protect key"
+                 WRT       K_PKEY               ;"memory protection key"
+   #else
+                 RD        LOG1                 ;"logic 1"
+                 WRT       K_PKEY               ;"memory protection key"
+   #endif
+#endif
+
+#if start_address_op == 0
+// ------------------------------------
+// EMG and RESET key for panel emulation
+// ------------------------------------
+   #if net_comment == 1
+(*
+EMG and RESET key for panel emulation
+*)
+   #endif
+                 RD        iS_K_B07             ;"op30: key B07"
+                 WRT       K_RST                ;"reset key"
+
+                 RD        iS_K_C07             ;"op30: key C07"
+                 WRT       K_EMG                ;"emgergency stop key"
+#endif
+
+// ------------------------------------
+// key mem mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key mem mode
+*)
+#endif
+                 RD        iS_K_A01             ;"op30: key A01"
+                 WRT       K_MMEM               ;"key mode mem"
+
+// ------------------------------------
+// key single block
+// ------------------------------------
+#if net_comment == 1
+(*
+key single block
+*)
+#endif
+                 RD        iS_K_C01             ;"op30: key C01"
+                 WRT       K_SBK                ;"key single block"
+
+// ------------------------------------
+// key block skip
+// ------------------------------------
+#if net_comment == 1
+(*
+key block skip
+*)
+#endif
+                 RD        iS_K_C02             ;"op30: key C02"
+                 WRT       K_SKIP               ;"key block skip"
+
+// ------------------------------------
+// key optional stop
+// ------------------------------------
+#if net_comment == 1
+(*
+key optional stop
+*)
+#endif
+                 RD        iS_K_C03             ;"op30: key C03"
+                 WRT       K_OSTP               ;"key optional stop m01"
+
+// ------------------------------------
+// key program restart
+// ------------------------------------
+#if net_comment == 1
+(*
+key program restart
+*)
+#endif
+                 RD        iS_K_D01             ;"op30: key D01"
+                 WRT       K_REST               ;"key program restart"
+
+// ------------------------------------
+// key program test
+// ------------------------------------
+#if net_comment == 1
+(*
+key program test
+*)
+#endif
+                 RD        iS_K_D02             ;"op30: key D02"
+                 WRT       K_PGMT               ;"key program test"
+
+// ------------------------------------
+// key dry run
+// ------------------------------------
+#if net_comment == 1
+(*
+key dry run
+*)
+#endif
+                 RD        iS_K_D03             ;"op30: key D03"
+                 WRT       K_DRN                ;"key dry run"
+
+
+// ------------------------------------
+// key dnc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key dnc mode
+*)
+#endif
+                 RD        iS_K_A04             ;"op30: key A04"
+                 WRT       K_DNC                ;"key dnc operation mode"
+
+// ------------------------------------
+// key edit mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key edit mode
+*)
+#endif
+                 RD        iS_K_A02             ;"op30: key A02"
+                 WRT       K_MEDT               ;"key mode edit"
+
+// ------------------------------------
+// key mdi mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key mdi mode
+*)
+#endif
+                 RD        iS_K_A03             ;"op30: key A03"
+                 WRT       K_MMDI               ;"key mode mdi"
+
+// ------------------------------------
+// key jog mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key jog mode
+*)
+#endif
+                 RD        iS_K_A06             ;"op30: key A06"
+                 WRT       K_MJ                 ;"key mode jog"
+
+// ------------------------------------
+// key ref mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key ref mode
+*)
+#endif
+                 RD        iS_K_A05             ;"op30: key A05"
+                 WRT       K_MREF               ;"key mode ref"
+
+// ------------------------------------
+// key inc mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key inc mode
+*)
+#endif
+                 RD        iS_K_B01             ;"op30: key B01"
+                 WRT       K_INC                ;"key inc feed"
+
+// ------------------------------------
+// key handle mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key handle mode
+*)
+#endif
+                 RD        iS_K_B02             ;"op30: key B02"
+                 WRT       K_HD                 ;"key handle"
+
+// ------------------------------------
+// key teach in mode
+// ------------------------------------
+#if net_comment == 1
+(*
+key teach in mode
+*)
+#endif
+                 RD        iS_K_B03             ;"op30: key B03"
+                 WRT       K_TEACH              ;"key teach in"
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key cycle start
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle start
+*)
+#endif
+
+                 RD        iS_K_E02             ;"op30: key E02"
+                 WRT       K_ST                 ;"key cycle start"
+
+// ------------------------------------
+// key cycle stop
+// ------------------------------------
+#if net_comment == 1
+(*
+key cycle stop
+*)
+#endif
+                 RD        iS_K_E01             ;"op30: key E01"
+                 WRT       K_CYSP               ;"key cycle stop"
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+// ------------------------------------
+// key 1st axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 1st axis
+*)
+#endif
+#if control_type == 0                           // m-type
+                 RD        iS_K_C04             ;"op30: key C04"
+                 OR        iS_K_C06             ;"op30: key C06"
+#else
+                 RD        iS_K_D05             ;"op30: key D05"
+                 OR        iS_K_B05             ;"op30: key B05"
+#endif
+                 WRT       K_1AX                ;"key 1st axis"
+
+// ------------------------------------
+// key 2nd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 2nd axis
+*)
+#endif
+#if control_type == 0                           // m-type
+                 RD        iS_K_B05             ;"op30: key B05"
+                 OR        iS_K_D05             ;"op30: key D05"
+#else
+                 RD        iS_K_C06             ;"op30: key C06"
+                 OR        iS_K_C04             ;"op30: key C04"
+#endif
+                 WRT       K_2AX                ;"key 2nd axis"
+
+// ------------------------------------
+// key 3rd axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 3rd axis
+*)
+#endif
+                 RD        iS_K_B04             ;"op30: key B04"
+                 OR        iS_K_D06             ;"op30: key D06"
+                 WRT       K_3AX                ;"key 3rd axis"
+
+// ------------------------------------
+// key 4th axis
+// ------------------------------------
+#if net_comment == 1
+(*
+key 4th axis
+*)
+#endif
+                 RD        iS_K_D04             ;"op30: key D04"
+                 OR        iS_K_B06             ;"op30: key B06"
+                 WRT       K_4AX                ;"key 4th axis"
+
+// ------------------------------------
+// key axis + direction
+// ------------------------------------
+#if net_comment == 1
+(*
+key axis + direction
+*)
+#endif
+#if control_type == 0                           // m-type
+                 RD        iS_K_C04             ;"op30: key C04"
+#else
+                 RD        iS_K_D05             ;"op30: key D05"
+#endif
+#if control_type == 0                           // m-type
+                 OR        iS_K_B05             ;"op30: key B05"
+#else
+                 OR        iS_K_C06             ;"op30: key C06"
+#endif
+                 OR        iS_K_B04             ;"op30: key B04"
+                 OR        iS_K_D04             ;"op30: key D04"
+                 WRT       K_PLUS               ;"key plus direction"
+
+// ------------------------------------
+// key axis - direction
+// ------------------------------------
+#if net_comment == 1
+(*
+key axis - direction
+*)
+#endif
+#if control_type == 0                           // m-type
+                 RD        iS_K_C06             ;"op30: key C06"
+#else
+                 RD        iS_K_B05             ;"op30: key B05"
+#endif
+#if control_type == 0                           // m-type
+                 OR        iS_K_D05             ;"op30: key D05"
+#else
+                 OR        iS_K_C04             ;"op30: key C04"
+#endif
+                 OR        iS_K_D06             ;"op30: key D06"
+                 OR        iS_K_B06             ;"op30: key B06"
+                 WRT       K_MINUS              ;"key minus direction"
+
+// ------------------------------------
+// key rapid traverse
+// ------------------------------------
+#if net_comment == 1
+(*
+key rapid traverse
+*)
+#endif
+                 RD        iS_K_C05             ;"op30: key C05"
+                 WRT       K_RT                 ;"key rapid traverse"
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+#if spindle_support_P01 > -1
+// ------------------------------------
+// key spindle clockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle clockwise
+*)
+   #endif
+                 RD        iS_K_E04             ;"op30: key E04"
+                 WRT       K_SPCW               ;"key spindle cw"
+
+// ------------------------------------
+// key spindle stop
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle stop
+*)
+   #endif
+                 RD        iS_K_E05             ;"op30: key E05"
+                 WRT       K_SPSP               ;"key spindle stop"
+
+// ------------------------------------
+// key spindle counterclockwise
+// ------------------------------------
+   #if net_comment == 1
+(*
+key spindle counterclockwise
+*)
+   #endif
+                 RD        iS_K_E06             ;"op30: key E06"
+                 WRT       K_SPCCW              ;"key spindle ccw"
+#endif
+
+// ---------------------------------------------------------------------------
+// decoding feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+initialisation of temporary variable
+*)
+#endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           2
+                           0
+                           TMP_B00              ;"temorary byte 00"
+
+
+#if net_comment == 1
+(*
+apply a mask to the feed override inputs
+*)
+#endif
+                 RD        LOG1                 ;"logic 1"
+                 MOVE
+                           1
+                           1111
+                           iS_FOVR              ;"op 30keys inputs fovr switch"
+                           TMP_B00              ;"temorary byte 00"
+
+#if net_comment == 1
+(*
+decoding feed override to decimal value
+*)
+#endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic 1"
+                 CODB
+                           2
+                           31
+                           TMP_B00              ;"temorary byte 00"
+                           FOVRS                ;"feed override in %"
+                           0
+                           1
+                           4
+                           2
+                           15
+                           10
+                           6
+                           8
+                           90
+                           80
+                           60
+                           70
+                           20
+                           30
+                           50
+                           40
+                           0
+                           0
+                           0
+                           0
+                           0
+                           0
+                           0
+                           0
+                           95
+                           100
+                           110
+                           105
+                           0
+                           0
+                           120
+                 WRT       e_fovr               ;"error decoding f-override"
+
+
+// ---------------------------------------------------------------------------
+// simulation of increment keys
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+simulation of increment keys
+*)
+#endif
+(*
+#if net_comment == 1
+override value <= 1 / 1 increment
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 LEW
+                           FOVRS                ;"feed override in %"
+                           1
+                 WRT       K_X1                 ;"key 1 increment"
+
+#if net_comment == 1
+(*
+2 <= override value <= 10 / 10 increment
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 RNGW
+                           2
+                           10
+                           FOVRS                ;"feed override in %"
+                 WRT       K_X10                ;"key 10 increment"
+
+#if net_comment == 1
+(*
+11 <= override value <= 100 / 100 increment
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 RNGW
+                           11
+                           100
+                           FOVRS                ;"feed override in %"
+                 WRT       K_X100               ;"key 100 increment"
+
+#if net_comment == 1
+(*
+override value > 100 / 1000 increment
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 GTW
+                           FOVRS                ;"feed override in %"
+                           100
+                 WRT       K_X1000              ;"key 1000 increment"
+
+
+#if spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// decoding the spindle override
+// ---------------------------------------------------------------------------
+   #if spindle_override == 0
+      #if net_comment == 1
+(*
+decoding the spindle override
+*)
+      #endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           1
+                           100
+                           SOVRS                ;"spindle override in %"
+   #endif
+
+// ---------------------------------------------------------------------------
+// decoding the spindle override to decimal value
+// ---------------------------------------------------------------------------
+   #if spindle_override == 1
+      #if net_comment == 1
+(*
+decoding the spindle override to decimal value
+*)
+      #endif
+                 RD        iS_S_OVR0            ;"op30: spindle override bit0"
+                 WRT       T_BIT000             ;"temporary bit 000"
+
+                 RD        iS_S_OVR1            ;"op30: spindle override bit1"
+                 WRT       T_BIT001             ;"temporary bit 001"
+
+                 RD        iS_S_OVR2            ;"op30: spindle override bit2"
+                 WRT       T_BIT002             ;"temporary bit 002"
+
+                 RD.NOT    LOG1                 ;"logic 1"
+                 WRT       T_BIT003             ;"temporary bit 003"
+                 WRT       T_BIT004             ;"temporary bit 004"
+                 WRT       T_BIT005             ;"temporary bit 005"
+                 WRT       T_BIT006             ;"temporary bit 006"
+                 WRT       T_BIT007             ;"temporary bit 007"
+
+                 RD        EMG_STP              ;"emergency stop active"
+                 RD.STK    LOG1                 ;"logic 1"
+                 CODB
+                           1
+                           8
+                           TMP_B00              ;"temporary byte 00"
+                           SOVRS                ;"spindle override in %"
+                           50
+                           60
+                           80
+                           70
+                           120
+                           110
+                           90
+                           100
+                 WRT       e_sovr               ;"error decoding spindle override"
+   #endif
+#endif

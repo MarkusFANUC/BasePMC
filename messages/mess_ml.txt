@@ -1,0 +1,105 @@
+//:--------------------------------------------------------------------------:
+//: File              : mess_ml.txt                                          :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Message texts for multilanguage support              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ---------------------------------------------------------------------------
+// messages
+// ---------------------------------------------------------------------------
+
+// -----------------------------------------------
+// english
+// -----------------------------------------------
+   A000.0 AL1+000=EMERGENCY STOP ACTIVE
+   A000.1 AL1+001=SPINDLE ALARM
+   A000.2 AL1+002=ERROR CENTRAL LUBRICATION
+   A000.4 AL1+004=TIMEOUT IPENDANT
+   A008.1 OP1+001=ZERO RETURN REQUIRED
+   A008.2 OP1+002=PROG. SPINDLE SPEED TOO HIGH
+   A008.3 OP1+003=M-CODE M OUT OF RANGE
+   A020.0 OP1+100=CHECK CENTRAL LUBRICATION
+   A020.1 OP1+101=COOLANT SWITCHED OFF
+   A020.2 OP1+102=BATTERIE ALARM
+   A020.3 OP1+103=PROGRAM START DISABLED
+   A020.4 OP1+104=BRAKE TEST REQUIRED
+
+// -----------------------------------------------
+// german
+// -----------------------------------------------
+   A050.0 AL1+000=NOT-AUS AKTIV
+   A050.1 AL1+001=ALARM SPINDEL
+   A050.2 AL1+002=FEHLER ZENTRALSCHMIERUNG
+   A050.4 AL1+004=TIME-OUT IPENDANT
+   A058.1 OP1+001=REFERENZPUNKTE ANFAHREN
+   A058.2 OP1+002=PROG. DREHZAHL ZU HOCH
+   A058.3 OP1+003=M-CODE M UNZULAESSIG
+   A070.0 OP1+100=ZENTRALSCHMIERUNG PRUEFEN
+   A070.1 OP1+101=KUEHLMITTEL AUSGESCHALTET
+   A070.2 OP1+102=ALARM PUFFERBATTERIE
+   A070.3 OP1+103=PROGRAMMSTART GESPERRT
+   A070.4 OP1+104=BREMSTEST STEHT AN
+
+// -----------------------------------------------
+// french
+// -----------------------------------------------
+   A100.0 AL1+000=ARRET URGENCE ACTIF
+   A100.1 AL1+001=ALARME BROCHE
+   A100.2 AL1+002=ERREUR GRAISSAGE CENTRAL
+   A100.4 AL1+004=DELAY D ATTENTE IPENDANT
+   A108.1 OP1+001=REPRISE POINT DE REFERENCE
+   A108.2 OP1+002=VITESSE BROCHE PROG. TROP HAUTE
+   A108.3 OP1+003=CODE M INADMISSIBLE
+   A120.0 OP1+100=VERIFIER LE GRAISSAGE CENTRAL
+   A120.1 OP1+101=ARROSAGE SUSPENDU 
+   A120.2 OP1+102=DEFAUT BATTERIE RAM
+   A120.3 OP1+103=START PROGRAMME VEROUILLE
+   A120.4 OP1+104=DEMANDE TEST FREIN
+
+// -----------------------------------------------
+// italian
+// -----------------------------------------------
+   A150.0 AL1+000=EMERGENZA ATTIVA
+   A150.1 AL1+001=ALARME MANDRINO
+   A150.2 AL1+002=ERRORE LUBRIFIC. CENTRALIZZATA
+   A150.4 AL1+004=TIME-OUT IPENDANT
+   A158.1 OP1+001=RIPRESA REFERENZA MACCHINA
+   A158.2 OP1+002=GIRI PROG. MANDRINO TROPPO ALTO
+   A158.3 OP1+003=CODE M INAMISSIBILE
+   A170.0 OP1+100=CONTROLLARE LUBRIFIC. CENTRAL.
+   A170.1 OP1+101=REFRIGERANTE DISINSERITO
+   A170.2 OP1+102=SOSTITUIRE BATTERIE MEMORIA
+   A170.3 OP1+103=PROGRAMMA START INVALIDO
+   A170.4 OP1+104=TEST FRENO RICHIESTO
+
+// -----------------------------------------------
+// spanish
+// -----------------------------------------------
+   A200.0 AL1+000=FRENO DE URGENCIA ACTIVO
+   A200.1 AL1+001=ALARMA CABEZALES
+   A200.2 AL1+002=ERROR LUBRIFICACION CENTRAL
+   A200.4 AL1+004=TIME-OUT IPENDANT
+   A208.1 OP1+001=RECUPERACION PUNTO DE REFERENCIA
+   A208.2 OP1+002=VELOCIDA CABEZALES PROG.DEMASIADO ALTO 
+   A208.3 OP1+003=CODIGO M INACEPTABLE
+   A220.0 OP1+100=CONTROLAR LA LUBRIFICACION CENTRAL
+   A220.1 OP1+101=RIEGO EN SUSPENSION
+   A220.2 OP1+102=FALLIO DE LA BATERIA RAM
+   A220.3 OP1+103=PROGRAMA START INVALIDO
+   A220.4 OP1+104=TEST FRENO EXIGIDO

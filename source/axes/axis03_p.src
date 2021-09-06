@@ -1,0 +1,350 @@
+//:--------------------------------------------------------------------------:
+//: File              : axis03__PATH__.src                                       :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Management of 3rd axis                               :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: overtravel check
+// if there are limit switches for the 3rd axis,
+// replace LOG1 with the real input signals Xxxx.y
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: overtravel check
+if there are limit switches for the 3rd axis,
+replace LOG1 with the real input signals Xxxx.y
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       *+L3__PATH__         ;"overtravel + 3rd axis"
+
+                 RD        LOG1                 ;"logic one"
+                 WRT       *-L3__PATH__         ;"overtravel - 3rd axis"
+
+// ---------------------------------------------------------------------------
+// reference position return
+// ---------------------------------------------------------------------------
+#if ref_dir_3rd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+   #include "axis03ref__PATH__.src"       // reference position return 3rd axis
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: led 3rd axis selected
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: led 3rd axis selected
+*)
+#endif
+                 RD        M_K3AX__PATH__       ;"memory 3rd axis selected"
+#if ref_dir_1st_axis__PATH__ > -1
+                 AND.NOT   REFRUN__PATH__       ;"reference return active"
+   #if ref_dir_3rd_axis__PATH__ > 0
+                 OR        R_REF3__PATH__       ;"reference return 3rd axis"
+   #endif
+#endif
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 WRT       L_3AX__PATH__        ;"led 3rd axis sel."
+
+// ---------------------------------------------------------------------------
+// _PATH__: jog feed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: jog feed
+*)
+#endif
+                 RD        M_K3AX__PATH__       ;"memory 3rd axis selected"
+                 AND       M_KPLUS__PATH__      ;"memory axis plus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_3rd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_3p__PATH__      ;"ref: move 3rd axis +dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 3 && spindle_support_P01 > -1
+                 AND.NOT   EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+                 WRT       J3+__PATH__          ;"feed 3rd axis + direction"
+                 WRT       L_3AXP__PATH__       ;"led 3rd axis + dir."
+
+                 RD        M_K3AX__PATH__       ;"memory 3rd axis selected"
+                 AND       M_KMINUS__PATH__     ;"memory axis minus dir."
+                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_3rd_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
+                 OR        aref_3m__PATH__      ;"ref: move 3rd axis -dir."
+#endif
+                 AND       AX_MEN__PATH__       ;"axis move enable"
+#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 3 && spindle_support_P01 > -1
+                 AND.NOT   EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+                 WRT       J3-__PATH__          ;"feed 3rd axis - direction"
+                 WRT       L_3AXM__PATH__       ;"led 3rd axis - dir."
+
+// ---------------------------------------------------------------------------
+// _PATH__: workpiece coordinate system preset
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: workpiece coordinate system preset
+*)
+#endif
+                 RD        REQWP3__PATH__       ;"req wp coord preset 3rd axis"
+                 AND       WPRST3__PATH__       ;"wp coord. preset 3rd axis"
+                 AND       WPSF3__PATH__        ;"wp coord. preset fin 3rd axis"
+                 OR        RST__PATH__          ;"resetting signal"
+                 RST       REQWP3__PATH__       ;"req wp coord preset 3rd axis"
+
+                 RD        M103__PATH__         ;"wp coord preset 3rd axis"
+                 AND       WPRST3__PATH__       ;"wp coord preset 3rd axis"
+                 AND       WPSF3__PATH__        ;"wp coord preset fin 3rd ax"
+                 RST       M103__PATH__         ;"wp coord preset 3rd axis"
+
+                 RD        FE_RST__PATH__       ;"falling edge reset"
+                 AND       wppsreq3__PATH__     ;"req wp coord. preset 3rd ax"
+                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
+                 AND.NOT   PGMRUN__PATH__       ;"program running"
+                 OR.STK    
+                 OR        REQWP3__PATH__       ;"req wp coord preset 3rd axis"
+                 OR        M103__PATH__         ;"wp coord preset 3rd axis"
+                 RD.STK    WPRST3__PATH__       ;"wp coord. preset 3rd axis"
+                 AND.NOT   WPSF3__PATH__        ;"wp coord. preset fin 3rd axis"
+                 OR.STK    
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       WPRST3__PATH__       ;"wp coord. preset 3rd axis"
+
+                 RD        FEPGMT__PATH__       ;"falling edge program test"
+                 AND       PGMRUN__PATH__       ;"program running"
+                 RD.STK    wppsreq3__PATH__     ;"req wp coord. preset 3rd ax"
+                 AND.NOT   FE_RST__PATH__       ;"falling edge reset"
+                 OR.STK    
+                 WRT       wppsreq3__PATH__     ;"req wp coord. preset 3rd ax"
+
+#if brake_3rd_axis__PATH__ == 0
+// ---------------------------------------------------------------------------
+// _PATH__: axis interlock
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis interlock
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       POW_OK__PATH__       ;"power supply axis ok"
+   #else
+                 RD        POW_OK__PATH__       ;"power suply axis ok"
+   #endif
+                 AND.NOT   WPRST3__PATH__       ;"wp coord. preset 3rd axis"
+                 WRT       *IT3__PATH__         ;"interlock 3rd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    POW_OK__PATH__       ;"power suply axis ok"
+                 WRT       SVF3__PATH__         ;"servo off 3rd axis"
+#else
+// ---------------------------------------------------------------------------
+// _PATH__: brake control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: brake control
+*)
+   #endif
+                 RD        POW_OK__PATH__       ;"power supply axis ok"
+                 AND       SA3__PATH__          ;"3rd axis servo ready"
+                 WRT       relb_3rd__PATH__     ;"release brake 3rd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake released
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake released
+*)
+   #endif
+   #if dcs_support == 1
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        SET_M01_EN           ;"enable setup mode 01"
+                 AND       relb_3rd__PATH__     ;"release brake 3rd axis"
+   #else
+                 RD        relb_3rd__PATH__     ;"release brake 3rd axis"
+   #endif
+                 AND.NOT   WPRST3__PATH__       ;"wp coord preset 3rd axis"
+                 TMRB      
+                           0
+                           96
+                 WRT       *IT3__PATH__         ;"interlock 3rd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay brake clamped
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: delay brake clamped
+*)
+   #endif
+                 RD.NOT    relb_3rd__PATH__     ;"release brake 3rd axis"
+                 TMRB      
+                           0
+                           48
+                 WRT       3rd_soff__PATH__     ;"3rd axis servo off"
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: servo off
+*)
+   #endif
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 OR        1st_svf3__PATH__     ;"1st servo off 3rd axis"
+                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
+                 WRT       1st_svf3__PATH__     ;"1st servo off 3rd axis"
+
+                 RD        1st_svf3__PATH__     ;"1st servo off 3rd axis"
+                 OR        3rd_soff__PATH__     ;"3rd axis servo off"
+                 WRT       SVF3__PATH__         ;"servo off 3rd axis"
+#endif
+// ---------------------------------------------------------------------------
+// _PATH__: external deceleration
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: external deceleration
+*)
+#endif
+                 RD.NOT    SETUP__PATH__        ;"set-up active"
+                 WRT       *+ED3__PATH__        ;"external dec. + 3rd axis"
+                 WRT       *-ED3__PATH__        ;"external dec. - 3rd axis"
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// _PATH__: DCS MCC off signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS MCC off signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        *MCFV3__PATH__       ;"MCC off signal 3rd axis"
+   #endif
+                 WRT       M*MCFV3__PATH__      ;"3rd axis MCC off signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS monitoring result signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS monitoring result signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        RSV3__PATH__         ;"monitoring result 3rd axis"
+   #endif
+                 WRT       MRSV3__PATH__        ;"3rd axis monit. result"
+
+// ---------------------------------------------------------------------------
+// _PATH__: position information effect signal
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+DCS position information effect signal
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        POSE3__PATH__        ;"pos. inf. effect 3rd axis"
+   #endif
+                 WRT       MPOSE3__PATH__       ;"3rd axis pos. inf. effect"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety check activation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety check activation
+*)
+   #endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 WRT       *VLDV3__PATH__       ;"safety check req. 3rd ax."
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS safety zero speed monitoring
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS safety zero speed monitoring
+*)
+   #endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SVZR3__PATH__        ;"zero mon. req. 3rd axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS selection of safety speed set 2
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS selection of safety speed set 2
+*)
+   #endif
+                 RD        DCS_S02              ;"DCS speed set 2"
+                 WRT       SVA3__PATH__         ;"saf. sel. sig. A 3rd axis"
+#endif
+
+#if brake_3rd_axis__PATH__ == 1
+// ---------------------------------------------------------------------------
+// _PATH__: management of the brake output
+// replace T_BIT000 with the real brake output Yxxx.y
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: management of the brake output
+replace T_BIT000 with the real brake output Yxxx.y
+*)
+   #endif
+
+   #if dcs_support == 0
+                 RD        relb_3rd__PATH__     ;"release brake 3rd axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #else
+                 RD        relb_3rd__PATH__     ;"release brake 3rd axis"
+                 AND       *BRK3__PATH__        ;"Safety Brake sig. 3rd axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #endif
+#endif

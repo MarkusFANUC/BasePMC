@@ -1,0 +1,181 @@
+//:--------------------------------------------------------------------------:
+//: File              : i_pend_in.sym                                        :
+//: Creation date     : 02.12.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs for the iPendant                :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+iP_M_OPE,__M_OPE,ip: operation mode,
+iP_ENB,__ENB,ip: operation on/off,
+#if handwheel_support == 1
+iP_MPGNG,__MPGNG,ip: mpg pulses invalid,
+#endif
+iP_KSALV,__KSALV,ip: key state alive,
+iP_KSRDY,__KSRDY,ip: key state notif.,
+
+iP_K_00,__KEY_00,ip: key 00,
+iP_K_01,__KEY_01,ip: key 01,
+iP_K_02,__KEY_02,ip: key 02,
+iP_K_03,__KEY_03,ip: key 03,
+iP_K_04,__KEY_04,ip: key 04,
+iP_K_05,__KEY_05,ip: key 05,
+iP_K_06,__KEY_06,ip: key 06,
+iP_K_07,__KEY_SHIFT,ip: key 07,
+
+iP_K_10,__KEY_RST,ip: key 10,
+iP_K_11,__KEY_DRY_RUN,ip: key 11,
+iP_K_12,__KEY_SINGLE_BLOCK,ip: key 12,
+iP_K_13,__KEY_CYCLE_START,ip: key 13,
+iP_K_14,__KEY_CYCLE_STOP,ip: key 14,
+iP_K_15,__KEY_2ND_AXIS_MINUS,ip: key 15,
+iP_K_16,__KEY_BLOCK_SKIP,ip: key 16,
+iP_K_17,__KEY_17,ip: key 17,
+
+iP_K_20,__KEY_PATH_PLUS,ip: key 20,
+iP_K_21,__KEY_PATH_MINUS,ip: key 21,
+iP_K_22,__KEY_22,ip: key 22,
+iP_K_23,__KEY_23,ip: key 23,
+iP_K_24,__KEY_24,ip: key 24,
+iP_K_25,__KEY_25,ip: key 25,
+iP_K_26,__KEY_26,ip: key 26,
+iP_K_27,__KEY_27,ip: key 27,
+
+iP_K_30,__KEY_30,ip: key 30,
+iP_K_31,__KEY_31,ip: key 31,
+iP_K_32,__KEY_32,ip: key 32,
+iP_K_33,__KEY_33,ip: key 33,
+iP_K_34,__KEY_34,ip: key 34,
+iP_K_35,__KEY_35,ip: key 35,
+iP_K_36,__KEY_36,ip: key 36,
+iP_K_37,__KEY_37,ip: key 37,
+
+iP_K_40,__KEY_40,ip: key 40,
+iP_K_41,__KEY_41,ip: key 41,
+iP_K_42,__KEY_42,ip: key 42,
+iP_K_43,__KEY_43,ip: key 43,
+iP_K_44,__KEY_44,ip: key 44,
+iP_K_45,__KEY_45,ip: key 45,
+iP_K_46,__KEY_46,ip: key 46,
+iP_K_47,__KEY_47,ip: key 47,
+
+iP_K_50,__KEY_50,ip: key 50,
+iP_K_51,__KEY_51,ip: key 51,
+iP_K_52,__KEY_52,ip: key 52,
+iP_K_53,__KEY_OPT_STOP,ip: key 53,
+iP_K_54,__KEY_1ST_AXIS_MINUS,ip: key 54,
+iP_K_55,__KEY_1ST_AXIS_PLUS,ip: key 55,
+iP_K_56,__KEY_SPINDLE_CW,ip: key 56,
+iP_K_57,__KEY_57,ip: key 57,
+
+iP_K_60,__KEY_2ND_AXIS_PLUS,ip: key 60,
+iP_K_61,__KEY_SPINDLE_STOP,ip: key 61,
+iP_K_62,__KEY_3RD_AXIS_MINUS,ip: key 62,
+iP_K_63,__KEY_3RD_AXIS_PLUS,ip: key 63,
+iP_K_64,__KEY_SPINDLE_CCW,ip: key 64,
+iP_K_65,__KEY_4TH_AXIS_MINUS,ip: key 65,
+iP_K_66,__KEY_4TH_AXIS_PLUS,ip: key 66,
+iP_K_67,__KEY_MODE_EDIT,ip: key 67,
+
+iP_K_70,__KEY_5TH_AXIS_MINUS,ip: key 70,
+iP_K_71,__KEY_5TH_AXIS_PLUS,ip: key 71,
+iP_K_72,__KEY_MODE_MDI,ip: key 72,
+iP_K_73,__KEY_6TH_AXIS_MINUS,ip: key 73,
+iP_K_74,__KEY_6TH_AXIS_PLUS,ip: key 74,
+iP_K_75,__FEED_OVR_MINUS,ip: key 75,
+iP_K_76,__KEY_MODE_MEM,ip: key 76,
+iP_K_77,__FEED_OVR_PLUS,ip: key 77,
+
+iP_K_80,__KEY_MODE_HANDLE,ip: key 80,
+iP_K_81,__KEY_MODE_TEACH,ip: key 81,
+iP_K_82,__KEY_MODE_REF,ip: key 82,
+iP_K_83,__KEY_MODE_JOG,ip: key 83,
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9750.0 - E9751.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables E9752.0 - E9759.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+ipkey_en,E9753.0,ip: key enable,
+ipovr_ok,E9753.1,ip: override ok,
+ipdiverr,E9753.2,ip: division error,
+ipdivrest,E9753.3,ip: division rest,
+ipupfovr,E9753.4,ip: max feed override,
+ipdnfovr,E9753.5,ip: min feed override,
+ipmaxfovr,E9753.6,ip: max feed ovr,
+ipefovr,E9753.7,ip: error decoding f-ovr,
+
+iptimeout,E9754.0,ip: time out,
+ipmksalv,E9754.1,ip: mem key state alive,
+ipreksalv,E9754.2,ip: re key state alive,
+ipfeksalv,E9754.3,ip: fe key state alive,
+
+

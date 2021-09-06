@@ -1,0 +1,599 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_cnc_out.src                                      :
+//: Creation date     : 11.10.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : DCS related outputs to the CNC                       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:20.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// feedback main contactor
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+feedback main contactor
+*)
+#endif
+                 RD        M_*SMC               ;"mcc state (1: off)"
+                 WRT       *SMC                 ;"MCC contact state(group)"
+
+// ---------------------------------------------------------------------------
+// global variable SET_M01_EN (enable setup mode 01)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable SET_M01_EN (enable setup mode 01)
+*)
+#endif
+                 RD        SET_M01              ;"setup mode 01"
+                 AND       HTR                  ;"hold to run button"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SET_M01_EN           ;"enable setup mode 01"
+
+// ---------------------------------------------------------------------------
+// selection of safety speed set
+// set 1 (A0 B0): zero speed
+// set 2 (A1 B0): limited speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+selection of safety speed set
+set 1 (A0 B0): zero speed
+set 2 (A1 B0): limited speed
+*)
+#endif
+                 RD        SET_M01_EN           ;"enable setup mode 01"
+                 WRT       saf_set2             ;"safety parameter set 2"
+                 SET       DCS_S02              ;"DCS speed set 2"
+
+                 RD.NOT    saf_set2             ;"safety parameter set 2"
+                 TMRB      
+                           0
+                           500
+                 RST       DCS_S02              ;"DCS speed set 2"
+
+// ---------------------------------------------------------------------------
+// P01:cnc outputs
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+P01:outputs to CNC
+*)
+#endif
+                 CALLU     CNC_Out_P01          ;"P01:DCS outputs to CNC"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P02          ;"P02:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P03          ;"P03:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P04          ;"P04:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P05          ;"P05:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P06          ;"P06:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P07          ;"P07:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P08          ;"P08:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P09          ;"P09:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P10          ;"P10:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P11          ;"P11:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P12          ;"P12:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P13          ;"P13:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P14          ;"P14:DCS outputs to CNC"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:cnc outputs
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:outputs to CNC
+*)
+   #endif
+                 CALLU     CNC_Out_P15          ;"P15:DCS outputs to CNC"
+#endif
+
+// ---------------------------------------------------------------------------
+// checking axes specific DCS MCC off signals (all path)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+checking axes specific DCS MCC off signals (all path)
+*)
+#endif
+
+                 RD        MCFVx_NOK_P01        ;"P01:mcf axes not ok"
+#if nbr_of_path > 1
+                 OR        MCFVx_NOK_P02        ;"P02:mcf axes not ok"
+#endif
+#if nbr_of_path > 2
+                 OR        MCFVx_NOK_P03        ;"P03:mcf axes not ok"
+#endif
+#if nbr_of_path > 3
+                 OR        MCFVx_NOK_P04        ;"P04:mcf axes not ok"
+#endif
+#if nbr_of_path > 4
+                 OR        MCFVx_NOK_P05        ;"P05:mcf axes not ok"
+#endif
+#if nbr_of_path > 5
+                 OR        MCFVx_NOK_P06        ;"P06:mcf axes not ok"
+#endif
+#if nbr_of_path > 6
+                 OR        MCFVx_NOK_P07        ;"P07:mcf axes not ok"
+#endif
+#if nbr_of_path > 7
+                 OR        MCFVx_NOK_P08        ;"P08:mcf axes not ok"
+#endif
+#if nbr_of_path > 8
+                 OR        MCFVx_NOK_P09        ;"P09:mcf axes not ok"
+#endif
+#if nbr_of_path > 9
+                 OR        MCFVx_NOK_P10        ;"P10:mcf axes not ok"
+#endif
+#if nbr_of_path > 10
+                 OR        MCFVx_NOK_P11        ;"P11:mcf axes not ok"
+#endif
+#if nbr_of_path > 11
+                 OR        MCFVx_NOK_P12        ;"P12:mcf axes not ok"
+#endif
+#if nbr_of_path > 12
+                 OR        MCFVx_NOK_P13        ;"P13:mcf axes not ok"
+#endif
+#if nbr_of_path > 13
+                 OR        MCFVx_NOK_P14        ;"P14:mcf axes not ok"
+#endif
+#if nbr_of_path > 14
+                 OR        MCFVx_NOK_P15        ;"P15:mcf axes not ok"
+#endif
+                 WRT       MCFVx_NOK            ;"mcf axes all path not ok"
+
+// ---------------------------------------------------------------------------
+// checking DCS axes specific monitoring signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+checking DCS axes specific monitoring signals
+*)
+#endif
+
+                 RD        RSVx_NOK_P01         ;"P01:rsv monitoring not ok"
+#if nbr_of_path > 1
+                 OR        RSVx_NOK_P02         ;"P02:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 2
+                 OR        RSVx_NOK_P03         ;"P03:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 3
+                 OR        RSVx_NOK_P04         ;"P04:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 4
+                 OR        RSVx_NOK_P05         ;"P05:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 5
+                 OR        RSVx_NOK_P06         ;"P06:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 6
+                 OR        RSVx_NOK_P07         ;"P07:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 7
+                 OR        RSVx_NOK_P08         ;"P08:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 8
+                 OR        RSVx_NOK_P09         ;"P09:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 9
+                 OR        RSVx_NOK_P10         ;"P10:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 10
+                 OR        RSVx_NOK_P11         ;"P11:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 11
+                 OR        RSVx_NOK_P12         ;"P12:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 12
+                 OR        RSVx_NOK_P13         ;"P13:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 13
+                 OR        RSVx_NOK_P14         ;"P14:rsv monitoring not ok"
+#endif
+#if nbr_of_path > 14
+                 OR        RSVx_NOK_P15         ;"P15:rsv monitoring not ok"
+#endif
+                 WRT       RSVx_NOK             ;"rsv monit. all path not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking DCS position information effect signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+checking DCS position information effect signals
+*)
+#endif
+
+                 RD        POSEx_NOK_P01        ;"P01:pose information not ok"
+#if nbr_of_path > 1
+                 OR        POSEx_NOK_P02        ;"P02:pose information not ok"
+#endif
+#if nbr_of_path > 2
+                 OR        POSEx_NOK_P03        ;"P03:pose information not ok"
+#endif
+#if nbr_of_path > 3
+                 OR        POSEx_NOK_P04        ;"P04:pose information not ok"
+#endif
+#if nbr_of_path > 4
+                 OR        POSEx_NOK_P05        ;"P05:pose information not ok"
+#endif
+#if nbr_of_path > 5
+                 OR        POSEx_NOK_P06        ;"P06:pose information not ok"
+#endif
+#if nbr_of_path > 6
+                 OR        POSEx_NOK_P07        ;"P07:pose information not ok"
+#endif
+#if nbr_of_path > 7
+                 OR        POSEx_NOK_P08        ;"P08:pose information not ok"
+#endif
+#if nbr_of_path > 8
+                 OR        POSEx_NOK_P09        ;"P09:pose information not ok"
+#endif
+#if nbr_of_path > 9
+                 OR        POSEx_NOK_P10        ;"P10:pose information not ok"
+#endif
+#if nbr_of_path > 10
+                 OR        POSEx_NOK_P11        ;"P11:pose information not ok"
+#endif
+#if nbr_of_path > 11
+                 OR        POSEx_NOK_P12        ;"P12:pose information not ok"
+#endif
+#if nbr_of_path > 12
+                 OR        POSEx_NOK_P13        ;"P13:pose information not ok"
+#endif
+#if nbr_of_path > 13
+                 OR        POSEx_NOK_P14        ;"P14:pose information not ok"
+#endif
+#if nbr_of_path > 14
+                 OR        POSEx_NOK_P15        ;"P15:pose information not ok"
+#endif
+                 WRT       POSEx_NOK            ;"posex all path not ok"
+
+#if spindle_support_P01 > -1
+// --------------------------------------------------------------------------
+// checking DCS spindle specific MCC off signals (all path)
+// --------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS spindle specific MCC off signals (all path)
+*)
+   #endif
+   #if spindle_support_P01 == 1
+                 RD        MCFPx_NOK_P01        ;"P01:mcc spindles not ok"
+   #else
+                 RD.NOT    LOG1                 ;"logic one"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 == 1
+                 OR        MCFPx_NOK_P02        ;"P02:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 == 1
+                 OR        MCFPx_NOK_P03        ;"P03:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 == 1
+                 OR        MCFPx_NOK_P04        ;"P04:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 == 1
+                 OR        MCFPx_NOK_P05        ;"P05:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 == 1
+                 OR        MCFPx_NOK_P06        ;"P06:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 == 1
+                 OR        MCFPx_NOK_P07        ;"P07:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 == 1
+                 OR        MCFPx_NOK_P08        ;"P08:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 == 1
+                 OR        MCFPx_NOK_P09        ;"P09:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 == 1
+                 OR        MCFPx_NOK_P10        ;"P10:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 == 1
+                 OR        MCFPx_NOK_P11        ;"P11:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 == 1
+                 OR        MCFPx_NOK_P12        ;"P12:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 == 1
+                 OR        MCFPx_NOK_P13        ;"P13:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 == 1
+                 OR        MCFPx_NOK_P14        ;"P14:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 == 1
+                 OR        MCFPx_NOK_P15        ;"P15:mcc spindles not ok"
+      #endif
+   #endif
+                 WRT       MCFPx_NOK            ;"mcc spindles not ok"
+
+// --------------------------------------------------------------------------
+// checking DCS spindle specific monitoring signals (all path)
+// --------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS spindle specific monitoring signals (all path)
+*)
+   #endif
+
+   #if spindle_support_P01 == 1
+                 RD        RSPs_NOK_P01         ;"P01:rsp monitoring not ok"
+   #else
+                 RD.NOT    LOG1                 ;"logic one"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 == 1
+                 OR        RSPs_NOK_P02         ;"P02:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 == 1
+                 OR        RSPs_NOK_P03         ;"P03:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 == 1
+                 OR        RSPs_NOK_P04         ;"P04:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 == 1
+                 OR        RSPs_NOK_P05         ;"P05:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 == 1
+                 OR        RSPs_NOK_P06         ;"P06:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 == 1
+                 OR        RSPs_NOK_P07         ;"P07:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 == 1
+                 OR        RSPs_NOK_P08         ;"P08:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 == 1
+                 OR        RSPs_NOK_P09         ;"P09:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 == 1
+                 OR        RSPs_NOK_P10         ;"P10:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 == 1
+                 OR        RSPs_NOK_P11         ;"P11:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 == 1
+                 OR        RSPs_NOK_P12         ;"P12:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 == 1
+                 OR        RSPs_NOK_P13         ;"P13:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 == 1
+                 OR        RSPs_NOK_P14         ;"P14:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 == 1
+                 OR        RSPs_NOK_P15         ;"P15:rsp monitoring not ok"
+      #endif
+   #endif
+                 WRT       RSPs_NOK             ;"rsp monitoring not ok"
+#endif
+
+// ---------------------------------------------------------------------------
+// transfering monitoring signals to PMC1
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+transfering monitoring signals to PMC1
+*)
+#endif
+                 RD.NOT    RSVx_NOK             ;"rsv monitoring not ok"
+                 AND.NOT   POSEx_NOK            ;"pose information not ok"
+#if spindle_support_P01 > -1
+                 AND.NOT   RSPs_NOK             ;"rsp monitoring not ok"
+#endif
+                 WRT       TDCG00               ;"interface to PMC bit00"

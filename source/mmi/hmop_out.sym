@@ -1,0 +1,127 @@
+//:--------------------------------------------------------------------------:
+//: File              : hmop.sym                                             :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       :                                                      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// outputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+oH_LED01,__HMOP_LED_SRDY,hmop: led 01,
+oH_LED02,__HMOP_LED_ALM,hmop: led 02,
+
+oH_LED11,__HMOP_LED_AXES_SELECT,hmop: led 11,
+oH_LED12,__HMOP_LED_MODE_REF,hmop: led 12,
+oH_LED13,__HMOP_LED_SP_START,hmop: led 13,
+oH_LED14,__HMOP_LED_SP_STOP,hmop: led 14,
+oH_LED15,__HMOP_LED_RESET,hmop: led 15,
+
+oH_LED21,__HMOP_LED_MODE_HANDLE,hmop: led 21,
+oH_LED22,__HMOP_LED_JOG,hmop: led 22,
+oH_LED23,__HMOP_LED_SP_INC,hmop: led 23,
+oH_LED24,__HMOP_LED_SP_DEC,hmop: led 24,
+oH_LED25,__HMOP_LED_AXIS_PLUS,hmop: led 25,
+
+oH_LED31,__HMOP_LED_FACTOR,hmop: led 31,
+oH_LED32,__HMOP_LED_MEM,hmop: led 32,
+oH_LED33,__HMOP_LED_FUNCTION,hmop: led 33,
+oH_LED34,__HMOP_LED_MESSAGE,hmop: led 34,
+oH_LED35,__HMOP_LED_RAPID_TRAVERSE,hmop: led 35,
+
+oH_LED41,__HMOP_LED_SINGLE_BLOCK,hmop: led 41,
+oH_LED42,__HMOP_LED_DRY_RUN,hmop: led 42,
+oH_LED43,__HMOP_LED_CYCLE_START,hmop: led 43,
+oH_LED44,__HMOP_LED_CYCLE_STOP,hmop: led 44,
+oH_LED45,__HMOP_LED_AXIS_MINUS,hmop: led 45,
+
+oH_SELLN,__HMOP_SELLN,hmop: select line,
+oH_REQDSP,__HMOP_REQDSP,hmop: display request,
+oH_CDATA01,__HMOP_CDATA01,hmop: lcd character 01,
+oH_CDATA02,__HMOP_CDATA02,hmop: lcd character 02,
+oH_CDATA03,__HMOP_CDATA03,hmop: lcd character 03,
+oH_CDATA04,__HMOP_CDATA04,hmop lcd character 04,
+oH_CDATA05,__HMOP_CDATA05,hmop lcd character 05,
+oH_CDATA06,__HMOP_CDATA06,hmop lcd character 06,
+oH_VINF1,__HMOP_VINF01,hmop: var data information 1,
+oH_VINF2,__HMOP_VINF02,hmop: var data information 2,
+oH_VINF3,__HMOP_VINF03,hmop: var data information 3,
+oH_VDATA1,__HMOP_VDATA0,hmop: byte 0 numeric data,
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9800.0 - E9801.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables E9802.0 - E9809.7
+// -------------------------------------------------------
+hmop_isa,E9802.0,hmop: inc system a,
+hmop_isb,E9802.1,hmop: inc system b,
+hmop_isc,E9802.2,hmop: inc system c,
+hmop_isd,E9802.3,hmop: inc system d,
+hmop_ise,E9802.4,hmop: inc system e,
+hmop_lcdwr,E9802.5,hmop: lcd data written,
+hmop_sd,E9802.6,hmop: set display data,
+hmop_l2,E9802.7,hmop: line 2 selected,
+
+hmop_win1,E9803.0,hmop: windr 01,
+hmop_win2,E9803.1,hmop: windr 02,
+hmop_win3,E9803.2,hmop: windr 03,
+hmop_win4,E9803.3,hmop: windr 04,

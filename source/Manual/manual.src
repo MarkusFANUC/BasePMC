@@ -1,0 +1,455 @@
+//:--------------------------------------------------------------------------:
+//: File              : manual.src                                           :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : management of manual modes                           :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:20.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// P01:manual modes
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+P01:manual modes
+*)
+#endif
+                 CALLU     Manual_P01           ;"P01:manual modes"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:manual modes
+*)
+   #endif
+                 CALLU     Manual_P02           ;"P02:manual modes"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:manual modes
+*)
+   #endif
+                 CALLU     Manual_P03           ;"P03:manual modes"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:manual modes
+*)
+   #endif
+                 CALLU     Manual_P04           ;"P04:manual modes"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:manual modes
+*)
+   #endif
+                 CALLU     Manual_P05           ;"P05:manual modes"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:manual modes
+*)
+   #endif
+                 CALLU     Manual_P06           ;"P06:manual modes"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:manual modes
+*)
+   #endif
+                 CALLU     Manual_P07           ;"P07:manual modes"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:manual modes
+*)
+   #endif
+                 CALLU     Manual_P08           ;"P08:manual modes"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:manual modes
+*)
+   #endif
+                 CALLU     Manual_P09           ;"P09:manual modes"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:manual modes
+*)
+   #endif
+                 CALLU     Manual_P10           ;"P10:manual modes"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:manual modes
+*)
+   #endif
+                 CALLU     Manual_P11           ;"P11:manual modes"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:manual modes
+*)
+   #endif
+                 CALLU     Manual_P12           ;"P12:manual modes"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:manual modes
+*)
+   #endif
+                 CALLU     Manual_P13           ;"P13:manual modes"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:manual modes
+*)
+   #endif
+                 CALLU     Manual_P14           ;"P14:manual modes"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:manual modes
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:manual modes
+*)
+   #endif
+                 CALLU     Manual_P15           ;"P15:manual modes"
+#endif
+
+
+// ---------------------------------------------------------------------------
+// global variable REF_OK (all axis referenced)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable REF_OK (all axis referenced)
+*)
+#endif
+#if ref_dir_1st_axis_P01 > -1
+                 RD.NOT    REF_OK_P01           ;"P01:all axis referenced"
+#else
+                 RD.NOT    LOG1                 ;"logic one"
+#endif
+#if nbr_of_path > 1
+   #if ref_dir_1st_axis_P02 > -1
+                 OR.NOT    REF_OK_P02           ;"P02:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if ref_dir_1st_axis_P03 > -1
+                 OR.NOT    REF_OK_P03           ;"P03:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if ref_dir_1st_axis_P04 > -1
+                 OR.NOT    REF_OK_P04           ;"P04:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if ref_dir_1st_axis_P05 > -1
+                 OR.NOT    REF_OK_P05           ;"P05:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if ref_dir_1st_axis_P06 > -1
+                 OR.NOT    REF_OK_P06           ;"P06:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if ref_dir_1st_axis_P07 > -1
+                 OR.NOT    REF_OK_P07           ;"P07:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if ref_dir_1st_axis_P08 > -1
+                 OR.NOT    REF_OK_P08           ;"P08:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if ref_dir_1st_axis_P09 > -1
+                 OR.NOT    REF_OK_P09           ;"P09:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if ref_dir_1st_axis_P10 > -1
+                 OR.NOT    REF_OK_P10           ;"P10:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if ref_dir_1st_axis_P11 > -1
+                 OR.NOT    REF_OK_P11           ;"P11:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if ref_dir_1st_axis_P12 > -1
+                 OR.NOT    REF_OK_P12           ;"P12:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if ref_dir_1st_axis_P13 > -1
+                 OR.NOT    REF_OK_P13           ;"P13:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if ref_dir_1st_axis_P14 > -1
+                 OR.NOT    REF_OK_P14           ;"P14:all axis referenced"
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if ref_dir_1st_axis_P15 > -1
+                 OR.NOT    REF_OK_P15           ;"P15:all axis referenced"
+   #endif
+#endif
+                 WRT.NOT   REF_OK               ;"all axis referenced"
+
+// ---------------------------------------------------------------------------
+// message: 2001 REFERENCE RETURN REQUIRED
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: 2001 REFERENCE RETURN REQUIRED
+*)
+#endif
+#if ref_dir_1st_axis_P01 > -1
+                 RD        M_AUTO_P01           ;"P01:automatic mode active"
+                 AND       POW_OK_P01           ;"P01:power suply axis ok"
+                 AND.NOT   REF_OK_P01           ;"P01:all axis referenced"
+                 AND.NOT   SETREF_P01           ;"P01:force mode ref"
+                 AND       PATH_P01             ;"path 01 selected"
+#else
+                 RD.NOT    LOG1                 ;"logic one"
+#endif
+#if nbr_of_path > 1
+   #if ref_dir_1st_axis_P02 > -1
+                 RD.STK    M_AUTO_P02           ;"P02:automatic mode active"
+                 AND       POW_OK_P02           ;"P02:power supply axis ok"
+                 AND.NOT   REF_OK_P02           ;"P02:all axis referenced"
+                 AND.NOT   SETREF_P02           ;"P02:force mode ref"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if ref_dir_1st_axis_P03 > -1
+                 RD.STK    M_AUTO_P03           ;"P03:automatic mode active"
+                 AND       POW_OK_P03           ;"P03:power supply axis ok"
+                 AND.NOT   REF_OK_P03           ;"P03:all axis referenced"
+                 AND.NOT   SETREF_P03           ;"P03:force mode ref"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if ref_dir_1st_axis_P04 > -1
+                 RD.STK    M_AUTO_P04           ;"P04:automatic mode active"
+                 AND       POW_OK_P04           ;"P04:power supply axis ok"
+                 AND.NOT   REF_OK_P04           ;"P04:all axis referenced"
+                 AND.NOT   SETREF_P04           ;"P04:force mode ref"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if ref_dir_1st_axis_P05 > -1
+                 RD.STK    M_AUTO_P05           ;"P05:automatic mode active"
+                 AND       POW_OK_P05           ;"P05:power supply axis ok"
+                 AND.NOT   REF_OK_P05           ;"P05:all axis referenced"
+                 AND.NOT   SETREF_P05           ;"P05:force mode ref"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if ref_dir_1st_axis_P06 > -1
+                 RD.STK    M_AUTO_P06           ;"P06:automatic mode active"
+                 AND       POW_OK_P06           ;"P06:power supply axis ok"
+                 AND.NOT   REF_OK_P06           ;"P06:all axis referenced"
+                 AND.NOT   SETREF_P06           ;"P06:force mode ref"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if ref_dir_1st_axis_P07 > -1
+                 RD.STK    M_AUTO_P07           ;"P07:automatic mode active"
+                 AND       POW_OK_P07           ;"P07:power supply axis ok"
+                 AND.NOT   REF_OK_P07           ;"P07:all axis referenced"
+                 AND.NOT   SETREF_P07           ;"P07:force mode ref"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if ref_dir_1st_axis_P08 > -1
+                 RD.STK    M_AUTO_P08           ;"P08:automatic mode active"
+                 AND       POW_OK_P08           ;"P08:power supply axis ok"
+                 AND.NOT   REF_OK_P08           ;"P08:all axis referenced"
+                 AND.NOT   SETREF_P08           ;"P08:force mode ref"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if ref_dir_1st_axis_P09 > -1
+                 RD.STK    M_AUTO_P09           ;"P09:automatic mode active"
+                 AND       POW_OK_P09           ;"P09:power supply axis ok"
+                 AND.NOT   REF_OK_P09           ;"P09:all axis referenced"
+                 AND.NOT   SETREF_P09           ;"P09:force mode ref"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if ref_dir_1st_axis_P10 > -1
+                 RD.STK    M_AUTO_P10           ;"P10:automatic mode active"
+                 AND       POW_OK_P10           ;"P10:power supply axis ok"
+                 AND.NOT   REF_OK_P10           ;"P10:all axis referenced"
+                 AND.NOT   SETREF_P10           ;"P10:force mode ref"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if ref_dir_1st_axis_P11 > -1
+                 RD.STK    M_AUTO_P11           ;"P11:automatic mode active"
+                 AND       POW_OK_P11           ;"P11:power supply axis ok"
+                 AND.NOT   REF_OK_P11           ;"P11:all axis referenced"
+                 AND.NOT   SETREF_P11           ;"P11:force mode ref"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if ref_dir_1st_axis_P12 > -1
+                 RD.STK    M_AUTO_P12           ;"P12:automatic mode active"
+                 AND       POW_OK_P12           ;"P12:power supply axis ok"
+                 AND.NOT   REF_OK_P12           ;"P12:all axis referenced"
+                 AND.NOT   SETREF_P12           ;"P12:force mode ref"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if ref_dir_1st_axis_P13 > -1
+                 RD.STK    M_AUTO_P13           ;"P13:automatic mode active"
+                 AND       POW_OK_P13           ;"P13:power supply axis ok"
+                 AND.NOT   REF_OK_P13           ;"P13:all axis referenced"
+                 AND.NOT   SETREF_P13           ;"P13:force mode ref"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if ref_dir_1st_axis_P14 > -1
+                 RD.STK    M_AUTO_P14           ;"P14:automatic mode active"
+                 AND       POW_OK_P14           ;"P14:power supply axis ok"
+                 AND.NOT   REF_OK_P14           ;"P14:all axis referenced"
+                 AND.NOT   SETREF_P14           ;"P14:force mode ref"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if ref_dir_1st_axis_P15 > -1
+                 RD.STK    M_AUTO_P15           ;"P15:automatic mode active"
+                 AND       POW_OK_P15           ;"P15:power supply axis ok"
+                 AND.NOT   REF_OK_P15           ;"P15:all axis referenced"
+                 AND.NOT   SETREF_P15           ;"P15:force mode ref"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+#if dcs_support == 1
+                 RD.STK    POSEx_NOK            ;"posex all path not ok"
+                 AND       DCS_ACT              ;"dual check safety active"
+                 AND       POW_OK               ;"power supply axis ok"
+                 AND       K_DOOR               ;"key unlock prot. door"
+                 OR.STK
+#endif
+                 WRT       M_2001               ;"zero return required"

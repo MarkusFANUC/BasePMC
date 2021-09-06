@@ -1,0 +1,251 @@
+//:--------------------------------------------------------------------------:
+//: File              : init.src                                             :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Initialisation module                                :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.11.16: 2.0.0 :Blp    :path 11-15 added, iPendant for simulation added  :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// setting the data for the panel simulation software (FOCAS 1)
+// ---------------------------------------------------------------------------
+#if start_address_op == 0
+
+   #if net_comment == 1
+(*
+data for panel simulation 
+*)
+   #endif
+
+   #if operatorspanel == 0                      // software operator's panel
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           0
+                           PANEL
+   #endif
+
+   #if operatorspanel == 1                      // Small OP with 30 keys
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           1
+                           PANEL
+   #endif
+
+   #if operatorspanel == 2                      // Standard OP with 55 keys 
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           2
+                           PANEL
+   #endif
+
+   #if operatorspanel == 3                      // iPendant
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           3
+                           PANEL
+   #endif
+
+   #if spindle_override == 1                    // spindle ovr gray coded selector
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           1
+                           SPIOVR
+   #else
+                 RD.NOT    FICYCL               ;"first cycle finished"
+                 NUMEB
+                           1
+                           0
+                           SPIOVR
+   #endif
+#endif
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// reading parameter N01902 bit 6 (DCS active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+reading parameter N01902 bit 6 (DCS active)
+*)
+   #endif
+                 RD        MA_P01               ;"cnc ready signal"
+                 AND       FICYCL               ;"first cycle finished"
+                 DIFU
+                           0
+                 WRT       re_dcs_prm           ;"re dcs parameter read"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 NUMEB
+                           2
+                           154
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 NUMEB
+                           2
+                           1
+                           TMP_B04              ;"temporary byte 04"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 NUMEB
+                           2
+                           1902
+                           TMP_B06              ;"temporary byte 06"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 NUMEB
+                           2
+                           0
+                           TMP_B08              ;"temporary byte 08"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 WINDR
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       dcs_prm_r            ;"dcs parameter read fin"
+
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 MOVE
+                           100
+                           0
+                           TMP_B10              ;"temporary byte 10"
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// global variable: DCS_ACT (Dual check safety active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+global variable: DCS_ACT (Dual check safety active)
+*)
+   #endif
+                 RD        re_dcs_prm           ;"re dcs parameter read"
+                 AND       T_BIT006             ;"temporary bit 006"
+                 OR        DCS_ACT              ;"dual check safety active"
+                 WRT       DCS_ACT              ;"dual check safety active"
+#endif
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+   #include "..\..\include\init_p01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+   #if nbr_of_path > 1
+      #include "..\..\include\init_p02.src"
+   #endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+   #if nbr_of_path > 2
+      #include "..\..\include\init_p03.src"
+   #endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+   #if nbr_of_path > 3
+      #include "..\..\include\init_p04.src"
+   #endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+   #if nbr_of_path > 4
+      #include "..\..\include\init_p05.src"
+   #endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+   #if nbr_of_path > 5
+      #include "..\..\include\init_p06.src"
+   #endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+   #if nbr_of_path > 6
+      #include "..\..\include\init_p07.src"
+   #endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+   #if nbr_of_path > 7
+      #include "..\..\include\init_p08.src"
+   #endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+   #if nbr_of_path > 9
+      #include "..\..\include\init_p09.src"
+   #endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+   #if nbr_of_path > 9
+      #include "..\..\include\init_p10.src"
+   #endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+   #if nbr_of_path > 10
+      #include "..\..\include\init_p11.src"
+   #endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+   #if nbr_of_path > 11
+      #include "..\..\include\init_p12.src"
+   #endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+   #if nbr_of_path > 12
+      #include "..\..\include\init_p13.src"
+   #endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+   #if nbr_of_path > 13
+      #include "..\..\include\init_p14.src"
+   #endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+   #if nbr_of_path > 14
+      #include "..\..\include\init_p15.src"
+   #endif

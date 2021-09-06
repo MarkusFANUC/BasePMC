@@ -1,0 +1,152 @@
+//:--------------------------------------------------------------------------:
+//: File              : temporary.sym                                        :
+//: Creation date     : 27.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbol definitions for temporary variables           :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Temporary variables for level 2
+// ===========================================================================
+// -------------------------------------------------------
+// Extra relay range E9500.0 - E9519.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+TMP_B00,E9500,temporary byte 00,
+TMP_B01,E9501,temporary byte 01,
+TMP_B02,E9502,temporary byte 02,
+TMP_B03,E9503,temporary byte 03,
+
+TMP_B04,E9504,temporary byte 04,
+TMP_B05,E9505,temporary byte 05,
+TMP_B06,E9506,temporary byte 06,
+TMP_B07,E9507,temporary byte 07,
+
+TMP_B08,E9508,temporary byte 08,
+TMP_B09,E9509,temporary byte 09,
+TMP_B10,E9510,temporary byte 10,
+TMP_B11,E9511,temporary byte 11,
+
+TMP_B12,E9512,temporary byte 12,
+TMP_B13,E9513,temporary byte 13,
+TMP_B14,E9514,temporary byte 14,
+TMP_B15,E9515,temporary byte 15,
+
+// -----------------------------------
+// bool
+// -----------------------------------
+T_BIT000,E9500.0,temporary bit 000,
+T_BIT001,E9500.1,temporary bit 001,
+T_BIT002,E9500.2,temporary bit 002,
+T_BIT003,E9500.3,temporary bit 003,
+T_BIT004,E9500.4,temporary bit 004,
+T_BIT005,E9500.5,temporary bit 005,
+T_BIT006,E9500.6,temporary bit 006,
+T_BIT007,E9500.7,temporary bit 007,
+
+T_BIT008,E9501.0,temporary bit 008,
+T_BIT009,E9501.1,temporary bit 009,
+T_BIT010,E9501.2,temporary bit 010,
+T_BIT011,E9501.3,temporary bit 011,
+T_BIT012,E9501.4,temporary bit 012,
+T_BIT013,E9501.5,temporary bit 013,
+T_BIT014,E9501.6,temporary bit 014,
+T_BIT015,E9501.7,temporary bit 015,
+
+T_BIT016,E9502.0,temporary bit 016,
+T_BIT017,E9502.1,temporary bit 017,
+T_BIT018,E9502.2,temporary bit 018,
+T_BIT019,E9502.3,temporary bit 019,
+T_BIT020,E9502.4,temporary bit 020,
+T_BIT021,E9502.5,temporary bit 021,
+T_BIT022,E9502.6,temporary bit 022,
+T_BIT023,E9502.7,temporary bit 023,
+
+T_BIT024,E9503.0,temporary bit 024,
+T_BIT025,E9503.1,temporary bit 025,
+T_BIT026,E9503.2,temporary bit 026,
+T_BIT027,E9503.3,temporary bit 027,
+T_BIT028,E9503.4,temporary bit 028,
+T_BIT029,E9503.5,temporary bit 029,
+T_BIT030,E9503.6,temporary bit 030,
+T_BIT031,E9503.7,temporary bit 031,
+
+T_BIT032,E9504.0,temporary bit 032,
+T_BIT033,E9504.1,temporary bit 033,
+T_BIT034,E9504.2,temporary bit 034,
+T_BIT035,E9504.3,temporary bit 035,
+T_BIT036,E9504.4,temporary bit 036,
+T_BIT037,E9504.5,temporary bit 037,
+T_BIT038,E9504.6,temporary bit 038,
+T_BIT039,E9504.7,temporary bit 039,
+
+T_BIT040,E9505.0,temporary bit 040,
+T_BIT041,E9505.1,temporary bit 041,
+T_BIT042,E9505.2,temporary bit 042,
+T_BIT043,E9505.3,temporary bit 043,
+T_BIT044,E9505.4,temporary bit 044,
+T_BIT045,E9505.5,temporary bit 045,
+T_BIT046,E9505.6,temporary bit 046,
+T_BIT047,E9505.7,temporary bit 047,
+
+T_BIT048,E9506.0,temporary bit 048,
+T_BIT049,E9506.1,temporary bit 049,
+T_BIT050,E9506.2,temporary bit 050,
+T_BIT051,E9506.3,temporary bit 051,
+T_BIT052,E9506.4,temporary bit 052,
+T_BIT053,E9506.5,temporary bit 053,
+T_BIT054,E9506.6,temporary bit 054,
+T_BIT055,E9506.7,temporary bit 055,
+
+T_BIT056,E9507.0,temporary bit 056,
+T_BIT057,E9507.1,temporary bit 057,
+T_BIT058,E9507.2,temporary bit 058,
+T_BIT059,E9507.3,temporary bit 059,
+T_BIT060,E9507.4,temporary bit 060,
+T_BIT061,E9507.5,temporary bit 061,
+T_BIT062,E9507.6,temporary bit 062,
+T_BIT063,E9507.7,temporary bit 063,
+
+T_BIT064,E9508.0,temporary bit 064,
+T_BIT065,E9508.1,temporary bit 065,
+T_BIT066,E9508.2,temporary bit 066,
+T_BIT067,E9508.3,temporary bit 067,
+T_BIT068,E9508.4,temporary bit 068,
+T_BIT069,E9508.5,temporary bit 069,
+T_BIT070,E9508.6,temporary bit 070,
+T_BIT071,E9508.7,temporary bit 071,
+
+T_BIT072,E9509.0,temporary bit 072,
+T_BIT073,E9509.1,temporary bit 073,
+T_BIT074,E9509.2,temporary bit 074,
+T_BIT075,E9509.3,temporary bit 075,
+T_BIT076,E9509.4,temporary bit 076,
+T_BIT077,E9509.5,temporary bit 077,
+T_BIT078,E9509.6,temporary bit 078,
+T_BIT079,E9509.7,temporary bit 079,
+
+T_BIT080,E9510.0,temporary bit 080,
+T_BIT081,E9510.1,temporary bit 081,
+T_BIT082,E9510.2,temporary bit 082,
+T_BIT083,E9510.3,temporary bit 083,
+T_BIT084,E9510.4,temporary bit 084,
+T_BIT085,E9510.5,temporary bit 085,
+T_BIT086,E9510.6,temporary bit 086,
+T_BIT087,E9510.7,temporary bit 087,

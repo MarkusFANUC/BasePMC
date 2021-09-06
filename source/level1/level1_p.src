@@ -1,0 +1,66 @@
+//:--------------------------------------------------------------------------:
+//: File              : level1__PATH__.src                                       :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific level 1 code                           :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:19.10.17: 2.0.0 :Blp    :SOP_RUN will only be included in case of         :
+//:        :       :       :pmc_type < 3 || pmc_type == 6                    :
+//:        :       :       :DCS alarms added to emergency stop               :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: emergency stop
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: emergency stop
+*)
+#endif
+                 RD        iK_ESP               ;"button emergency stop"
+#if dcs_support == 1
+                 RD.STK    *SGOPN               ;"guard state doors closed"
+                 OR        *ESP__PATH__         ;"emergency stop signal"
+                 AND.STK   
+                 RD.STK    *DCALM               ;"MCC off signal(system)"
+                 AND.NOT   MCFVx_NOK__PATH__    ;"mcf axes not ok"
+   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+                 AND.NOT   MCFPx_NOK__PATH__    ;"mcc spindles not ok"
+   #endif
+                 OR.NOT    DCS_ACT              ;"dual check safety active"
+                 AND.STK   
+#endif
+#if operatorspanel == 0
+                 AND.NOT   sopemg               ;"emergency stop from sop"
+#endif
+#if soft_op_panel == 1 && operatorspanel != 0
+   #if pmc_type < 3 || pmc_type == 6
+                 RD.STK.NOT sopemg              ;"emergency stop from sop"
+                 OR.NOT    SOP_RUN              ;"software op-panel active"
+                 AND.STK
+   #else
+                 AND.NOT   sopemg               ;"emergency stop from sop"
+   #endif
+#endif
+#if start_address_op == 0
+                 AND.NOT   K_EMG                ;"emgergency stop key"
+                 WRT.NOT   L_EMG__PATH__        ;"led emg stop key"
+#endif
+                 WRT       *ESP__PATH__         ;"emergency stop signal"

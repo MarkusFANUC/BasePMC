@@ -1,0 +1,327 @@
+//:--------------------------------------------------------------------------:
+//: File              : mmi_in.sym                                           :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : symbols of inputs man-machine-interface              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:03.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :keys for one touch macro added                   :
+//:        :       :       :variable FE_SOP_ACT added                        :
+//:--------------------------------------------------------------------------:
+//:19.10.17: 2.0.0 :Blp    :variable sopscreen added                         :
+//:        :       :       :path 11-15 added                                 :
+//:        :       :       :variable K_MESRST added                          :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Include files
+// ===========================================================================
+
+// -----------------------------------------------
+// multipath related functions
+// -----------------------------------------------
+   #include "multipath.sym"
+
+// -----------------------------------------------
+// operator's panel
+// -----------------------------------------------
+//    0  =  Software operator's panel     (30i/31i/32i option -J960 required)
+//    1  =  Small machine operator's panel with 30 keys
+//    2  =  Standard machine operator's panel with 55 keys
+//    3  =  iPendant (for CNC)
+
+#if operatorspanel == 0 || soft_op_panel == 1
+   #include "op_sop_in.sym"
+#endif
+#if operatorspanel == 1
+   #include "op_30keys_in.sym"
+#endif
+#if operatorspanel == 2
+   #include "op_55keys_in.sym"
+#endif
+#if operatorspanel == 3
+   #include "i_pend_in.sym"
+#endif
+
+// -----------------------------------------------
+// Handy machine operator's panel
+// -----------------------------------------------
+#if handwheel_support == 2
+   #include "hmop_in.sym"
+#endif
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\mmi_in_p01.sym"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\..\include\mmi_in_p02.sym"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\..\include\mmi_in_p03.sym"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\..\include\mmi_in_p04.sym"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\..\include\mmi_in_p05.sym"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\..\include\mmi_in_p06.sym"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\..\include\mmi_in_p07.sym"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\..\include\mmi_in_p08.sym"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\..\include\mmi_in_p09.sym"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\..\include\mmi_in_p10.sym"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\..\include\mmi_in_p11.sym"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\..\include\mmi_in_p12.sym"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\..\include\mmi_in_p13.sym"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\..\include\mmi_in_p14.sym"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\..\include\mmi_in_p15.sym"
+#endif
+
+// ===========================================================================
+// inputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+#if operatorspanel < 2 && nbr_of_path > 1
+iPathSyn,__PATH_SYNC,button path sync.,
+iPathPlus,__PATH_PLUS,button path plus,
+   #if nbr_of_path > 2
+iPathMinus,__PATH_MINUS,button path minus,
+   #endif
+#endif
+
+#if dcs_support == 1
+   #if operatorspanel != 2
+iDoor,__DOOR_KEY,button prot. door,
+   #endif
+#endif
+
+// ===========================================================================
+// Data Table
+// ===========================================================================
+// -------------------------------------------------------
+// global variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables 
+// -------------------------------------------------------
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// input map area variables E9540.0 - E9559.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+OPMAP,E9540,op map start address,
+FOVRS,E9556,feed override in %,
+SOVRS,E9558,spindle override in %,
+
+// -----------------------------------
+// bool
+// -----------------------------------
+K_MMEM,E9540.0,key mode mem,
+K_MEDT,E9540.1,key mode edit,
+K_MMDI,E9540.2,key mode mdi,
+K_DNC,E9540.3,key dnc operation mode,
+K_MREF,E9540.4,key mode ref,
+K_MJ,E9540.5,key mode jog,
+K_INC,E9540.6,key inc feed,
+K_HD,E9540.7,key handle,
+
+K_SBK,E9542.0,key single block,
+K_SKIP,E9542.1,key block skip,
+K_OSTP,E9542.2,key optional stop m01,
+K_PGMT,E9542.3,key program test,
+K_DRN,E9542.4,key dry run,
+K_REST,E9542.5,key program restart,
+K_TEACH,E9542.6,key teach in,
+
+K_ST,E9543.0,key cycle start,
+K_CYSP,E9543.1,key cycle stop,
+K_PGSP,E9543.2,pgm stop key,
+
+K_RST,E9543.3,reset key,
+#if start_address_op == 0
+K_EMG,E9543.4,virtual emg stop key,
+#endif
+
+#if handwheel_support == 2
+K_MESRST,E9543.7,message reset key
+#endif
+
+K_1AX,E9544.0,key 1st axis,
+K_2AX,E9544.1,key 2nd axis,
+K_3AX,E9544.2,key 3rd axis,
+K_4AX,E9544.3,key 4th axis,
+K_5AX,E9544.4,key 5th axis,
+K_6AX,E9544.5,key 6th axis,
+K_7AX,E9544.6,key 7th axis,
+K_8AX,E9544.7,key 8th axis,
+
+K_X1,E9545.0,key 1 increment,
+K_X10,E9545.1,key 10 increment,
+K_X100,E9545.2,key 100 increment,
+K_X1000,E9545.3,key 1000 increment,
+
+K_RT,E9545.5,key rapid traverse,
+K_PLUS,E9545.6,key plus direction,
+K_MINUS,E9545.7,key minus direction,
+
+K_COOL,E9546.0,key coolant manual on,
+
+K_SPCW,E9547.0,key spindle cw,
+K_SPCCW,E9547.1,key spindle ccw,
+K_SPSP,E9547.2,key spindle stop,
+
+#if otmc_support_P01 > -1 && operatorspanel == 2
+K_MC1,E9548.1,key macro call 1,
+K_MC2,E9548.2,key macro call 2,
+K_MC3,E9548.3,key macro call 3,
+K_MC4,E9548.4,key macro call 3,
+#endif
+
+// -------------------------------------------------------
+// global variables E9560.0 - E9569.7
+// -------------------------------------------------------
+
+HMOP_ACT,E9560.0,hmop active,
+RE_HMOP_ACT,E9560.1,re hmop active,
+SOP_ACT,E9560.2,software op active,
+RE_SOP_ACT,E9560.3,re sop active,
+FE_SOP_ACT,E9560.4,fe sop active,
+K_PATH+,E9560.5,key path plus,
+K_PATH-,E9560.6,key path minus,
+K_PSYN,E9560.7,key path sync,
+
+#if dcs_support == 1
+K_DOOR,E9561.0,key unlock prot. door,
+#endif
+K_PKEY,E9561.1,memory protection key,
+
+// -------------------------------------------------------
+// local variables E9570.0 - E9579.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+
+
+// -----------------------------------
+// bool
+// -----------------------------------
+mhmop_act,E9570.0,memory hmop active,
+msop_act,E9570.1,memory sop active,
+reksop,E9570.2,re key sop,
+mksop,E9570.3,memory key sop,
+sopscreen,E9570.4,sop screen selected,

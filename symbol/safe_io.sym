@@ -1,0 +1,272 @@
+//:--------------------------------------------------------------------------:
+//: File              : safe_io.sym                                          :
+//: Creation date     : 09.12.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : symbols for safety input / outputs                   :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:16.07.18: 2.0.0 :Blp    :path 11-15 added, spindle STO added              :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// safe inputs E9980.0 - E9989.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+*SGOPN,E9980.0,guard state doors closed,
+HTR,E9980.1,hold to run button,
+SET_M01,E9980.2,setup mode 01,
+#if spindle_support_P01 > -1 && (pmc_type != 2 && pmc_type < 6)
+   #if spindle_support_P01 == 1 
+EXOF1_P01,E9980.3,P01:spindle exitation off,
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 == 1
+EXOF1_P02,E9980.4,P02:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 == 1
+EXOF1_P03,E9980.5,P03:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 == 1
+EXOF1_P04,E9980.6,P04:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 == 1
+EXOF1_P05,E9980.7,P05:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 == 1
+EXOF1_P06,E9981.0,P06:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 == 1
+EXOF1_P07,E9981.1,P07:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 == 1
+EXOF1_P08,E9981.2,P08:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 == 1
+EXOF1_P09,E9981.3,P09:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 == 1
+EXOF1_P10,E9981.4,P10:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 == 1
+EXOF1_P11,E9981.5,P11:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 == 1
+EXOF1_P12,E9981.6,P12:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 == 1
+EXOF1_P13,E9981.7,P13:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 == 1
+EXOF1_P14,E9982.0,P14:spindle exitation off,
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 == 1
+EXOF1_P15,E9982.1,P15:spindle exitation off,
+      #endif
+   #endif
+#endif
+
+// -------------------------------------------------------
+// safe outputs E9990.0 - E9999.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+#if spindle_support_P01 == 1 
+   #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P01,E9990.0,P01:spin. monit. logic A,
+SP_MON_B_P01,E9990.1,P01:spin. monit. logic B,
+   #else
+SP_STO_MON_P01,E9990.0,P01:spindle sto monitoring,
+   #endif
+#endif
+#if nbr_of_path > 1
+   #if spindle_support_P02 == 1 && spindle_support_P01 > -1
+      #if(pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P02,E9990.2,P02:spin. monit. logic A,
+SP_MON_B_P02,E9990.3,P02:spin. monit. logic B,
+      #else
+SP_STO_MON_P02,E9990.1,P02:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if spindle_support_P03 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P03,E9990.4,P03:spin. monit. logic A,
+SP_MON_B_P03,E9990.5,P03:spin. monit. logic B,
+      #else
+SP_STO_MON_P03,E9990.2,P03:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if spindle_support_P04 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P04,E9990.6,P04:spin. monit. logic A,
+SP_MON_B_P04,E9990.7,P04:spin. monit. logic B,
+      #else
+SP_STO_MON_P04,E9990.3,P04:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if spindle_support_P05 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P05,E9991.0,P05:spin. monit. logic A,
+SP_MON_B_P05,E9991.1,P05:spin. monit. logic B,
+      #else
+SP_STO_MON_P05,E9990.4,P05:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if spindle_support_P06 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P06,E9991.2,P06:spin. monit. logic A,
+SP_MON_B_P06,E9991.3,P06:spin. monit. logic B,
+      #else
+SP_STO_MON_P06,E9990.5,P06:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if spindle_support_P07 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P07,E9991.4,P07:spin. monit. logic A,
+SP_MON_B_P07,E9991.5,P07:spin. monit. logic B,
+      #else
+SP_STO_MON_P07,E9990.6,P07:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if spindle_support_P08 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P08,E9991.6,P08:spin. monit. logic A,
+SP_MON_B_P08,E9991.7,P08:spin. monit. logic B,
+      #else
+SP_STO_MON_P08,E9990.7,P08:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if spindle_support_P09 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P09,E9992.0,P09:spin. monit. logic A,
+SP_MON_B_P09,E9992.1,P09:spin. monit. logic B,
+      #else
+SP_STO_MON_P09,E9991.0,P09:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if spindle_support_P10 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P10,E9992.2,P10:spin. monit. logic A,
+SP_MON_B_P10,E9992.3,P10:spin. monit. logic B,
+      #else
+SP_STO_MON_P10,E9991.1,P10:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if spindle_support_P11 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P11,E9992.4,P11:spin. monit. logic A,
+SP_MON_B_P11,E9992.5,P11:spin. monit. logic B,
+      #else
+SP_STO_MON_P11,E9991.2,P11:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if spindle_support_P12 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P12,E9992.6,P12:spin. monit. logic A,
+SP_MON_B_P12,E9992.7,P12:spin. monit. logic B,
+      #else
+SP_STO_MON_P12,E9991.3,P12:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if spindle_support_P13 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P13,E9993.0,P13:spin. monit. logic A,
+SP_MON_B_P13,E9993.1,P13:spin. monit. logic B,
+      #else
+SP_STO_MON_P13,E9991.4,P13:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if spindle_support_P14 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P14,E9993.2,P14:spin. monit. logic A,
+SP_MON_B_P14,E9993.3,P14:spin. monit. logic B,
+      #else
+SP_STO_MON_P14,E9991.5,P14:spindle sto monitoring,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if spindle_support_P15 == 1 && spindle_support_P01 > -1
+      #if (pmc_type != 2 && pmc_type < 6)
+SP_MON_A_P15,E9993.4,P15:spin. monit. logic A,
+SP_MON_B_P15,E9993.5,P15:spin. monit. logic B,
+      #else
+SP_STO_MON_P15,E9991.6,P15:spindle sto monitoring,
+      #endif
+   #endif
+#endif

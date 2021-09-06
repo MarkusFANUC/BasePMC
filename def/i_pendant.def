@@ -1,0 +1,206 @@
+//:--------------------------------------------------------------------------:
+//: File              : i_pendkeys.def                                       :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs/outputs for iPendant            :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+#ifndef i_pendant_def
+#define i_pendant_def
+
+// ===========================================================================
+// Definitions
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// notification signals
+// ---------------------------------------------------------------------------
+   #define  __M_OPE                    E9900.0     // operation mode notificat.
+   #define  __ENB                      E9900.1     // on/off switch
+   #if handwheel_support == 1
+      #define  __MPGNG                 E9900.2     // mpg invalid notification
+   #endif
+   #define  __KSALV                    E9900.6     // state alive signal
+   #define  __KSRDY                    E9900.7     // key state
+
+// ---------------------------------------------------------------------------
+// shift
+// ---------------------------------------------------------------------------
+   #define  __KEY_SHIFT                E9901.7     // SHIFT key
+
+// ---------------------------------------------------------------------------
+// emergency stop and reset
+// ---------------------------------------------------------------------------
+   #define  __KEY_RST                  E9902.0     // RESET
+
+// ---------------------------------------------------------------------------
+// operating modes
+// ---------------------------------------------------------------------------
+   #define  __KEY_MODE_MEM             E9908.6     // auto
+
+   #define  __KEY_MODE_EDIT            E9907.7     // edit
+
+   #define  __KEY_MODE_MDI             E9908.2     // mdi
+
+   #define  __KEY_MODE_REF             E9909.2     // ref return
+
+   #define  __KEY_MODE_JOG             E9909.3     // jog
+
+   #define  __KEY_MODE_HANDLE          E9909.0     // handle
+
+   #define  __KEY_MODE_TEACH           E9909.1     // teach
+
+   #define  __KEY_SINGLE_BLOCK         E9902.2     // single block
+
+   #define  __KEY_BLOCK_SKIP           E9902.6     // block delete
+
+   #define  __KEY_OPT_STOP             E9906.3     // opt stop
+
+   #define  __KEY_DRY_RUN              E9902.1     // dry run
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+   #define  __KEY_CYCLE_START          E9902.3     // cycle start
+
+   #define  __KEY_CYCLE_STOP           E9902.4     // cycle stop
+
+// ---------------------------------------------------------------------------
+// path switching
+// ---------------------------------------------------------------------------
+   #define  __KEY_PATH_PLUS            E9903.0     // next path
+   #define  __KEY_PATH_MINUS           E9903.1     // previous path
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+   #define  __FEED_OVR_PLUS            E9908.7     // feed override +
+
+   #define  __FEED_OVR_MINUS           E9908.5     // feed override -
+
+   #define  __KEY_1ST_AXIS_MINUS       E9906.4     // -J1
+
+   #define  __KEY_1ST_AXIS_PLUS        E9906.5     // +J1
+
+   #define  __KEY_2ND_AXIS_MINUS       E9902.5     // -J2
+
+   #define  __KEY_2ND_AXIS_PLUS        E9907.0     // +J2
+
+   #define  __KEY_3RD_AXIS_MINUS       E9907.2     // -J3
+
+   #define  __KEY_3RD_AXIS_PLUS        E9907.3     // +J3
+
+   #define  __KEY_4TH_AXIS_MINUS       E9907.5     // -J4
+
+   #define  __KEY_4TH_AXIS_PLUS        E9907.6     // +J4
+
+   #define  __KEY_5TH_AXIS_MINUS       E9908.0     // -J5
+
+   #define  __KEY_5TH_AXIS_PLUS        E9908.1     // +J5
+
+   #define  __KEY_6TH_AXIS_MINUS       E9908.3     // -J6
+
+   #define  __KEY_6TH_AXIS_PLUS        E9908.4     // +J6
+
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+   #if spindle_support_P01 > -1
+      #define  __KEY_SPINDLE_CW        E9906.6     // spdl cw
+
+      #define  __KEY_SPINDLE_STOP      E9907.1     // spdl stop
+
+      #define  __KEY_SPINDLE_CCW       E9907.4     // spdl ccw
+
+   #endif
+
+// ---------------------------------------------------------------------------
+// control signals
+// ---------------------------------------------------------------------------
+   #if handwheel_support == 1
+      #define  __ENBC                 E9928.1      // operation on/off switch
+      #define  __MPGEN                E9928.2      // mpg control signal
+   #endif
+
+// ---------------------------------------------------------------------------
+// lamp control signals
+// ---------------------------------------------------------------------------
+   #define  __LCTL01                  E9930.0      // lamp control signal 01
+   #define  __LCTL02                  E9930.1      // lamp control signal 02
+   #define  __LCTL03                  E9930.2      // lamp control signal 03
+   #define  __LCTL04                  E9930.3      // lamp control signal 04
+   #define  __LCTL05                  E9930.4      // lamp control signal 05
+   #define  __LCTL06                  E9930.5      // lamp control signal 06
+   #define  __LCTL07                  E9930.6      // lamp control signal 07
+   #define  __LCTL08                  E9930.7      // lamp control signal 08
+
+   #define  __LCTL09                  E9931.0      // lamp control signal 09
+   #define  __LCTL10                  E9931.1      // lamp control signal 10
+   #define  __LCTL11                  E9931.2      // lamp control signal 11
+   #define  __LCTL12                  E9931.3      // lamp control signal 12
+   #define  __LCTL13                  E9931.4      // lamp control signal 13
+   #define  __LCTL14                  E9931.5      // lamp control signal 14
+   #define  __LCTL15                  E9931.6      // lamp control signal 15
+   #define  __LCTL16                  E9931.7      // lamp control signal 16
+
+// ---------------------------------------------------------------------------
+// unused
+// ---------------------------------------------------------------------------
+   #define  __KEY_00                  E9901.0      // button 00
+   #define  __KEY_01                  E9901.1      // button 01
+   #define  __KEY_02                  E9901.2      // button 02
+   #define  __KEY_03                  E9901.3      // button 03
+   #define  __KEY_04                  E9901.4      // button 04
+   #define  __KEY_05                  E9901.5      // button 05
+   #define  __KEY_06                  E9901.6      // button 06
+
+   #define  __KEY_17                  E9902.7      // button 17
+
+   #define  __KEY_20                  E9903.0      // button 20
+   #define  __KEY_21                  E9903.1      // button 21
+   #define  __KEY_22                  E9903.2      // button 22
+   #define  __KEY_23                  E9903.3      // button 23
+   #define  __KEY_24                  E9903.4      // button 24
+   #define  __KEY_25                  E9903.5      // button 25
+   #define  __KEY_26                  E9903.6      // button 26
+   #define  __KEY_27                  E9903.7      // button 27
+
+   #define  __KEY_30                  E9904.0      // button 30
+   #define  __KEY_31                  E9904.1      // button 31
+   #define  __KEY_32                  E9904.2      // button 32
+   #define  __KEY_33                  E9904.3      // button 33
+   #define  __KEY_34                  E9904.4      // button 34
+   #define  __KEY_35                  E9904.5      // button 35
+   #define  __KEY_36                  E9904.6      // button 36
+   #define  __KEY_37                  E9904.7      // button 37
+
+   #define  __KEY_40                  E9905.0      // button 40
+   #define  __KEY_41                  E9905.1      // button 41
+   #define  __KEY_42                  E9905.2      // button 42
+   #define  __KEY_43                  E9905.3      // button 43
+   #define  __KEY_44                  E9905.4      // button 44
+   #define  __KEY_45                  E9905.5      // button 45
+   #define  __KEY_46                  E9905.6      // button 46
+   #define  __KEY_47                  E9905.7      // button 47
+   
+   #define  __KEY_50                  E9906.0      // button 50
+   #define  __KEY_51                  E9906.1      // button 51
+   #define  __KEY_52                  E9906.2      // button 52
+   #define  __KEY_57                  E9906.7      // button 57
+
+#endif   // i_pendant_def

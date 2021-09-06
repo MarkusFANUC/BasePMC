@@ -1,0 +1,1146 @@
+//:--------------------------------------------------------------------------:
+//: File              : sub_pgm.sym                                          :
+//: Creation date     : 05.12.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbols for the subprograms                          :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:03.09.14: 1.1.0 :Blp    :One touch macro call added                       :
+//:--------------------------------------------------------------------------:
+//:29.09.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Subprograms
+// ===========================================================================
+MMI_Input,P0001,mmi inputs,
+Init,P0002,initialization,
+ModDec,P0003,decoding of op. modes,
+M_Codes,P0004,m code decoding,
+#if spindle_support_P01 > -1
+Spindle,P0005,spindle control,
+#endif
+#if t_code_support_P01 > -1
+Tool,P0006,tool management,
+#endif
+#if b_code_support_P01 > -1
+B_Codes,P0007,b codes,
+#endif
+Manual,P0008,manual modes,
+Auto,P0009,automatic modes,
+Power,P0010,power/protection doors,
+Axes,P0011,axes control,
+#if coolant_support_P01 > -1
+Coolant,P0012,coolant support,
+#endif
+Lubric,P0013,lubrication,
+Window,P0014,window read/write function,
+MessDisp,P0015,message display control,
+MMI_Output,P0016,mmi outputs,
+#if otmc_support_P01 > -1 && operatorspanel == 2
+OneTouchMacro,P0030,one touch macro call,
+#endif
+MultiPath,P0100,Multipath related functions,
+#if operatorspanel == 1
+Op_Keyb_30_In,P0101,op. 30-key inputs,
+#endif
+#if operatorspanel == 2
+Op_Keyb_55_In,P0101,op. 55-key inputs,
+#endif
+#if operatorspanel == 3
+iPendant_In,P0101,iPendant inputs,
+#endif
+#if operatorspanel == 0 || soft_op_panel == 1
+Op_Keyb_Sop_In,P0102,software op. inputs,
+#endif
+#if handwheel_support == 2
+Hmop_In,P0103,hmop inputs,
+#endif
+
+ModDec_P01,P110,P01:decoding of op. modes,
+#if nbr_of_path > 1
+ModDec_P02,P111,P02:decoding of op. modes,
+#endif
+#if nbr_of_path > 2
+ModDec_P03,P112,P03:decoding of op. modes,
+#endif
+#if nbr_of_path > 3
+ModDec_P04,P113,P04:decoding of op. modes,
+#endif
+#if nbr_of_path > 4
+ModDec_P05,P114,P05:decoding of op. modes,
+#endif
+#if nbr_of_path > 5
+ModDec_P06,P115,P06:decoding of op. modes,
+#endif
+#if nbr_of_path > 6
+ModDec_P07,P116,P07:decoding of op. modes,
+#endif
+#if nbr_of_path > 7
+ModDec_P08,P117,P08:decoding of op. modes,
+#endif
+#if nbr_of_path > 8
+ModDec_P09,P118,P09:decoding of op. modes,
+#endif
+#if nbr_of_path > 9
+ModDec_P10,P119,P10:decoding of op. modes,
+#endif
+#if nbr_of_path > 10
+ModDec_P11,P120,P11:decoding of op. modes,
+#endif
+#if nbr_of_path > 11
+ModDec_P12,P121,P12:decoding of op. modes,
+#endif
+#if nbr_of_path > 12
+ModDec_P13,P122,P13:decoding of op. modes,
+#endif
+#if nbr_of_path > 13
+ModDec_P14,P123,P14:decoding of op. modes,
+#endif
+#if nbr_of_path > 13
+ModDec_P15,P124,P15:decoding of op. modes,
+#endif
+
+M_Codes_P01,P0130,P01:m code decoding,
+#if nbr_of_path > 1
+M_Codes_P02,P0131,P02:m code decoding,
+#endif
+#if nbr_of_path > 2
+M_Codes_P03,P0132,P03:m code decoding,
+#endif
+#if nbr_of_path > 3
+M_Codes_P04,P0133,P04:m code decoding,
+#endif
+#if nbr_of_path > 4
+M_Codes_P05,P0134,P05:m code decoding,
+#endif
+#if nbr_of_path > 5
+M_Codes_P06,P0135,P06:m code decoding,
+#endif
+#if nbr_of_path > 6
+M_Codes_P07,P0136,P07:m code decoding,
+#endif
+#if nbr_of_path > 7
+M_Codes_P08,P0137,P08:m code decoding,
+#endif
+#if nbr_of_path > 8
+M_Codes_P09,P0138,P09:m code decoding,
+#endif
+#if nbr_of_path > 9
+M_Codes_P10,P0139,P10:m code decoding,
+#endif
+#if nbr_of_path > 10
+M_Codes_P11,P0140,P11:m code decoding,
+#endif
+#if nbr_of_path > 11
+M_Codes_P12,P0141,P12:m code decoding,
+#endif
+#if nbr_of_path > 12
+M_Codes_P13,P0142,P13:m code decoding,
+#endif
+#if nbr_of_path > 13
+M_Codes_P14,P0143,P14:m code decoding,
+#endif
+#if nbr_of_path > 14
+M_Codes_P15,P0144,P15:m code decoding,
+#endif
+
+
+#if spindle_support_P01 > 0
+SpiCtrl_P01,P0150,P01:spindle control,
+SpiRun_P01,P0151,P01:spindle speed control,
+   #if spindle_support_P01 == 1 && spindle_orientation_P01 > 0
+SpiOri_P01,P0152,P01:spindle orientation,
+   #endif
+#endif
+#if nbr_of_path > 1
+   #if spindle_support_P02 > 0 && spindle_support_P01 > -1
+SpiCtrl_P02,P0153,P02:spindle control,
+SpiRun_P02,P0154,P02:spindle speed control,
+      #if spindle_support_P02 == 1 && spindle_orientation_P02 > 0
+SpiOri_P02,P0155,P02:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if spindle_support_P03 > 0 && spindle_support_P01 > -1
+SpiCtrl_P03,P0156,P03:spindle control,
+SpiRun_P03,P0157,P03:spindle speed control,
+      #if spindle_support_P03 == 1 && spindle_orientation_P03 > 0
+SpiOri_P03,P0158,P03:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if spindle_support_P04 > 0 && spindle_support_P01 > -1
+SpiCtrl_P04,P0159,P04:spindle control,
+SpiRun_P04,P0160,P04:spindle speed control,
+      #if spindle_support_P04 == 1 && spindle_orientation_P04 > 0
+SpiOri_P04,P0161,P04:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if spindle_support_P05 > 0 && spindle_support_P01 > -1
+SpiCtrl_P05,P0162,P05:spindle control,
+SpiRun_P05,P0163,P05:spindle speed control,
+      #if spindle_support_P05 == 1 && spindle_orientation_P05 > 0
+SpiOri_P05,P0164,P05:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if spindle_support_P06 > 0 && spindle_support_P01 > -1
+SpiCtrl_P06,P0165,P06:spindle control,
+SpiRun_P06,P0166,P06:spindle speed control,
+      #if spindle_support_P06 == 1 && spindle_orientation_P06 > 0
+SpiOri_P06,P0167,P06:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if spindle_support_P07 > 0 && spindle_support_P01 > -1
+SpiCtrl_P07,P0168,P07:spindle control,
+SpiRun_P07,P0169,P07:spindle speed control,
+      #if spindle_support_P07 == 1 && spindle_orientation_P07 > 0
+SpiOri_P07,P0170,P07:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if spindle_support_P08 > 0 && spindle_support_P01 > -1
+SpiCtrl_P08,P0171,P08:spindle control,
+SpiRun_P08,P0172,P08:spindle speed control,
+      #if spindle_support_P08 == 1 && spindle_orientation_P08 > 0
+SpiOri_P08,P0173,P08:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if spindle_support_P09 > 0 && spindle_support_P01 > -1
+SpiCtrl_P09,P0174,P09:spindle control,
+SpiRun_P09,P0175,P09:spindle speed control,
+      #if spindle_support_P09 == 1 && spindle_orientation_P09 > 0
+SpiOri_P09,P0176,P09:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if spindle_support_P10 > 0 && spindle_support_P01 > -1
+SpiCtrl_P10,P0177,P10:spindle control,
+SpiRun_P10,P0178,P10:spindle speed control,
+      #if spindle_support_P10 == 1 && spindle_orientation_P10 > 0
+SpiOri_P10,P0179,P10:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if spindle_support_P11 > 0 && spindle_support_P01 > -1
+SpiCtrl_P11,P0180,P11:spindle control,
+SpiRun_P11,P0181,P11:spindle speed control,
+      #if spindle_support_P11 == 1 && spindle_orientation_P10 > 0
+SpiOri_P11,P0182,P11:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if spindle_support_P12 > 0 && spindle_support_P01 > -1
+SpiCtrl_P12,P0183,P12:spindle control,
+SpiRun_P12,P0184,P12:spindle speed control,
+      #if spindle_support_P12 == 1 && spindle_orientation_P10 > 0
+SpiOri_P12,P0185,P12:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if spindle_support_P13 > 0 && spindle_support_P01 > -1
+SpiCtrl_P13,P0186,P13:spindle control,
+SpiRun_P13,P0187,P13:spindle speed control,
+      #if spindle_support_P13 == 1 && spindle_orientation_P10 > 0
+SpiOri_P13,P0188,P13:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if spindle_support_P14 > 0 && spindle_support_P01 > -1
+SpiCtrl_P14,P0189,P14:spindle control,
+SpiRun_P14,P0190,P14:spindle speed control,
+      #if spindle_support_P14 == 1 && spindle_orientation_P10 > 0
+SpiOri_P14,P0191,P14:spindle orientation,
+      #endif
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if spindle_support_P15 > 0 && spindle_support_P01 > -1
+SpiCtrl_P15,P0192,P15:spindle control,
+SpiRun_P15,P0193,P15:spindle speed control,
+      #if spindle_support_P15 == 1 && spindle_orientation_P10 > 0
+SpiOri_P15,P0194,P15:spindle orientation,
+      #endif
+   #endif
+#endif
+
+
+#if t_code_support_P01 > 0
+Tool_P01,P0200,P01:tool management,
+#endif
+#if nbr_of_path > 1
+   #if t_code_support_P02 > 0 && t_code_support_P01 > -1
+Tool_P02,P0201,P02:tool management,
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if t_code_support_P03 > 0 && t_code_support_P01 > -1
+Tool_P03,P0202,P03:tool management,
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if t_code_support_P04 > 0 && t_code_support_P01 > -1
+Tool_P04,P0203,P04:tool management,
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if t_code_support_P05 > 0 && t_code_support_P01 > -1
+Tool_P05,P0204,P05:tool management,
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if t_code_support_P06 > 0 && t_code_support_P01 > -1
+Tool_P06,P0205,P06:tool management,
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if t_code_support_P07 > 0 && t_code_support_P01 > -1
+Tool_P07,P0206,P07:tool management,
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if t_code_support_P08 > 0 && t_code_support_P01 > -1
+Tool_P08,P0207,P08:tool management,
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if t_code_support_P09 > 0 && t_code_support_P01 > -1
+Tool_P09,P0208,P09:tool management,
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if t_code_support_P10 > 0 && t_code_support_P01 > -1
+Tool_P10,P0209,P10:tool management,
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if t_code_support_P11 > 0 && t_code_support_P01 > -1
+Tool_P11,P0210,P11:tool management,
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if t_code_support_P12 > 0 && t_code_support_P01 > -1
+Tool_P12,P0211,P12:tool management,
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if t_code_support_P13 > 0 && t_code_support_P01 > -1
+Tool_P13,P0212,P13:tool management,
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if t_code_support_P14 > 0 && t_code_support_P01 > -1
+Tool_P14,P0213,P14:tool management,
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if t_code_support_P15 > 0 && t_code_support_P01 > -1
+Tool_P15,P0214,P15:tool management,
+   #endif
+#endif
+
+
+#if b_code_support_P01 > 0
+B_Codes_P01,P0220,P01:b code decoding,
+#endif
+#if nbr_of_path > 1
+   #if b_code_support_P02 > 0 && b_code_support_P01 > -1
+B_Codes_P02,P0221,P02:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if b_code_support_P03 > 0 && b_code_support_P01 > -1
+B_Codes_P03,P0222,P03:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if b_code_support_P04 > 0 && b_code_support_P01 > -1
+B_Codes_P04,P0223,P04:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if b_code_support_P05 > 0 && b_code_support_P01 > -1
+B_Codes_P05,P0224,P05:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if b_code_support_P06 > 0 && b_code_support_P01 > -1
+B_Codes_P06,P0225,P06:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if b_code_support_P07 > 0 && b_code_support_P01 > -1
+B_Codes_P07,P0226,P07:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if b_code_support_P08 > 0 && b_code_support_P01 > -1
+B_Codes_P08,P0227,P08:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if b_code_support_P09 > 0 && b_code_support_P01 > -1
+B_Codes_P09,P0228,P09:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if b_code_support_P10 > 0 && b_code_support_P01 > -1
+B_Codes_P10,P0229,P10:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if b_code_support_P11 > 0 && b_code_support_P01 > -1
+B_Codes_P11,P0230,P11:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if b_code_support_P12 > 0 && b_code_support_P01 > -1
+B_Codes_P12,P0231,P12:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if b_code_support_P13 > 0 && b_code_support_P01 > -1
+B_Codes_P13,P0232,P13:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if b_code_support_P14 > 0 && b_code_support_P01 > -1
+B_Codes_P14,P0233,P14:b code decoding,
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if b_code_support_P15 > 0 && b_code_support_P01 > -1
+B_Codes_P15,P0234,P15:b code decoding,
+   #endif
+#endif
+
+Manual_P01,P240,P01:manual modes,
+RefReturn_P01,P0241,P01:ref position return,
+Hd_Inc_P01,P0242,P01:handle/incremental feed,
+#if nbr_of_path > 1
+Manual_P02,P243,P02:manual modes,
+RefReturn_P02,P0244,P02:ref position return,
+Hd_Inc_P02,P0245,P02:handle/incremental feed,
+#endif
+#if nbr_of_path > 2
+Manual_P03,P246,P03:manual modes,
+RefReturn_P03,P0247,P03:ref position return,
+Hd_Inc_P03,P0248,P03:handle/incremental feed,
+#endif
+#if nbr_of_path > 3
+Manual_P04,P249,P04:manual modes,
+RefReturn_P04,P0250,P04:ref position return,
+Hd_Inc_P04,P0251,P04:handle/incremental feed,
+#endif
+#if nbr_of_path > 4
+Manual_P05,P252,P05:manual modes,
+RefReturn_P05,P0253,P05:ref position return,
+Hd_Inc_P05,P0254,P05:handle/incremental feed,
+#endif
+#if nbr_of_path > 5
+Manual_P06,P255,P06:manual modes,
+RefReturn_P06,P0256,P06:ref position return,
+Hd_Inc_P06,P0257,P06:handle/incremental feed,
+#endif
+#if nbr_of_path > 6
+Manual_P07,P258,P07:manual modes,
+RefReturn_P07,P0259,P07:ref position return,
+Hd_Inc_P07,P0260,P07:handle/incremental feed,
+#endif
+#if nbr_of_path > 7
+Manual_P08,P261,P08:manual modes,
+RefReturn_P08,P0262,P08:ref position return,
+Hd_Inc_P08,P0263,P08:handle/incremental feed,
+#endif
+#if nbr_of_path > 8
+Manual_P09,P264,P09:manual modes,
+RefReturn_P09,P0265,P09:ref position return,
+Hd_Inc_P09,P0266,P09:handle/incremental feed,
+#endif
+#if nbr_of_path > 9
+Manual_P10,P267,P10:manual modes,
+RefReturn_P10,P0268,P10:ref position return,
+Hd_Inc_P10,P0269,P10:handle/incremental feed,
+#endif
+#if nbr_of_path > 10
+Manual_P11,P270,P11:manual modes,
+RefReturn_P11,P0271,P11:ref position return,
+Hd_Inc_P11,P0272,P11:handle/incremental feed,
+#endif
+#if nbr_of_path > 11
+Manual_P12,P273,P12:manual modes,
+RefReturn_P12,P0274,P12:ref position return,
+Hd_Inc_P12,P0275,P12:handle/incremental feed,
+#endif
+#if nbr_of_path > 12
+Manual_P13,P276,P13:manual modes,
+RefReturn_P13,P0277,P13:ref position return,
+Hd_Inc_P13,P0278,P13:handle/incremental feed,
+#endif
+#if nbr_of_path > 13
+Manual_P14,P279,P14:manual modes,
+RefReturn_P14,P0280,P14:ref position return,
+Hd_Inc_P14,P0281,P14:handle/incremental feed,
+#endif
+#if nbr_of_path > 14
+Manual_P15,P282,P15:manual modes,
+RefReturn_P15,P0283,P15:ref position return,
+Hd_Inc_P15,P0284,P15:handle/incremental feed,
+#endif
+
+Auto_P01,P0290,P01:automatic modes,
+#if nbr_of_path > 1
+Auto_P02,P0291,P02:automatic modes,
+#endif
+#if nbr_of_path > 2
+Auto_P03,P0292,P03:automatic modes,
+#endif
+#if nbr_of_path > 3
+Auto_P04,P0293,P04:automatic modes,
+#endif
+#if nbr_of_path > 4
+Auto_P05,P0294,P05:automatic modes,
+#endif
+#if nbr_of_path > 5
+Auto_P06,P0295,P06:automatic modes,
+#endif
+#if nbr_of_path > 6
+Auto_P07,P0296,P07:automatic modes,
+#endif
+#if nbr_of_path > 7
+Auto_P08,P0297,P08:automatic modes,
+#endif
+#if nbr_of_path > 8
+Auto_P09,P0298,P09:automatic modes,
+#endif
+#if nbr_of_path > 9
+Auto_P10,P0299,P10:automatic modes,
+#endif
+#if nbr_of_path > 10
+Auto_P11,P0300,P11:automatic modes,
+#endif
+#if nbr_of_path > 11
+Auto_P12,P0301,P12:automatic modes,
+#endif
+#if nbr_of_path > 12
+Auto_P13,P0302,P13:automatic modes,
+#endif
+#if nbr_of_path > 13
+Auto_P14,P0303,P14:automatic modes,
+#endif
+#if nbr_of_path > 14
+Auto_P15,P0304,P15:automatic modes,
+#endif
+
+Axes_P01,P310,P01:axes control,
+FeedOvr_P01,P311,P01:feed override,
+Axis01_P01,P312,P01:1st axis,
+#if axis_number_P01 > 1
+Axis02_P01,P313,P01:2nd axis,
+#endif
+#if axis_number_P01 > 2
+Axis03_P01,P314,P01:3rd axis,
+#endif
+#if axis_number_P01 > 3
+Axis04_P01,P315,P01:4th axis,
+#endif
+#if axis_number_P01 > 4
+Axis05_P01,P316,P01:5th axis,
+#endif
+#if axis_number_P01 > 5
+Axis06_P01,P317,P01:6th axis,
+#endif
+#if axis_number_P01 > 6
+Axis07_P01,P318,P01:7th axis,
+#endif
+#if axis_number_P01 > 7
+Axis08_P01,P319,P01:8th axis,
+#endif
+
+#if nbr_of_path > 1
+Axes_P02,P320,P02:axes control,
+FeedOvr_P02,P321,P02:feed override,
+Axis01_P02,P322,P02:1st axis,
+   #if axis_number_P02 > 1
+Axis02_P02,P323,P02:2nd axis,
+   #endif
+   #if axis_number_P02 > 2
+Axis03_P02,P324,P02:3rd axis,
+   #endif
+   #if axis_number_P02 > 3
+Axis04_P02,P325,P02:4th axis,
+   #endif
+   #if axis_number_P02 > 4
+Axis05_P02,P326,P02:5th axis,
+   #endif
+   #if axis_number_P02 > 5
+Axis06_P02,P327,P02:6th axis,
+   #endif
+   #if axis_number_P02 > 6
+Axis07_P02,P328,P02:7th axis,
+   #endif
+   #if axis_number_P02 > 7
+Axis08_P02,P329,P02:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 2
+Axes_P03,P330,P03:axes control,
+FeedOvr_P03,P331,P03:feed override,
+Axis01_P03,P332,P03:1st axis,
+   #if axis_number_P03 > 1
+Axis02_P03,P333,P03:2nd axis,
+   #endif
+   #if axis_number_P03 > 2
+Axis03_P03,P334,P03:3rd axis,
+   #endif
+   #if axis_number_P03 > 3
+Axis04_P03,P335,P03:4th axis,
+   #endif
+   #if axis_number_P03 > 4
+Axis05_P03,P336,P03:5th axis,
+   #endif
+   #if axis_number_P03 > 5
+Axis06_P03,P337,P03:6th axis,
+   #endif
+   #if axis_number_P03 > 6
+Axis07_P03,P338,P03:7th axis,
+   #endif
+   #if axis_number_P03 > 7
+Axis08_P03,P339,P03:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 3
+Axes_P04,P340,P04:axes control,
+FeedOvr_P04,P341,P04:feed override,
+Axis01_P04,P342,P04:1st axis,
+   #if axis_number_P04 > 1
+Axis02_P04,P343,P04:2nd axis,
+   #endif
+   #if axis_number_P04 > 2
+Axis03_P04,P344,P04:3rd axis,
+   #endif
+   #if axis_number_P04 > 3
+Axis04_P04,P345,P04:4th axis,
+   #endif
+   #if axis_number_P04 > 4
+Axis05_P04,P346,P04:5th axis,
+   #endif
+   #if axis_number_P04 > 5
+Axis06_P04,P347,P04:6th axis,
+   #endif
+   #if axis_number_P04 > 6
+Axis07_P04,P348,P04:7th axis,
+   #endif
+   #if axis_number_P04 > 7
+Axis08_P04,P349,P04:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 4
+Axes_P05,P350,P05:axes control,
+FeedOvr_P05,P351,P05:feed override,
+Axis01_P05,P352,P05:1st axis,
+   #if axis_number_P05 > 1
+Axis02_P05,P353,P05:2nd axis,
+   #endif
+   #if axis_number_P05 > 2
+Axis03_P05,P354,P05:3rd axis,
+   #endif
+   #if axis_number_P05 > 3
+Axis04_P05,P355,P05:4th axis,
+   #endif
+   #if axis_number_P05 > 4
+Axis05_P05,P356,P05:5th axis,
+   #endif
+   #if axis_number_P05 > 5
+Axis06_P05,P357,P05:6th axis,
+   #endif
+   #if axis_number_P05 > 6
+Axis07_P05,P358,P05:7th axis,
+   #endif
+   #if axis_number_P05 > 7
+Axis08_P05,P359,P05:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 5
+Axes_P06,P360,P06:axes control,
+FeedOvr_P06,P361,P06:feed override,
+Axis01_P06,P362,P06:1st axis,
+   #if axis_number_P06 > 1
+Axis02_P06,P363,P06:2nd axis,
+   #endif
+   #if axis_number_P06 > 2
+Axis03_P06,P364,P06:3rd axis,
+   #endif
+   #if axis_number_P06 > 3
+Axis04_P06,P365,P06:4th axis,
+   #endif
+   #if axis_number_P06 > 4
+Axis05_P06,P366,P06:5th axis,
+   #endif
+   #if axis_number_P06 > 5
+Axis06_P06,P367,P06:6th axis,
+   #endif
+   #if axis_number_P06 > 6
+Axis07_P06,P368,P06:7th axis,
+   #endif
+   #if axis_number_P06 > 7
+Axis08_P06,P369,P06:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 6
+Axes_P07,P370,P07:axes control,
+FeedOvr_P07,P371,P07:feed override,
+Axis01_P07,P372,P07:1st axis,
+   #if axis_number_P07 > 1
+Axis02_P07,P373,P07:2nd axis,
+   #endif
+   #if axis_number_P07 > 2
+Axis03_P07,P374,P07:3rd axis,
+   #endif
+   #if axis_number_P07 > 3
+Axis04_P07,P375,P07:4th axis,
+   #endif
+   #if axis_number_P07 > 4
+Axis05_P07,P376,P07:5th axis,
+   #endif
+   #if axis_number_P07 > 5
+Axis06_P07,P377,P07:6th axis,
+   #endif
+   #if axis_number_P07 > 6
+Axis07_P07,P378,P07:7th axis,
+   #endif
+   #if axis_number_P07 > 7
+Axis08_P07,P379,P07:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 7
+Axes_P08,P380,P08:axes control,
+FeedOvr_P08,P381,P08:feed override,
+Axis01_P08,P382,P08:1st axis,
+   #if axis_number_P08 > 1
+Axis02_P08,P383,P08:2nd axis,
+   #endif
+   #if axis_number_P08 > 2
+Axis03_P08,P384,P08:3rd axis,
+   #endif
+   #if axis_number_P08 > 3
+Axis04_P08,P385,P08:4th axis,
+   #endif
+   #if axis_number_P08 > 4
+Axis05_P08,P386,P08:5th axis,
+   #endif
+   #if axis_number_P08 > 5
+Axis06_P08,P387,P08:6th axis,
+   #endif
+   #if axis_number_P08 > 6
+Axis07_P08,P388,P08:7th axis,
+   #endif
+   #if axis_number_P08 > 7
+Axis08_P08,P389,P08:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 8
+Axes_P09,P390,P09:axes control,
+FeedOvr_P09,P391,P09:feed override,
+Axis01_P09,P392,P09:1st axis,
+   #if axis_number_P09 > 1
+Axis02_P09,P393,P09:2nd axis,
+   #endif
+   #if axis_number_P09 > 2
+Axis03_P09,P394,P09:3rd axis,
+   #endif
+   #if axis_number_P09 > 3
+Axis04_P09,P395,P09:4th axis,
+   #endif
+   #if axis_number_P09 > 4
+Axis05_P09,P396,P09:5th axis,
+   #endif
+   #if axis_number_P09 > 5
+Axis06_P09,P397,P09:6th axis,
+   #endif
+   #if axis_number_P09 > 6
+Axis07_P09,P398,P09:7th axis,
+   #endif
+   #if axis_number_P09 > 7
+Axis08_P09,P399,P09:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 9
+Axes_P10,P400,P10:axes control,
+FeedOvr_P10,P401,P10:feed override,
+Axis01_P10,P402,P10:1st axis,
+   #if axis_number_P10 > 1
+Axis02_P10,P403,P10:2nd axis,
+   #endif
+   #if axis_number_P10 > 2
+Axis03_P10,P404,P10:3rd axis,
+   #endif
+   #if axis_number_P10 > 3
+Axis04_P10,P405,P10:4th axis,
+   #endif
+   #if axis_number_P10 > 4
+Axis05_P10,P406,P10:5th axis,
+   #endif
+   #if axis_number_P10 > 5
+Axis06_P10,P407,P10:6th axis,
+   #endif
+   #if axis_number_P10 > 6
+Axis07_P10,P408,P10:7th axis,
+   #endif
+   #if axis_number_P10 > 7
+Axis08_P10,P409,P10:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 10
+Axes_P11,P410,P11:axes control,
+FeedOvr_P11,P411,P11:feed override,
+Axis01_P11,P412,P11:1st axis,
+   #if axis_number_P11 > 1
+Axis02_P11,P413,P11:2nd axis,
+   #endif
+   #if axis_number_P11 > 2
+Axis03_P11,P414,P11:3rd axis,
+   #endif
+   #if axis_number_P11 > 3
+Axis04_P11,P415,P11:4th axis,
+   #endif
+   #if axis_number_P11 > 4
+Axis05_P11,P416,P11:5th axis,
+   #endif
+   #if axis_number_P11 > 5
+Axis06_P11,P417,P11:6th axis,
+   #endif
+   #if axis_number_P11 > 6
+Axis07_P11,P418,P11:7th axis,
+   #endif
+   #if axis_number_P11 > 7
+Axis08_P11,P419,P11:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 11
+Axes_P12,P420,P12:axes control,
+FeedOvr_P12,P421,P12:feed override,
+Axis01_P12,P422,P12:1st axis,
+   #if axis_number_P12 > 1
+Axis02_P12,P423,P12:2nd axis,
+   #endif
+   #if axis_number_P12 > 2
+Axis03_P12,P424,P12:3rd axis,
+   #endif
+   #if axis_number_P12 > 3
+Axis04_P12,P425,P12:4th axis,
+   #endif
+   #if axis_number_P12 > 4
+Axis05_P12,P426,P12:5th axis,
+   #endif
+   #if axis_number_P12 > 5
+Axis06_P12,P427,P12:6th axis,
+   #endif
+   #if axis_number_P12 > 6
+Axis07_P12,P428,P12:7th axis,
+   #endif
+   #if axis_number_P12 > 7
+Axis08_P12,P429,P12:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 12
+Axes_P13,P430,P13:axes control,
+FeedOvr_P13,P431,P13:feed override,
+Axis01_P13,P432,P13:1st axis,
+   #if axis_number_P13 > 1
+Axis02_P13,P433,P13:2nd axis,
+   #endif
+   #if axis_number_P13 > 2
+Axis03_P13,P434,P13:3rd axis,
+   #endif
+   #if axis_number_P13 > 3
+Axis04_P13,P435,P13:4th axis,
+   #endif
+   #if axis_number_P13 > 4
+Axis05_P13,P436,P13:5th axis,
+   #endif
+   #if axis_number_P13 > 5
+Axis06_P13,P437,P13:6th axis,
+   #endif
+   #if axis_number_P13 > 6
+Axis07_P13,P438,P13:7th axis,
+   #endif
+   #if axis_number_P13 > 7
+Axis08_P13,P439,P13:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 13
+Axes_P14,P440,P14:axes control,
+FeedOvr_P14,P441,P14:feed override,
+Axis01_P14,P442,P14:1st axis,
+   #if axis_number_P14 > 1
+Axis02_P14,P443,P14:2nd axis,
+   #endif
+   #if axis_number_P14 > 2
+Axis03_P14,P444,P14:3rd axis,
+   #endif
+   #if axis_number_P14 > 3
+Axis04_P14,P445,P14:4th axis,
+   #endif
+   #if axis_number_P14 > 4
+Axis05_P14,P446,P14:5th axis,
+   #endif
+   #if axis_number_P14 > 5
+Axis06_P14,P447,P14:6th axis,
+   #endif
+   #if axis_number_P14 > 6
+Axis07_P14,P448,P14:7th axis,
+   #endif
+   #if axis_number_P14 > 7
+Axis08_P14,P449,P14:8th axis,
+   #endif
+#endif
+
+#if nbr_of_path > 14
+Axes_P15,P450,P15:axes control,
+FeedOvr_P15,P451,P15:feed override,
+Axis01_P15,P452,P15:1st axis,
+   #if axis_number_P15 > 1
+Axis02_P15,P453,P15:2nd axis,
+   #endif
+   #if axis_number_P15 > 2
+Axis03_P15,P454,P15:3rd axis,
+   #endif
+   #if axis_number_P15 > 3
+Axis04_P15,P455,P15:4th axis,
+   #endif
+   #if axis_number_P15 > 4
+Axis05_P15,P456,P15:5th axis,
+   #endif
+   #if axis_number_P15 > 5
+Axis06_P15,P457,P15:6th axis,
+   #endif
+   #if axis_number_P15 > 6
+Axis07_P15,P458,P15:7th axis,
+   #endif
+   #if axis_number_P15 > 7
+Axis08_P15,P459,P15:8th axis,
+   #endif
+#endif
+
+
+#if coolant_support_P01 > 0
+Coolant_P01,P0460,P01:coolant support,
+#endif
+#if nbr_of_path > 1
+   #if coolant_support_P02 > 0 && coolant_support_P01 > -1
+Coolant_P02,P0461,P02:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if coolant_support_P03 > 0 && coolant_support_P01 > -1
+Coolant_P03,P0462,P03:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if coolant_support_P04 > 0 && coolant_support_P01 > -1
+Coolant_P04,P0463,P04:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if coolant_support_P05 > 0 && coolant_support_P01 > -1
+Coolant_P05,P0464,P05:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if coolant_support_P06 > 0 && coolant_support_P01 > -1
+Coolant_P06,P0465,P06:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if coolant_support_P07 > 0 && coolant_support_P01 > -1
+Coolant_P07,P0466,P07:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if coolant_support_P08 > 0 && coolant_support_P01 > -1
+Coolant_P08,P0467,P08:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if coolant_support_P09 > 0 && coolant_support_P01 > -1
+Coolant_P09,P0468,P09:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if coolant_support_P10 > 0 && coolant_support_P01 > -1
+Coolant_P10,P0469,P10:coolant support,
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if coolant_support_P11 > 0 && coolant_support_P01 > -1
+Coolant_P11,P0470,P11:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if coolant_support_P12 > 0 && coolant_support_P01 > -1
+Coolant_P12,P0471,P12:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if coolant_support_P13 > 0 && coolant_support_P01 > -1
+Coolant_P13,P0472,P13:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if coolant_support_P14 > 0 && coolant_support_P01 > -1
+Coolant_P14,P0473,P14:coolant support,
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if coolant_support_P15 > 0 && coolant_support_P01 > -1
+Coolant_P15,P0474,P15:coolant support,
+   #endif
+#endif
+
+#if operatorspanel == 0 || soft_op_panel == 1
+Sop_In_P01,P0480,P01:soft. op. inputs,
+#endif
+#if nbr_of_path > 1
+Sop_In_P02,P0481,P02:soft. op. inputs,
+#endif
+#if nbr_of_path > 2
+Sop_In_P03,P0482,P03:soft. op. inputs,
+#endif
+#if nbr_of_path > 3
+Sop_In_P04,P0483,P04:soft. op. inputs,
+#endif
+#if nbr_of_path > 4
+Sop_In_P05,P0484,P05:soft. op. inputs,
+#endif
+#if nbr_of_path > 5
+Sop_In_P06,P0485,P06:soft. op. inputs,
+#endif
+#if nbr_of_path > 6
+Sop_In_P07,P0486,P07:soft. op. inputs,
+#endif
+#if nbr_of_path > 7
+Sop_In_P08,P0487,P08:soft. op. inputs,
+#endif
+#if nbr_of_path > 8
+Sop_In_P09,P0488,P09:soft. op. inputs,
+#endif
+#if nbr_of_path > 9
+Sop_In_P10,P0489,P10:soft. op. inputs,
+#endif
+#if nbr_of_path > 10
+Sop_In_P11,P0490,P11:soft. op. inputs,
+#endif
+#if nbr_of_path > 11
+Sop_In_P12,P0491,P12:soft. op. inputs,
+#endif
+#if nbr_of_path > 12
+Sop_In_P13,P0492,P13:soft. op. inputs,
+#endif
+#if nbr_of_path > 13
+Sop_In_P14,P0493,P14:soft. op. inputs,
+#endif
+#if nbr_of_path > 14
+Sop_In_P15,P0494,P15:soft. op. inputs,
+#endif
+
+#if operatorspanel == 1
+Op_Keyb_30_Out,P0500,op. 30-key outputs,
+#endif
+#if operatorspanel == 2
+Op_Keyb_55_Out,P0501,op. 55-key outputs,
+#endif
+#if handwheel_support == 2
+Hmop_Out,P0502,hmop outputs,
+Hmop_LCD,P0503,hmop lcd display,
+#endif
+
+#if otmc_support_P01 > -1 && operatorspanel == 2
+   #if otmc_support_P01 == 1 
+OneTouchMac_P01,P0510,P01:one touch macro call,
+   #endif
+   #if otmc_support_P02 == 1 
+OneTouchMac_P02,P0511,P02:one touch macro call,
+   #endif
+   #if otmc_support_P03 == 1 
+OneTouchMac_P03,P0512,P03:one touch macro call,
+   #endif
+   #if otmc_support_P04 == 1 
+OneTouchMac_P04,P0513,P04:one touch macro call,
+   #endif
+   #if otmc_support_P05 == 1 
+OneTouchMac_P05,P0514,P05:one touch macro call,
+   #endif
+   #if otmc_support_P06 == 1 
+OneTouchMac_P06,P0515,P06:one touch macro call,
+   #endif
+   #if otmc_support_P07 == 1 
+OneTouchMac_P07,P0516,P07:one touch macro call,
+   #endif
+   #if otmc_support_P08 == 1 
+OneTouchMac_P08,P0517,P08:one touch macro call,
+   #endif
+   #if otmc_support_P09 == 1 
+OneTouchMac_P09,P0518,P09:one touch macro call,
+   #endif
+   #if otmc_support_P10 == 1 
+OneTouchMac_P10,P0519,P10:one touch macro call,
+   #endif
+   #if otmc_support_P11 == 1 
+OneTouchMac_P11,P0520,P11:one touch macro call,
+   #endif
+   #if otmc_support_P12 == 1 
+OneTouchMac_P12,P0521,P12:one touch macro call,
+   #endif
+   #if otmc_support_P13 == 1 
+OneTouchMac_P13,P0522,P13:one touch macro call,
+   #endif
+   #if otmc_support_P14 == 1 
+OneTouchMac_P14,P0523,P14:one touch macro call,
+   #endif
+   #if otmc_support_P15 == 1 
+OneTouchMac_P15,P0524,P15:one touch macro call,
+   #endif
+
+#endif
+
+

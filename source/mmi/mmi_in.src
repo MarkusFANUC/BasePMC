@@ -1,0 +1,570 @@
+//:--------------------------------------------------------------------------:
+//: File              : mmi_in.src                                           :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Inputs man-machine-interface                         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:05.01.15: 1.1.0 :Blp    :switching of iPendant and SOP modified           :
+//:--------------------------------------------------------------------------:
+//:27.07.19: 2.0.0 :Blp    :sop selection by screen notification             :
+//:        :       :       :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// common key inputs SOP and Small machine operator's panel with 30 keys
+// ---------------------------------------------------------------------------
+#if operatorspanel < 2
+   #if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// key path sync (shift + cursor up)
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+key path sync (shift + cursor up)
+*)
+      #endif
+                 RD        iPathSyn             ;"button path sync."
+                 WRT       K_PSYN               ;"key path sync"
+
+// ---------------------------------------------------------------------------
+// key path+ (cursor up)
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+key path+ (cursor up)
+*)
+      #endif
+                 RD        iPathPlus            ;"button path plus"
+                 WRT       K_PATH+              ;"key path plus"
+
+// ---------------------------------------------------------------------------
+// key path-
+// ---------------------------------------------------------------------------
+      #if nbr_of_path > 2
+         #if net_comment == 1
+(*
+key path- (cursor down)
+*)
+         #endif
+                 RD        iPathMinus           ;"button path minus"
+                 WRT       K_PATH-              ;"key path minus"
+      #endif
+   #endif
+
+   #if dcs_support == 1
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+protection door
+*)
+      #endif
+                 RD        iDoor                ;"button prot. door"
+                 WRT       K_DOOR               ;"key unlock prot. door"
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// common key inputs standard operator's panel
+// ---------------------------------------------------------------------------
+#if operatorspanel == 2
+   #if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// key path sync
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+key path sync
+*)
+      #endif
+                 RD        iF_K_D01             ;"op55: key D01"
+                 WRT       K_PSYN               ;"key path sync"
+
+// ---------------------------------------------------------------------------
+// key path+
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+key path+
+*)
+      #endif
+                 RD        iF_K_D02             ;"op55: key D02"
+                 WRT       K_PATH+              ;"key path plus"
+
+// ---------------------------------------------------------------------------
+// key path-
+// ---------------------------------------------------------------------------
+      #if nbr_of_path > 2
+         #if net_comment == 1
+(*
+key path-
+*)
+         #endif
+                 RD        iF_K_D03             ;"op55: key D03"
+                 WRT       K_PATH-              ;"key path minus"
+      #endif
+   #endif
+
+   #if dcs_support == 1
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+protection door
+*)
+      #endif
+                 RD        iF_K_E04             ;"op55: key E02"
+                 WRT       K_DOOR               ;"key unlock prot. door"
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// common key inputs iPendant
+// ---------------------------------------------------------------------------
+#if operatorspanel == 3
+   #if dcs_support == 1
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+protection door
+*)
+      #endif
+                 RD        iDoor                ;"button prot. door"
+                 WRT       K_DOOR               ;"key unlock prot. door"
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// multipath related functions
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+multipath related functions
+*)
+#endif
+
+                 CALLU     MultiPath            ;"multipath related functions"
+
+// ---------------------------------------------------------------------------
+// initialization of operator panel map area
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+initialization of operator panel map area
+*)
+#endif
+                 RD        LOG1                 ;"logic 1"
+                 NUMEB
+                           54
+                           0
+                           OPMAP                ;"op map start address"
+
+#if handwheel_support == 2
+// ---------------------------------------------------------------------------
+// enable / disable hmop
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+enable / disable hmop
+*)
+   #endif
+                 RD        MDCHEN               ;"mode change enable"
+                 AND       iH_S_ON              ;"hmop: operation switch"
+                 AND       FICYCL               ;"first cycle finished"
+                 SET       HMOP_ACT             ;"hmop active"
+
+                 RD        MDCHEN               ;"mode change enable"
+                 AND       HMOP_ACT             ;"hmop active"
+                 AND.NOT   iH_S_ON              ;"hmop: operation switch"
+                 RST       HMOP_ACT             ;"hmop active"
+
+   #if operatorspanel == 0
+                 RD        HMOP_ACT             ;"hmop active"
+                 RST       SOP_RUN              ;"software op-panel active"
+   #endif
+
+   #if net_comment == 1
+(*
+rising edge hmop active
+*)
+   #endif
+                 RD        HMOP_ACT             ;"hmop active"
+                 AND.NOT   mhmop_act            ;"memory hmop active"
+                 WRT       RE_HMOP_ACT          ;"re hmop active"
+
+                 RD        HMOP_ACT             ;"hmop active"
+                 WRT       mhmop_act            ;"memory hmop active"
+#endif
+
+#if operatorspanel > 0 && soft_op_panel == 1
+// ---------------------------------------------------------------------------
+// enable / disable software operator panel
+// ---------------------------------------------------------------------------
+   #if pmc_type < 3 || pmc_type == 6
+      #if net_comment == 1
+(*
+enable software operator panel
+*)
+      #endif
+                 RD        MDCHEN               ;"mode change enable"
+      #if operatorspanel == 1                      // small operator's panel
+                 AND       iS_K_D07             ;"op30: key D07"
+      #endif
+      #if operatorspanel == 2                      // standard operator's panel
+                 AND       iF_K_D12             ;"op55: key D12"
+      #endif
+      #if operatorspanel == 3                      // iPendant
+                 AND       iP_K_01              ;"ip: key 01"
+      #endif
+                 AND       FICYCL               ;"first cycle finished"
+                 AND.NOT   mksop                ;"memory key sop"
+                 WRT       reksop               ;"re key sop"
+
+                 RD        MDCHEN               ;"mode change enable"
+      #if operatorspanel == 1                      // small operator's panel
+                 AND       iS_K_D07             ;"op30: key D07"
+      #endif
+      #if operatorspanel == 2                      // standard operator's panel
+                 AND       iF_K_D12             ;"op55: key D12"
+      #endif
+      #if operatorspanel == 3                      // iPendant
+                 AND       iP_K_01              ;"ip: key 01"
+      #endif
+                 AND       FICYCL               ;"first cycle finished"
+                 WRT       mksop                ;"memory key sop"
+
+                 RD        reksop               ;"re key sop"
+                 AND.NOT   SOP_ACT              ;"software op active"
+                 RD.STK    SOP_ACT              ;"software op active"
+                 AND.NOT   reksop               ;"re key sop"
+                 OR.STK    
+                 WRT       SOP_ACT              ;"software op active"
+   #else
+      #if net_comment == 1
+(*
+enable software operator panel
+F523 = 2, F524 = 8 (802h = 2050d
+*)
+      #endif
+                 RD        LOG1                 ;"logic one"
+                 EQW       
+                           2050
+                           SCRNLx               ;"screen large classification"
+                 WRT       sopscreen            ;"sop screen selected"
+
+                 RD        MDCHEN               ;"mode change enable"
+                 AND       sopscreen            ;"sop screen selected"
+                 AND       FICYCL               ;"first cycle finished"
+                 AND.NOT   mksop                ;"memory key sop"
+                 WRT       reksop               ;"re key sop"
+
+                 RD        MDCHEN               ;"mode change enable"
+                 AND       sopscreen            ;"sop screen selected"
+                 AND       FICYCL               ;"first cycle finished"
+                 WRT       mksop                ;"memory key sop"
+
+                 RD        reksop               ;"re key sop"
+                 AND.NOT   SOP_ACT              ;"software op active"
+                 RD.STK    SOP_ACT              ;"software op active"
+                 AND       sopscreen            ;"sop screen selected"
+                 OR.STK    
+                 WRT       SOP_ACT              ;"software op active"
+   #endif
+
+
+                 RD        SOP_RUN              ;"software op-panel active"
+                 AND.NOT   SOP_ACT              ;"software op active"
+   #if handwheel_support == 2
+                 OR        HMOP_ACT             ;"hmop active"
+   #endif
+                 RST       SOP_RUN              ;"software op-panel active"
+
+   #if net_comment == 1
+(*
+rising and falling edge sop active
+*)
+   #endif
+                 RD        SOP_ACT              ;"software op active"
+                 AND.NOT   msop_act             ;"memory sop active"
+                 WRT       RE_SOP_ACT           ;"re sop active"
+
+                 RD.NOT    SOP_ACT              ;"software op active"
+                 AND       msop_act             ;"memory sop active"
+                 WRT       FE_SOP_ACT           ;"fe sop active"
+
+                 RD        SOP_ACT              ;"software op active"
+                 WRT       msop_act             ;"memory sop active"
+#endif
+
+// ---------------------------------------------------------------------------
+// operator panel key input map
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+operator panel key input map
+*)
+#endif
+
+#if operatorspanel == 1                         // small operator's panel
+   #if soft_op_panel == 1
+                 RD.NOT    SOP_ACT              ;"software op active"
+      #if handwheel_support == 2
+                 AND.NOT   HMOP_ACT             ;"memory hmop acitve"
+      #endif
+   #else
+      #if handwheel_support == 2
+                 RD.NOT   HMOP_ACT              ;"memory hmop acitve"
+      #else
+                 RD        LOG1                 ;"logic 1"
+      #endif
+   #endif
+                 CALL      Op_Keyb_30_In        ;"op. 30-key inputs"
+#endif
+
+#if operatorspanel == 2                         // standard operator's panel
+   #if soft_op_panel == 1
+                 RD.NOT    SOP_ACT              ;"software op active"
+      #if handwheel_support == 2
+                 AND.NOT   HMOP_ACT             ;"memory hmop acitve"
+      #endif
+   #else
+      #if handwheel_support == 2
+                 RD.NOT   HMOP_ACT              ;"memory hmop acitve"
+      #else
+                 RD        LOG1                 ;"logic 1"
+      #endif
+   #endif
+                 CALL      Op_Keyb_55_In        ;"op. 55-key inputs"
+#endif
+
+#if operatorspanel == 3                         // iPendant
+   #if handwheel_support == 1
+// ---------------------------------------------------------------------------
+// enable iPendant
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+enable iPendant
+*)
+      #endif
+                 RD        LOG1                 ;"logic 1"
+                 WRT       oP_ENBC              ;"ip: operation on/off switch"
+
+// ---------------------------------------------------------------------------
+// enable mpg of iPendant
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+enable mpg of iPendant
+*)
+      #endif
+                 RD        M_HD_P01             ;"P01:mode HANDLE selected"
+      #if nbr_of_path > 1
+                 OR        M_HD_P02             ;"P02:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 2
+                 OR        M_HD_P03             ;"P03:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 3
+                 OR        M_HD_P04             ;"P04:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 4
+                 OR        M_HD_P05             ;"P05:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 5
+                 OR        M_HD_P06             ;"P06:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 6
+                 OR        M_HD_P07             ;"P07:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 7
+                 OR        M_HD_P08             ;"P08:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 8
+                 OR        M_HD_P09             ;"P09:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 9
+                 OR        M_HD_P10             ;"P10:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 10
+                 OR        M_HD_P11             ;"P11:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 11
+                 OR        M_HD_P12             ;"P12:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 12
+                 OR        M_HD_P13             ;"P13:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 13
+                 OR        M_HD_P14             ;"P14:mode HANDLE selected"
+      #endif
+      #if nbr_of_path > 14
+                 OR        M_HD_P15             ;"P15:mode HANDLE selected"
+      #endif
+                 AND       oP_ENBC              ;"ip: operation on/off switch"
+                 WRT       oP_MPGEN             ;"ip: mpg control signal"
+   #endif
+
+   #if soft_op_panel == 1
+                 RD.NOT    SOP_ACT              ;"software op active"
+      #if handwheel_support == 2
+                 AND.NOT   HMOP_ACT             ;"memory hmop acitve"
+      #endif
+   #else
+      #if handwheel_support == 2
+                 RD.NOT   HMOP_ACT              ;"memory hmop acitve"
+      #else
+                 RD        LOG1                 ;"logic 1"
+      #endif
+   #endif
+                 CALL      iPendant_In          ;"iPendant inputs"
+#endif
+
+#if operatorspanel == 0
+   #if handwheel_support == 2
+                 RD.NOT   HMOP_ACT              ;"memory hmop acitve"
+   #else
+                 RD        LOG1                 ;"logic 1"
+   #endif
+                 CALL      Op_Keyb_SOP_In       ;"software op. inputs"
+
+                 RD        SOP_RUN              ;"software op-panel active"
+                 WRT       L_SOPRUN             ;"led sop key"
+#endif
+
+#if operatorspanel > 0 && soft_op_panel == 1
+                 RD        SOP_ACT              ;"software op active"
+   #if handwheel_support == 2
+                 AND.NOT   HMOP_ACT             ;"memory hmop acitve"
+   #endif
+                 CALL      Op_Keyb_SOP_In       ;"software op. inputs"
+
+                 RD        SOP_RUN              ;"software op-panel active"
+                 WRT       L_SOPRUN             ;"led sop key"
+#endif
+
+
+#if handwheel_support == 2
+                 RD        HMOP_ACT             ;"memory hmop acitve"
+                 CALL      Hmop_In              ;"hmop inputs"
+#endif
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\mmi_in_p01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\..\include\mmi_in_p02.src"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\..\include\mmi_in_p03.src"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\..\include\mmi_in_p04.src"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\..\include\mmi_in_p05.src"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\..\include\mmi_in_p06.src"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\..\include\mmi_in_p07.src"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\..\include\mmi_in_p08.src"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\..\include\mmi_in_p09.src"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\..\include\mmi_in_p10.src"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\..\include\mmi_in_p11.src"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\..\include\mmi_in_p12.src"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\..\include\mmi_in_p13.src"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\..\include\mmi_in_p14.src"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\..\include\mmi_in_p15.src"
+#endif

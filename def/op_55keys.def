@@ -1,0 +1,712 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55keys.def                                        :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs/outputs for Standard Machine    :
+//:                     Operator's Panel with 55 keys                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :keys for one touch macro added                   :
+//:--------------------------------------------------------------------------:
+//:19.10.16: 2.0.0 :Blp    :I/O assignment changed Y6->Y0                    :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+#ifndef op_standard_def
+#define op_standard_def
+
+// ===========================================================================
+// Definitions
+// ===========================================================================
+#if start_address_op  == 0
+// ---------------------------------------------------------------------------
+// program protection
+// ---------------------------------------------------------------------------
+   #define  __KEY_PROTECT                 E9909.3
+   #define  __LED_KEY_PROTECT             E9925.3
+
+// ---------------------------------------------------------------------------
+// emergency stop and reset
+// ---------------------------------------------------------------------------
+   #define  __KEY_RST                     E9909.7
+   #define  __LED_KEY_RST                 E9925.7
+
+   #define  __KEY_EMGSTOP                 E9910.3
+   #define  __LED_KEY_EMGSTOP             E9926.3
+
+// ---------------------------------------------------------------------------
+// activation of software operator's panel for remote diagnosis
+// ---------------------------------------------------------------------------
+   #define  __KEY_SOPACT                  E9910.7  // SOP
+   #define  __LED_SOPACT                  E9926.7
+
+// ---------------------------------------------------------------------------
+// operating modes
+// ---------------------------------------------------------------------------
+   #define  __KEY_MODE_MEM                E9904.0  // auto
+   #define  __LED_MODE_MEM                E9920.0
+
+   #define  __KEY_MODE_EDIT               E9904.1  // edit
+   #define  __LED_MODE_EDIT               E9920.1
+
+   #define  __KEY_MODE_MDI                E9904.2  // mdi
+   #define  __LED_MODE_MDI                E9920.2
+
+   #define  __KEY_DNC_MODE                E9904.3  // remote
+   #define  __LED_DNC_MODE                E9920.3
+
+   #define  __KEY_SINGLE_BLOCK            E9904.4  // singl block
+   #define  __LED_SINGLE_BLOCK            E9920.4
+
+   #define  __KEY_BLOCK_SKIP              E9904.5  // block delete
+   #define  __LED_BLOCK_SKIP              E9920.5
+
+   #define  __KEY_OPT_STOP                E9904.6  // opt stop
+   #define  __LED_OPT_STOP                E9920.6
+
+   #define  __KEY_TEACH                   E9904.7  // teach
+   #define  __LED_TEACH                   E9920.7
+
+   #define  __KEY_RESTART                 E9905.0  // restart
+   #define  __LED_RESTART                 E9921.0
+
+   #define  __KEY_PGM_TEST                E9905.1  // mc lock
+   #define  __LED_PGM_TEST                E9921.1
+
+   #define  __KEY_DRY_RUN                 E9905.2  // dry run
+   #define  __LED_DRY_RUN                 E9921.2
+
+   #define  __KEY_MODE_REF                E9906.4  // ref return
+   #define  __LED_MODE_REF                E9922.4
+
+   #define  __KEY_MODE_JOG                E9906.5  // jog
+   #define  __LED_MODE_JOG                E9922.5
+
+   #define  __KEY_MODE_INC                E9906.6  // jog inc
+   #define  __LED_MODE_INC                E9922.6
+
+   #define  __KEY_MODE_HANDLE             E9906.7  // handle
+   #define  __LED_MODE_HANDLE             E9922.7
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+   #define  __KEY_CYCLE_STOP              E9906.0  // cycle stop
+   #define  __LED_CYCLE_STOP              E9922.0
+
+   #define  __KEY_CYCLE_START             E9906.1  // cycle start
+   #define  __LED_CYCLE_START             E9922.1
+
+   #define  __KEY_PGM_STOP                E9906.2      // program stop 
+   #define  __LED_PGM_STOP                E9922.2      // program stop 
+
+// ---------------------------------------------------------------------------
+// path switching
+// ---------------------------------------------------------------------------
+   #define  __KEY_PATH_SYN                E9905.4  // path synchronization
+   #define  __LED_PATH_SYN                E9921.4
+
+   #define  __KEY_PATH_PLUS               E9905.5  // next path
+   #define  __LED_PATH_PLUS               E9921.5
+
+   #define  __KEY_PATH_MINUS              E9905.6  // previous path
+   #define  __LED_PATH_MINUS              E9921.6
+
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+   #define  __KEY_DOOR                    E9906.3  // protection door
+   #define  __LED_DOOR                    E9922.3
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+   #define  __FEED_OVR_ADDR               E9900    // feed override
+
+   #define  __KEY_FACTOR_X1               E9907.0  // X1
+   #define  __LED_FACTOR_X1               E9923.0
+
+   #define  __KEY_FACTOR_X10              E9907.1  // X10
+   #define  __LED_FACTOR_X10              E9923.1
+
+   #define  __KEY_FACTOR_X100             E9907.2  // X100
+   #define  __LED_FACTOR_X100             E9923.2
+
+   #define  __KEY_FACTOR_X1000            E9907.3  // X1000
+   #define  __LED_FACTOR_X1000            E9923.3
+
+   #define  __KEY_7TH_AXIS                E9909.0  // 7
+   #define  __LED_7TH_AXIS                E9925.0
+
+   #define  __KEY_8TH_AXIS                E9909.1  // 8
+   #define  __LED_8TH_AXIS                E9925.1
+
+   #define  __KEY_1ST_AXIS                E9909.4  // X
+   #define  __LED_1ST_AXIS                E9925.4
+
+   #define  __KEY_2ND_AXIS                E9909.5  // Y
+   #define  __LED_2ND_AXIS                E9925.5
+
+   #define  __KEY_3RD_AXIS                E9909.6  // Z
+   #define  __LED_3RD_AXIS                E9925.6
+
+   #define  __KEY_4TH_AXIS                E9910.0  // 4
+   #define  __LED_4TH_AXIS                E9926.0
+
+   #define  __KEY_5TH_AXIS                E9910.1  // 5
+   #define  __LED_5TH_AXIS                E9926.1
+
+   #define  __KEY_6TH_AXIS                E9910.2  // 6
+   #define  __LED_6TH_AXIS                E9926.2
+
+   #define  __KEY_AXIS_PLUS               E9910.4  // +
+   #define  __LED_AXIS_PLUS               E9926.4
+
+   #define  __KEY_RAPID_TRAVERSE          E9910.5  // trvrs
+   #define  __LED_RAPID_TRAVERSE          E9926.5
+
+   #define  __KEY_AXIS_MINUS              E9910.6  // -
+   #define  __LED_AXIS_MINUS              E9926.6
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+   #if spindle_support_P01 > -1
+      #define  __KEY_SPINDLE_CW           E9911.0  // spdl cw
+      #define  __LED_SPINDLE_CW           E9927.0
+
+      #define  __KEY_SPINDLE_STOP         E9911.1  // spdl stop
+      #define  __LED_SPINDLE_STOP         E9927.1
+
+      #define  __KEY_SPINDLE_CCW          E9911.2  // spdl ccw
+      #define  __LED_SPINDEL_CCW          E9927.2
+
+      #if spindle_override == 1  // spindle override with gray coded selector
+         #define  __I_SPI_OVR_BIT0        E9900.6  // spindle override switch bit 0
+         #define  __I_SPI_OVR_BIT1        E9900.7  // spindle override switch bit 1
+         #define  __I_SPI_OVR_BIT2        E9901.0  // spindle override switch bit 2
+      #endif
+   #endif
+
+// ---------------------------------------------------------------------------
+// coolant
+// ---------------------------------------------------------------------------
+   #if coolant_support_P01 > -1
+      #define  __KEY_COOLANT              E9908.4  // coolant on / off
+      #define  __LED_COOLANT              E9924.4
+   #endif
+
+// ---------------------------------------------------------------------------
+// one touch macro call
+// ---------------------------------------------------------------------------
+#if otmc_support_P01 > -1
+   #define  __KEY_MC1                     E9907.4  // button mc1
+   #define  __LED_MC1                     E9923.4
+
+   #define  __KEY_MC2                     E9907.5  // button mc2
+   #define  __LED_MC2                     E9923.5
+
+   #define  __KEY_MC3                     E9907.6  // button mc3
+   #define  __LED_MC3                     E9923.6
+
+   #define  __KEY_MC4                     E9907.7  // button mc4
+   #define  __LED_MC4                     E9923.7
+#endif
+
+// ---------------------------------------------------------------------------
+// unused
+// ---------------------------------------------------------------------------
+   #define  __KEY_A11                     E9909.2  // button A11
+   #define  __LED_A11                     E9925.2
+
+   #define  __KEY_C04                     E9905.3  // button C04
+   #define  __LED_C04                     E9921.3
+
+   #define  __KEY_D04                     E9905.7  // button D04
+   #define  __LED_D04                     E9921.7
+
+   #define  __KEY_D05                     E9908.0  // button D05
+   #define  __LED_D05                     E9924.0
+
+   #define  __KEY_D06                     E9908.1  // button D06
+   #define  __LED_D06                     E9924.1
+
+   #define  __KEY_D07                     E9908.2  // button D07
+   #define  __LED_D07                     E9924.2
+
+   #define  __KEY_D08                     E9908.3  // button D08
+   #define  __LED_D08                     E9924.3
+
+   #define  __KEY_E06                     E9908.5  // button E06
+   #define  __LED_E06                     E9924.5
+
+   #define  __KEY_E07                     E9908.6  // button E07
+   #define  __LED_E07                     E9924.6
+
+   #define  __KEY_E08                     E9908.7  // button E08
+   #define  __LED_E08                     E9924.7
+
+   #define  __KEY_E12                     E9911.3  // button E12
+   #define  __LED_E12                     E9927.3
+#endif
+
+#if start_address_op  == 1
+// ---------------------------------------------------------------------------
+// program protection
+// ---------------------------------------------------------------------------
+   #define  __KEY_PROTECT                 X0101.4
+
+// ---------------------------------------------------------------------------
+// activation of software operator's panel for remote diagnosis
+// ---------------------------------------------------------------------------
+   #define  __KEY_SOPACT                  E9910.7  // SOP
+   #define  __LED_SOPACT                  E9926.7
+
+// ---------------------------------------------------------------------------
+// operating modes
+// ---------------------------------------------------------------------------
+   #define  __KEY_MODE_MEM                X0104.0  // auto
+   #define  __LED_MODE_MEM                Y0100.0
+
+   #define  __KEY_MODE_EDIT               X0104.1  // edit
+   #define  __LED_MODE_EDIT               Y0100.1
+
+   #define  __KEY_MODE_MDI                X0104.2  // mdi
+   #define  __LED_MODE_MDI                Y0100.2
+
+   #define  __KEY_DNC_MODE                X0104.3  // remote
+   #define  __LED_DNC_MODE                Y0100.3
+
+   #define  __KEY_SINGLE_BLOCK            X0104.4  // singl block
+   #define  __LED_SINGLE_BLOCK            Y0100.4
+
+   #define  __KEY_BLOCK_SKIP              X0104.5  // block delete
+   #define  __LED_BLOCK_SKIP              Y0100.5
+
+   #define  __KEY_OPT_STOP                X0104.6  // opt stop
+   #define  __LED_OPT_STOP                Y0100.6
+
+   #define  __KEY_TEACH                   X0104.7  // teach
+   #define  __LED_TEACH                   Y0100.7
+
+   #define  __KEY_RESTART                 X0105.0  // restart
+   #define  __LED_RESTART                 Y0101.0
+
+   #define  __KEY_PGM_TEST                X0105.1  // mc lock
+   #define  __LED_PGM_TEST                Y0101.1
+
+   #define  __KEY_DRY_RUN                 X0105.2  // dry run
+   #define  __LED_DRY_RUN                 Y0101.2
+
+   #define  __KEY_MODE_REF                X0106.4  // ref return
+   #define  __LED_MODE_REF                Y0102.4
+
+   #define  __KEY_MODE_JOG                X0106.5  // jog
+   #define  __LED_MODE_JOG                Y0102.5
+
+   #define  __KEY_MODE_INC                X0106.6  // jog inc
+   #define  __LED_MODE_INC                Y0102.6
+
+   #define  __KEY_MODE_HANDLE             X0106.7  // handle
+   #define  __LED_MODE_HANDLE             Y0102.7
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+   #define  __KEY_CYCLE_STOP              X0106.0  // cycle stop
+   #define  __LED_CYCLE_STOP              Y0102.0
+
+   #define  __KEY_CYCLE_START             X0106.1  // cycle start
+   #define  __LED_CYCLE_START             Y0102.1
+
+   #define  __KEY_PGM_STOP                X0106.2  // program stop 
+   #define  __LED_PGM_STOP                Y0102.2  // program stop 
+
+// ---------------------------------------------------------------------------
+// path switching
+// ---------------------------------------------------------------------------
+   #define  __KEY_PATH_SYN                X0105.4  // path synchronization
+   #define  __LED_PATH_SYN                Y0101.4
+
+   #define  __KEY_PATH_PLUS               X0105.5  // next path
+   #define  __LED_PATH_PLUS               Y0101.5
+
+   #define  __KEY_PATH_MINUS              X0105.6  // previous path
+   #define  __LED_PATH_MINUS              Y0101.6
+
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+   #define  __KEY_DOOR                    X0106.3  // protection door
+   #define  __LED_DOOR                    Y0102.3
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+   #define  __FEED_OVR_ADDR               X0100    // feed override
+
+   #define  __KEY_FACTOR_X1               X0107.0  // x1
+   #define  __LED_FACTOR_X1               Y0103.0
+
+   #define  __KEY_FACTOR_X10              X0107.1  // x10
+   #define  __LED_FACTOR_X10              Y0103.1
+
+   #define  __KEY_FACTOR_X100             X0107.2  // x100
+   #define  __LED_FACTOR_X100             Y0103.2
+
+   #define  __KEY_FACTOR_X1000            X0107.3  // x1000
+   #define  __LED_FACTOR_X1000            Y0103.3
+
+   #define  __KEY_7TH_AXIS                X0109.0  // 7
+   #define  __LED_7TH_AXIS                Y0105.0
+
+   #define  __KEY_8TH_AXIS                X0109.1  // 8
+   #define  __LED_8TH_AXIS                Y0105.1
+
+   #define  __KEY_1ST_AXIS                X0109.4  // X
+   #define  __LED_1ST_AXIS                Y0105.4
+
+   #define  __KEY_2ND_AXIS                X0109.5  // Y
+   #define  __LED_2ND_AXIS                Y0105.5
+
+   #define  __KEY_3RD_AXIS                X0109.6  // Z
+   #define  __LED_3RD_AXIS                Y0105.6
+
+   #define  __KEY_4TH_AXIS                X0110.0  // 4
+   #define  __LED_4TH_AXIS                Y0106.0
+
+   #define  __KEY_5TH_AXIS                X0110.1  // 5
+   #define  __LED_5TH_AXIS                Y0106.1
+
+   #define  __KEY_6TH_AXIS                X0110.2  // 6
+   #define  __LED_6TH_AXIS                Y0106.2
+
+   #define  __KEY_AXIS_PLUS               X0110.4  // +
+   #define  __LED_AXIS_PLUS               Y0106.4
+
+   #define  __KEY_RAPID_TRAVERSE          X0110.5  // trvrs
+   #define  __LED_RAPID_TRAVERSE          Y0106.5
+
+   #define  __KEY_AXIS_MINUS              X0110.6  // -
+   #define  __LED_AXIS_MINUS              Y0106.6
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+   #if spindle_support_P01 > -1
+      #define  __KEY_SPINDLE_CW           X0111.0  // spdl cw
+      #define  __LED_SPINDLE_CW           Y0107.0
+
+      #define  __KEY_SPINDLE_STOP         X0111.1  // spdl stop
+      #define  __LED_SPINDLE_STOP         Y0107.1
+
+      #define  __KEY_SPINDLE_CCW          X0111.2  // spdl ccw
+      #define  __LED_SPINDEL_CCW          Y0107.2
+
+      #if spindle_override == 1  // spindle override with gray coded selector
+         #define  __I_SPI_OVR_BIT0        X0100.6  // spindle ovr switch bit 0
+         #define  __I_SPI_OVR_BIT1        X0100.7  // spindle ovr switch bit 1
+         #define  __I_SPI_OVR_BIT2        X0101.0  // spindle ovr switch bit 2
+      #endif
+   #endif
+
+// ---------------------------------------------------------------------------
+// coolant
+// ---------------------------------------------------------------------------
+   #if coolant_support_P01 > -1
+      #define  __KEY_COOLANT              X0108.4  // coolant on / off
+      #define  __LED_COOLANT              Y0104.4
+   #endif
+
+// ---------------------------------------------------------------------------
+// one touch macro call
+// ---------------------------------------------------------------------------
+#if otmc_support_P01 > -1
+   #define  __KEY_MC1                     X0107.4  // button mc1
+   #define  __LED_MC1                     Y0103.4
+
+   #define  __KEY_MC2                     X0107.5  // button mc2
+   #define  __LED_MC2                     Y0103.5
+
+   #define  __KEY_MC3                     X0107.6  // button mc3
+   #define  __LED_MC3                     Y0103.6
+
+   #define  __KEY_MC4                     X0107.7  // button mc4
+   #define  __LED_MC4                     Y0103.7
+#endif
+
+// ---------------------------------------------------------------------------
+// unused
+// ---------------------------------------------------------------------------
+   #define  __KEY_A11                     X0109.2  // button A11
+   #define  __LED_A11                     Y0105.2
+
+   #define  __KEY_C04                     X0105.3  // button C04
+   #define  __LED_C04                     Y0101.3
+
+   #define  __KEY_D04                     X0105.7  // button D04
+   #define  __LED_D04                     Y0101.7
+
+   #define  __KEY_D05                     X0108.0  // button D05
+   #define  __LED_D05                     Y0104.0
+
+   #define  __KEY_D06                     X0108.1  // button D06
+   #define  __LED_D06                     Y0104.1
+
+   #define  __KEY_D07                     X0108.2  // button D07
+   #define  __LED_D07                     Y0104.2
+
+   #define  __KEY_D08                     X0108.3  // button D08
+   #define  __LED_D08                     Y0104.3
+
+   #define  __KEY_E06                     X0108.5  // button E06
+   #define  __LED_E06                     Y0104.5
+
+   #define  __KEY_E07                     X0108.6  // button E07
+   #define  __LED_E07                     Y0104.6
+
+   #define  __KEY_E08                     X0108.7  // button E08
+   #define  __LED_E08                     Y0104.7
+#endif
+
+#if start_address_op  == 2
+// ---------------------------------------------------------------------------
+// program protection
+// ---------------------------------------------------------------------------
+   #define  __KEY_PROTECT                 X0007.4
+
+// ---------------------------------------------------------------------------
+// activation of software operator's panel for remote diagnosis
+// ---------------------------------------------------------------------------
+   #define  __KEY_SOPACT                  E9910.7  // SOP
+   #define  __LED_SOPACT                  E9926.7
+
+// ---------------------------------------------------------------------------
+// Operating modes
+// ---------------------------------------------------------------------------
+   #define  __KEY_MODE_MEM                X0010.0  // auto
+   #define  __LED_MODE_MEM                Y0000.0
+
+   #define  __KEY_MODE_EDIT               X0010.1  // edit
+   #define  __LED_MODE_EDIT               Y0000.1
+
+   #define  __KEY_MODE_MDI                X0010.2  // mdi
+   #define  __LED_MODE_MDI                Y0000.2
+
+   #define  __KEY_DNC_MODE                X0010.3  // remote
+   #define  __LED_DNC_MODE                Y0000.3
+
+   #define  __KEY_SINGLE_BLOCK            X0010.4  // single block
+   #define  __LED_SINGLE_BLOCK            Y0000.4
+
+   #define  __KEY_BLOCK_SKIP              X0010.5  // block delete
+   #define  __LED_BLOCK_SKIP              Y0000.5
+
+   #define  __KEY_OPT_STOP                X0010.6  // opt stop
+   #define  __LED_OPT_STOP                Y0000.6
+
+   #define  __KEY_TEACH                   X0010.7  // teach
+   #define  __LED_TEACH                   Y0000.7
+
+   #define  __KEY_RESTART                 X0011.0  // restart
+   #define  __LED_RESTART                 Y0001.0
+
+   #define  __KEY_PGM_TEST                X0011.1  // mc lock
+   #define  __LED_PGM_TEST                Y0001.1
+
+   #define  __KEY_DRY_RUN                 X0011.2  // dry run
+   #define  __LED_DRY_RUN                 Y0001.2
+
+   #define  __KEY_MODE_REF                X0012.4  // ref return
+   #define  __LED_MODE_REF                Y0002.4
+
+   #define  __KEY_MODE_JOG                X0012.5  // jog
+   #define  __LED_MODE_JOG                Y0002.5
+
+   #define  __KEY_MODE_INC                X0012.6  // jog inc
+   #define  __LED_MODE_INC                Y0002.6
+
+   #define  __KEY_MODE_HANDLE             X0012.7  // handle
+   #define  __LED_MODE_HANDLE             Y0002.7
+
+// ---------------------------------------------------------------------------
+// nc control
+// ---------------------------------------------------------------------------
+   #define  __KEY_CYCLE_STOP              X0012.0  // cycle stop
+   #define  __LED_CYCLE_STOP              Y0002.0
+
+   #define  __KEY_CYCLE_START             X0012.1  // cycle start
+   #define  __LED_CYCLE_START             Y0002.1
+
+   #define  __KEY_PGM_STOP                X0012.2  // program stop 
+   #define  __LED_PGM_STOP                Y0002.2  // program stop 
+
+// ---------------------------------------------------------------------------
+// path switching
+// ---------------------------------------------------------------------------
+   #define  __KEY_PATH_SYN                X0011.4  // path synchronization
+   #define  __LED_PATH_SYN                Y0001.4
+
+   #define  __KEY_PATH_PLUS               X0011.5  // next path
+   #define  __LED_PATH_PLUS               Y0001.5
+
+   #define  __KEY_PATH_MINUS              X0011.6  // previous path
+   #define  __LED_PATH_MINUS              Y0001.6
+
+// ---------------------------------------------------------------------------
+// protection door
+// ---------------------------------------------------------------------------
+   #define  __KEY_DOOR                    X0012.3  // protection door
+   #define  __LED_DOOR                    Y0002.3
+
+// ---------------------------------------------------------------------------
+// axes
+// ---------------------------------------------------------------------------
+   #define  __FEED_OVR_ADDR               X0006    // feed override
+
+   #define  __KEY_FACTOR_X1               X0013.0  // x1
+   #define  __LED_FACTOR_X1               Y0003.0
+
+   #define  __KEY_FACTOR_X10              X0013.1  // x10
+   #define  __LED_FACTOR_X10              Y0003.1
+
+   #define  __KEY_FACTOR_X100             X0013.2  // x100
+   #define  __LED_FACTOR_X100             Y0003.2
+
+   #define  __KEY_FACTOR_X1000            X0013.3  // x1000
+   #define  __LED_FACTOR_X1000            Y0003.3
+
+   #define  __KEY_7TH_AXIS                X0015.0  // 7
+   #define  __LED_7TH_AXIS                Y0005.0
+
+   #define  __KEY_8TH_AXIS                X0015.1  // 8
+   #define  __LED_8TH_AXIS                Y0005.1
+
+   #define  __KEY_1ST_AXIS                X0015.4  // X
+   #define  __LED_1ST_AXIS                Y0005.4
+
+   #define  __KEY_2ND_AXIS                X0015.5  // Y
+   #define  __LED_2ND_AXIS                Y0005.5
+
+   #define  __KEY_3RD_AXIS                X0015.6  // Z
+   #define  __LED_3RD_AXIS                Y0005.6
+
+   #define  __KEY_4TH_AXIS                X0016.0  // 4
+   #define  __LED_4TH_AXIS                Y0006.0
+
+   #define  __KEY_5TH_AXIS                X0016.1  // 5
+   #define  __LED_5TH_AXIS                Y0006.1
+
+   #define  __KEY_6TH_AXIS                X0016.2  // 6
+   #define  __LED_6TH_AXIS                Y0006.2
+
+   #define  __KEY_AXIS_PLUS               X0016.4  // +
+   #define  __LED_AXIS_PLUS               Y0006.4
+
+   #define  __KEY_RAPID_TRAVERSE          X0016.5  // trvrs
+   #define  __LED_RAPID_TRAVERSE          Y0006.5
+
+   #define  __KEY_AXIS_MINUS              X0016.6  // -
+   #define  __LED_AXIS_MINUS              Y0006.6
+
+// ---------------------------------------------------------------------------
+// spindle
+// ---------------------------------------------------------------------------
+   #if spindle_support_P01 > -1
+      #define  __KEY_SPINDLE_CW           X0017.0  // spdl cw
+      #define  __LED_SPINDLE_CW           Y0007.0
+
+      #define  __KEY_SPINDLE_STOP         X0017.1  // spdl stop
+      #define  __LED_SPINDLE_STOP         Y0007.1
+
+      #define  __KEY_SPINDLE_CCW          X0017.2  // spdl ccw
+      #define  __LED_SPINDEL_CCW          Y0007.2
+
+      #if spindle_override == 1  // spindle override with gray coded selector
+         #define  __I_SPI_OVR_BIT0        X0006.6  // spindle ovr switch bit 0
+         #define  __I_SPI_OVR_BIT1        X0006.7  // spindle ovr switch bit 1
+         #define  __I_SPI_OVR_BIT2        X0007.0  // spindle ovr switch bit 2
+      #endif
+   #endif
+
+// ---------------------------------------------------------------------------
+// coolant
+// ---------------------------------------------------------------------------
+   #if coolant_support_P01 > -1
+      #define  __KEY_COOLANT              X0014.4  // coolant on / off
+      #define  __LED_COOLANT              Y0004.4
+   #endif
+
+// ---------------------------------------------------------------------------
+// one touch macro call
+// ---------------------------------------------------------------------------
+#if otmc_support_P01 > -1
+   #define  __KEY_MC1                     X0013.4  // button mc1
+   #define  __LED_MC1                     Y0003.4
+
+   #define  __KEY_MC2                     X0013.5  // button mc2
+   #define  __LED_MC2                     Y0003.5
+
+   #define  __KEY_MC3                     X0013.6  // button mc3
+   #define  __LED_MC3                     Y0003.6
+
+   #define  __KEY_MC4                     X0013.7  // button mc4
+   #define  __LED_MC4                     Y0003.7
+#endif
+
+// ---------------------------------------------------------------------------
+// unused
+// ---------------------------------------------------------------------------
+   #define  __KEY_A11                     X0015.2  // button A11
+   #define  __LED_A11                     Y0005.2
+
+   #define  __KEY_C04                     X0011.3  // button C04
+   #define  __LED_C04                     Y0001.3
+
+   #define  __KEY_C05                     X0013.4  // button C05
+   #define  __LED_C05                     Y0003.4
+
+   #define  __KEY_C06                     X0013.5  // button C06
+   #define  __LED_C06                     Y0003.5
+
+   #define  __KEY_C07                     X0013.6  // button C07
+   #define  __LED_C07                     Y0003.6
+
+   #define  __KEY_C08                     X0013.7  // button C08
+   #define  __LED_C08                     Y0003.7
+
+   #define  __KEY_D04                     X0011.7  // button D04
+   #define  __LED_D04                     Y0001.7
+
+   #define  __KEY_D05                     X0014.0  // button D05
+   #define  __LED_D05                     Y0004.0
+
+   #define  __KEY_D06                     X0014.1  // button D06
+   #define  __LED_D06                     Y0004.1
+
+   #define  __KEY_D07                     X0014.2  // button D07
+   #define  __LED_D07                     Y0004.2
+
+   #define  __KEY_D08                     X0014.3  // button D08
+   #define  __LED_D08                     Y0004.3
+
+   #define  __KEY_E06                     X0014.5  // button E06
+   #define  __LED_E06                     Y0004.5
+
+   #define  __KEY_E07                     X0014.6  // button E07
+   #define  __LED_E07                     Y0004.6
+
+   #define  __KEY_E08                     X0014.7  // button E08
+   #define  __LED_E08                     Y0004.7
+#endif
+
+#endif   // op_standard_def

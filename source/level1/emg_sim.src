@@ -1,0 +1,61 @@
+//:--------------------------------------------------------------------------:
+//: File              : emg_sim.src                                          :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Simulation of the emergency stop signal              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// simulation of the emergency stop signal for demonstration
+// controls / software operator panel
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+simulation of the emergency stop signal for demonstration
+controls / software operator panel
+*)
+#endif
+                 RD        LOG1              ;"logic one"
+                 NUMEB
+                           1
+                           16
+                           emgsim            ;"emg simulation byte"
+                 RD        LOG1              ;"logic one"
+                 NUMEB
+                           1
+                           1
+                           emgnrd            ;"emg: number of data"
+                 RD        LOG1              ;"logic one"
+                 NUMEB
+                           1
+                           0
+                           emgins            ;"emg: index of storage address"
+                 RD        LOG1              ;"logic one"
+                 RD.STK.NOT LOG1             ;"logic one"
+                 RD.STK    LOG1              ;"logic one"
+                 XMOVB
+                           1
+                           emgnrd            ;"emg: number of data"
+                           iB_EMG            ;"input byte emg"
+                           emgsim            ;"emg simulation byte"
+                           emgins            ;"emg: index of storage address"
+                 WRT       emgxmr            ;"emg: xmovb result"

@@ -1,0 +1,123 @@
+
+==========================================================================
+[1] History
+==========================================================================
+    This document provides the history information about the
+    NewMP_BasePMC library.
+
+--------------------------------------------------------------------------------
+Version 1.1.0 -> 2.0.0
+--------------------------------------------------------------------------------
+---------------------------------------
+News:
+---------------------------------------
+- Selection of 15 path added
+
+- PMC memory-E added
+
+- Selection of program protect key added (usable in case of operatorspanel 2
+  or start_address_op 0)
+
+- In case of handwheel_support 2 the MESSAG key can be used to reset messages.
+  The led is blinking when an alarm occurs.
+
+- Up to five M-codes can be programmed in one block in case of
+  3xi-B/PMi-A and 0i-F controls
+
+- DCS_user_manual_en.pdf: STO for BETA iSVSP-B added
+
+- Documents over-worked (new design) 
+ 
+---------------------------------------
+Modifications:
+---------------------------------------
+- In case of 3xi-A, 30/31/32i-B and 0i-F the PMC switches automatically to the
+  supplementary software operator's panel when the OPERATOR'S PANEL CNC screen
+  is selected.
+
+- In case of 3xi-B, PMi-A and 0i-F controls and active DCS the serial spindle STO
+  will be used instead of the spindle excitation off signal when a serial spindle
+  is activated. Cs contour control at open door not implemented so far. 
+  
+- Because of the initial settings of the operator's panel in NC GUIDE the outputs
+  of the standard machine operator's Panel and the small machine operator's
+  were moved from Y006 to Y000
+  
+- In the compile folder the empty LAD files were removed. The compile command
+  files now include the creation of an empty LAD file.
+
+- In case of a DCS alarm emergency stop will be activated to prevent drop down
+  of vertical axes.
+
+- Behavior of hold to run button improved to get less I/O cross check alarms
+
+- When spindle_support 2, the rotation direction is now determined by the CNC
+  system (Parameters N03706#7#6)
+
+- Because of the number of path, the path specific R-addresses for the MBaseDCS
+  PMC had to be rearranged according to the formula R(path-1)*50+xx.y
+
+- I/O Link i group assignment over-worked
+
+- I/O Link group assignment over-worked (in case of small machine operator's panel
+  a 2nd group will be added)
+
+- Management of program protect keys over-worked when soft_op_panel 1
+
+---------------------------------------
+Bug fixes:
+---------------------------------------
+- When no hand-wheel was selected the HCLP_Pxx Gn023.3 signal was not included in
+  the code.
+
+- On the iPendant, the INC mode could not be selected. The INC feed magnification
+  was only included when handwheel_support > 0
+  
+--------------------------------------------------------------------------------
+Version 1.0.0 -> 1.1.0
+--------------------------------------------------------------------------------
+---------------------------------------
+News:
+---------------------------------------
+- 0iF PMC added
+
+- Coolant keys reworked. Keys E6 and E7 removed from standard operator's panel
+  Key E5 includes now the whole functionality.
+
+- One Touch Macro Call function added. Four keys (C5 to C8) on the Standard
+  Machine Operator's Panel with 55 keys can be used for the macro calls.
+
+---------------------------------------
+Modifications:
+---------------------------------------
+- For the 3xi-B and PMi-A controls the Extended PMC Ladder Instruction Function
+  is selected for the Dual check safety PMC.
+
+- If the iPendant (operatorspanel 3) and handwheel are (handwheel_support 1) selected,
+  the x1, x10 and x100 keys are available
+
+---------------------------------------
+Bug fixes:
+---------------------------------------
+- In case of Power Motion i-A or 35i-B and handwheel_support == 0 the INC
+  mode was not selected
+
+- In case of handwheel_support == 0 and nbr_of_path > 1 the INC mode was not
+  selected in all path when path synchronization was active.
+
+- In case of handwheel_support == 0 and Teach in INC mode, the INC mode
+  was not selected properly.
+
+- In case of DCS and Cs contour control enabled, a I/O crosscheck alarm
+  occured when the protection door was unlocked.
+  
+- In case of axis_number_P0xx equal 1 the axis was not selected in manual modes.
+
+- In case of nbr_of_path == 1 and handwheel_support == 2, the source program
+  could not be created.
+  
+- In case of iPendant with MPG and a supplementary software operator's panel, the
+  software operator's panel couldn't be switched back to iPendant.
+
+- In case of switching off/on the iPendant several times, the alarm "TIMEOUT IPENDANT"
+  was displayed by chance.

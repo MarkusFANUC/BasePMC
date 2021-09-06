@@ -1,0 +1,158 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_nc_pmc__PATH__.sym                                   :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbol definitions for the path specific CNC <-> PMC :
+//:                   : interface of DCSPMC                                  :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Input signal to the PMC from the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+RSV1__PATH__,F0002.0,_PATH__:monit. result 1st axis,
+*MCFV1__PATH__,F0004.0,_PATH__:MCC off signal 1st axis,
+*BRK1__PATH__,F0006.0,_PATH__:Safe Brake sig. 1st axis,
+RZV1__PATH__,F0011.0,_PATH__:zero mon. result 1st axis,
+POSE1__PATH__,F0018.0,_PATH__:pos. inf. effect 1st axis,
+#if axis_number__PATH__ > 1
+RSV2__PATH__,F0002.1,_PATH__:monit. result 2nd axis,
+*MCFV2__PATH__,F0004.1,_PATH__:MCC off signal 2nd axis,
+*BRK2__PATH__,F0006.1,_PATH__:Safe Brake sig. 2nd axis,
+RZV2__PATH__,F0011.1,_PATH__:zero mon. result 2nd axis,
+POSE2__PATH__,F0018.1,_PATH__:pos. inf. effect 2nd axis,
+#endif
+#if axis_number__PATH__ > 2
+RSV3__PATH__,F0002.2,_PATH__:monit. result 3rd axis,
+*MCFV3__PATH__,F0004.2,_PATH__:MCC off signal 3rd axis,
+*BRK3__PATH__,F0006.2,_PATH__:Safe Brake sig. 3rd axis,
+RZV3__PATH__,F0011.2,_PATH__:zero mon. result 3rd axis,
+POSE3__PATH__,F0018.2,_PATH__:pos. inf. effect 3rd axis,
+#endif
+#if axis_number__PATH__ > 3
+RSV4__PATH__,F0002.3,_PATH__:monit. result 4th axis,
+*MCFV4__PATH__,F0004.3,_PATH__:MCC off signal 4th axis,
+*BRK4__PATH__,F0006.3,_PATH__:Safe Brake sig. 4th axis,
+RZV4__PATH__,F0011.3,_PATH__:zero mon. result 4th axis,
+POSE4__PATH__,F0018.3,_PATH__:pos. inf. effect 4th axis,
+#endif
+#if axis_number__PATH__ > 4
+RSV5__PATH__,F0002.4,_PATH__:monit. result 5th axis,
+*MCFV5__PATH__,F0004.4,_PATH__:MCC off signal 5th axis,
+*BRK5__PATH__,F0006.4,_PATH__:Safe Brake sig. 5th axis,
+RZV5__PATH__,F0011.4,_PATH__:zero mon. result 5th axis,
+POSE5__PATH__,F0018.4,_PATH__:pos. inf. effect 5th axis,
+#endif
+#if axis_number__PATH__ > 5
+RSV6__PATH__,F0002.5,_PATH__:monit. result 6th axis,
+*MCFV6__PATH__,F0004.5,_PATH__:MCC off signal 6th axis,
+*BRK6__PATH__,F0006.5,_PATH__:Safe Brake sig. 6th axis,
+RZV6__PATH__,F0011.5,_PATH__:zero mon. result 6th axis,
+POSE6__PATH__,F0018.5,_PATH__:pos. inf. effect 6th axis,
+#endif
+#if axis_number__PATH__ > 6
+RSV7__PATH__,F0002.6,_PATH__:monit. result 7th axis,
+*MCFV7__PATH__,F0004.6,_PATH__:MCC off signal 7th axis,
+*BRK7__PATH__,F0006.6,_PATH__:Safe Brake sig. 7th axis,
+RZV7__PATH__,F0011.6,_PATH__:zero mon. result 7th axis,
+POSE7__PATH__,F0018.6,_PATH__:pos. inf. effect 7th axis,
+#endif
+#if axis_number__PATH__ > 7
+RSV8__PATH__,F0002.7,_PATH__:monit. result 8th axis,
+*MCFV8__PATH__,F0004.7,_PATH__:MCC off signal 8th axis,
+*BRK8__PATH__,F0006.7,_PATH__:Safe Brake sig. 8th axis,
+RZV8__PATH__,F0011.7,_PATH__:zero mon. result 8th axis,
+POSE8__PATH__,F0018.7,_PATH__:pos. inf. effect 8th axis,
+#endif
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+RSP1__PATH__,F0003.0,_PATH__:monit. result 1st spindle,
+RZP1__PATH__,F0003.4,_PATH__:zero mon. result 1st spin,
+*MCFP1__PATH__,F0005.0,_PATH__:MCC off signal 1st spin.,
+#endif
+
+
+// ===========================================================================
+// Output signal from the PMC to the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+*VLDV1__PATH__,G0002.0,_PATH__:safety check req. 1st ax.,
+SVA1__PATH__,G0004.0,_PATH__:saf. sel. sig. A 1st axis,
+SVB1__PATH__,G0005.0,_PATH__:saf. sel. sig. B 1st axis,
+SVZR1__PATH__,G0007.0,_PATH__:zero mon. req. 1st axis,
+#if axis_number__PATH__ > 1
+*VLDV2__PATH__,G0002.1,_PATH__:safety check req. 2nd ax.,
+SVA2__PATH__,G0004.1,_PATH__:saf. sel. sig. A 2nd axis,
+SVB2__PATH__,G0005.1,_PATH__:saf. sel. sig. B 2nd axis,
+SVZR2__PATH__,G0007.1,_PATH__:zero mon. req. 2nd axis,
+#endif
+#if axis_number__PATH__ > 2
+*VLDV3__PATH__,G0002.2,_PATH__:safety check req. 3rd ax.,
+SVA3__PATH__,G0004.2,_PATH__:saf. sel. sig. A 3rd axis,
+SVB3__PATH__,G0005.2,_PATH__:saf. sel. sig. B 3rd axis,
+SVZR3__PATH__,G0007.2,_PATH__:zero mon. req. 3rd axis,
+#endif
+#if axis_number__PATH__ > 3
+*VLDV4__PATH__,G0002.3,_PATH__:safety check req. 4th ax.,
+SVA4__PATH__,G0004.3,_PATH__:saf. sel. sig. A 4th axis,
+SVB4__PATH__,G0005.3,_PATH__:saf. sel. sig. B 4th axis,
+SVZR4__PATH__,G0007.3,_PATH__:zero mon. req. 4th axis,
+#endif
+#if axis_number__PATH__ > 4
+*VLDV5__PATH__,G0002.4,_PATH__:safety check req. 5th ax.,
+SVA5__PATH__,G0004.4,_PATH__:saf. sel. sig. A 5th axis,
+SVB5__PATH__,G0005.4,_PATH__:saf. sel. sig. B 5th axis,
+SVZR5__PATH__,G0007.4,_PATH__:zero mon. req. 5th axis,
+#endif
+#if axis_number__PATH__ > 5
+*VLDV6__PATH__,G0002.5,_PATH__:safety check req. 6th ax.,
+SVA6__PATH__,G0004.5,_PATH__:saf. sel. sig. A 6th axis,
+SVB6__PATH__,G0005.5,_PATH__:saf. sel. sig. B 6th axis,
+SVZR6__PATH__,G0007.5,_PATH__:zero mon. req. 6th axis,
+#endif
+#if axis_number__PATH__ > 6
+*VLDV7__PATH__,G0002.6,_PATH__:safety check req. 7th ax.,
+SVA7__PATH__,G0004.6,_PATH__:saf. sel. sig. A 7th axis,
+SVB7__PATH__,G0005.6,_PATH__:saf. sel. sig. B 7th axis,
+SVZR7__PATH__,G0007.6,_PATH__:zero mon. req. 7th axis,
+#endif
+#if axis_number__PATH__ > 7
+*VLDV8__PATH__,G0002.7,_PATH__:safety check req. 8th ax.,
+SVA8__PATH__,G0004.7,_PATH__:saf. sel. sig. A 8th axis,
+SVB8__PATH__,G0005.7,_PATH__:saf. sel. sig. B 6th axis,
+SVZR8__PATH__,G0007.7,_PATH__:zero mon. req. 8th axis,
+#endif
+#if (spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5) && spindle_support_P01 > -1
+*VLDP1__PATH__,G0003.0,_PATH__:saf. check req. 1st spin.,
+SPZR1__PATH__,G0003.4,_PATH__:zero mon. req. 1st spin.,
+SPA1__PATH__,G0006.0,_PATH__:saf. sel. A 1st spindle,
+SPB1__PATH__,G0006.4,_PATH__:saf. sel. B 1st spindle,
+#endif
+*ESP__PATH__,G0019.4,_PATH__:emergency stop signal,
+

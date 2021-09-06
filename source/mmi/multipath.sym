@@ -1,0 +1,115 @@
+//:--------------------------------------------------------------------------:
+//: File              : multipath.sym                                        :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : multipath related symbols                            :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:21.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9730.0 - E9733.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+PATH_P01,E9730.0,path 01 selected,
+#if nbr_of_path > 1
+PATH_P02,E9730.1,path 02 selected,
+#endif
+#if nbr_of_path > 2
+PATH_P03,E9730.2,path 03 selected,
+#endif
+#if nbr_of_path > 3
+PATH_P04,E9730.3,path 04 selected,
+#endif
+#if nbr_of_path > 4
+PATH_P05,E9730.4,path 05 selected,
+#endif
+#if nbr_of_path > 5
+PATH_P06,E9730.5,path 06 selected,
+#endif
+#if nbr_of_path > 6
+PATH_P07,E9730.6,path 07 selected,
+#endif
+#if nbr_of_path > 7
+PATH_P08,E9730.7,path 08 selected,
+#endif
+#if nbr_of_path > 8
+PATH_P09,E9731.0,path 09 selected,
+#endif
+#if nbr_of_path > 9
+PATH_P10,E9731.1,path 10 selected,
+#endif
+#if nbr_of_path > 10
+PATH_P11,E9731.2,path 11 selected,
+#endif
+#if nbr_of_path > 11
+PATH_P12,E9731.3,path 12 selected,
+#endif
+#if nbr_of_path > 12
+PATH_P13,E9731.4,path 13 selected,
+#endif
+#if nbr_of_path > 13
+PATH_P14,E9731.5,path 14 selected,
+#endif
+#if nbr_of_path > 14
+PATH_P15,E9731.6,path 15 selected,
+#endif
+
+
+// E9730.0 - E9731.7 reserved for selected path
+
+#if nbr_of_path > 1
+PATHSYN,E9732.0,path synchronization signal,
+PSYNREQ,E9732.1,path synchronization request,
+PCHANGE,E9732.3,path change,
+#endif
+
+// -------------------------------------------------------
+// local variables E9734.0 - E9749.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+pctr_set,E9734,path ctr preset,                 // 2 Bytes
+pctr_cnt,E9736,path ctr count value,            // 4 Bytes (count + work)
+pctr_work,E9738,path ctr count value,
+pctr_mem,E9740,path ctr memory,                 // 2 Bytes
+
+// up to E9741 used
+// -----------------------------------
+// bool
+// -----------------------------------
+
+repath,E9742.0,rising edge path switching,
+mkpsel,E9742.1,memory path selection key,
+maxpath,E9742.2,path ctr preset reached,
+repsyn,E9742.3,re path synchronization,
+mpsyn,E9742.4,mem path synchronisation key,
+mpathsyn,E9742.5,memory path synchronization,
+
+pctr_b00,E9736.0,path ctr value bit00,
+pctr_b01,E9736.1,path ctr value bit01,
+pctr_b02,E9736.2,path ctr value bit02,
+pctr_b03,E9736.3,path ctr value bit03,

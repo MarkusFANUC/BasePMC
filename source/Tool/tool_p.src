@@ -1,0 +1,90 @@
+//:--------------------------------------------------------------------------:
+//: File              : tool__PATH__.src                                         :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific tool management                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: t code decoding (uses the high speed M/S/T/B interface)
+// parameter setting: 3001 bit 7 = 1 (MHI)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: t code decoding (uses the high speed M/S/T/B interface)
+parameter setting: 3001 bit 7 = 1 (MHI)
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: strobe of the t code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: strobe of the t code
+*)
+#endif
+                 RD        TF__PATH__           ;"tool function strobe signal"
+                 AND.NOT   TFIN__PATH__         ;"tool function completion"
+                 RD.STK.NOT TF__PATH__          ;"tool function strobe signal"
+                 AND       TFIN__PATH__         ;"tool function completion"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       t_code__PATH__       ;"t code active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition conditions
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition conditions
+*)
+#endif
+                 RD        t_code__PATH__       ;"t code active"
+                 WRT       t_fin__PATH__        ;"t code finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal to the cnc
+*)
+#endif
+                 RD        t_fin__PATH__        ;"t code finished"
+                 AND       TF__PATH__           ;"tool function strobe signal"
+                 RD.STK.NOT t_fin__PATH__       ;"t code finished"
+                 AND       TFIN__PATH__         ;"tool function completion"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       TFIN__PATH__         ;"tool function completion"
+
+// ---------------------------------------------------------------------------
+// _PATH__: (tool change finished)
+// -------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: tool change finished
+*)
+#endif
+                 RD        M006__PATH__         ;"tool change"
+                 RST       M006__PATH__         ;"tool change"

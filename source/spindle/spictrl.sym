@@ -1,0 +1,413 @@
+//:--------------------------------------------------------------------------:
+//: File              : spictrl.sym                                          :
+//: Creation date     : 04.10.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbols for spindle management                       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:25.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Include files
+// ===========================================================================
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#if spindle_support_P01 > 0
+   #include "..\..\include\spictrl_p01.sym"
+   #if spindle_support_P01 == 1
+      #include "..\..\include\s_serial_p01.sym"
+      #if spindle_orientation_P01 > 0
+         #include "..\..\include\spiori_p01.sym"   
+      #endif
+   #endif
+   #if spindle_support_P01 == 2 || spindle_support_P01 == 3 
+      #include "..\..\include\s_analog_p01.sym"
+   #endif
+   #if spindle_support_P01 == 4
+      #include "..\..\include\s_pmc_p01.sym"
+   #endif
+   #if spindle_support_P01 == 5
+      #include "..\..\include\s_sv_p01.sym"
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #if spindle_support_P02 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p02.sym"
+      #if spindle_support_P02 == 1
+         #include "..\..\include\s_serial_p02.sym"
+         #if spindle_orientation_P02 > 0
+            #include "..\..\include\spiori_p02.sym"   
+         #endif
+      #endif
+      #if spindle_support_P02 == 2 || spindle_support_P02 == 3 
+         #include "..\..\include\s_analog_p02.sym"
+      #endif
+      #if spindle_support_P02 == 4
+         #include "..\..\include\s_pmc_p02.sym"
+      #endif
+      #if spindle_support_P02 == 5
+         #include "..\..\include\s_sv_p02.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #if spindle_support_P03 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p03.sym"
+      #if spindle_support_P03 == 1
+         #include "..\..\include\s_serial_p03.sym"
+         #if spindle_orientation_P03 > 0
+            #include "..\..\include\spiori_p03.sym"   
+         #endif
+      #endif
+      #if spindle_support_P03 == 2 || spindle_support_P03 == 3 
+         #include "..\..\include\s_analog_p03.sym"
+      #endif
+      #if spindle_support_P03 == 4
+         #include "..\..\include\s_pmc_p03.sym"
+      #endif
+      #if spindle_support_P03 == 5
+         #include "..\..\include\s_sv_p03.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #if spindle_support_P04 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p04.sym"
+      #if spindle_support_P04 == 1
+         #include "..\..\include\s_serial_p04.sym"
+         #if spindle_orientation_P04 > 0
+            #include "..\..\include\spiori_p04.sym"   
+         #endif
+      #endif
+      #if spindle_support_P04 == 2 || spindle_support_P04 == 3 
+         #include "..\..\include\s_analog_p04.sym"
+      #endif
+      #if spindle_support_P04 == 4
+         #include "..\..\include\s_pmc_p04.sym"
+      #endif
+      #if spindle_support_P04 == 5
+         #include "..\..\include\s_sv_p04.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #if spindle_support_P05 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p05.sym"
+      #if spindle_support_P05 == 1
+         #include "..\..\include\s_serial_p05.sym"
+         #if spindle_orientation_P05 > 0
+            #include "..\..\include\spiori_p05.sym"   
+         #endif
+      #endif
+      #if spindle_support_P05 == 2 || spindle_support_P05 == 3 
+         #include "..\..\include\s_analog_p05.sym"
+      #endif
+      #if spindle_support_P05 == 4
+         #include "..\..\include\s_pmc_p05.sym"
+      #endif
+      #if spindle_support_P05 == 5
+         #include "..\..\include\s_sv_p05.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #if spindle_support_P06 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p06.sym"
+      #if spindle_support_P06 == 1
+         #include "..\..\include\s_serial_p06.sym"
+         #if spindle_orientation_P06 > 0
+            #include "..\..\include\spiori_p06.sym"   
+         #endif
+      #endif
+      #if spindle_support_P06 == 2 || spindle_support_P06 == 3 
+         #include "..\..\include\s_analog_p06.sym"
+      #endif
+      #if spindle_support_P06 == 4
+         #include "..\..\include\s_pmc_p06.sym"
+      #endif
+      #if spindle_support_P06 == 5
+         #include "..\..\include\s_sv_p06.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #if spindle_support_P07 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p07.sym"
+      #if spindle_support_P07 == 1
+         #include "..\..\include\s_serial_p07.sym"
+         #if spindle_orientation_P07 > 0
+            #include "..\..\include\spiori_p07.sym"   
+         #endif
+      #endif
+      #if spindle_support_P07 == 2 || spindle_support_P07 == 3 
+         #include "..\..\include\s_analog_p07.sym"
+      #endif
+      #if spindle_support_P07 == 4
+         #include "..\..\include\s_pmc_p07.sym"
+      #endif
+      #if spindle_support_P07 == 5
+         #include "..\..\include\s_sv_p07.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #if spindle_support_P08 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p08.sym"
+      #if spindle_support_P08 == 1
+         #include "..\..\include\s_serial_p08.sym"
+         #if spindle_orientation_P08 > 0
+            #include "..\..\include\spiori_p08.sym"   
+         #endif
+      #endif
+      #if spindle_support_P08 == 2 || spindle_support_P08 == 3 
+         #include "..\..\include\s_analog_p08.sym"
+      #endif
+      #if spindle_support_P08 == 4
+         #include "..\..\include\s_pmc_p08.sym"
+      #endif
+      #if spindle_support_P08 == 5
+         #include "..\..\include\s_sv_p08.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #if spindle_support_P09 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p09.sym"
+      #if spindle_support_P09 == 1
+         #include "..\..\include\s_serial_p09.sym"
+         #if spindle_orientation_P09 > 0
+            #include "..\..\include\spiori_p09.sym"   
+         #endif
+      #endif
+      #if spindle_support_P09 == 2 || spindle_support_P09 == 3 
+         #include "..\..\include\s_analog_p09.sym"
+      #endif
+      #if spindle_support_P09 == 4
+         #include "..\..\include\s_pmc_p09.sym"
+      #endif
+      #if spindle_support_P09 == 5
+         #include "..\..\include\s_sv_p09.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #if spindle_support_P10 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p10.sym"
+      #if spindle_support_P10 == 1
+         #include "..\..\include\s_serial_p10.sym"
+         #if spindle_orientation_P10 > 0
+            #include "..\..\include\spiori_p10.sym"   
+         #endif
+      #endif
+      #if spindle_support_P10 == 2 || spindle_support_P10 == 3 
+         #include "..\..\include\s_analog_p10.sym"
+      #endif
+      #if spindle_support_P10 == 4
+         #include "..\..\include\s_pmc_p10.sym"
+      #endif
+      #if spindle_support_P10 == 5
+         #include "..\..\include\s_sv_p10.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #if spindle_support_P11 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p11.sym"
+      #if spindle_support_P11 == 1
+         #include "..\..\include\s_serial_p11.sym"
+         #if spindle_orientation_P11 > 0
+            #include "..\..\include\spiori_p11.sym"
+         #endif
+      #endif
+      #if spindle_support_P11 == 2 || spindle_support_P11 == 3 
+         #include "..\..\include\s_analog_p11.sym"
+      #endif
+      #if spindle_support_P11 == 4
+         #include "..\..\include\s_pmc_p11.sym"
+      #endif
+      #if spindle_support_P11 == 5
+         #include "..\..\include\s_sv_p11.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #if spindle_support_P12 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p12.sym"
+      #if spindle_support_P12 == 1
+         #include "..\..\include\s_serial_p12.sym"
+         #if spindle_orientation_P12 > 0
+            #include "..\..\include\spiori_p12.sym"
+         #endif
+      #endif
+      #if spindle_support_P12 == 2 || spindle_support_P12 == 3 
+         #include "..\..\include\s_analog_p12.sym"
+      #endif
+      #if spindle_support_P12 == 4
+         #include "..\..\include\s_pmc_p12.sym"
+      #endif
+      #if spindle_support_P12 == 5
+         #include "..\..\include\s_sv_p12.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #if spindle_support_P13 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p13.sym"
+      #if spindle_support_P13 == 1
+         #include "..\..\include\s_serial_p13.sym"
+         #if spindle_orientation_P13 > 0
+            #include "..\..\include\spiori_p13.sym"
+         #endif
+      #endif
+      #if spindle_support_P13 == 2 || spindle_support_P13 == 3 
+         #include "..\..\include\s_analog_p13.sym"
+      #endif
+      #if spindle_support_P13 == 4
+         #include "..\..\include\s_pmc_p13.sym"
+      #endif
+      #if spindle_support_P13 == 5
+         #include "..\..\include\s_sv_p13.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #if spindle_support_P14 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p14.sym"
+      #if spindle_support_P14 == 1
+         #include "..\..\include\s_serial_p14.sym"
+         #if spindle_orientation_P14 > 0
+            #include "..\..\include\spiori_p14.sym"
+         #endif
+      #endif
+      #if spindle_support_P14 == 2 || spindle_support_P14 == 3 
+         #include "..\..\include\s_analog_p14.sym"
+      #endif
+      #if spindle_support_P14 == 4
+         #include "..\..\include\s_pmc_p14.sym"
+      #endif
+      #if spindle_support_P14 == 5
+         #include "..\..\include\s_sv_p14.sym"
+      #endif
+   #endif
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #if spindle_support_P15 > 0 && spindle_support_P01 > -1
+      #include "..\..\include\spictrl_p15.sym"
+      #if spindle_support_P15 == 1
+         #include "..\..\include\s_serial_p15.sym"
+         #if spindle_orientation_P15 > 0
+            #include "..\..\include\spiori_p15.sym"
+         #endif
+      #endif
+      #if spindle_support_P15 == 2 || spindle_support_P15 == 3 
+         #include "..\..\include\s_analog_p15.sym"
+      #endif
+      #if spindle_support_P15 == 4
+         #include "..\..\include\s_pmc_p15.sym"
+      #endif
+      #if spindle_support_P15 == 5
+         #include "..\..\include\s_sv_p15.sym"
+      #endif
+   #endif
+#endif
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9610.0 - E9611.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+SP_STP,E9610.0,spindles all path stopped,
+#if dcs_support == 1
+MCFPx_NOK,E9610.1,mcc spindles not ok,
+RSPs_NOK,E9610.2,rsp monitoring not ok,
+#endif
+
+// -------------------------------------------------------
+// local variables E9612.0 - E9619.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------

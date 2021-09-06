@@ -1,0 +1,492 @@
+//:--------------------------------------------------------------------------:
+//: File              : Hd_Inc__PATH__.src                                       :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Handwheel and incremental feed (path specific)       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:27.07.18: 2.0.0 :Blp    :HCLP signal independent of MPG                   :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: handle / inc mode active
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: handle / inc mode active
+*)
+#endif
+
+                 RD        M_INC__PATH__        ;"memory mode inc"
+#if handwheel_support > 0
+                 OR        M_HD__PATH__         ;"memory mode handle"
+#endif
+                 WRT       mhdinc__PATH__       ;"memory handle/inc mode"
+
+// ---------------------------------------------------------------------------
+// _PATH__: maximum manual handle feedrate switch signal
+// parameter N01434
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: maximum manual handle feedrate switch signal
+parameter N01434
+*)
+#endif
+                 RD        SETUP__PATH__        ;"set-up active"
+                 WRT       HCLP__PATH__         ;"pulse gen. max. feed sel."
+
+#if handwheel_support > 0
+// ---------------------------------------------------------------------------
+// _PATH__: axis selection request
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis selection request
+*)
+   #endif
+// -----------------------------------------------
+// 1st axis
+// -----------------------------------------------
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K1AX__PATH__       ;"memory 1st axis selected"
+                 WRT       hd1sel__PATH__       ;"handwheel 1st axis sel."
+// -----------------------------------------------
+// 2nd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 1
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K2AX__PATH__       ;"memory 2nd axis selected"
+                 WRT       hd2sel__PATH__       ;"handwheel 2nd axis sel."
+   #endif
+// -----------------------------------------------
+// 3rd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 2
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K3AX__PATH__       ;"memory 3rd axis selected"
+                 WRT       hd3sel__PATH__       ;"handwheel 3rd axis sel."
+   #endif
+// -----------------------------------------------
+// 4th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 3
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K4AX__PATH__       ;"memory 4th axis selected"
+                 WRT       hd4sel__PATH__       ;"handwheel 4th axis sel."
+   #endif
+// -----------------------------------------------
+// 4th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 4
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K5AX__PATH__       ;"memory 5th axis selected"
+                 WRT       hd5sel__PATH__       ;"handwheel 5th axis sel."
+   #endif
+// -----------------------------------------------
+// 6th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 5
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K6AX__PATH__       ;"memory 6th axis selected"
+                 WRT       hd6sel__PATH__       ;"handwheel 6th axis sel."
+   #endif
+// -----------------------------------------------
+// 7th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 6
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K7AX__PATH__       ;"memory 7th axis selected"
+                 WRT       hd7sel__PATH__       ;"handwheel 7th axis sel."
+   #endif
+// -----------------------------------------------
+// 8th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 7
+                 RD        M_HD__PATH__         ;"memory mode handle"
+                 AND       M_K8AX__PATH__       ;"memory 8th axis selected"
+                 WRT       hd8sel__PATH__       ;"handwheel 8th axis sel."
+   #endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: axis selection memorisation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis selection memorisation relay
+*)
+   #endif
+// -----------------------------------------------
+// 1st axis
+// -----------------------------------------------
+                 RD        hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 OR        MHD1__PATH__         ;"memory handwheel 1st axis"
+   #if axis_number__PATH__ > 1
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+   #endif
+   #if axis_number__PATH__ > 2
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+   #endif
+   #if axis_number__PATH__ > 3
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+   #endif
+   #if axis_number__PATH__ > 4
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+   #endif
+   #if axis_number__PATH__ > 5
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+   #endif
+   #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+   #endif
+   #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+   #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD1__PATH__         ;"memory handwheel 1st axis"
+
+// -----------------------------------------------
+// 2nd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 1
+                 RD        hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 OR        MHD2__PATH__         ;"memory handwheel 2nd axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+      #if axis_number__PATH__ > 2
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+      #endif
+      #if axis_number__PATH__ > 3
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+      #endif
+      #if axis_number__PATH__ > 4
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+      #endif
+      #if axis_number__PATH__ > 5
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+      #endif
+      #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD2__PATH__         ;"memory handwheel 2nd axis"
+   #endif
+// -----------------------------------------------
+// 3rd axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 2
+                 RD        hd3sel__PATH__       ;"handwheel 3rd axis sel."
+                 OR        MHD3__PATH__         ;"memory handwheel 3rd axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+      #if axis_number__PATH__ > 3
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+      #endif
+      #if axis_number__PATH__ > 4
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+      #endif
+      #if axis_number__PATH__ > 5
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+      #endif
+      #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD3__PATH__         ;"memory handwheel 3rd axis"
+   #endif
+// -----------------------------------------------
+// 4th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 3
+                 RD        hd4sel__PATH__       ;"handwheel 4th axis sel."
+                 OR        MHD4__PATH__         ;"memory handwheel 4th axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+      #if axis_number__PATH__ > 4
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+      #endif
+      #if axis_number__PATH__ > 5
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+      #endif
+      #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD4__PATH__         ;"memory handwheel 4th axis"
+   #endif
+// -----------------------------------------------
+// 4th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 4
+                 RD        hd5sel__PATH__       ;"handwheel 5th axis sel."
+                 OR        MHD5__PATH__         ;"memory handwheel 5th axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+      #if axis_number__PATH__ > 5
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+      #endif
+      #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD5__PATH__         ;"memory handwheel 5th axis"
+   #endif
+// -----------------------------------------------
+// 6th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 5
+                 RD        hd6sel__PATH__       ;"handwheel 6th axis sel."
+                 OR        MHD6__PATH__         ;"memory handwheel 6th axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+      #if axis_number__PATH__ > 6
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD6__PATH__         ;"memory handwheel 6th axis"
+   #endif
+// -----------------------------------------------
+// 7th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 6
+                 RD        hd7sel__PATH__       ;"handwheel 7th axis sel."
+                 OR        MHD7__PATH__         ;"memory handwheel 7th axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+      #if axis_number__PATH__ > 7
+                 AND.NOT   hd8sel__PATH__       ;"handwheel 8th axis sel."
+      #endif
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD7__PATH__         ;"memory handwheel 7th axis"
+   #endif
+// -----------------------------------------------
+// 8th axis
+// -----------------------------------------------
+   #if axis_number__PATH__ > 7
+                 RD        hd8sel__PATH__       ;"handwheel 8th axis sel."
+                 OR        MHD8__PATH__         ;"memory handwheel 8th axis"
+                 AND.NOT   hd1sel__PATH__       ;"handwheel 1st axis sel."
+                 AND.NOT   hd2sel__PATH__       ;"handwheel 2nd axis sel."
+                 AND.NOT   hd3sel__PATH__       ;"handwheel 3rd axis sel."
+                 AND.NOT   hd4sel__PATH__       ;"handwheel 4th axis sel."
+                 AND.NOT   hd5sel__PATH__       ;"handwheel 5th axis sel."
+                 AND.NOT   hd6sel__PATH__       ;"handwheel 6th axis sel."
+                 AND.NOT   hd7sel__PATH__       ;"handwheel 7th axis sel."
+                 AND       M_HD__PATH__         ;"memory mode handle"
+                 WRT       MHD8__PATH__         ;"memory handwheel 8th axis"
+   #endif
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: axis selection coding for handwheel
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: axis selection coding for handwheel
+*)
+   #endif
+                 RD        MHD1__PATH__         ;"memory handwheel 1st axis"
+   #if axis_number__PATH__ > 2
+                 OR        MHD3__PATH__         ;"memory handwheel 3rd axis"
+   #endif
+   #if axis_number__PATH__ > 4
+                 OR        MHD5__PATH__         ;"memory handwheel 5th axis"
+   #endif
+   #if axis_number__PATH__ > 6
+                 OR        MHD7__PATH__         ;"memory handwheel 7th axis"
+   #endif
+   #if axis_number__PATH__ > 1
+                 AND.NOT   MHD2__PATH__         ;"memory handwheel 2nd axis"
+   #endif
+   #if axis_number__PATH__ > 3
+                 AND.NOT   MHD4__PATH__         ;"memory handwheel 4th axis"
+   #endif
+   #if axis_number__PATH__ > 5
+                 AND.NOT   MHD6__PATH__         ;"memory handwheel 6th axis"
+   #endif
+   #if axis_number__PATH__ > 7
+                 AND.NOT   MHD8__PATH__         ;"memory handwheel 8th axis"
+   #endif
+                 AND       PATH__PATH__         ;"path selected"
+                 WRT       HS1A__PATH__         ;"handwheel sel. signal 1"
+
+   #if axis_number__PATH__ > 1
+                 RD        MHD2__PATH__         ;"memory handwheel 2nd axis"
+      #if axis_number__PATH__ > 2
+                 OR        MHD3__PATH__         ;"memory handwheel 3rd axis"
+      #endif
+      #if axis_number__PATH__ > 5
+                 OR        MHD6__PATH__         ;"memory handwheel 6th axis"
+      #endif
+      #if axis_number__PATH__ > 6
+                 OR        MHD7__PATH__         ;"memory handwheel 7th axis"
+      #endif
+                 AND.NOT   MHD1__PATH__         ;"memory handwheel 1st axis"
+      #if axis_number__PATH__ > 3
+                 AND.NOT   MHD4__PATH__         ;"memory handwheel 4th axis"
+      #endif
+      #if axis_number__PATH__ > 4
+                 AND.NOT   MHD5__PATH__         ;"memory handwheel 5th axis"
+      #endif
+      #if axis_number__PATH__ > 7
+                 AND.NOT   MHD8__PATH__         ;"memory handwheel 8th axis"
+      #endif
+                 AND       PATH__PATH__         ;"path selected"
+                 WRT       HS1B__PATH__         ;"handwheel sel. signal 2"
+   #endif
+   #if axis_number__PATH__ > 3
+                 RD        MHD4__PATH__         ;"memory handwheel 4th axis"
+      #if axis_number__PATH__ > 4
+                 OR        MHD5__PATH__         ;"memory handwheel 5th axis"
+      #endif
+      #if axis_number__PATH__ > 5
+                 OR        MHD6__PATH__         ;"memory handwheel 6th axis"
+      #endif
+      #if axis_number__PATH__ > 6
+                 OR        MHD7__PATH__         ;"memory handwheel 7th axis"
+      #endif
+                 AND.NOT   MHD1__PATH__         ;"memory handwheel 1st axis"
+                 AND.NOT   MHD2__PATH__         ;"memory handwheel 2nd axis"
+                 AND.NOT   MHD3__PATH__         ;"memory handwheel 3rd axis"
+      #if axis_number__PATH__ > 7
+                 AND.NOT   MHD8__PATH__         ;"memory handwheel 8th axis"
+      #endif
+                 AND       PATH__PATH__         ;"path selected"
+                 WRT       HS1C__PATH__         ;"handwheel sel. signal 3"
+   #endif
+
+   #if axis_number__PATH__ > 7
+                 RD        MHD8__PATH__         ;"memory handwheel 8th axis"
+                 AND.NOT   MHD1__PATH__         ;"memory handwheel 1st axis"
+                 AND.NOT   MHD2__PATH__         ;"memory handwheel 2nd axis"
+                 AND.NOT   MHD3__PATH__         ;"memory handwheel 3rd axis"
+                 AND.NOT   MHD4__PATH__         ;"memory handwheel 4th axis"
+                 AND.NOT   MHD5__PATH__         ;"memory handwheel 5th axis"
+                 AND.NOT   MHD6__PATH__         ;"memory handwheel 6th axis"
+                 AND.NOT   MHD7__PATH__         ;"memory handwheel 7th axis"
+                 AND       PATH__PATH__         ;"path selected"
+                 WRT       HS1D__PATH__         ;"handwheel sel. signal 3"
+   #endif
+
+
+#endif   // handwheel_support
+
+// ---------------------------------------------------------------------------
+// _PATH__: incremental feed selection
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: incremental feed selection
+*)
+#endif
+                 RD        K_X1__PATH__         ;"key 1 increment"
+                 AND.NOT   K_X10__PATH__        ;"key 10 increment"
+                 AND.NOT   K_X100__PATH__       ;"key 100 increment"
+                 AND.NOT   K_X1000__PATH__      ;"key 1000 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 RD.STK.NOT X_10__PATH__        ;"memory 10 increment"
+                 AND.NOT   X_100__PATH__        ;"memory 100 increment"
+                 AND.NOT   X_1000__PATH__       ;"memory 1000 increment"
+                 OR.STK
+                 WRT       X_1__PATH__          ;"memory 1 increment"
+
+                 RD        X_1__PATH__          ;"memory 1 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 WRT       L_X1__PATH__         ;"led 1 increment"
+
+                 RD        K_X10__PATH__        ;"key 10 increment"
+                 AND.NOT   K_X1__PATH__         ;"key 1 increment"
+                 AND.NOT   K_X100__PATH__       ;"key 100 increment"
+                 AND.NOT   K_X1000__PATH__      ;"key 1000 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 RD.STK    X_10__PATH__         ;"memory 10 increment"
+                 AND.NOT   X_1__PATH__          ;"memory 1 increment"
+                 AND.NOT   X_100__PATH__        ;"memory 100 increment"
+                 AND.NOT   X_1000__PATH__       ;"memory 1000 increment"
+                 OR.STK
+                 WRT       X_10__PATH__         ;"memory 10 increment"
+
+                 RD        X_10__PATH__         ;"memory 10 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 WRT       L_X10__PATH__        ;"led 10 increment"
+
+                 RD        K_X100__PATH__       ;"key 100 increment"
+                 AND.NOT   K_X1__PATH__         ;"key 1 increment"
+                 AND.NOT   K_X10__PATH__        ;"key 10 increment"
+                 AND.NOT   K_X1000__PATH__      ;"key 1000 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 RD.STK    X_100__PATH__        ;"memory 100 increment"
+                 AND.NOT   X_1__PATH__          ;"memory 1 increment"
+                 AND.NOT   X_10__PATH__         ;"memory 10 increment"
+                 AND.NOT   X_1000__PATH__       ;"memory 1000 increment"
+                 OR.STK
+                 WRT       X_100__PATH__        ;"memory 100 increment"
+
+                 RD        X_100__PATH__        ;"memory 100 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 WRT       L_X100__PATH__       ;"led 100 increment"
+
+                 RD        K_X1000__PATH__      ;"key 1000 increment"
+                 AND.NOT   K_X1__PATH__         ;"key 1 increment"
+                 AND.NOT   K_X10__PATH__        ;"key 10 increment"
+                 AND.NOT   K_X100__PATH__       ;"key 100 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 RD.STK    X_1000__PATH__       ;"memory 1000 increment"
+                 AND.NOT   X_1__PATH__          ;"memory 1 increment"
+                 AND.NOT   X_10__PATH__         ;"memory 10 increment"
+                 AND.NOT   X_100__PATH__        ;"memory 100 increment"
+                 OR.STK
+                 WRT       X_1000__PATH__       ;"memory 1000 increment"
+
+                 RD        X_1000__PATH__       ;"memory 1000 increment"
+                 AND       mhdinc__PATH__       ;"memory handle/inc mode"
+                 WRT       L_X1000__PATH__      ;"led 1000 increment"
+
+                 RD        X_10__PATH__         ;"memory 10 increment"
+                 OR        X_1000__PATH__       ;"memory 1000 increment"
+                 WRT       MP1__PATH__          ;"increment feed1"
+
+                 RD        X_100__PATH__        ;"memory 100 increment"
+                 OR        X_1000__PATH__       ;"memory 1000 increment"
+                 WRT       MP2__PATH__          ;"increment feed2"
+

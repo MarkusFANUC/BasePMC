@@ -1,0 +1,149 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_55keys.sym                                        :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of inputs/outputs for operator's panel    :
+//:                   : with 55-keys                                         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:        :       :       :keys for one touch macro added                   :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// outputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+oF_L_A01,__LED_MODE_MEM,op55: led A01,
+oF_L_A02,__LED_MODE_EDIT,op55: led A02,
+oF_L_A03,__LED_MODE_MDI,op55: led A03,
+oF_L_A04,__LED_DNC_MODE,op55: led A04,
+
+oF_L_A05,__LED_MODE_REF,op55: led A05,
+oF_L_A06,__LED_MODE_JOG,op55: led A06,
+oF_L_A07,__LED_MODE_INC,op55: led A07,
+oF_L_A08,__LED_MODE_HANDLE,op55: led A08,
+
+oF_L_A09,__LED_7TH_AXIS,op55: led A09,
+oF_L_A10,__LED_8TH_AXIS,op55: led A10,
+oF_L_A11,__LED_A11,op55: led A11,
+#if start_address_op == 0
+oF_L_A12,__LED_KEY_PROTECT,op55: led A12,
+#endif
+
+oF_L_B01,__LED_SINGLE_BLOCK,op55: led B01,
+oF_L_B02,__LED_BLOCK_SKIP,op55: led B02,
+oF_L_B03,__LED_OPT_STOP,op55: led B03,
+oF_L_B04,__LED_TEACH,op55: led B04,
+
+oF_L_B05,__LED_FACTOR_X1,op55: led B05,
+oF_L_B06,__LED_FACTOR_X10,op55: led B06,
+oF_L_B07,__LED_FACTOR_X100,op55: led B07,
+oF_L_B08,__LED_FACTOR_X1000,op55: led B08,
+
+oF_L_B09,__LED_1ST_AXIS,op55: led B09,
+oF_L_B10,__LED_2ND_AXIS,op55: led B10,
+oF_L_B11,__LED_3RD_AXIS,op55: led B11,
+#if start_address_op == 0
+oF_L_B12,__LED_KEY_RST,op55: led B12,
+#endif
+
+oF_L_C01,__LED_RESTART,op55: led C01,
+oF_L_C02,__LED_PGM_TEST,op55: led C02,
+oF_L_C03,__LED_DRY_RUN,op55: led C03,
+oF_L_C04,__LED_C04,op55: led C04,
+
+#if otmc_support_P01 > -1
+oF_L_C05,__LED_MC1,op55: led C05,
+oF_L_C06,__LED_MC2,op55: led C06,
+oF_L_C07,__LED_MC3,op55: led C07,
+oF_L_C08,__LED_MC4,op55: led C08,
+#endif
+
+oF_L_C09,__LED_4TH_AXIS,op55: led C09,
+oF_L_C10,__LED_5TH_AXIS,op55: led C10,
+oF_L_C11,__LED_6TH_AXIS,op55: led C11,
+#if start_address_op == 0
+oF_L_C12,__LED_KEY_EMGSTOP,op55: led C12,
+#endif
+
+oF_L_D01,__LED_PATH_SYN,op55: led D01,
+oF_L_D02,__LED_PATH_PLUS,op55: led D02,
+oF_L_D03,__LED_PATH_MINUS,op55: led D03,
+oF_L_D04,__LED_D04,op55: led D04,
+
+oF_L_D05,__LED_D05,op55: led D05,
+oF_L_D06,__LED_D06,op55: led D06,
+oF_L_D07,__LED_D07,op55: led D07,
+oF_L_D08,__LED_D08,op55: led D08,
+
+oF_L_D09,__LED_AXIS_PLUS,op55: led D09,
+oF_L_D10,__LED_RAPID_TRAVERSE,op55: led D10,
+oF_L_D11,__LED_AXIS_MINUS,op55: led D11,
+
+#if operatorspanel == 0 || soft_op_panel == 1
+oF_L_D12,__LED_SOPACT,op55: led D12,
+#endif
+
+oF_L_E01,__LED_CYCLE_STOP,op55: led E01,
+oF_L_E02,__LED_CYCLE_START,op55: led E02,
+oF_L_E03,__LED_PGM_STOP,op55: led E03,
+#if dcs_support == 1
+oF_L_E04,__LED_DOOR,op55: led E04,
+#endif
+
+#if coolant_support_P01 > -1
+oF_L_E05,__LED_COOLANT,op55: led E05,
+#endif
+oF_L_E06,__LED_E06,op55: led E06,
+oF_L_E07,__LED_E07,op55: led E07,
+oF_L_E08,__LED_E08,op55: led E08,
+
+#if spindle_support_P01 > -1
+oF_L_E09,__LED_SPINDLE_CW,op55: led E09,
+oF_L_E10,__LED_SPINDLE_STOP,op55: led E10,
+oF_L_E11,__LED_SPINDEL_CCW,op55: led E11,
+#endif
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9790.0 - E9791.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables E9792.0 - E9799.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------

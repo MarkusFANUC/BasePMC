@@ -1,0 +1,95 @@
+//:--------------------------------------------------------------------------:
+//: File              : mmi_in__PATH__.src                                       :
+//: Creation date     : 29.11.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : GE Fanuc Switzerland / Peter Bloesch                 :
+//: Description       : _PATH__: Inputs man-machine-interface                    :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__:initialization of key map area
+// ---------------------------------------------------------------------------
+
+#if net_comment == 1
+(*
+_PATH__:initialization of key map area
+*)
+#endif
+#if soft_op_panel == 1 || operatorspanel == 0
+                 RD.NOT    SOP_RUN          ;"software op-panel active"
+#else
+                 RD        LOG1             ;"logic 1"
+#endif
+                 NUMEB
+                           44
+                           0
+                           OPMAP__PATH__    ;"op map start address"
+
+// ---------------------------------------------------------------------------
+// _PATH__:copying key map area
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__:copying key map area
+*)
+#endif
+                 RD        PATH__PATH__     ;"path _PATH__ selected"
+#if soft_op_panel == 1 || operatorspanel == 0
+                 AND.NOT   SOP_RUN          ;"software op-panel active"
+#endif
+                 MOVN
+                           16
+                           OPMAP            ;"master key map"
+                           OPMAP__PATH__    ;"op map start address"
+
+// ---------------------------------------------------------------------------
+// _PATH__:copying feed override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__:copying feed override
+*)
+#endif
+                 RD        PATH__PATH__     ;"path _PATH__ selected"
+   #if nbr_of_path > 1
+                 OR        PATHSYN          ;"path synchronization signal"
+   #endif
+                 MOVW
+                           FOVRS            ;"feed override in %"
+                           FOVRS__PATH__    ;"feed override in %"
+
+#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// _PATH__:copying spindle override
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__:copying spindle override
+*)
+   #endif
+                 RD        PATH__PATH__     ;"path _PATH__ selected"
+   #if nbr_of_path > 1
+                 OR        PATHSYN          ;"path synchronization signal"
+   #endif
+                 MOVW
+                           SOVRS            ;"spindle override in %"
+                           SOVRS__PATH__    ;"feed override in %"
+#endif

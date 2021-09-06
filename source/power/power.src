@@ -1,0 +1,1057 @@
+//:--------------------------------------------------------------------------:
+//: File              : power.src                                            :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Power management of the drives                       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:20.10.17: 2.0.0 :Blp    :path 11-15 added                                 :
+//:        :       :       :Behaviour of hold to run button improved         :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// feedback main contactor
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+feedback main contactor
+*)
+   #endif
+   #if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        i*SMC                ;"MCC state (1:off)"
+   #endif
+                 WRT       *SMC                 ;"MCC contact state(group)"
+
+// ---------------------------------------------------------------------------
+// door state signals
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+door state signals
+this signal will be DCS I/O cross checked
+*)
+   #endif
+   #if demo_control == 1
+                 RD        LOG1                 ;"logic one"
+   #else
+                 RD        i*SGOPN              ;"input guard state (1: closed)"
+   #endif
+                 WRT       *SGOPN               ;"guard state doors closed"
+
+// ---------------------------------------------------------------------------
+// hold to run button
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+hold to run button
+this signal will be DCS I/O cross checked
+*)
+   #endif
+   #if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+                 WRT       HTR                  ;"hold to run button"
+   #else
+                 RD        iHTR                 ;"hold to run button"
+                 AND.NOT   TPMG01               ;"interface to DCS bit01"
+                 WRT       re_ihtr              ;"re htr input"
+
+                 RD        iHTR                 ;"hold to run button"
+                 WRT       TPMG01               ;"interface to DCS bit01"
+
+                 RD        re_ihtr              ;"re htr input"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 SET       mem_htr              ;"memory re htr"
+
+                 RD        iHTR                 ;"hold to run button"
+                 AND       TDCF01               ;"interface from DCS bit01"
+                 AND       mem_htr              ;"memory re htr"
+                 WRT       HTR                  ;"hold to run button"
+                 RD.NOT    HTR                  ;"hold to run button"
+                 AND       m_htr                ;"memory htr"
+                 WRT       fe_htr               ;"fe hold to run"
+
+                 RD        HTR                  ;"hold to run button"
+                 WRT       m_htr                ;"memory htr"
+
+                 RD        fe_htr               ;"fe hold to run"
+                 OR        *SGOPN               ;"guard state doors closed"
+                 OR.NOT    TPMG01               ;"interface to DCS bit01"
+                 OR        EMG_STP              ;"emergency stop signal"
+                 RST       mem_htr              ;"memory re htr"
+   #endif
+
+// ---------------------------------------------------------------------------
+// setup mode selection
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+setup mode selection
+this signal will be DCS I/O cross checked
+*)
+   #endif
+   #if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD        iSET01               ;"setup switch pos 01"
+   #endif
+                 WRT       SET_M01              ;"setup mode 01"
+
+   #if mcc_test == 1
+// ---------------------------------------------------------------------------
+// DCS MCC off test
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+DCS MCC off test
+*)
+      #endif
+                 RD.NOT    POW_OK               ;"power supply axis ok"
+                 OR        OP                   ;"automatic operation lamp"
+                 OR.NOT    *SGOPN               ;"guard state doors closed"
+                 OR.NOT    ORQ                  ;"guard open request(group)"
+                 OR        AL                   ;"alarm signal"
+      #if brake_test == 1
+                 OR        RQBT                 ;"brake test request(group)"
+                 OR        BRK_TEST             ;"brake test active"
+      #endif
+                 WRT       dis_mcct             ;"disable mcc test"
+
+                 RD        RQT                  ;"MCC off test request(group)"
+                 AND.NOT   dis_mcct             ;"disable mcc test"
+      #if demo_control == 1
+                 AND.NOT   LOG1                 ;"logic one"
+      #endif
+                 SET       MCC_TEST             ;"mcc test running"
+
+                 RD        MCC_TEST             ;"mcc test running"
+      #if spindle_support_P01 > -1
+                 AND       SP_STP               ;"spindle stopped"
+      #endif
+                 AND.NOT   SER_ON               ;"servo on"
+                 SET       OPT                  ;"test mode signal(group)"
+
+                 RD        RQT                  ;"MCC off test request(group)"
+                 DIFD      
+                           0
+                 RST       OPT                  ;"test mode signal(group)"
+                 RST       MCC_TEST             ;"mcc test running"
+
+                 RD        EMG_STP              ;"emergency stop active"
+                 AND       MCC_TEST             ;"mcc test running"
+                 RST       MCC_TEST             ;"mcc test running"
+   #endif
+
+// ---------------------------------------------------------------------------
+// conditions for MCC on
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+conditions for MCC on
+*)
+   #endif
+                 RD.NOT    EMG_STP              ;"emergency stop active"
+                 AND       *SGOPN               ;"guard state doors closed"
+                 OR        oMCC_ON              ;"output mcc"
+                 RD.STK    *DCALM               ;"MCC off signal(system)"
+                 AND       *MCF                 ;"MCC off signal(group)"
+                 AND.NOT   MCFVx_NOK            ;"mcf axes not ok"
+   #if spindle_support_P01 > -1
+                 AND.NOT   MCFPx_NOK            ;"mcc spindles not ok"
+   #endif
+                 OR.NOT    DCS_ACT              ;"dual check safety active"
+                 AND.STK   
+                 WRT       mcc_on               ;"enable mcc on"
+
+// ---------------------------------------------------------------------------
+// Delayed switch off of MCC at open Door in order to avoid dynamic brake
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+Delayed switch off of MCC at open Door in order
+to avoid dynamic brake
+*)
+   #endif
+                 RD        mcc_on               ;"enable mcc on"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 TMRBF     
+                           0
+                           200
+                 WRT       mcon_dop             ;"mcc on doors open"
+
+// ---------------------------------------------------------------------------
+// Delayed switch off of MCC at closed Door in order to avoid dynamic brake
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+Delayed switch off of MCC at closed Door in order
+to avoid dynamic brake
+*)
+   #endif
+                 RD        mcc_on               ;"enable mcc on"
+                 AND       *SGOPN               ;"guard state doors closed"
+                 TMRBF     
+                           0
+                           400
+                 WRT       mcon_dcl             ;"mcc on doors closed"
+
+                 RD        mcon_dop             ;"mcc on doors open"
+                 OR        mcon_dcl             ;"mcc on doors closed"
+                 WRT       oMCC_ON              ;"output mcc"
+#endif
+
+// ---------------------------------------------------------------------------
+// charging DC link
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+charging DC link
+*)
+#endif
+                 RD.NOT    EMG_STP              ;"emergency stop active"
+#if dcs_support == 1
+                 AND       oMCC_ON              ;"output mcc"
+                 AND.NOT   *SMC                 ;"MCC contact state(group)"
+#endif
+                 TMRB
+                           0
+                           1500
+                 WRT.NOT   IGNVRY_P01           ;"P01:ignore servo ready"
+
+#if nbr_of_path > 1
+                 RD        IGNVRY_P01           ;"P01:ignore servo ready"
+                 WRT       IGNVRY_P02           ;"P02:ignore servo ready"
+#endif
+#if nbr_of_path > 2
+                 WRT       IGNVRY_P03           ;"P03:ignore servo ready"
+#endif
+#if nbr_of_path > 3
+                 WRT       IGNVRY_P04           ;"P04:ignore servo ready"
+#endif
+#if nbr_of_path > 4
+                 WRT       IGNVRY_P05           ;"P05:ignore servo ready"
+#endif
+#if nbr_of_path > 5
+                 WRT       IGNVRY_P06           ;"P06:ignore servo ready"
+#endif
+#if nbr_of_path > 6
+                 WRT       IGNVRY_P07           ;"P07:ignore servo ready"
+#endif
+#if nbr_of_path > 7
+                 WRT       IGNVRY_P08           ;"P08:ignore servo ready"
+#endif
+#if nbr_of_path > 8
+                 WRT       IGNVRY_P09           ;"P09:ignore servo ready"
+#endif
+#if nbr_of_path > 9
+                 WRT       IGNVRY_P10           ;"P10:ignore servo ready"
+#endif
+#if nbr_of_path > 10
+                 WRT       IGNVRY_P11           ;"P11:ignore servo ready"
+#endif
+#if nbr_of_path > 11
+                 WRT       IGNVRY_P12           ;"P12:ignore servo ready"
+#endif
+#if nbr_of_path > 12
+                 WRT       IGNVRY_P13           ;"P13:ignore servo ready"
+#endif
+#if nbr_of_path > 13
+                 WRT       IGNVRY_P14           ;"P14:ignore servo ready"
+#endif
+#if nbr_of_path > 14
+                 WRT       IGNVRY_P15           ;"P15:ignore servo ready"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P01 (power ok == drives path P01 ready)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+P01: global variable POW_OK_P01 (power ok == drives path P01 ready)
+*)
+#endif
+                 RD.NOT    IGNVRY_P01           ;"P01:ignore servo ready"
+                 AND       MA_P01               ;"P01:cnc ready signal"
+                 AND       SA_P01               ;"P01:servo ready signal"
+#if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+   #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+   #endif
+#endif
+                 WRT       POW_OK_P01           ;"P01:power suply axis ok"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P02 (power ok == drives path P02 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02: global variable POW_OK_P02 (power ok == drives path P02 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P02           ;"P02:ignore servo ready"
+                 AND       MA_P02               ;"P02:cnc ready signal"
+                 AND       SA_P02               ;"P02:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P02           ;"P02:power suply axis ok"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P03 (power ok == drives path P03 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03: global variable POW_OK_P03 (power ok == drives path P03 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P03           ;"P03:ignore servo ready"
+                 AND       MA_P03               ;"P03:cnc ready signal"
+                 AND       SA_P03               ;"P03:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P03           ;"P03:power suply axis ok"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P04 (power ok == drives path P04 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04: global variable POW_OK_P04 (power ok == drives path P04 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P04           ;"P04:ignore servo ready"
+                 AND       MA_P04               ;"P04:cnc ready signal"
+                 AND       SA_P04               ;"P04:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P04           ;"P04:power suply axis ok"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P05 (power ok == drives path P05 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05: global variable POW_OK_P05 (power ok == drives path P05 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P05           ;"P05:ignore servo ready"
+                 AND       MA_P05               ;"P05:cnc ready signal"
+                 AND       SA_P05               ;"P05:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P05           ;"P05:power suply axis ok"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P06 (power ok == drives path P06 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06: global variable POW_OK_P06 (power ok == drives path P06 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P06           ;"P06:ignore servo ready"
+                 AND       MA_P06               ;"P06:cnc ready signal"
+                 AND       SA_P06               ;"P06:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P06           ;"P06:power suply axis ok"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P07 (power ok == drives path P07 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07: global variable POW_OK_P07 (power ok == drives path P07 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P07           ;"P07:ignore servo ready"
+                 AND       MA_P07               ;"P07:cnc ready signal"
+                 AND       SA_P07               ;"P07:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P07           ;"P07:power suply axis ok"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P08 (power ok == drives path P08 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08: global variable POW_OK_P08 (power ok == drives path P08 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P08           ;"P08:ignore servo ready"
+                 AND       MA_P08               ;"P08:cnc ready signal"
+                 AND       SA_P08               ;"P08:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P08           ;"P08:power suply axis ok"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P09 (power ok == drives path P09 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09: global variable POW_OK_P09 (power ok == drives path P09 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P09           ;"P09:ignore servo ready"
+                 AND       MA_P09               ;"P09:cnc ready signal"
+                 AND       SA_P09               ;"P09:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P09           ;"P09:power suply axis ok"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P10 (power ok == drives path P10 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10: global variable POW_OK_P10 (power ok == drives path P10 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P10           ;"P10:ignore servo ready"
+                 AND       MA_P10               ;"P10:cnc ready signal"
+                 AND       SA_P10               ;"P10:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P10           ;"P10:power suply axis ok"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P11 (power ok == drives path P11 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11: global variable POW_OK_P11 (power ok == drives path P11 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P11           ;"P11:ignore servo ready"
+                 AND       MA_P11               ;"P11:cnc ready signal"
+                 AND       SA_P11               ;"P11:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P11           ;"P11:power suply axis ok"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P12 (power ok == drives path P12 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12: global variable POW_OK_P12 (power ok == drives path P12 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P12           ;"P12:ignore servo ready"
+                 AND       MA_P12               ;"P12:cnc ready signal"
+                 AND       SA_P12               ;"P12:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P12           ;"P12:power suply axis ok"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P13 (power ok == drives path P13 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13: global variable POW_OK_P13 (power ok == drives path P13 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P13           ;"P13:ignore servo ready"
+                 AND       MA_P13               ;"P13:cnc ready signal"
+                 AND       SA_P13               ;"P13:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P13           ;"P13:power suply axis ok"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P14 (power ok == drives path P14 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14: global variable POW_OK_P14 (power ok == drives path P14 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P14           ;"P14:ignore servo ready"
+                 AND       MA_P14               ;"P14:cnc ready signal"
+                 AND       SA_P14               ;"P14:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P14           ;"P14:power suply axis ok"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// global variable POW_OK_P15 (power ok == drives path P15 ready)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15: global variable POW_OK_P15 (power ok == drives path P15 ready)
+*)
+   #endif
+                 RD.NOT    IGNVRY_P15           ;"P15:ignore servo ready"
+                 AND       MA_P15               ;"P15:cnc ready signal"
+                 AND       SA_P15               ;"P15:servo ready signal"
+   #if dcs_support == 1
+                 AND       mcc_on               ;"enable mcc on"
+      #if mcc_test == 1
+                 AND.NOT   MCC_TEST             ;"mcc test running"
+      #endif
+   #endif
+                 WRT       POW_OK_P15           ;"P15:power suply axis ok"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable POW_OK (power ok == all drives ready)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable POW_OK (power ok == all drives ready)
+*)
+#endif
+                 RD.NOT    POW_OK_P01           ;"P01:power suply axis ok"
+#if nbr_of_path > 1
+                 OR.NOT    POW_OK_P02           ;"P02:power suply axis ok"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    POW_OK_P03           ;"P03:power suply axis ok"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    POW_OK_P04           ;"P04:power suply axis ok"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    POW_OK_P05           ;"P05:power suply axis ok"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    POW_OK_P06           ;"P06:power suply axis ok"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    POW_OK_P07           ;"P07:power suply axis ok"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    POW_OK_P08           ;"P08:power suply axis ok"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    POW_OK_P09           ;"P09:power suply axis ok"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    POW_OK_P10           ;"P10:power suply axis ok"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    POW_OK_P11           ;"P11:power suply axis ok"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    POW_OK_P12           ;"P12:power suply axis ok"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    POW_OK_P13           ;"P13:power suply axis ok"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    POW_OK_P14           ;"P14:power suply axis ok"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    POW_OK_P15           ;"P15:power suply axis ok"
+#endif
+                 WRT.NOT   POW_OK               ;"power suply axis ok"
+
+// ---------------------------------------------------------------------------
+// global variable P_ON_I (impulse power on)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable P_ON_I (impulse power on)
+*)
+#endif
+                 RD        POW_OK               ;"power suply axis ok"
+                 AND.NOT   mpowok               ;"memory power ok"
+                 WRT       P_ON_I               ;"power on impulse"
+                 RD        POW_OK               ;"power suply axis ok"
+                 WRT       mpowok               ;"memory power ok"
+
+// ---------------------------------------------------------------------------
+// global variable P_ON_1ST (1st power on impulse)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable P_ON_1ST (1st power on impulse)
+*)
+#endif
+                 RD        P_ON_I               ;"power on impulse"
+                 SET       P_ON_1ST             ;"1st power on impulse"
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// door management
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+door management
+*)
+   #endif
+                 RD        RSVx_NOK             ;"rsv monitoring not ok"
+   #if spindle_support_P01 > -1
+                 OR        RSPs_NOK             ;"rsp monitoring not ok"
+   #endif
+   #if mcc_test == 1
+                 OR        RQT                  ;"MCC off test request(group)"
+                 OR        MCC_TEST             ;"mcc test running"
+   #endif
+   #if brake_test == 1
+                 OR        RQBT                 ;"brake test request(group)"
+                 OR        BRK_TEST             ;"brake test active"
+
+   #endif
+   #if spindle_support_P01 > -1
+                 OR.NOT    SP_STP               ;"spindle stopped"
+   #endif
+                 RD.STK    POSEx_NOK            ;"posex all path not ok"
+                 AND       DCS_ACT              ;"dual check safety active"
+                 OR.STK    
+   #if demo_control == 1
+                 AND.NOT    LOG1                ;"logic one"
+   #endif
+                 WRT       dis_do               ;"disable open door"
+
+                 RD.NOT    dis_do               ;"disable open door"
+   #if mcc_test == 1 && brake_test == 0
+                 OR        RQT                  ;"MCC off test request(group)"
+   #endif
+   #if mcc_test == 1 && brake_test == 1
+                 RD.STK    RQT                  ;"MCC off test request(group)"
+                 AND.NOT   RQBT                 ;"brake test request(group)"
+                 OR.STK    
+   #endif
+   #if brake_test == 1
+                 RD.STK    RQBT                 ;"brake test request(group)"
+                 AND       M_JOG                ;"mode jog selected"
+                 OR.STK    
+   #endif
+                 RD.STK    EMG_STP              ;"emergency stop active"
+   #if spindle_support_P01 > -1
+                 AND       SP_STP               ;"spindle stopped"
+   #endif
+                 AND.NOT   SER_ON               ;"servo on"
+                 OR.STK    
+                 AND       K_DOOR               ;"key unlock prot. door"
+                 WRT       T_BIT000             ;"temporary bit 000"
+
+                 RD        T_BIT000             ;"temporary bit 000"
+   #if mcc_test == 1
+                 OR        MCC_TEST             ;"mcc test running"
+   #endif
+   #if brake_test == 1
+                 OR        BRK_TEST             ;"brake test active"
+   #endif
+                 TMRBF     
+                           0
+                           5000
+                 WRT       orq_do               ;"open request prot. door"
+
+                 RD        orq_do               ;"open request prot. door"
+                 TMRBF     
+                           0
+                           150
+                 WRT       ORQ                  ;"guard open request(group)"
+
+                 RD.NOT    POSEx_NOK            ;"posex all path not ok"
+                 AND       TDCF00               ;"interface from DCS bit00"
+                 AND       *OPIHB               ;"guard open inhibit(group)"
+                 OR.NOT    DCS_ACT              ;"dual check safety active"
+                 AND.NOT   dis_do               ;"disable open door"
+                 RD.STK    EMG_STP              ;"emergency stop active"
+   #if spindle_support_P01 > -1
+                 AND       SP_STP               ;"spindle stopped"
+   #endif
+                 AND.NOT   SER_ON               ;"servo on"
+                 OR.STK    
+                 AND       orq_do               ;"open request prot. door"
+                 WRT       oDOOR                ;"output unlock door"
+
+                 RD        oDOOR                ;"output unlock door"
+                 RD.STK    orq_do               ;"open request prot. door"
+                 AND       500MS                ;"500 ms"
+                 OR.STK    
+                 WRT       L_DOOR               ;"key unlock prot. door"
+
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable SETUP_P01 (setup mode active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+P01: global variable SETUP_P01 (setup mode active)
+*)
+#endif
+#if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+#endif
+                 WRT       SETUP_P01            ;"P01:set-up active"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02: global variable SETUP_P02 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02: global variable SETUP_P02 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P02            ;"P02:set-up active"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03: global variable SETUP_P03 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03: global variable SETUP_P03 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P03            ;"P03:set-up active"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04: global variable SETUP_P04 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04: global variable SETUP_P04 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P04            ;"P04:set-up active"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05: global variable SETUP_P05 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05: global variable SETUP_P05 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P05            ;"P05:set-up active"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06: global variable SETUP_P06 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06: global variable SETUP_P06 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P06            ;"P06:set-up active"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07: global variable SETUP_P07 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07: global variable SETUP_P07 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P07            ;"P07:set-up active"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08: global variable SETUP_P08 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08: global variable SETUP_P08 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P08            ;"P08:set-up active"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09: global variable SETUP_P09 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09: global variable SETUP_P09 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P09            ;"P09:set-up active"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10: global variable SETUP_P10 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10: global variable SETUP_P10 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P10            ;"P10:set-up active"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11: global variable SETUP_P11 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11: global variable SETUP_P11 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P11            ;"P11:set-up active"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12: global variable SETUP_P12 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12: global variable SETUP_P12 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P12            ;"P12:set-up active"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13: global variable SETUP_P13 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13: global variable SETUP_P13 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P13            ;"P13:set-up active"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14: global variable SETUP_P14 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14: global variable SETUP_P14 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P14            ;"P14:set-up active"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15: global variable SETUP_P15 (setup mode active)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15: global variable SETUP_P15 (setup mode active)
+*)
+   #endif
+   #if dcs_support == 0
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+   #endif
+                 WRT       SETUP_P15            ;"P15:set-up active"
+#endif
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// global variable SET_M01_EN (enable setup mode 01)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+global variable SET_M01_EN (enable setup mode 01)
+*)
+   #endif
+                 RD        SET_M01              ;"setup mode 01"
+                 AND       HTR                  ;"hold to run button"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SET_M01_EN           ;"enable setup mode 01"
+
+// ---------------------------------------------------------------------------
+// selection of DCS safety speed set
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+selection of DCS safety speed set
+set 1 (A0 B0): zero speed
+set 2 (A1 B0): limited speed
+*)
+   #endif
+                 RD        SET_M01_EN           ;"enable setup mode 01"
+                 WRT       saf_set2             ;"safety parameter set 2"
+
+                 SET       DCS_S02              ;"DCS speed set 2"
+                 RD.NOT    saf_set2             ;"safety parameter set 2"
+                 TMRB     
+                           0
+                           500
+                 RST       DCS_S02              ;"DCS speed set 2"
+
+#endif

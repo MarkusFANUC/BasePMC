@@ -1,0 +1,756 @@
+//:--------------------------------------------------------------------------:
+//: File              : s_pmc__PATH__.src                                        :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : PMC axis used as a spindle                           :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:24.07.18: 2.0.0 :Blp    :PMC axis control signals for path 11-15 added    :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: this module manages the xth servo axis as a spindle
+// (axis controlby pmc)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+   #if spindle_sv_axis__PATH__ == 1
+(*
+_PATH__: this module manages the 1st servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 2
+(*
+_PATH__: this module manages the 2nd servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 3
+(*
+_PATH__: this module manages the 3rd servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 4
+(*
+_PATH__: this module manages the 4th servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 5
+(*
+_PATH__: this module manages the 5th servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 6
+(*
+_PATH__: this module manages the 6th servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 7
+(*
+_PATH__: this module manages the 7th servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 8
+(*
+_PATH__: this module manages the 8th servo axis as a spindle
+(axis control by pmc).
+*)
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: moving the programmed spindle speed into the temporary variables
+// for further calculations
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: moving the programmed spindle speed into the temporary
+variables for further calculations
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVD
+                           S00-S31__PATH__      ;"spindle speed code"
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: comparison of programmed and maximal spindle speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: comparison of programmed and maximal spindle speed
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 LED
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                 WRT       pgspok__PATH__       ;"prog. spindle speed ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: if the programmed speed is to high, the speed will be clamped
+// to the maximal allowed speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: if the programmed speed is to high, the speed will be
+clamped to the maximal allowed speed
+*)
+#endif
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 MOVD
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 AND.NOT   M_1XXX__PATH__       ;"emergency message active"
+                 AND       POW_OK__PATH__       ;"power suply axis ok"
+                 WRT       SP_S_NOK__PATH__     ;"spindle speed not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: initialisation of temporary variables (4 bytes)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: initialisation of temporary variables (4 bytes)
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           4
+                           0
+                           TMP_B04              ;"temporary byte 04"
+
+// ---------------------------------------------------------------------------
+// _PATH__: multiplication of the spindle speed with the spindle override
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: multiplication of the spindle speed with the spindle
+override
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB
+                           SOV__PATH__          ;"spindle speed ovr signal"
+                           TMP_B04              ;"temporary byte 04"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           TMP_B04              ;"temporary byte 04"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emuspov__PATH__      ;"multipl. err spindle ovr."
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           100
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edispov__PATH__      ;"division err spindle ovr."
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// _PATH__: checking max. setup speed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: checking max. setup speed
+*)
+   #endif
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+                 GTD       
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SPSET__PATH__    ;"max spindle setup speed"
+                 WRT       sp_mset__PATH__      ;"max. spind. setup speed"
+
+                 RD        sp_mset__PATH__      ;"max. spind. setup speed"
+                 MOVD      
+                           MAX_SPSET__PATH__    ;"max spindle setup speed"
+                           TMP_B00              ;"temporary byte 00"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the gear ratio 
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the gear ratio
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           gr_mot__PATH__       ;"gear ratio motor"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           gr_spi__PATH__       ;"gear ratio spindle"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edisps__PATH__       ;"division err spindle speed"
+
+// ---------------------------------------------------------------------------
+// If motor speed is higher than max. allowed motor speed, the speed will 
+// be clamped to max. motor speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: If motor speed is higher than max. allowed motor speed,
+the speed will be clamped to max. motor speed
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 LED
+                           MAX_MOT__PATH__      ;"maximal motor speed"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       maxsdr__PATH__       ;"max. spindle speed reached"
+
+                 RD        maxsdr__PATH__       ;"max. spindle speed reached"
+                 MOVD
+                           MAX_MOT__PATH__      ;"maximal motor speed"
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable: SP_RUN (spindle turning)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable: SP_RUN (spindle turning)
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 WRT       SP_RUN__PATH__       ;"spindle is turning"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable SP_STP (spindle stopped)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable SP_STP (spindle stopped)
+*)
+#endif
+
+#if spindle_sv_axis__PATH__ == 1
+                 RD        INP1__PATH__         ;"1st axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 RD        INP2__PATH__         ;"2nd axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 RD        INP3__PATH__         ;"3rd axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 RD        INP4__PATH__         ;"4th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 RD        INP5__PATH__         ;"5th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 RD        INP6__PATH__         ;"6th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 RD        INP7__PATH__         ;"7th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 RD        INP8__PATH__         ;"8th axis in-pos. signal"
+#endif
+#if demo_control == 1
+                 OR        LOG1                 ;"logic one"
+#endif
+                 OR        SP_STP__PATH__       ;"spindle stopped"
+                 AND.NOT   SP_RUN__PATH__       ;"spindle is turning"
+#if spindle_sv_axis__PATH__ == 1
+                 AND.NOT   EAX1__PATH__         ;"1st axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND.NOT   EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND.NOT   EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND.NOT   EAX4__PATH__         ;"4th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND.NOT   EAX5__PATH__         ;"5th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND.NOT   EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND.NOT   EAX7__PATH__         ;"7th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND.NOT   EAX8__PATH__         ;"8th axis is pmc axis"
+#endif
+
+                 WRT       SP_STP__PATH__       ;"spindle stopped"
+
+// ---------------------------------------------------------------------------
+// _PATH__: impulse to restart the timer for the speed arrival signal
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: impulse to restart the timer for the speed arrival signal
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 AND       sp_neg__PATH__       ;"memory sp negative dir."
+                 RD.STK    SP_CCW__PATH__       ;"spindle start ccw"
+                 AND.NOT   sp_neg__PATH__       ;"memory sp negative dir."
+                 OR.STK
+                 OR        RE_SCH__PATH__       ;"rising edge speed change"
+                 WRT       sr_sar__PATH__       ;"restart timer for sp_sar"
+
+                 RD        SP_CCW__PATH__       ;"spindle start ccw"
+                 RD.STK    sp_neg__PATH__       ;"memory sp negative dir."
+                 AND.NOT   SP_CW__PATH__        ;"spindle start cw"
+                 OR.STK
+                 WRT       sp_neg__PATH__       ;"memory sp negative dir."
+
+// ---------------------------------------------------------------------------
+// _PATH__: reading the actual motor speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: reading the actual motor speed
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           2
+                           __ADDR__207
+                           sspeed__PATH__       ;"reading acutal motor speed"
+
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           2
+                           4
+                           dl_spsd__PATH__      ;"data length motor speed"
+
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           2
+                           11
+                           dn_spsd__PATH__      ;"data number motor speed"
+
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           2
+#if spindle_sv_axis__PATH__ == 1
+                           1
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                           2
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                           3
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                           4
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                           5
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                           6
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                           7
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                           8
+#endif
+                           ax_spsd__PATH__      ;"axis number motor speed"
+
+                 RD        LOG1                 ;"logic one"
+                 WINDR
+                           sspeed__PATH__       ;"reading acutal motor speed"
+                 WRT       e_spsp__PATH__       ;"reading motor speed exec"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the absolute value of the motor speed
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the absolute value of the actual motor speed
+*)
+#endif
+
+                 RD        LOG1                 ;"logic one"
+                 MOVD
+                           speed_s__PATH__      ;"actual motor speed"
+                           TMP_B04              ;"temporary byte 04"
+
+                 RD        LOG1                 ;"logic one"
+                 LTD       
+                           TMP_B04              ;"temporary byte 04"
+                           0
+                 WRT       sp_mindir__PATH__    ;"motor minus direction"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    sp_mindir__PATH__    ;"motor minus direction"
+                 MULB
+                           4
+                           TMP_B04              ;"temporary byte 04"
+                           -1
+                           TMP_B04              ;"temporary byte 04"
+                 WRT       emusps1__PATH__      ;"multipl. err spindle speed"
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: when the motor speed reaches 90% of the programmed speed, the 
+// timer for  the speed arrival signal will be activated
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: when the motor speed reaches 90% of the programmed speed,
+the timer for  the speed arrival signal will be activated
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 MULB
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           90
+                           TMP_B08              ;"temporary byte 08"
+                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
+
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 DIVB
+                           4
+                           TMP_B08              ;"temporary byte 08"
+                           100
+                           TMP_B08              ;"temporary byte 08"
+                 WRT       edisps__PATH__       ;"division err spindle speed"
+
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+                 GED       
+                           TMP_B04              ;"temporary byte 04"
+                           TMP_B08              ;"temporary byte 08"
+                 WRT       sp_ok__PATH__        ;"spindle speed reached"
+
+
+                 RD        sp_ok__PATH__        ;"spindle speed reached"
+#if demo_control == 1
+                 OR        LOG1                 ;"logic one"
+#endif
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   sr_sar__PATH__       ;"restart timer for sp_sar"
+                 TMRB
+                           0
+                           200
+                 WRT       SP_SAR__PATH__       ;"spindle speed arrival"
+
+// ---------------------------------------------------------------------------
+// _PATH__: pmc axis control: speed command 10hex
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: pmc axis control: speed command 10hex
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB
+                           1
+                           0
+                           s_pmc00__PATH__      ;"start addr. pmc axis ctrl"
+
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+                 NUMEB
+                           1
+                           16
+                           s_pmc01__PATH__      ;"ctrl cmd pmc axis control"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle start clockwise
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle start clockwise
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 MOVW
+                           TMP_B00              ;"temporary byte 00"
+                           s_pmc02__PATH__      ;"sv motor speed"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle start counterclockwise
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle start counterclockwise
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    SP_CCW__PATH__       ;"spindle start ccw"
+                 MULB
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           -1
+                           s_pmc02__PATH__      ;"sv motor speed"
+                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
+
+                 RD.NOT    SP_RUN__PATH__       ;"spindle is turning"
+                 AND       mSP_RUN__PATH__      ;"memory spindle run"
+                 WRT       fesprn__PATH__       ;"falling edge spindle run"
+
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+                 WRT       mSP_RUN__PATH__      ;"memory spindle run"
+
+                 RD        RE_RST__PATH__       ;"rising edge reset"
+                 OR        fesprn__PATH__       ;"falling edge spindle run"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+#if spindle_sv_axis__PATH__ == 1
+                 AND       EAX1__PATH__         ;"1st axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND       EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND       EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND       EAX4__PATH__         ;"4th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND       EAX5__PATH__         ;"5th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND       EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND       EAX7__PATH__         ;"7th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND       EAX8__PATH__         ;"8th axis is pmc axis"
+#endif
+                 AND.NOT   e_spax__PATH__       ;"command spindle axis exec"
+                 AXCTL
+#if __ADDR__ < 10
+                           __ADDR__001
+#endif
+#if __ADDR__ == 10
+                           5002
+#endif
+#if __ADDR__ == 11
+                           6002
+#endif
+#if __ADDR__ == 12
+                           7002
+#endif
+#if __ADDR__ == 13
+                           8002
+#endif
+#if __ADDR__ == 14
+                           9002
+#endif
+                           s_pmc00__PATH__      ;"start addr. pmc axis ctrl"
+                 WRT       e_spax__PATH__       ;"command spindle axis exec"
+
+// ---------------------------------------------------------------------------
+// _PATH__: switching axis to pmc axis control
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: switching axis to pmc axis control
+*)
+#endif
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+#if spindle_sv_axis__PATH__ == 1
+                 AND.NOT   EACNT1__PATH__       ;"1st axis sel. status sig."
+                 AND.NOT   MV1__PATH__          ;"1st axis moving signal"
+                 AND       INP1__PATH__         ;"1st axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND.NOT   EACNT2__PATH__       ;"2nd axis sel. status sig."
+                 AND.NOT   MV2__PATH__          ;"2nd axis moving signal"
+                 AND       INP2__PATH__         ;"2nd axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND.NOT   EACNT3__PATH__       ;"3rd axis sel. status sig."
+                 AND.NOT   MV3__PATH__          ;"3rd axis moving signal"
+                 AND       INP3__PATH__         ;"3rd axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND.NOT   EACNT4__PATH__       ;"4th axis sel. status sig."
+                 AND.NOT   MV4__PATH__          ;"4th axis moving signal"
+                 AND       INP4__PATH__         ;"4th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND.NOT   EACNT5__PATH__       ;"5th axis sel. status sig."
+                 AND.NOT   MV5__PATH__          ;"5th axis moving signal"
+                 AND       INP5__PATH__         ;"5th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND.NOT   EACNT6__PATH__       ;"5th axis sel. status sig."
+                 AND.NOT   MV6__PATH__          ;"6th axis moving signal"
+                 AND       INP6__PATH__         ;"6th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND.NOT   EACNT7__PATH__       ;"7th axis sel. status sig."
+                 AND.NOT   MV7__PATH__          ;"7th axis moving signal"
+                 AND       INP7__PATH__         ;"7th axis in-pos. signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND.NOT   EACNT8__PATH__       ;"8th axis sel. status sig."
+                 AND.NOT   MV8__PATH__          ;"8th axis moving signal"
+                 AND       INP8__PATH__         ;"8th axis in-pos. signal"
+#endif
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+#if spindle_sv_axis__PATH__ == 1
+                 OR        EACNT1__PATH__       ;"1st axis sel. status sig."
+                 AND       EAX1__PATH__         ;"1st axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 OR        EACNT2__PATH__       ;"2nd axis sel. status sig."
+                 AND       EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 OR        EACNT3__PATH__       ;"3rd axis sel. status sig."
+                 AND       EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 OR        EACNT4__PATH__       ;"4th axis sel. status sig."
+                 AND       EAX4__PATH__         ;"4th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 OR        EACNT5__PATH__       ;"5th axis sel. status sig."
+                 AND       EAX5__PATH__         ;"5th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 OR        EACNT6__PATH__       ;"5th axis sel. status sig."
+                 AND       EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 OR        EACNT7__PATH__       ;"7th axis sel. status sig."
+                 AND       EAX7__PATH__         ;"7th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 OR        EACNT8__PATH__       ;"8th axis sel. status sig."
+                 AND       EAX8__PATH__         ;"8th axis is pmc axis"
+#endif
+                 OR.STK
+#if spindle_sv_axis__PATH__ == 1
+                 WRT       EAX1__PATH__         ;"1st axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 WRT       EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 WRT       EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 WRT       EAX4__PATH__         ;"4th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 WRT       EAX5__PATH__         ;"5th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 WRT       EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 WRT       EAX7__PATH__         ;"7th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 WRT       EAX8__PATH__         ;"8th axis is pmc axis"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: servo off in PMC axis control
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: servo off in PMC axis control
+*)
+#endif
+
+#if spindle_sv_axis__PATH__ == 1
+                 RD        EAX1__PATH__         ;"1st axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 RD        EAX2__PATH__         ;"2nd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 RD        EAX3__PATH__         ;"3rd axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 RD        EAX4__PATH__         ;"4th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 RD        EAX5__PATH__         ;"5th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 RD        EAX6__PATH__         ;"6th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 RD        EAX7__PATH__         ;"7th axis is pmc axis"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 RD        EAX8__PATH__         ;"8th axis is pmc axis"
+#endif
+                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
+
+#if __ADDR__ < 10 
+                 WRT       ESOFA__PATH__        ;"servo off pmc axis group A"
+#endif
+#if __ADDR__ >= 10 
+                 WRT       ESOFB__PATH__        ;"servo off pmc axis group B"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: override cancel group A
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+In case parameter 8005 bit 4 (PMCPOS) = 1
+(Position control) the group specific override
+cancel must be used. Set also 8007 bit 2 (VCP) = 1
+*)
+#endif
+                 RD        SP_RUN__PATH__       ;"spindle is turning"
+#if __ADDR__ < 10 
+                 WRT       OVCEA__PATH__        ;"override cancellation group A"
+#endif
+#if __ADDR__ >= 10 
+                 WRT       OVCEB__PATH__        ;"override cancellation group B"
+#endif
+

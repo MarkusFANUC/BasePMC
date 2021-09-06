@@ -1,0 +1,309 @@
+//:--------------------------------------------------------------------------:
+//: File              : nc_pmc.sym                                           :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbol definitions for CNC <-> PMC interface         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:19.10.17: 2.0.0 :Blp    :variable SCRNLx added                            :
+//:        :       :       :additional 2 bytes for PMC<->DCS interface added :
+//:        :       :       :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Include files
+// ===========================================================================
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\include\nc_pmc_p01.sym"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\include\nc_pmc_p02.sym"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\include\nc_pmc_p03.sym"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\include\nc_pmc_p04.sym"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\include\nc_pmc_p05.sym"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\include\nc_pmc_p06.sym"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\include\nc_pmc_p07.sym"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\include\nc_pmc_p08.sym"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\include\nc_pmc_p09.sym"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\include\nc_pmc_p10.sym"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\include\nc_pmc_p11.sym"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\include\nc_pmc_p12.sym"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\include\nc_pmc_p13.sym"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\include\nc_pmc_p14.sym"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\include\nc_pmc_p15.sym"
+#endif
+
+// ===========================================================================
+// Input signal to the PMC from the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+SCRNLx,F0523,screen large classification,
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+#if operatorspanel == 0 || soft_op_panel == 1
+KEYO,F0075.6,:sop: protect key,
+#endif
+
+#if dcs_support == 1
+*OPIHB,F0191.0,guard open inhibit(group),
+RQT,F0191.2,MCC off test request(group),
+RQBT,F0191.3,brake test request(group),
+
+TDCF08,F0746.0,interface from DCS bit08,
+TDCF09,F0746.1,interface from DCS bit09,
+TDCF10,F0746.2,interface from DCS bit10,
+TDCF11,F0746.3,interface from DCS bit11,
+TDCF12,F0746.4,interface from DCS bit12,
+TDCF13,F0746.5,interface from DCS bit13,
+TDCF14,F0746.6,interface from DCS bit14,
+TDCF15,F0746.7,interface from DCS bit15,
+TDCF00,F0747.0,interface from DCS bit00,
+TDCF01,F0747.1,interface from DCS bit01,
+TDCF02,F0747.2,interface from DCS bit02,
+TDCF03,F0747.3,interface from DCS bit03,
+TDCF04,F0747.4,interface from DCS bit04,
+TDCF05,F0747.5,interface from DCS bit05,
+TDCF06,F0747.6,interface from DCS bit06,
+TDCF07,F0747.7,interface from DCS bit07,
+*MCF,F0748.1,MCC off signal(group),
+*DCALM,F0748.7,MCC off signal(system),
+SPS01,F0755.0,Safety Position Switch 01,
+SPS02,F0755.1,Safety Position Switch 02,
+SPS03,F0755.2,Safety Position Switch 03,
+SPS04,F0755.3,Safety Position Switch 04,
+SPS05,F0755.4,Safety Position Switch 05,
+SPS06,F0755.5,Safety Position Switch 06,
+SPS07,F0755.6,Safety Position Switch 07,
+SPS08,F0755.7,Safety Position Switch 08,
+SPS09,F0756.0,Safety Position Switch 09,
+SPS10,F0756.1,Safety Position Switch 10,
+SPS11,F0756.2,Safety Position Switch 11,
+SPS12,F0756.3,Safety Position Switch 12,
+SPS13,F0756.4,Safety Position Switch 13,
+SPS14,F0756.5,Safety Position Switch 14,
+SPS15,F0756.6,Safety Position Switch 15,
+SPS16,F0756.7,Safety Position Switch 16,
+SPS17,F0757.0,Safety Position Switch 17,
+SPS18,F0757.1,Safety Position Switch 18,
+SPS19,F0757.2,Safety Position Switch 19,
+SPS20,F0757.3,Safety Position Switch 20,
+SPS21,F0757.4,Safety Position Switch 21,
+SPS22,F0757.5,Safety Position Switch 22,
+SPS23,F0757.6,Safety Position Switch 23,
+SPS24,F0757.7,Safety Position Switch 24,
+SPS25,F0758.0,Safety Position Switch 25,
+SPS26,F0758.1,Safety Position Switch 26,
+SPS27,F0758.2,Safety Position Switch 27,
+SPS28,F0758.3,Safety Position Switch 28,
+SPS29,F0758.4,Safety Position Switch 29,
+SPS30,F0758.5,Safety Position Switch 30,
+SPS31,F0758.6,Safety Position Switch 31,
+SPS32,F0758.7,Safety Position Switch 32,
+
+TDCF1_08,F1746.0,interface from DCS bit08,
+TDCF1_09,F1746.1,interface from DCS bit09,
+TDCF1_10,F1746.2,interface from DCS bit10,
+TDCF1_11,F1746.3,interface from DCS bit11,
+TDCF1_12,F1746.4,interface from DCS bit12,
+TDCF1_13,F1746.5,interface from DCS bit13,
+TDCF1_14,F1746.6,interface from DCS bit14,
+TDCF1_15,F1746.7,interface from DCS bit15,
+TDCF1_00,F1747.0,interface from DCS bit00,
+TDCF1_01,F1747.1,interface from DCS bit01,
+TDCF1_02,F1747.2,interface from DCS bit02,
+TDCF1_03,F1747.3,interface from DCS bit03,
+TDCF1_04,F1747.4,interface from DCS bit04,
+TDCF1_05,F1747.5,interface from DCS bit05,
+TDCF1_06,F1747.6,interface from DCS bit06,
+TDCF1_07,F1747.7,interface from DCS bit07,
+
+#endif
+
+// ===========================================================================
+// Output signal from the PMC to the CNC
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+KEY1,G0046.3,memory protect signal key1,
+KEY2,G0046.4,memory protect signal key2,
+KEY3,G0046.5,memory protect signal key3,
+KEY4,G0046.6,memory protect signal key4,
+
+HEAD,G0063.0,path selection signal 1,
+HEAD2,G0062.7,path selection signal 2,
+#if nbr_of_path > 4
+HEAD3,G0408.1,path selection signal 3,
+#endif
+#if nbr_of_path > 8
+HEAD4,G0408.2,path selection signal 4,
+#endif
+
+#if dcs_support == 1
+OPT,G0191.2,test mode signal(group),
+ORQ,G0191.3,guard open request(group),
+STBT,G0193.2,brake test start(group),
+*SMC,G0748.6,MCC contact state(group),
+
+TPMG08,G0764.0,interface to DCS bit08,
+TPMG09,G0764.1,interface to DCS bit09,
+TPMG10,G0764.2,interface to DCS bit10,
+TPMG11,G0764.3,interface to DCS bit11,
+TPMG12,G0764.4,interface to DCS bit12,
+TPMG13,G0764.5,interface to DCS bit13,
+TPMG14,G0764.6,interface to DCS bit14,
+TPMG15,G0764.7,interface to DCS bit15,
+   
+TPMG00,G0765.0,interface to DCS bit00,
+TPMG01,G0765.1,interface to DCS bit01,
+TPMG02,G0765.2,interface to DCS bit02,
+TPMG03,G0765.3,interface to DCS bit03,
+TPMG04,G0765.4,interface to DCS bit04,
+TPMG05,G0765.5,interface to DCS bit05,
+TPMG06,G0765.6,interface to DCS bit06,
+TPMG07,G0765.7,interface to DCS bit07,
+
+TPMG1_08,G1764.0,interface to DCS bit08,
+TPMG1_09,G1764.1,interface to DCS bit09,
+TPMG1_10,G1764.2,interface to DCS bit10,
+TPMG1_11,G1764.3,interface to DCS bit11,
+TPMG1_12,G1764.4,interface to DCS bit12,
+TPMG1_13,G1764.5,interface to DCS bit13,
+TPMG1_14,G1764.6,interface to DCS bit14,
+TPMG1_15,G1764.7,interface to DCS bit15,
+
+TPMG1_00,G1765.0,interface to DCS bit00,
+TPMG1_01,G1765.1,interface to DCS bit01,
+TPMG1_02,G1765.2,interface to DCS bit02,
+TPMG1_03,G1765.3,interface to DCS bit03,
+TPMG1_04,G1765.4,interface to DCS bit04,
+TPMG1_05,G1765.5,interface to DCS bit05,
+TPMG1_06,G1765.6,interface to DCS bit06,
+TPMG1_07,G1765.7,interface to DCS bit07,
+
+#endif
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+
+// ===========================================================================
+// Counter (CTRB)
+// ===========================================================================
+// -----------------------------------
+// byte:
+// -----------------------------------
+#if operatorspanel == 3
+CB098,C5194,value ctrb 098,                     // iPendant: feed override
+#endif
+#if handwheel_support == 2
+CB099,C5196,value ctrb 099,                     // hmop: spindle override
+CB100,C5198,value ctrb 100,                     // hmop: increment counter
+#endif
+
+// -----------------------------------
+// bool:
+// -----------------------------------

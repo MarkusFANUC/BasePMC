@@ -1,0 +1,301 @@
+//:--------------------------------------------------------------------------:
+//: File              : axis01ref__PATH__.src                                    :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Reference position return 1st axis                   :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if ref_dir_1st_axis__PATH__ == 5 || ref_dir_1st_axis__PATH__ == 6
+
+// ---------------------------------------------------------------------------
+// 1st axis reference position return in plus direction without dog
+// parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 0 (ZMI)
+// ---------------------------------------------------------------------------
+   #if ref_dir_1st_axis__PATH__ == 5
+      #if net_comment == 1
+(*
+_PATH__: 1st axis reference position return in plus direction
+without dog
+parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 0 (ZMI)
+*)
+      #endif
+   #endif
+
+// ---------------------------------------------------------------------------
+// 1st axis reference position return in minus direction without dog
+// parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 1 (ZMI)
+// ---------------------------------------------------------------------------
+   #if ref_dir_1st_axis__PATH__ == 6
+(*
+_PATH__: 1st axis reference position return in minus direction
+without dog
+parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 1 (ZMI)
+*)
+   #endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: timer to specify the time for one motor revolution
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: timer to specify the time for one motor revolution
+*)
+   #endif
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND       M_REFJ__PATH__       ;"jog mode during ref return"
+                 AND       MV1__PATH__          ;"1st axis moving signal"
+                 TMRC      
+                           5
+                           psdog1__PATH__       ;"preset soft. dog 1st axis"
+                           csdog1__PATH__       ;"counter soft. dog 1st axis"
+                 SET       inctr1__PATH__       ;"increment counter 1st axis"
+
+                 RD        REFSTP__PATH__       ;"stop reference return"
+                 OR        ZP1__PATH__          ;"ref position 1st axis"
+                 AND       inctr1__PATH__       ;"increment counter 1st axis"
+                 RST       inctr1__PATH__       ;"increment counter 1st axis"
+
+// ---------------------------------------------------------------------------
+// _PATH__: 1st axis reference position return
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: 1st axis reference position return
+*)
+   #endif
+                 RD        M_KPLUS__PATH__      ;"memory axis plus dir."
+                 OR        M_KMINUS__PATH__     ;"memory axis minus dir."
+                 AND       M_K1AX__PATH__       ;"memory 1st axis selected"
+                 AND.NOT   AUTREF__PATH__       ;"automatic refernce return"
+                 RD.STK    A_REF1__PATH__       ;"auto ref. return 1st axis"
+                 OR        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND.NOT   ZP1__PATH__          ;"ref position 1st axis"
+                 OR.STK    
+                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
+                 AND.NOT   NOREF1__PATH__       ;"no reference return 1st axis"
+                 WRT       R_REF1__PATH__       ;"reference return 1st axis"
+
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
+                 AND.NOT   inctr1__PATH__       ;"increment counter 1st axis"
+                 SET       D_REF1__PATH__       ;"1st axis ref without dog"
+
+                 RD        inctr1__PATH__       ;"increment counter 1st axis"
+                 OR.NOT    R_REF1__PATH__       ;"reference return 1st axis"
+                 OR        REFSTP__PATH__       ;"stop reference return"
+                 RST       D_REF1__PATH__       ;"1st axis ref without dog"
+
+                 RD        M_REFJ__PATH__       ;"jog mode during ref return"
+                 AND       D_REF1__PATH__       ;"1st axis ref without dog"
+                 AND.NOT   inctr1__PATH__       ;"increment counter 1st axis"
+                 RD.STK    M_REF__PATH__        ;"mode REF selected"
+                 AND.NOT   M_REFJ__PATH__       ;"jog mode during ref return"
+                 AND       inctr1__PATH__       ;"increment counter 1st axis"
+                 OR.STK    
+                 AND       R_REF1__PATH__       ;"reference return 1st axis"
+                 AND       D_JOGMV__PATH__      ;"delay jog move"
+   #if ref_dir_1st_axis__PATH__ == 5
+                 WRT       aref_1p__PATH__      ;"ref: move 1st axis +dir."
+   #endif
+   #if ref_dir_1st_axis__PATH__ == 6
+                 WRT       aref_1m__PATH__      ;"ref: move 1st axis -dir."
+   #endif
+
+#else
+// ---------------------------------------------------------------------------
+// _PATH__: in case of using the reference switch for the 1st axis,
+// replace the contact 500ms with the real input signal Xxxx.y
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: in case of using the reference switch for the 1st axis,
+replace the contact 500ms with the real input signal Xxxx.y
+*)
+   #endif
+                 RD        500MS                ;"500 ms"
+                 WRT       m_iref1__PATH__      ;"mem ref. switch 1st axis"
+
+// ---------------------------------------------------------------------------
+// counter to specify the lenght of the deceleration dog for the
+// reference position return of the 1st axis
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+      #if ref_dir_1st_axis__PATH__ == 1 || ref_dir_1st_axis__PATH__ == 2
+(*
+_PATH__: counter to specify the lenght of the deceleration dog for
+the reference position return of the 1st axis (contact: NC)
+*)
+      #endif
+      #if ref_dir_1st_axis__PATH__ == 3 || ref_dir_1st_axis__PATH__ == 4
+(*
+_PATH__: counter to specify the lenght of the deceleration dog for
+the reference position return of the 1st axis (contact: NO)
+*)
+      #endif
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 RD.STK.NOT LOG1                ;"logic one"
+   #if ref_dir_1st_axis__PATH__ == 1 || ref_dir_1st_axis__PATH__ == 2
+                 RD.STK    m_iref1__PATH__      ;"mem ref. switch 1st axis"
+   #endif
+   #if ref_dir_1st_axis__PATH__ == 3 || ref_dir_1st_axis__PATH__ == 4
+                 RD.STK.NOT m_iref1__PATH__     ;"mem ref. switch 1st axis"
+   #endif
+                 RD.STK    CLOCK                ;"cycle clock pulse"
+                 AND       MV1__PATH__          ;"1st axis moving signal"
+                 CTRC
+                           psdog1__PATH__       ;"preset soft. dog 1st axis"
+                           csdog1__PATH__       ;"counter soft. dog 1st axis"
+                 WRT       inctr1__PATH__       ;"increment counter 1st axis"
+
+                 RD        inctr1__PATH__       ;"increment counter 1st axis"
+                 RD.STK    esdog1__PATH__       ;"end soft dec. dog 1st axis"
+   #if ref_dir_1st_axis__PATH__ == 1 || ref_dir_1st_axis__PATH__ == 2 
+                 AND.NOT   m_iref1__PATH__      ;"mem ref. switch 1st axis"
+   #endif
+   #if ref_dir_1st_axis__PATH__ == 3 || ref_dir_1st_axis__PATH__ == 4
+                 AND       m_iref1__PATH__      ;"mem ref. switch 1st axis"
+   #endif
+                 OR.STK
+                 WRT       esdog1__PATH__       ;"end soft dec. dog 1st axis"
+
+// ---------------------------------------------------------------------------
+// 1st axis reference position return
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: 1st axis reference position return
+*)
+   #endif
+                 RD        M_KPLUS__PATH__      ;"memory axis plus dir."
+                 OR        M_KMINUS__PATH__     ;"memory axis minus dir."
+                 AND       M_K1AX__PATH__       ;"memory 1st axis selected"
+                 AND.NOT   AUTREF__PATH__       ;"automatic reference return"
+                 RD.STK    A_REF1__PATH__       ;"auto ref. return 1st axis"
+                 OR        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND.NOT   ZP1__PATH__          ;"ref position 1st axis"
+                 OR.STK
+                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
+                 AND.NOT   NOREF1__PATH__       ;"no reference return 1st axis"
+                 WRT       R_REF1__PATH__       ;"reference return 1st axis"
+
+// ---------------------------------------------------------------------------
+// 1st axis reference position return in plus direction
+// parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
+// 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
+// ---------------------------------------------------------------------------
+   #if ref_dir_1st_axis__PATH__ == 1 || ref_dir_1st_axis__PATH__ == 3 
+      #if net_comment == 1
+         #if ref_dir_1st_axis__PATH__ == 1
+(*
+_PATH__: 1st axis reference position return in plus direction
+(contact: NC, dog at negative axis limit)
+parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
+3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
+*)
+         #endif
+         #if ref_dir_1st_axis__PATH__ == 3
+(*
+_PATH__: 1st axis reference position return in plus direction
+(contact: NO, dog at negative axis limit)
+parameter setting:  1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
+3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
+*)
+         #endif
+      #endif
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+      #if ref_dir_1st_axis__PATH__ == 1
+                 AND.NOT   m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+      #if ref_dir_1st_axis__PATH__ == 3
+                 AND       m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+                 AND.NOT   aref_1m__PATH__      ;"ref: move 1st axis -dir."
+                 WRT       aref_1p__PATH__      ;"ref: move 1st axis +dir."
+
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND.NOT   aref_1p__PATH__      ;"ref: move 1st axis +dir."
+                 WRT       aref_1m__PATH__      ;"ref: move 1st axis -dir."
+      #if ref_dir_1st_axis__PATH__ == 1
+                 RD        m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+      #if ref_dir_1st_axis__PATH__ == 3
+                 RD.NOT    m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+                 RD.STK    esdog1__PATH__       ;"end soft dec. dog 1st axis"
+                 AND       MVD1__PATH__         ;"1st axis moving dir. signal"
+                 OR.STK
+                 OR        aref_1p__PATH__      ;"ref: move 1st axis +dir."
+                 WRT       *DEC1__PATH__        ;"deceleration signal 1st axis"
+   #endif
+
+// ---------------------------------------------------------------------------
+// 1st axis reference position return in minus direction
+// parameter setting:  1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
+// 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
+// ---------------------------------------------------------------------------
+   #if ref_dir_1st_axis__PATH__ == 2 || ref_dir_1st_axis__PATH__ == 4
+      #if net_comment == 1
+         #if ref_dir_1st_axis__PATH__ == 2
+(*
+_PATH__: 1st axis reference position return in minus direction
+(contact: NC, dog at positive axis limit)
+parameter setting:  1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
+3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
+*)
+         #endif
+         #if ref_dir_1st_axis__PATH__ == 4
+(*
+_PATH__: 1st axis reference position return in minus direction
+(contact: NO, dog at positive axis limit)
+parameter setting:  1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
+3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
+*)
+         #endif
+      #endif
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+      #if ref_dir_1st_axis__PATH__ == 2
+                 AND.NOT   m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+      #if ref_dir_1st_axis__PATH__ == 4
+                 AND       m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+                 AND.NOT   aref_1p__PATH__      ;"ref: move 1st axis +dir."
+                 WRT       aref_1m__PATH__      ;"ref: move 1st axis -dir."
+
+                 RD        R_REF1__PATH__       ;"reference return 1st axis"
+                 AND.NOT   aref_1m__PATH__      ;"ref: move 1st axis -dir."
+                 WRT       aref_1p__PATH__      ;"ref: move 1st axis +dir."
+      #if ref_dir_1st_axis__PATH__ == 2
+                 RD        m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+      #if ref_dir_1st_axis__PATH__ == 4
+                 RD.NOT    m_iref1__PATH__      ;"mem ref. switch 1st axis"
+      #endif
+                 RD.STK    esdog1__PATH__       ;"end soft dec. dog 1st axis"
+                 AND.NOT   MVD1__PATH__         ;"1st axis moving dir. signal"
+                 OR.STK
+                 OR        aref_1m__PATH__      ;"ref: move 1st axis -dir."
+                 WRT       *DEC1__PATH__        ;"deceleration signal 1st axis"
+   #endif
+
+#endif

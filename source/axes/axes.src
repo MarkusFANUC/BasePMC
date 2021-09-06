@@ -1,0 +1,512 @@
+//:--------------------------------------------------------------------------:
+//: File              : axes.src                                             :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Axes control                                         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:19.09.14: 1.1.0 :Blp    :Comments modified                                :
+//:--------------------------------------------------------------------------:
+//:19.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if dcs_support == 1 && brake_test == 1
+// ---------------------------------------------------------------------------
+// DCS brake test in case of door open request
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+DCS brake test in case of door open request
+(add *ITx signals (normally closed contact) for the brake test axes
+in parallel to the other conditions for the dis_brkt__PATH__ variable)
+*)
+   #endif
+                 RD.NOT    POW_OK               ;"power supply axis ok"
+                 OR        OP                   ;"automatic operation lamp"
+                 OR.NOT    *SGOPN               ;"guard state doors closed"
+                 OR.NOT    ORQ                  ;"guard open request(group)"
+                 OR        AL                   ;"alarm signal"
+   #if mcc_test == 1
+                 OR        MCC_TEST             ;"mcc test running"
+   #endif
+                 OR.NOT    M_JOG                ;"P01:mode jog selected"
+                 WRT       dis_brkt             ;"P01:disable DCS brake test"
+
+                 RD        RQBT                 ;"brake test request(group)"
+                 AND.NOT   STBT                 ;"brake test start(group)"
+                 AND.NOT   dis_brkt             ;"disable DCS brake test"
+                 RD.STK    STBT                 ;"brake test start(group)"
+                 AND       RQBT                 ;"brake test request(group)"
+                 OR.STK    
+                 AND.NOT   RESET                ;"reset active"
+                 WRT       STBT                 ;"brake test start(group)"
+                 WRT       BRK_TEST             ;"brake test active"
+
+                 RD        K_DOOR               ;"P01:key unlock prot. door"
+                 AND       RQBT                 ;"brake test request(group)"
+                 AND       dis_brkt             ;"disable DCS brake test"
+                 WRT       M_2104               ;"brake test required"
+
+#endif
+
+// ---------------------------------------------------------------------------
+// P01:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P01:axes control
+*)
+   #endif
+                 CALLU     Axes_P01             ;"P01:axes control"
+
+#if nbr_of_path > 1
+// ---------------------------------------------------------------------------
+// P02:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P02:axes control
+*)
+   #endif
+                 CALLU     Axes_P02             ;"P02:axes control"
+#endif
+
+#if nbr_of_path > 2
+// ---------------------------------------------------------------------------
+// P03:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P03:axes control
+*)
+   #endif
+                 CALLU     Axes_P03             ;"P03:axes control"
+#endif
+
+#if nbr_of_path > 3
+// ---------------------------------------------------------------------------
+// P04:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P04:axes control
+*)
+   #endif
+                 CALLU     Axes_P04             ;"P04:axes control"
+#endif
+
+#if nbr_of_path > 4
+// ---------------------------------------------------------------------------
+// P05:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P05:axes control
+*)
+   #endif
+                 CALLU     Axes_P05             ;"P05:axes control"
+#endif
+
+#if nbr_of_path > 5
+// ---------------------------------------------------------------------------
+// P06:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P06:axes control
+*)
+   #endif
+                 CALLU     Axes_P06             ;"P06:axes control"
+#endif
+
+#if nbr_of_path > 6
+// ---------------------------------------------------------------------------
+// P07:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P07:axes control
+*)
+   #endif
+                 CALLU     Axes_P07             ;"P07:axes control"
+#endif
+
+#if nbr_of_path > 7
+// ---------------------------------------------------------------------------
+// P08:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P08:axes control
+*)
+   #endif
+                 CALLU     Axes_P08             ;"P08:axes control"
+#endif
+
+#if nbr_of_path > 8
+// ---------------------------------------------------------------------------
+// P09:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P09:axes control
+*)
+   #endif
+                 CALLU     Axes_P09             ;"P09:axes control"
+#endif
+
+#if nbr_of_path > 9
+// ---------------------------------------------------------------------------
+// P10:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P10:axes control
+*)
+   #endif
+                 CALLU     Axes_P10             ;"P10:axes control"
+#endif
+
+#if nbr_of_path > 10
+// ---------------------------------------------------------------------------
+// P11:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P11:axes control
+*)
+   #endif
+                 CALLU     Axes_P11             ;"P11:axes control"
+#endif
+
+#if nbr_of_path > 11
+// ---------------------------------------------------------------------------
+// P12:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P12:axes control
+*)
+   #endif
+                 CALLU     Axes_P12             ;"P12:axes control"
+#endif
+
+#if nbr_of_path > 12
+// ---------------------------------------------------------------------------
+// P13:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P13:axes control
+*)
+   #endif
+                 CALLU     Axes_P13             ;"P13:axes control"
+#endif
+
+#if nbr_of_path > 13
+// ---------------------------------------------------------------------------
+// P14:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P14:axes control
+*)
+   #endif
+                 CALLU     Axes_P14             ;"P14:axes control"
+#endif
+
+#if nbr_of_path > 14
+// ---------------------------------------------------------------------------
+// P15:axes control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P15:axes control
+*)
+   #endif
+                 CALLU     Axes_P15             ;"P15:axes control"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable AXMOV (axes in all path are moving)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable AXMOV (axes in all path are moving)
+*)
+#endif
+                 RD        AXMOV_P01            ;"P01:axes moving"
+#if nbr_of_path > 1
+                 OR        AXMOV_P02            ;"P02:axes moving"
+#endif
+#if nbr_of_path > 2
+                 OR        AXMOV_P03            ;"P03:axes moving"
+#endif
+#if nbr_of_path > 3
+                 OR        AXMOV_P04            ;"P04:axes moving"
+#endif
+#if nbr_of_path > 4
+                 OR        AXMOV_P05            ;"P05:axes moving"
+#endif
+#if nbr_of_path > 5
+                 OR        AXMOV_P06            ;"P06:axes moving"
+#endif
+#if nbr_of_path > 6
+                 OR        AXMOV_P07            ;"P07:axes moving"
+#endif
+#if nbr_of_path > 7
+                 OR        AXMOV_P08            ;"P08:axes moving"
+#endif
+#if nbr_of_path > 8
+                 OR        AXMOV_P09            ;"P09:axes moving"
+#endif
+#if nbr_of_path > 9
+                 OR        AXMOV_P10            ;"P10:axes moving"
+#endif
+#if nbr_of_path > 10
+                 OR        AXMOV_P11            ;"P11:axes moving"
+#endif
+#if nbr_of_path > 11
+                 OR        AXMOV_P12            ;"P12:axes moving"
+#endif
+#if nbr_of_path > 12
+                 OR        AXMOV_P13            ;"P13:axes moving"
+#endif
+#if nbr_of_path > 13
+                 OR        AXMOV_P14            ;"P14:axes moving"
+#endif
+#if nbr_of_path > 14
+                 OR        AXMOV_P15            ;"P15:axes moving"
+#endif
+                 WRT       AXMOV                ;"axes moving"
+
+// ---------------------------------------------------------------------------
+// global variable SER_ON (servos all path switched on)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable SER_ON (servos all path switched on)
+*)
+#endif
+                 RD        SER_ON_P01           ;"P01:servo on"
+#if nbr_of_path > 1
+                 OR        SER_ON_P02           ;"P02:servo on"
+#endif
+#if nbr_of_path > 2
+                 OR        SER_ON_P03           ;"P03:servo on"
+#endif
+#if nbr_of_path > 3
+                 OR        SER_ON_P04           ;"P04:servo on"
+#endif
+#if nbr_of_path > 4
+                 OR        SER_ON_P05           ;"P05:servo on"
+#endif
+#if nbr_of_path > 5
+                 OR        SER_ON_P06           ;"P06:servo on"
+#endif
+#if nbr_of_path > 6
+                 OR        SER_ON_P07           ;"P07:servo on"
+#endif
+#if nbr_of_path > 7
+                 OR        SER_ON_P08           ;"P08:servo on"
+#endif
+#if nbr_of_path > 8
+                 OR        SER_ON_P09           ;"P09:servo on"
+#endif
+#if nbr_of_path > 9
+                 OR        SER_ON_P10           ;"P10:servo on"
+#endif
+#if nbr_of_path > 10
+                 OR        SER_ON_P11           ;"P11:servo on"
+#endif
+#if nbr_of_path > 11
+                 OR        SER_ON_P12           ;"P12:servo on"
+#endif
+#if nbr_of_path > 12
+                 OR        SER_ON_P13           ;"P13:servo on"
+#endif
+#if nbr_of_path > 13
+                 OR        SER_ON_P14           ;"P14:servo on"
+#endif
+#if nbr_of_path > 14
+                 OR        SER_ON_P15           ;"P15:servo on"
+#endif
+                 WRT       SER_ON               ;"servo on"
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// checking axes specific DCS MCC off signals (all path)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking axes specific DCS MCC off signals (all path)
+*)
+   #endif
+
+                 RD        MCFVx_NOK_P01        ;"P01:mcf axes not ok"
+   #if nbr_of_path > 1
+                 OR        MCFVx_NOK_P02        ;"P02:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 2
+                 OR        MCFVx_NOK_P03        ;"P03:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 3
+                 OR        MCFVx_NOK_P04        ;"P04:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 4
+                 OR        MCFVx_NOK_P05        ;"P05:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 5
+                 OR        MCFVx_NOK_P06        ;"P06:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 6
+                 OR        MCFVx_NOK_P07        ;"P07:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 7
+                 OR        MCFVx_NOK_P08        ;"P08:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 8
+                 OR        MCFVx_NOK_P09        ;"P09:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 9
+                 OR        MCFVx_NOK_P10        ;"P10:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 10
+                 OR        MCFVx_NOK_P11        ;"P11:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 11
+                 OR        MCFVx_NOK_P12        ;"P12:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 12
+                 OR        MCFVx_NOK_P13        ;"P13:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 13
+                 OR        MCFVx_NOK_P14        ;"P14:mcf axes not ok"
+   #endif
+   #if nbr_of_path > 14
+                 OR        MCFVx_NOK_P15        ;"P15:mcf axes not ok"
+   #endif
+                 WRT       MCFVx_NOK            ;"mcf axes all path not ok"
+
+// ---------------------------------------------------------------------------
+// checking DCS axes specific monitoring signals
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS axes specific monitoring signals
+*)
+   #endif
+
+                 RD        RSVx_NOK_P01         ;"P01:rsv monitoring not ok"
+   #if nbr_of_path > 1
+                 OR        RSVx_NOK_P02         ;"P02:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 2
+                 OR        RSVx_NOK_P03         ;"P03:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 3
+                 OR        RSVx_NOK_P04         ;"P04:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 4
+                 OR        RSVx_NOK_P05         ;"P05:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 5
+                 OR        RSVx_NOK_P06         ;"P06:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 6
+                 OR        RSVx_NOK_P07         ;"P07:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 7
+                 OR        RSVx_NOK_P08         ;"P08:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 8
+                 OR        RSVx_NOK_P09         ;"P09:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 9
+                 OR        RSVx_NOK_P10         ;"P10:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 10
+                 OR        RSVx_NOK_P11         ;"P11:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 11
+                 OR        RSVx_NOK_P12         ;"P12:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 12
+                 OR        RSVx_NOK_P13         ;"P13:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 13
+                 OR        RSVx_NOK_P14         ;"P14:rsv monitoring not ok"
+   #endif
+   #if nbr_of_path > 14
+                 OR        RSVx_NOK_P15         ;"P15:rsv monitoring not ok"
+   #endif
+                 WRT       RSVx_NOK             ;"rsv monit. all path not ok"
+
+// ---------------------------------------------------------------------------
+// checking DCS position information effect signals
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS position information effect signals
+*)
+   #endif
+
+                 RD        POSEx_NOK_P01        ;"P01:pose information not ok"
+   #if nbr_of_path > 1
+                 OR        POSEx_NOK_P02        ;"P02:pose information not ok"
+   #endif
+   #if nbr_of_path > 2
+                 OR        POSEx_NOK_P03        ;"P03:pose information not ok"
+   #endif
+   #if nbr_of_path > 3
+                 OR        POSEx_NOK_P04        ;"P04:pose information not ok"
+   #endif
+   #if nbr_of_path > 4
+                 OR        POSEx_NOK_P05        ;"P05:pose information not ok"
+   #endif
+   #if nbr_of_path > 5
+                 OR        POSEx_NOK_P06        ;"P06:pose information not ok"
+   #endif
+   #if nbr_of_path > 6
+                 OR        POSEx_NOK_P07        ;"P07:pose information not ok"
+   #endif
+   #if nbr_of_path > 7
+                 OR        POSEx_NOK_P08        ;"P08:pose information not ok"
+   #endif
+   #if nbr_of_path > 8
+                 OR        POSEx_NOK_P09        ;"P09:pose information not ok"
+   #endif
+   #if nbr_of_path > 9
+                 OR        POSEx_NOK_P10        ;"P10:pose information not ok"
+   #endif
+   #if nbr_of_path > 10
+                 OR        POSEx_NOK_P11        ;"P11:pose information not ok"
+   #endif
+   #if nbr_of_path > 11
+                 OR        POSEx_NOK_P12        ;"P12:pose information not ok"
+   #endif
+   #if nbr_of_path > 12
+                 OR        POSEx_NOK_P13        ;"P13:pose information not ok"
+   #endif
+   #if nbr_of_path > 13
+                 OR        POSEx_NOK_P14        ;"P14:pose information not ok"
+   #endif
+   #if nbr_of_path > 14
+                 OR        POSEx_NOK_P15        ;"P15:pose information not ok"
+   #endif
+                 WRT       POSEx_NOK            ;"posex all path not ok"
+#endif

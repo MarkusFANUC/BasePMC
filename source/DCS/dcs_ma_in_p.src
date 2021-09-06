@@ -1,0 +1,67 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_ma_in__PATH__.src                                    :
+//: Creation date     : 16.07.2018                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific DCS related inputs from the machine    :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+#if net_comment == 1
+(*-------------------------------------------------
+_PATH__: input signals
+-------------------------------------------------*)
+#endif
+
+#if pmc_type !=2 && pmc_type < 6
+   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// _PATH__:spindle excitation
+// this signal will be DCS I/O cross checked
+// replace LOG1 with the real input signal Xxxx.y
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+_PATH__:spindle excitation
+this signal will be DCS I/O cross checked
+replace LOG1 with the real input signal Xxxx.y
+*)
+      #endif
+                 RD        LOG1             ;"logic one"
+                 WRT       EXOF2__PATH__    ;"_PATH__:spindle exitation off"
+   #endif
+#endif
+   
+#if pmc_type == 2 || pmc_type >= 6
+   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// _PATH__:input spindle safe torque off
+// spindle safe torque off (STO) monitor
+// replace LOG1 with the real input signal Xxxx.y
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+_PATH__:input spindle safe torque off
+replace LOG1 with the real input signal Xxxx.y
+*)
+      #endif
+                 RD        LOG1             ;"logic one"
+                 WRT       SP_STO__PATH__  ;"_PATH__:spindle STO state"
+   #endif
+#endif

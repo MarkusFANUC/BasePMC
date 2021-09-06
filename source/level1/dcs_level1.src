@@ -1,0 +1,191 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_level1.src                                       :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Include file for DCSPMC level 1 code                 :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:12.07.18: 2.0.0 :Blp    :path 11-15 added                                 :
+//:        :       :       :DCS alarms added to emergency stop               :
+//:        :       :       :path specific code transfered to external files  :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// emergency stop
+// ---------------------------------------------------------------------------
+#if emergency_by_pass == 1
+   #include "emg_sim.src"                 // simulation of emergency stop signal
+#endif
+
+
+// -----------------------------------------------
+// path 01
+// -----------------------------------------------
+#include "..\..\include\dcs_level1_P01.src"
+
+// -----------------------------------------------
+// path 02
+// -----------------------------------------------
+#if nbr_of_path > 1
+   #include "..\..\include\dcs_level1_P02.src"
+#endif
+
+// -----------------------------------------------
+// path 03
+// -----------------------------------------------
+#if nbr_of_path > 2
+   #include "..\..\include\dcs_level1_P03.src"
+#endif
+
+// -----------------------------------------------
+// path 04
+// -----------------------------------------------
+#if nbr_of_path > 3
+   #include "..\..\include\dcs_level1_P04.src"
+#endif
+
+// -----------------------------------------------
+// path 05
+// -----------------------------------------------
+#if nbr_of_path > 4
+   #include "..\..\include\dcs_level1_P05.src"
+#endif
+
+// -----------------------------------------------
+// path 06
+// -----------------------------------------------
+#if nbr_of_path > 5
+   #include "..\..\include\dcs_level1_P06.src"
+#endif
+
+// -----------------------------------------------
+// path 07
+// -----------------------------------------------
+#if nbr_of_path > 6
+   #include "..\..\include\dcs_level1_P07.src"
+#endif
+
+// -----------------------------------------------
+// path 08
+// -----------------------------------------------
+#if nbr_of_path > 7
+   #include "..\..\include\dcs_level1_P08.src"
+#endif
+
+// -----------------------------------------------
+// path 09
+// -----------------------------------------------
+#if nbr_of_path > 8
+   #include "..\..\include\dcs_level1_P09.src"
+#endif
+
+// -----------------------------------------------
+// path 10
+// -----------------------------------------------
+#if nbr_of_path > 9
+   #include "..\..\include\dcs_level1_P10.src"
+#endif
+
+// -----------------------------------------------
+// path 11
+// -----------------------------------------------
+#if nbr_of_path > 10
+   #include "..\..\include\dcs_level1_P11.src"
+#endif
+
+// -----------------------------------------------
+// path 12
+// -----------------------------------------------
+#if nbr_of_path > 11
+   #include "..\..\include\dcs_level1_P12.src"
+#endif
+
+// -----------------------------------------------
+// path 13
+// -----------------------------------------------
+#if nbr_of_path > 12
+   #include "..\..\include\dcs_level1_P13.src"
+#endif
+
+// -----------------------------------------------
+// path 14
+// -----------------------------------------------
+#if nbr_of_path > 13
+   #include "..\..\include\dcs_level1_P14.src"
+#endif
+
+// -----------------------------------------------
+// path 15
+// -----------------------------------------------
+#if nbr_of_path > 14
+   #include "..\..\include\dcs_level1_P15.src"
+#endif
+
+// ---------------------------------------------------------------------------
+// global variable EMG_STP (emergency stop active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable EMG_STP (emergency stop active)
+*)
+#endif
+                 RD.NOT    *ESP_P01             ;"P01:emergency stop signal"
+#if nbr_of_path > 1
+                 OR.NOT    *ESP_P02             ;"P02:emergency stop signal"
+#endif
+#if nbr_of_path > 2
+                 OR.NOT    *ESP_P03             ;"P03:emergency stop signal"
+#endif
+#if nbr_of_path > 3
+                 OR.NOT    *ESP_P04             ;"P04:emergency stop signal"
+#endif
+#if nbr_of_path > 4
+                 OR.NOT    *ESP_P05             ;"P05:emergency stop signal"
+#endif
+#if nbr_of_path > 5
+                 OR.NOT    *ESP_P06             ;"P06:emergency stop signal"
+#endif
+#if nbr_of_path > 6
+                 OR.NOT    *ESP_P07             ;"P07:emergency stop signal"
+#endif
+#if nbr_of_path > 7
+                 OR.NOT    *ESP_P08             ;"P08:emergency stop signal"
+#endif
+#if nbr_of_path > 8
+                 OR.NOT    *ESP_P09             ;"P09:emergency stop signal"
+#endif
+#if nbr_of_path > 9
+                 OR.NOT    *ESP_P10             ;"P10:emergency stop signal"
+#endif
+#if nbr_of_path > 10
+                 OR.NOT    *ESP_P11             ;"P11:emergency stop signal"
+#endif
+#if nbr_of_path > 11
+                 OR.NOT    *ESP_P12             ;"P12:emergency stop signal"
+#endif
+#if nbr_of_path > 12
+                 OR.NOT    *ESP_P13             ;"P13:emergency stop signal"
+#endif
+#if nbr_of_path > 13
+                 OR.NOT    *ESP_P14             ;"P14:emergency stop signal"
+#endif
+#if nbr_of_path > 14
+                 OR.NOT    *ESP_P15             ;"P15:emergency stop signal"
+#endif
+                 WRT       EMG_STP              ;"emergency stop active"

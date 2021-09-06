@@ -1,0 +1,755 @@
+//:--------------------------------------------------------------------------:
+//: File              : s_sv__PATH__.src                                         :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Spindle control with servo motor (Live Tool)         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: this module manages the xth servo axis as a spindle.
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+   #if spindle_sv_axis__PATH__ == 1
+(*
+_PATH__: this module manages the 1st servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 2
+(*
+_PATH__: this module manages the 2nd servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 3
+(*
+_PATH__: this module manages the 3rd servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 4
+(*
+_PATH__: this module manages the 4th servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 5
+(*
+_PATH__: this module manages the 5th servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 6
+(*
+_PATH__: this module manages the 6th servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 7
+(*
+_PATH__: this module manages the 7th servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+   #if spindle_sv_axis__PATH__ == 8
+(*
+_PATH__: this module manages the 8th servo axis as a spindle
+(Live Tool).
+*)
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: impulse to restart the timer for the speed arrival signal
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: impulse to restart the timer for the speed arrival signal
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+#if spindle_sv_axis__PATH__ == 1
+                 AND       SVRVS1__PATH__       ;"1st axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND       SVRVS2__PATH__       ;"2nd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND       SVRVS3__PATH__       ;"3rd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND       SVRVS4__PATH__       ;"4th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND       SVRVS5__PATH__       ;"5th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND       SVRVS6__PATH__       ;"6th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND       SVRVS7__PATH__       ;"7th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND       SVRVS8__PATH__       ;"8th axis SV reverse signal"
+#endif
+                 RD.STK    SP_CCW__PATH__       ;"spindle start ccw"
+#if spindle_sv_axis__PATH__ == 1
+                 AND.NOT   SVRVS1__PATH__       ;"1st axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND.NOT   SVRVS2__PATH__       ;"2nd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND.NOT   SVRVS3__PATH__       ;"3rd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND.NOT   SVRVS4__PATH__       ;"4th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND.NOT   SVRVS5__PATH__       ;"5th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND.NOT   SVRVS6__PATH__       ;"6th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND.NOT   SVRVS7__PATH__       ;"7th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND.NOT   SVRVS8__PATH__       ;"8th axis SV reverse signal"
+#endif
+                 OR.STK
+                 OR        RE_SCH__PATH__       ;"rising edge speed change"
+                 WRT       sr_sar__PATH__       ;"restart timer for sp_sar"
+
+// ---------------------------------------------------------------------------
+// _PATH__: global variable SP_RUN__PATH__ (spindle turning)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable SP_RUN (spindle turning)
+*)
+#endif
+                 RD        SP_CW__PATH__        ;"spindle start cw"
+                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 WRT       SP_RUN__PATH__       ;"spindle is turning"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle start / stop
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle start / stop
+*)
+#endif
+
+#if spindle_sv_axis__PATH__ == 1
+                 RD.NOT    MV1__PATH__          ;"1st axis moving signal"
+                 OR        SRVON1__PATH__       ;"1st axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV1__PATH__          ;"1st axis moving signal"
+                 RD.STK    SRVON1__PATH__       ;"1st axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON1__PATH__       ;"1st axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 RD.NOT    MV2__PATH__          ;"2nd axis moving signal"
+                 OR        SRVON2__PATH__       ;"2nd axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV2__PATH__          ;"2nd axis moving signal"
+                 RD.STK    SRVON2__PATH__       ;"2nd axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON2__PATH__       ;"2nd axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 RD.NOT    MV3__PATH__          ;"3rd axis moving signal"
+                 OR        SRVON3__PATH__       ;"3rd axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV3__PATH__          ;"3rd axis moving signal"
+                 RD.STK    SRVON3__PATH__       ;"3rd axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON3__PATH__       ;"3rd axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 RD.NOT    MV4__PATH__          ;"4th axis moving signal"
+                 OR        SRVON4__PATH__       ;"4th axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV4__PATH__          ;"4th axis moving signal"
+                 RD.STK    SRVON4__PATH__       ;"4th axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON4__PATH__       ;"4th axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 RD.NOT    MV5__PATH__          ;"5th axis moving signal"
+                 OR        SRVON5__PATH__       ;"5th axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV5__PATH__          ;"5th axis moving signal"
+                 RD.STK    SRVON5__PATH__       ;"5th axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON5__PATH__       ;"5th axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 RD.NOT    MV6__PATH__          ;"6th axis moving signal"
+                 OR        SRVON6__PATH__       ;"6th axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV6__PATH__          ;"6th axis moving signal"
+                 RD.STK    SRVON6__PATH__       ;"6th axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON6__PATH__       ;"6th axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 RD.NOT    MV7__PATH__          ;"7th axis moving signal"
+                 OR        SRVON7__PATH__       ;"7th axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV7__PATH__          ;"7th axis moving signal"
+                 RD.STK    SRVON7__PATH__       ;"7th axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON7__PATH__       ;"7th axis speed ctrl mode"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 RD.NOT    MV8__PATH__          ;"8th axis moving signal"
+                 OR        SRVON8__PATH__       ;"8th axis speed ctrl mode"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   SETUP__PATH__        ;"set-up active"
+                 RD.STK    SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   MV8__PATH__          ;"8th axis moving signal"
+                 RD.STK    SRVON8__PATH__       ;"8th axis speed ctrl mode"
+                 AND.NOT   sp_stop__PATH__      ;"spindle stopped"
+                 OR.STK    
+                 AND       SETUP__PATH__        ;"set-up active"
+                 OR.STK    
+                 WRT       SRVON8__PATH__       ;"8th axis speed ctrl mode"
+#endif
+
+                 RD.NOT    SP_CW__PATH__        ;"spindle start cw"
+                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
+                 WRT.NOT   *SSTP__PATH__        ;"spindle stop signal"
+
+                 RD.NOT    *SSTP__PATH__        ;"spindle stop signal"
+#if spindle_sv_axis__PATH__ == 1
+                 AND.NOT   MV1__PATH__          ;"1st axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND.NOT   MV2__PATH__          ;"2nd axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND.NOT   MV3__PATH__          ;"3rd axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND.NOT   MV4__PATH__          ;"4th axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND.NOT   MV5__PATH__          ;"5th axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND.NOT   MV6__PATH__          ;"6th axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND.NOT   MV6__PATH__          ;"6th axis moving signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND.NOT   MV8__PATH__          ;"8th axis moving signal"
+#endif
+                 WRT       sp_stop__PATH__      ;"spindle stopped"
+
+// ---------------------------------------------------------------------------
+// global variable: SP_STP (spindle stopped)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable: SP_STP__PATH__  (spindle stopped)
+*)
+#endif
+                 RD.NOT    *SSTP__PATH__        ;"spindle stop signal"
+#if spindle_sv_axis__PATH__ == 1
+                 AND.NOT   MV1__PATH__          ;"1st axis moving signal"
+                 AND.NOT   SVREV1__PATH__       ;"1st axis speed ctrl mode"
+                 AND.NOT   SPP1__PATH__         ;"1st axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 AND.NOT   MV2__PATH__          ;"2nd axis moving signal"
+                 AND.NOT   SVREV2__PATH__       ;"2nd axis speed ctrl mode"
+                 AND.NOT   SPP2__PATH__         ;"2nd axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 AND.NOT   MV3__PATH__          ;"3rd axis moving signal"
+                 AND.NOT   SVREV3__PATH__       ;"3rd axis speed ctrl mode"
+                 AND.NOT   SPP3__PATH__         ;"3rd axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 AND.NOT   MV4__PATH__          ;"4th axis moving signal"
+                 AND.NOT   SVREV4__PATH__       ;"4th axis speed ctrl mode"
+                 AND.NOT   SPP4__PATH__         ;"4th axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 AND.NOT   MV5__PATH__          ;"5th axis moving signal"
+                 AND.NOT   SVREV5__PATH__       ;"5th axis speed ctrl mode"
+                 AND.NOT   SPP5__PATH__         ;"5th axis spindle index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 AND.NOT   MV6__PATH__          ;"6th axis moving signal"
+                 AND.NOT   SVREV6__PATH__       ;"6th axis speed ctrl mode"
+                 AND.NOT   SPP6__PATH__         ;"6th axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 AND.NOT   MV7__PATH__          ;"7th axis moving signal"
+                 AND.NOT   SVREV7__PATH__       ;"7th axis speed ctrl mode"
+                 AND.NOT   SPP7__PATH__         ;"7th axis sp index signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 AND.NOT   MV8__PATH__          ;"8th axis moving signal"
+                 AND.NOT   SVREV8__PATH__       ;"8th axis speed ctrl mode"
+                 AND.NOT   SPP8__PATH__         ;"8th axis sp index signal"
+#endif
+                 WRT       SP_STP__PATH__       ;"spindle stopped"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle direction
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: spindle direction
+*)
+#endif
+                 RD        SP_CCW__PATH__       ;"spindle start ccw"
+#if spindle_sv_axis__PATH__ == 1
+                 RD.STK    SVRVS1__PATH__       ;"1st axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 RD.STK    SVRVS2__PATH__       ;"2nd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 RD.STK    SVRVS3__PATH__       ;"3rd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 RD.STK    SVRVS4__PATH__       ;"4th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 RD.STK    SVRVS5__PATH__       ;"5th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 RD.STK    SVRVS6__PATH__       ;"6th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 RD.STK    SVRVS7__PATH__       ;"7th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 RD.STK    SVRVS8__PATH__       ;"8th axis SV reverse signal"
+#endif
+                 AND.NOT   SP_CW__PATH__        ;"spindle start cw"
+                 OR.STK
+#if spindle_sv_axis__PATH__ == 1
+                 WRT       SVRVS1__PATH__       ;"1st axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 2
+                 WRT       SVRVS2__PATH__       ;"2nd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 3
+                 WRT       SVRVS3__PATH__       ;"3rd axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 4
+                 WRT       SVRVS4__PATH__       ;"4th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 5
+                 WRT       SVRVS5__PATH__       ;"5th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 6
+                 WRT       SVRVS6__PATH__       ;"6th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 7
+                 WRT       SVRVS7__PATH__       ;"7th axis SV reverse signal"
+#endif
+#if spindle_sv_axis__PATH__ == 8
+                 WRT       SVRVS8__PATH__       ;"8th axis SV reverse signal"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: delay speed arrival
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: delay speed arrival
+*)
+#endif
+   #if spindle_sv_axis__PATH__ == 1
+                 RD        SVSAR1__PATH__       ;"1st axis SV speed arrival"
+                 AND.NOT   SVSST1__PATH__       ;"1st axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 2
+                 RD        SVSAR2__PATH__       ;"2nd axis SV speed arrival"
+                 AND.NOT   SVSST2__PATH__       ;"2nd axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 3
+                 RD        SVSAR3__PATH__       ;"3rd axis SV speed arrival"
+                 AND.NOT   SVSST3__PATH__       ;"3rd axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 4
+                 RD        SVSAR4__PATH__       ;"4th axis SV speed arrival"
+                 AND.NOT   SVSST4__PATH__       ;"4th axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 5
+                 RD        SVSAR5__PATH__       ;"5th axis SV speed arrival"
+                 AND.NOT   SVSST5__PATH__       ;"5th axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 6
+                 RD        SVSAR6__PATH__       ;"6th axis SV speed arrival"
+                 AND.NOT   SVSST6__PATH__       ;"6th axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 7
+                 RD        SVSAR7__PATH__       ;"7th axis SV speed arrival"
+                 AND.NOT   SVSST7__PATH__       ;"7th axis SV zero-speed"
+   #endif
+   #if spindle_sv_axis__PATH__ == 8
+                 RD        SVSAR8__PATH__       ;"8th axis SV speed arrival"
+                 AND.NOT   SVSST8__PATH__       ;"8th axis SV zero-speed"
+   #endif
+   #if demo_control == 1
+                 OR        LOG1                 ;"logic one"
+   #endif
+                 WRT       T_BIT000             ;"temporary bit 000"
+
+                 RD        T_BIT000             ;"temporary bit 000"
+                 AND       SP_RUN__PATH__       ;"spindle is turning"
+                 AND.NOT   sr_sar__PATH__       ;"restart timer for sp_sar"
+                 TMRB
+                           0
+                           200
+                 WRT       SP_SAR__PATH__       ;"spindle speed arrival"
+
+// ---------------------------------------------------------------------------
+// _PATH__: rigid tapping
+// ---------------------------------------------------------------------------
+#if rigid_tapping__PATH__ == 1
+   #if net_comment == 1
+(*
+_PATH__: rigid tapping
+*)
+   #endif
+
+   #if spindle_sv_axis__PATH__ == 1
+                 RD.NOT    MV1__PATH__          ;"1st axis moving signal"
+                 AND.NOT   SVREV1__PATH__       ;"1st axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 2
+                 RD.NOT    MV2__PATH__          ;"2nd axis moving signal"
+                 AND.NOT   SVREV2__PATH__       ;"2nd axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 3
+                 RD.NOT    MV3__PATH__          ;"3rd axis moving signal"
+                 AND.NOT   SVREV3__PATH__       ;"3rd axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 4
+                 RD.NOT    MV4__PATH__          ;"4th axis moving signal"
+                 AND.NOT   SVREV4__PATH__       ;"4th axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 5
+                 RD.NOT    MV5__PATH__          ;"5th axis moving signal"
+                 AND.NOT   SVREV5__PATH__       ;"5th axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 6
+                 RD.NOT    MV6__PATH__          ;"6th axis moving signal"
+                 AND.NOT   SVREV6__PATH__       ;"6th axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 7
+                 RD.NOT    MV7__PATH__          ;"7th axis moving signal"
+                 AND.NOT   SVREV7__PATH__       ;"7th axis speed ctrl mode"
+   #endif
+   #if spindle_sv_axis__PATH__ == 8
+                 RD.NOT    MV8__PATH__          ;"8th axis moving signal"
+                 AND.NOT   SVREV8__PATH__       ;"8th axis speed ctrl mode"
+   #endif
+                 OR        RGTAP__PATH__        ;"rigid tapping signal"
+                 AND       RTAP__PATH__         ;"rigid tapping in progress"
+                 WRT       RGTAP__PATH__        ;"rigid tapping signal"
+
+                 RD        RGTAP__PATH__        ;"rigid tapping signal"
+                 TMRB
+                           0
+                           300
+                 RST       M029__PATH__         ;"rigid tapping"
+#endif
+
+#if dcs_support == 1
+// ---------------------------------------------------------------------------
+// _PATH__: DCS related speed check in case of open doors
+// set data:   MAX_SP__PATH__ (max spindle speed)
+//             MAX_SPSET__PATH__ (max setup spindle speed)
+//
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS related speed check in case of open doors
+set data: MAX_SP__PATH__ (max spindle speed)
+          MAX_SPSET__PATH__ (max setup spindle speed)
+*)
+   #endif
+// ---------------------------------------------------------------------------
+// _PATH__: moving the programmed spindle speed into the temporary
+// variables for further calculations
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: moving the programmed spindle speed into the temporary
+variables for further calculations
+*)
+   #endif
+
+                 RD        LOG1                 ;"logic one"
+                 MOVD      
+                           S00-S31__PATH__      ;"spindle speed code"
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: comparison of programmed and maximal spindle speed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: comparison of programmed and maximal spindle speed
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 LED       
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                 WRT       pgspok__PATH__       ;"prog. spindle speed ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: if the programmed speed is to high, the speed will be
+// clamped to the maximal allowed speed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: if the programmed speed is to high, the speed will be
+clamped to the maximal allowed speed
+*)
+   #endif
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 MOVD      
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           TMP_B00              ;"temporary byte 00"
+
+                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 AND.NOT   M_1XXX__PATH__       ;"emergency message active"
+                 AND       POW_OK__PATH__       ;"power supply axis ok"
+                 WRT       SP_S_NOK__PATH__     ;"spindle speed not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: initialisation of temporary variables (4 bytes)
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: initialisation of temporary variables (4 bytes)
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 NUMEB     
+                           4
+                           0
+                           TMP_B04              ;"temporary byte 04"
+
+// ---------------------------------------------------------------------------
+// _PATH__: multiplication of the spindle speed with the spindle override
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: multiplication of the spindle speed with the spindle
+override
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 MOVB      
+                           SOV__PATH__          ;"spindle speed ovr signal"
+                           TMP_B04              ;"temporary byte 04"
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB      
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           TMP_B04              ;"temporary byte 04"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emuspov__PATH__      ;"multipl. err spindle ovr."
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB      
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           100
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edispov__PATH__      ;"division err spindle ovr."
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking max. setup speed
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: checking max. setup speed
+*)
+   #endif
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+                 GTD       
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SPSET__PATH__    ;"max spindle setup speed"
+                 WRT       sp_mset__PATH__      ;"max. spind. setup speed"
+                 RD        sp_mset__PATH__      ;"max. spind. setup speed"
+                 MOVD      
+                           MAX_SPSET__PATH__    ;"max spindle setup speed"
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the output value for the analog output
+// 4095 * prog. spindle speed / max. allowed speed 
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: calculation of the output value for the analog output
+4095 * prog. spindle speed / max. allowed speed
+*)
+   #endif
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 MULB      
+                           4
+                           TMP_B00              ;"temporary byte 00"
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
+                 RD        RST__PATH__          ;"resetting signal"
+                 RD.STK    LOG1                 ;"logic one"
+                 DIVB      
+                           1004
+                           TMP_B00              ;"temporary byte 00"
+                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       edisps__PATH__       ;"division err spindle speed"
+
+// ---------------------------------------------------------------------------
+// _PATH__: if the value is greater than 4095 the value will be clamped to 4095
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: if the value is greater than 4095 the value will be clamped
+to 4095
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 LED       
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+                 WRT       maxsdr__PATH__       ;"max. spindle speed reached"
+                 RD        maxsdr__PATH__       ;"max. spindle speed reached"
+                 NUMEB     
+                           4
+                           4095
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: when stopping the spindle the output value must be 0
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: when stopping the spindle the output value must be 0
+*)
+   #endif
+                 RD.NOT    SP_RUN__PATH__       ;"spindle is turning"
+                 OR        *SGOPN               ;"guard state doors closed"
+                 NUMEB     
+                           4
+                           0
+                           TMP_B00              ;"temporary byte 00"
+
+// ---------------------------------------------------------------------------
+// _PATH__: spindle motor speed command
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: spindle motor speed command
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 AND       
+                           2
+                           TMP_B00              ;"temporary byte 00"
+                           4095
+                           ROXL__PATH__         ;"sp motor speed command"
+
+// ---------------------------------------------------------------------------
+// _PATH__: PMC spindle control
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: PMC spindle control
+*)
+   #endif
+                 RD.NOT    *SGOPN               ;"guard state doors closed"
+                 WRT       SIND__PATH__         ;"spindle mode select signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: DCS spindle safety check deactivation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS spindle safety check deactivation
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
+#endif

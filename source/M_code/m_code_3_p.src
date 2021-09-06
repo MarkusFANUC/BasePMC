@@ -1,0 +1,650 @@
+//:--------------------------------------------------------------------------:
+//: File              : m_code_3__PATH__.src                                     :
+//: Creation date     : 16.09.2012                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Decoding three m codes per block                     :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: the M-COD module uses the high speed M/S/T/B interface.
+// up to 3 m codes can be specified in one block.
+// parameter setting: N03001 bit 7 = 1 (MHI), N03404 bit 7 = 1(M3B),
+// N03010 = 4/8, N03011 = 4/8 (pmc exec time 4ms or 8ms)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the M-COD module uses the high speed M/S/T/B interface.
+up to 3 M codes can be specified in one block.
+param. setting: N03001 bit 7 = 1 (MHI), N03404 bit 7 = 1 (M3B),
+N03010 = 4/8 , N03011 = 4/8 (pmc exec time 4ms or 8ms)
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: strobe and decoding of the 1st m code 
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: strobe and decoding of the 1st m code 
+*)
+#endif
+                 RD        MF__PATH__           ;"m-function strobe signal"
+                 AND.NOT   MFIN__PATH__         ;"aux. funct. compl. signal"
+                 RD.STK.NOT MF__PATH__          ;"m-function strobe signal"
+                 AND       MFIN__PATH__         ;"aux. funct. compl. signal"
+                 OR.STK
+                 AND       DEN__PATH__          ;"distribution end signal"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       m1code__PATH__       ;"1st m code is active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: rising and falling edge of the 1st m code (m1code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising and falling edge of the 1st m code (m1code)
+*)
+#endif
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 AND.NOT   m1codm__PATH__       ;"memory m code 1 active"
+                 WRT       rem1co__PATH__       ;"re 1st m code active"
+
+                 RD.NOT    m1code__PATH__       ;"1st m code is active"
+                 AND       m1codm__PATH__       ;"memory m code 1 active"
+                 WRT       fem1co__PATH__       ;"fe 1st m code active"
+
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 WRT       m1codm__PATH__       ;"memory m code 1 active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: strobe and decoding of the 2nd m code 
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: strobe and decoding of the 2nd m code 
+*)
+#endif
+                 RD        MF2__PATH__          ;"2nd m function strobe"
+                 AND.NOT   MFIN2__PATH__        ;"2nd m funct. compl. signal"
+                 RD.STK.NOT MF2__PATH__         ;"2nd m function strobe"
+                 AND       MFIN2__PATH__        ;"2nd m funct. compl. signal"
+                 OR.STK
+                 AND       DEN__PATH__          ;"distribution end signal"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       m2code__PATH__       ;"2nd m code is active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: rising and falling edge of the 2nd m code (m2code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising and falling edge of the 2nd m code (m2code)
+*)
+#endif
+                 RD        m2code__PATH__       ;"2nd m code is active"
+                 AND.NOT   m2codm__PATH__       ;"memory m code 2 active"
+                 WRT       rem2co__PATH__       ;"re 2nd m code active"
+
+                 RD.NOT    m2code__PATH__       ;"2nd m code is active"
+                 AND       m2codm__PATH__       ;"memory m code 2 active"
+                 WRT       fem2co__PATH__       ;"fe 2nd m code active"
+
+                 RD        m2code__PATH__       ;"2nd m code is active"
+                 WRT       m2codm__PATH__       ;"memory m code 2 active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: strobe and decoding of the 3rd m code 
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: strobe and decoding of the 3rd m code 
+*)
+#endif
+                 RD        MF3__PATH__          ;"3rd m function strobe"
+                 AND.NOT   MFIN3__PATH__        ;"3rd m funct. compl. signal"
+                 RD.STK.NOT MF3__PATH__         ;"3rd m function strobe"
+                 AND       MFIN3__PATH__        ;"3rd m funct. compl. signal"
+                 OR.STK
+                 AND       DEN__PATH__          ;"distribution end signal"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       m3code__PATH__       ;"3rd m code is active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: rising and falling edge of the 3rd m code (m3code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising and falling edge of the 3rd m code (m3code)
+*)
+#endif
+                 RD        m3code__PATH__       ;"3rd m code is active"
+                 AND.NOT   m3codm__PATH__       ;"memory m code 3 active"
+                 WRT       rem3co__PATH__       ;"re 3rd m code active"
+
+                 RD.NOT    m3code__PATH__       ;"3rd m code is active"
+                 AND       m3codm__PATH__       ;"memory m code 3 active"
+                 WRT       fem3co__PATH__       ;"fe 3rd m code active"
+
+                 RD        m3code__PATH__       ;"3rd m code is active"
+                 WRT       m3codm__PATH__       ;"memory m code 3 active"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code range check 1st m code: max. value <= table length * 8 -1
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code range check 1st m code
+max. value <= table length * 8 -1
+*)
+#endif
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 GTD
+                           MFCS__PATH__         ;"m-function code signal"
+                           399
+                 SET       erm1co__PATH__       ;"range error 1st m code"
+
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 AND.NOT   erm1co__PATH__       ;"range error 1st m code"
+                 WRT       m1cook__PATH__       ;"impulse first m code ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  error handling 1st m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: error handling 1st m code
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+#if demo_control == 1
+                 OR        m1fin__PATH__        ;"1st m-function finished"
+#endif
+                 AND       erm1co__PATH__       ;"range error 1st m code"
+                 RST       erm1co__PATH__       ;"range error 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code range check 2nd m code: max. value <= table length * 8 -1
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code range check 2nd m code
+max. value <= table length * 8 -1
+*)
+#endif
+                 RD        rem2co__PATH__       ;"re 2nd m code active"
+                 GTW
+                           MF2CS__PATH__        ;"2nd m function code signal"
+                           399
+                 SET       erm2co__PATH__       ;"range error 2nd m code"
+
+                 RD        rem2co__PATH__       ;"re 2nd m code active"
+                 AND.NOT   erm2co__PATH__       ;"range error 2nd m code"
+                 WRT       m2cook__PATH__       ;"impulse first m code ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  error handling 2nd m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: error handling 2nd m code
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+#if demo_control == 1
+                 OR        m2fin__PATH__        ;"2nd m-function finished"
+#endif
+                 AND       erm2co__PATH__       ;"range error 2nd m code"
+                 RST       erm2co__PATH__       ;"range error 2nd m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code range check 3rd m code: max. value <= table length * 8 -1
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code range check 3rd m code
+max. value <= table length * 8 -1
+*)
+#endif
+                 RD        rem3co__PATH__       ;"re 3rd m code active"
+                 GTW
+                           MF3CS__PATH__        ;"3rd m function code signal"
+                           399
+                 SET       erm3co__PATH__       ;"range error 3rd m code"
+
+                 RD        rem3co__PATH__       ;"re 3rd m code active"
+                 AND.NOT   erm3co__PATH__       ;"range error 3rd m code"
+                 WRT       m3cook__PATH__       ;"impulse 3rd m code ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  error handling 3rd m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: error handling 3rd m code
+*)
+#endif
+                 RD        RST__PATH__          ;"resetting signal"
+#if demo_control == 1
+                 OR        m3fin__PATH__        ;"3rd m-function finished"
+#endif
+                 AND       erm3co__PATH__       ;"range error 3rd m code"
+                 RST       erm3co__PATH__       ;"range error 3rd m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__:  message M-CODE OUT OF RANGE
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: message M-CODE OUT OF RANGE
+*)
+#endif
+                 RD        erm1co__PATH__       ;"range error 1st m code"
+                 OR        erm2co__PATH__       ;"range error 2nd m code"
+                 OR        erm3co__PATH__       ;"range error 3rd m code"
+                 WRT       M_NOK__PATH__        ;"m-code out of range"
+
+// ---------------------------------------------------------------------------
+// _PATH__: m code table length (50 * 8 = 400 / M000 - M399)
+// (m_code_table_length bytes = M00 - M largest_m_code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: m code table length (50 * 8 = 400 / M000 - M399)
+(m_code_table_length bytes = M00 - M largest_m_code)
+*)
+#endif
+                 RD        rem1co__PATH__       ;"re 1st m code active"
+                 NUMEB
+                           1
+                           50
+                           mctabl__PATH__       ;"tab length for m code dec"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the index pointer to the m code table (1st m code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the index pointer to the m code table
+(1st m code)
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    m1cook__PATH__       ;"impulse first m code ok"
+                 DIVB
+                           2
+                           MFCS__PATH__         ;"m-function code signal"
+                           8
+                           ptr1mc__PATH__       ;"index ptr to 1st m code"
+                 WRT       edivm1__PATH__       ;"divsion error 1st m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: the division rest is used to decode the related bit 
+// of the 1st m code at the adress calculated by F10 DIVB 8
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the division rest is used to decode the related bit 
+of the 1st m code at the adress calculated by F10 DIVB 8
+*)
+#endif
+                 RD        m1cook__PATH__       ;"impulse first m code ok"
+                 DECB
+                           1
+                           REST                 ;"calculation remainder"
+                           0
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: resetting the bit with the falling edge of m1code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: resetting the bit with the falling edge of m1code
+*)
+#endif
+                 RD        fem1co__PATH__       ;"fe 1st m code active"
+                 OR        erm1co__PATH__       ;"range error 1st m code"
+                 NUMEB
+                           1
+                           0
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: writing the byte with the decoded 1st m code into the m code table
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: writing the byte with the decoded 1st m code into the m code
+table
+*)
+#endif
+                 RD        m1cook__PATH__       ;"impulse first m code ok"
+                 OR        fem1co__PATH__       ;"fe 1st m code active"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m1code__PATH__       ;"1st m code is active"
+                 OR        fem1co__PATH__       ;"fe 1st m code active"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+                           ptr1mc__PATH__       ;"index ptr to 1st m code"
+                 WRT       exmwm1__PATH__       ;"error writing first m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the index pointer to the m code table
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the index pointer to the m code table
+(2nd m code)
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    m2cook__PATH__       ;"impulse first m code ok"
+                 DIVB
+                           2
+                           MF2CS__PATH__        ;"2nd m function code signal"
+                           8
+                           ptr2mc__PATH__       ;"index ptr to 2nd m code"
+                 WRT       edivm2__PATH__       ;"divsion error m code 2"
+
+// ---------------------------------------------------------------------------
+// _PATH__: the division rest is used to decode the related bit 
+// of the 2nd m code at the adress calculated by F14 DIVB 8
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the division rest is used to decode the related bit 
+of the 2nd m code at the adress calculated by F14 DIVB 8
+*)
+#endif
+                 RD        m2cook__PATH__       ;"impulse first m code ok"
+                 DECB
+                           1
+                           REST                 ;"calculation remainder"
+                           0
+                           TMP_B00              ;"temorary byte 0"
+
+// ---------------------------------------------------------------------------
+// _PATH__: reading the byte from the m code table where the 2nd m code bit
+// must be written
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: reading the byte from the m code table where the 2nd m code bit
+must be written
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m2cook__PATH__       ;"impulse first m code ok"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+                           ptr2mc__PATH__       ;"index ptr to 2nd m code"
+                 WRT       exr1m2__PATH__       ;"error reading 2nd m code"
+
+                 RD        m2cook__PATH__       ;"impulse first m code ok"
+                 OR
+                           1001
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+                           TMP_B00              ;"temorary byte 0"
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+
+                 RD        fem2co__PATH__       ;"fe 2nd m code active"
+                 OR        erm2co__PATH__       ;"range error 2nd m code"
+                 NUMEB     
+                           1
+                           0
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: writing the byte to the m code table where the 2nd m code bit
+// must be written
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: writing the byte to the m code table where the 2nd m code bit
+must be written
+*)
+#endif
+                 RD        m2cook__PATH__       ;"impulse first m code ok"
+                 OR        fem2co__PATH__       ;"fe 2nd m code active"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m2code__PATH__       ;"2nd m code is active"
+                 OR        fem2co__PATH__       ;"fe 2nd m code active"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+                           ptr2mc__PATH__       ;"index ptr to 2nd m code"
+                 WRT       exmwm2__PATH__       ;"error writing 2nd m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: calculation of the index pointer to the m code table (3rd m code)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: calculation of the index pointer to the m code table
+(3rd m code)
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK    m3cook__PATH__       ;"impulse 3rd m code ok"
+                 DIVB
+                           2
+                           MF3CS__PATH__        ;"3rd m function code signal"
+                           8
+                           ptr3mc__PATH__       ;"index ptr to 3rd m code"
+                 WRT       edivm3__PATH__       ;"divsion error m code 3"
+
+// ---------------------------------------------------------------------------
+// _PATH__: the division rest is used to decode the related bit 
+// of the 3rd m code at the adress calculated by F16 DIVB 8
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: the division rest is used to decode the related bit 
+of the 3rd m code at the adress calculated by F16 DIVB 8
+*)
+#endif
+                 RD        m3cook__PATH__       ;"impulse 3rd m code ok"
+                 DECB
+                           1
+                           REST                 ;"calculation remainder"
+                           0
+                           TMP_B00              ;"temorary byte 0"
+
+// ---------------------------------------------------------------------------
+// _PATH__: reading the byte from the m code table where the 3rd m code bit
+// must be written
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: reading the byte from the m code table where the 3rd m code bit
+must be written
+*)
+#endif
+                 RD.NOT    LOG1                 ;"logic one"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m3cook__PATH__       ;"impulse 3rd m code ok"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+                           ptr3mc__PATH__       ;"index ptr to 3rd m code"
+                 WRT       exr1m3__PATH__       ;"error reading 3rd m code"
+
+                 RD        m3cook__PATH__       ;"impulse 3rd m code ok"
+                 OR
+                           1001
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+                           TMP_B00              ;"temorary byte 0"
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+
+                 RD        fem3co__PATH__       ;"fe 3rd m code active"
+                 OR        erm3co__PATH__       ;"range error 3rd m code"
+                 NUMEB
+                           1
+                           0
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+
+// ---------------------------------------------------------------------------
+// _PATH__: writing the byte to the m code table where the 3rd m code bit
+// must be written
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: writing the byte to the m code table where the 3rd m code bit
+must be written
+*)
+#endif
+                 RD        m3cook__PATH__       ;"impulse 3rd m code ok"
+                 OR        fem3co__PATH__       ;"fe 3rd m code active"
+                 RD.STK.NOT LOG1                ;"logic one"
+                 RD.STK    m3code__PATH__       ;"3rd m code is active"
+                 OR        fem3co__PATH__       ;"fe 3rd m code active"
+                 XMOVB
+                           1
+                           mctabl__PATH__       ;"tab length for m code dec"
+                           M000_007__PATH__     ;"m codes M000 to M007"
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+                           ptr3mc__PATH__       ;"index ptr to 3rd m code"
+                 WRT       exmwm3__PATH__       ;"error writing 3rd m code"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition signal of the 1st m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition signal of the 1st m code
+*)
+#endif
+                 RD        m1code__PATH__       ;"1st m code is active"
+                 EQB
+                           dbit1m__PATH__       ;"dec. bit 1st m code table"
+                           0
+                 WRT       m1exec__PATH__       ;"1st m-function executed"
+
+                 RD        m1exec__PATH__       ;"1st m-function executed"
+                 AND.NOT   erm1co__PATH__       ;"range error 1st m code"
+#if demo_control == 1
+                 OR        m1code__PATH__       ;"1st m code is active"
+#endif
+                 WRT       m1fin__PATH__        ;"1st m-function finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition signal of the 2nd m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition signal of the 2nd m code
+*)
+#endif
+                 RD        m2code__PATH__       ;"2nd m code is active"
+                 EQB
+                           dbit2m__PATH__       ;"dec. bit 2nd m code table"
+                           0
+                 WRT       m2exec__PATH__       ;"2nd m-function executed"
+
+                 RD        m2exec__PATH__       ;"2nd m-function executed"
+                 AND.NOT   erm2co__PATH__       ;"range error 2nd m code"
+#if demo_control == 1
+                 OR        m2code__PATH__       ;"2nd m code is active"
+#endif
+                 WRT       m2fin__PATH__        ;"2nd m-function finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: waiting for the completition signal of the 3rd m code
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: waiting for the completition signal of the 3rd m code
+*)
+#endif
+                 RD        m3code__PATH__       ;"3rd m code is active"
+                 EQB
+                           dbit3m__PATH__       ;"dec. bit 3rd m code table"
+                           0
+                 WRT       m3exec__PATH__       ;"3st m-function executed"
+
+                 RD        m3exec__PATH__       ;"3st m-function executed"
+                 AND.NOT   erm3co__PATH__       ;"range error 3rd m code"
+#if demo_control == 1
+                 OR        m3code__PATH__       ;"3rd m code is active"
+#endif
+                 WRT       m3fin__PATH__        ;"3st m-function finished"
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal of the 1st m code to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal of the 1st m code to the cnc
+*)
+#endif
+                 RD        m1fin__PATH__        ;"1st m-function finished"
+                 AND       MF__PATH__           ;"m-function strobe signal"
+                 RD.STK    MFIN__PATH__         ;"aux. funct. compl. signal"
+                 AND.NOT   m1fin__PATH__        ;"1st m-function finished"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       MFIN__PATH__         ;"aux. funct. compl. signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal of the 2nd m code to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal of the 2nd m code to the cnc
+*)
+#endif
+                 RD        m2fin__PATH__        ;"2nd m-function finished"
+                 AND       MF2__PATH__          ;"2nd m function strobe"
+                 RD.STK    MFIN2__PATH__        ;"2nd m funct. compl. signal"
+                 AND.NOT   m2fin__PATH__        ;"2nd m-function finished"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       MFIN2__PATH__        ;"2nd m funct. compl. signal"
+
+// ---------------------------------------------------------------------------
+// _PATH__: sending completition signal of the 3rd m code to the cnc
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: sending completition signal of the 3rd m code to the cnc
+*)
+#endif
+                 RD        m3fin__PATH__        ;"3st m-function finished"
+                 AND       MF3__PATH__          ;"3rd m function strobe"
+                 RD.STK    MFIN3__PATH__        ;"3rd m funct. compl. signal"
+                 AND.NOT   m3fin__PATH__        ;"3st m-function finished"
+                 OR.STK
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       MFIN3__PATH__        ;"3rd m funct. compl. signal"

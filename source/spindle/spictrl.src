@@ -1,0 +1,696 @@
+//:--------------------------------------------------------------------------:
+//: File              : spictrl.src                                          :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Spindle control                                      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:--------------------------------------------------------------------------:
+//:25.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// P01:spindle control
+// ---------------------------------------------------------------------------
+#if spindle_support_P01 > 0
+   #if net_comment == 1
+(*
+P01:spindle control
+*)
+   #endif
+                 CALLU     SpiCtrl_P01          ;"P01:spindle control"
+#endif
+
+#if nbr_of_path > 1
+   #if spindle_support_P02 > 0
+// ---------------------------------------------------------------------------
+// P02:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P02:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P02          ;"P02:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 2
+   #if spindle_support_P03 > 0
+// ---------------------------------------------------------------------------
+// P03:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P03:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P03          ;"P03:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 3
+   #if spindle_support_P04 > 0
+// ---------------------------------------------------------------------------
+// P04:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P04:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P04          ;"P04:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 4
+   #if spindle_support_P05 > 0
+// ---------------------------------------------------------------------------
+// P05:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P05:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P05          ;"P05:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 5
+#if spindle_support_P06 > 0
+// ---------------------------------------------------------------------------
+// P06:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P06:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P06          ;"P06:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 6
+   #if spindle_support_P07 > 0
+// ---------------------------------------------------------------------------
+// P07:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P07:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P07          ;"P07:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 7
+   #if spindle_support_P08 > 0
+// ---------------------------------------------------------------------------
+// P08:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P08:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P08          ;"P08:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 8
+   #if spindle_support_P09 > 0
+// ---------------------------------------------------------------------------
+// P09:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P09:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P09          ;"P09:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 9
+   #if spindle_support_P10 > 0
+// ---------------------------------------------------------------------------
+// P10:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P10:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P10          ;"P10:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if spindle_support_P11 > 0
+// ---------------------------------------------------------------------------
+// P11:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P11:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P11          ;"P11:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 11
+   #if spindle_support_P12 > 0
+// ---------------------------------------------------------------------------
+// P12:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P12:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P12          ;"P12:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 12
+   #if spindle_support_P13 > 0
+// ---------------------------------------------------------------------------
+// P13:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P13:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P13          ;"P13:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 13
+   #if spindle_support_P14 > 0
+// ---------------------------------------------------------------------------
+// P14:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P14:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P14          ;"P14:spindle control"
+   #endif
+#endif
+
+#if nbr_of_path > 14
+   #if spindle_support_P15 > 0
+// ---------------------------------------------------------------------------
+// P15:spindle control
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P15:spindle control
+*)
+      #endif
+                 CALLU     SpiCtrl_P15          ;"P15:spindle control"
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// message: 1001 SPINDLE ALARM
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: 1001 SPINDLE ALARM
+*)
+#endif
+#if spindle_support_P01 == 1
+                 RD        SP_ALM_P01           ;"P01:spindle alarm"
+#else
+                 RD.NOT    LOG1                 ;"logic one"
+#endif
+#if nbr_of_path > 1
+   #if spindle_support_P02 == 1
+                 OR        SP_ALM_P02           ;"P02:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if spindle_support_P03 == 1
+                 OR        SP_ALM_P03           ;"P03:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if spindle_support_P04 == 1
+                 OR        SP_ALM_P04           ;"P04:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if spindle_support_P05 == 1
+                 OR        SP_ALM_P05           ;"P05:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if spindle_support_P06 == 1
+                 OR        SP_ALM_P06           ;"P06:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if spindle_support_P07 == 1
+                 OR        SP_ALM_P07           ;"P07:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if spindle_support_P08 == 1
+                 OR        SP_ALM_P08           ;"P08:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if spindle_support_P09 == 1
+                 OR        SP_ALM_P09           ;"P09:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if spindle_support_P10 == 1
+                 OR        SP_ALM_P10           ;"P10:spindle alarm"
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if spindle_support_P11 == 1
+                 OR        SP_ALM_P11           ;"P11:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if spindle_support_P12 == 1
+                 OR        SP_ALM_P12           ;"P12:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if spindle_support_P13 == 1
+                 OR        SP_ALM_P13           ;"P13:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if spindle_support_P14 == 1
+                 OR        SP_ALM_P14           ;"P14:spindle alarm"
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if spindle_support_P15 == 1
+                 OR        SP_ALM_P15           ;"P15:spindle alarm"
+   #endif
+#endif
+                 WRT       M_1001               ;"spindle alarm"
+
+// ---------------------------------------------------------------------------
+// message: 2002 PROG. SPINDLE SPEED TOO HIGH
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: 2002 PROG. SPINDLE SPEED TOO HIGH
+*)
+#endif
+#if spindle_support_P01 > 0
+                 RD        SP_S_NOK_P01         ;"P01:spindle speed not ok"
+                 AND       PATH_P01             ;"path 01 selected"
+#else
+                 RD.NOT    LOG1                 ;"logic one"
+#endif
+#if nbr_of_path > 1
+   #if spindle_support_P02 > 0
+                 RD.STK    SP_S_NOK_P02         ;"P02:spindle speed not ok"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if spindle_support_P03 > 0
+                 RD.STK    SP_S_NOK_P03         ;"P03:spindle speed not ok"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if spindle_support_P04 > 0
+                 RD.STK    SP_S_NOK_P04         ;"P04:spindle speed not ok"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if spindle_support_P05 > 0
+                 RD.STK    SP_S_NOK_P05         ;"P05:spindle speed not ok"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if spindle_support_P06 > 0
+                 RD.STK    SP_S_NOK_P06         ;"P06:spindle speed not ok"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if spindle_support_P07 > 0
+                 RD.STK    SP_S_NOK_P07         ;"P07:spindle speed not ok"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if spindle_support_P08 > 0
+                 RD.STK    SP_S_NOK_P08         ;"P08:spindle speed not ok"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if spindle_support_P09 > 0
+                 RD.STK    SP_S_NOK_P09         ;"P09:spindle speed not ok"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if spindle_support_P10 > 0
+                 RD.STK    SP_S_NOK_P10         ;"P10:spindle speed not ok"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if spindle_support_P11 > 0
+                 RD.STK    SP_S_NOK_P11         ;"P11:spindle speed not ok"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if spindle_support_P12 > 0
+                 RD.STK    SP_S_NOK_P12         ;"P12:spindle speed not ok"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if spindle_support_P13 > 0
+                 RD.STK    SP_S_NOK_P13         ;"P13:spindle speed not ok"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if spindle_support_P14 > 0
+                 RD.STK    SP_S_NOK_P14         ;"P14:spindle speed not ok"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if spindle_support_P15 > 0
+                 RD.STK    SP_S_NOK_P15         ;"P15:spindle speed not ok"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+   #endif
+#endif
+                 WRT       M_2002               ;"prog. spindle speed to high"
+
+// ---------------------------------------------------------------------------
+// global variable: SP_STP (spindles all path stopped)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable: SP_STP (spindles all path stopped)
+*)
+#endif
+#if spindle_support_P01 < 1
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD.NOT    SP_STP_P01           ;"P01:spindle stopped"
+#endif
+#if nbr_of_path > 1
+   #if spindle_support_P02 > 0
+                 OR.NOT    SP_STP_P02           ;"P02:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 2
+   #if spindle_support_P03 > 0
+                 OR.NOT    SP_STP_P03           ;"P03:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 3
+   #if spindle_support_P04 > 0
+                 OR.NOT    SP_STP_P04           ;"P04:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 4
+   #if spindle_support_P05 > 0
+                 OR.NOT    SP_STP_P05           ;"P05:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 5
+   #if spindle_support_P06 > 0
+                 OR.NOT    SP_STP_P06           ;"P06:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 6
+   #if spindle_support_P07 > 0
+                 OR.NOT    SP_STP_P07           ;"P07:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 7
+   #if spindle_support_P08 > 0
+                 OR.NOT    SP_STP_P08           ;"P08:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 8
+   #if spindle_support_P09 > 0
+                 OR.NOT    SP_STP_P09           ;"P09:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 9
+   #if spindle_support_P10 > 0
+                 OR.NOT    SP_STP_P10           ;"P10:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 10
+   #if spindle_support_P11 > 0
+                 OR.NOT    SP_STP_P11           ;"P11:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 11
+   #if spindle_support_P12 > 0
+                 OR.NOT    SP_STP_P12           ;"P12:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 12
+   #if spindle_support_P13 > 0
+                 OR.NOT    SP_STP_P13           ;"P13:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 13
+   #if spindle_support_P14 > 0
+                 OR.NOT    SP_STP_P14           ;"P14:spindle stopped"
+   #endif
+#endif
+#if nbr_of_path > 14
+   #if spindle_support_P15 > 0
+                 OR.NOT    SP_STP_P15           ;"P15:spindle stopped"
+   #endif
+#endif
+                 WRT.NOT   SP_STP               ;"spindles all path stopped"
+
+#if dcs_support == 1
+// --------------------------------------------------------------------------
+// checking DCS spindle specific MCC off signals (all path)
+// --------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS spindle specific MCC off signals (all path)
+*)
+   #endif
+   #if spindle_support_P01 == 1
+                 RD        MCFPx_NOK_P01        ;"P01:mcc spindles not ok"
+   #else
+                 RD.NOT    LOG1                 ;"logic one"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 == 1
+                 OR        MCFPx_NOK_P02        ;"P02:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 == 1
+                 OR        MCFPx_NOK_P03        ;"P03:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 == 1
+                 OR        MCFPx_NOK_P04        ;"P04:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 == 1
+                 OR        MCFPx_NOK_P05        ;"P05:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 == 1
+                 OR        MCFPx_NOK_P06        ;"P06:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 == 1
+                 OR        MCFPx_NOK_P07        ;"P07:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 == 1
+                 OR        MCFPx_NOK_P08        ;"P08:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 == 1
+                 OR        MCFPx_NOK_P09        ;"P09:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 == 1
+                 OR        MCFPx_NOK_P10        ;"P10:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 == 1
+                 OR        MCFPx_NOK_P11        ;"P11:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 == 1
+                 OR        MCFPx_NOK_P12        ;"P12:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 == 1
+                 OR        MCFPx_NOK_P13        ;"P13:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 == 1
+                 OR        MCFPx_NOK_P14        ;"P14:mcc spindles not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 == 1
+                 OR        MCFPx_NOK_P15        ;"P15:mcc spindles not ok"
+      #endif
+   #endif
+                 WRT       MCFPx_NOK            ;"mcc spindles not ok"
+
+// --------------------------------------------------------------------------
+// checking DCS spindle specific monitoring signals (all path)
+// --------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+checking DCS spindle specific monitoring signals (all path)
+*)
+   #endif
+
+   #if spindle_support_P01 == 1
+                 RD        RSPs_NOK_P01         ;"P01:rsp monitoring not ok"
+   #else
+                 RD.NOT    LOG1                 ;"logic one"
+   #endif
+   #if nbr_of_path > 1
+      #if spindle_support_P02 == 1
+                 OR        RSPs_NOK_P02         ;"P02:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 2
+      #if spindle_support_P03 == 1
+                 OR        RSPs_NOK_P03         ;"P03:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 3
+      #if spindle_support_P04 == 1
+                 OR        RSPs_NOK_P04         ;"P04:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 4
+      #if spindle_support_P05 == 1
+                 OR        RSPs_NOK_P05         ;"P05:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 5
+      #if spindle_support_P06 == 1
+                 OR        RSPs_NOK_P06         ;"P06:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 6
+      #if spindle_support_P07 == 1
+                 OR        RSPs_NOK_P07         ;"P07:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 7
+      #if spindle_support_P08 == 1
+                 OR        RSPs_NOK_P08         ;"P08:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 8
+      #if spindle_support_P09 == 1
+                 OR        RSPs_NOK_P09         ;"P09:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 9
+      #if spindle_support_P10 == 1
+                 OR        RSPs_NOK_P10         ;"P10:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 10
+      #if spindle_support_P11 == 1
+                 OR        RSPs_NOK_P11         ;"P11:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 11
+      #if spindle_support_P12 == 1
+                 OR        RSPs_NOK_P12         ;"P12:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 12
+      #if spindle_support_P13 == 1
+                 OR        RSPs_NOK_P13         ;"P13:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 13
+      #if spindle_support_P14 == 1
+                 OR        RSPs_NOK_P14         ;"P14:rsp monitoring not ok"
+      #endif
+   #endif
+   #if nbr_of_path > 14
+      #if spindle_support_P15 == 1
+                 OR        RSPs_NOK_P15         ;"P15:rsp monitoring not ok"
+      #endif
+   #endif
+                 WRT       RSPs_NOK             ;"rsp monitoring not ok"
+#endif

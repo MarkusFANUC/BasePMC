@@ -1,0 +1,300 @@
+//:--------------------------------------------------------------------------:
+//: File              : iolink_i.src                                         :
+//: Creation date     : 20.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Source for the io link i file                        :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:20.10.17: 2.0.0 :Blp    :I/O assignment changed Y6->Y0                    :
+//:        :       :       :safety operator panel + small op with general    :
+//:        :       :       :DI/DO included                                   :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Include files
+// ===========================================================================
+#include "..\config.def"
+
+// ---------------------------------------------------------------------------
+// title
+// ---------------------------------------------------------------------------
+%@7
+$TITLE 'I/O Link i for MBasePMC\n'
+// ---------------------------------------------------------------------------
+// Selectable I/O Link i channel 1
+// ---------------------------------------------------------------------------
+$SELECT_IO
+#if start_address_op > 0 || handwheel_support == 2
+1  USE             ; SELECTABLE I/O Link i (CHANNEL 1)
+#else
+1  UNUSE           ; SELECTABLE I/O Link i (CHANNEL 1)
+#endif
+// ----------------------------------------------
+// Software operator's panel
+// ----------------------------------------------
+#if operatorspanel == 0
+   #if handwheel_support == 2
+2  1               ; BASIC GROUP COUNT
+   #else
+2  0               ; BASIC GROUP COUNT
+   #endif
+#endif
+
+// ----------------------------------------------
+// Small machine operator's panel with 30 keys
+// ----------------------------------------------
+#if operatorspanel == 1
+   #if start_address_op > 0
+      #if handwheel_support == 2
+2  3               ; BASIC GROUP COUNT
+      #else
+2  2               ; BASIC GROUP COUNT
+      #endif
+   #else 
+      #if handwheel_support == 2
+2  1               ; BASIC GROUP COUNT
+      #endif
+   #endif      
+#endif
+
+// ----------------------------------------------
+// Standard machine operator's panel with 55 keys
+// ----------------------------------------------
+#if operatorspanel == 2
+   #if start_address_op > 0
+      #if dcs_support == 1
+         #if handwheel_support == 2
+2  3               ; BASIC GROUP COUNT
+         #else
+2  2               ; BASIC GROUP COUNT
+         #endif
+      #else
+         #if handwheel_support == 2
+2  2               ; BASIC GROUP COUNT
+         #else
+2  1               ; BASIC GROUP COUNT
+         #endif
+      #endif
+   #else
+      #if handwheel_support == 2
+2  1               ; BASIC GROUP COUNT
+      #else
+2  0               ; BASIC GROUP COUNT
+      #endif
+   #endif      
+#endif
+
+// ----------------------------------------------
+// iPendant (for CNC)
+// ----------------------------------------------
+#if operatorspanel == 3
+   #if handwheel_support == 2
+2  1               ; BASIC GROUP COUNT
+   #else
+2  0               ; BASIC GROUP COUNT
+   #endif
+#endif
+
+// ---------------------------------------------------------------------------
+// Selectable I/O Link i channel 2
+// ---------------------------------------------------------------------------
+3  UNUSE           ; SELECTABLE I/O Link i (CHANNEL 2)
+4  0               ; BASIC GROUP COUNT
+$END_SELECT_IO
+
+// ---------------------------------------------------------------------------
+//  I/O setting channel 1
+// ---------------------------------------------------------------------------
+$CHANNEL1
+// ----------------------------------------------
+// Software operator's panel
+// ----------------------------------------------
+#if operatorspanel == 0
+   #if handwheel_support == 2
+   $GROUP
+     ; Group       Mode        Safety      MPG
+       0           0           NO          1
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+           1       PMC1    X0068   12      Y0068   32      Hmop
+           2       PMC1    X0081   2       0       0       Reserve
+           3       PMC1    X0083   4       0       0       Status_information
+           MPG     PMC1    X0080   1       0       0       
+       $END_SLOT
+   $END_GROUP
+   #endif   
+#endif
+
+// ----------------------------------------------
+// Small machine operator's panel with 30 keys
+// ----------------------------------------------
+#if operatorspanel == 1
+   #if start_address_op > 0
+   $GROUP
+     ; Group       Mode        Safety      MPG
+      #if handwheel_support == 1
+       0           0           NO          1
+      #else
+       0           0           NO          0
+      #endif
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+      #if start_address_op == 1
+           1       PMC1    X0100   9       Y0100   5       Small_operator_panel
+         #if handwheel_support == 1
+           MPG     PMC1    X0112   3       0       0       Handwheel
+         #endif
+      #endif
+      #if start_address_op == 2
+           1       PMC1    X0006   9       Y0000   5       Small_operator_panel
+         #if handwheel_support == 1
+           MPG     PMC1    X0018   3       0       0       Handwheel
+         #endif
+      #endif
+       $END_SLOT
+   $END_GROUP
+   $GROUP
+     ; Group       Mode        Safety      MPG
+       1           0           NO          0
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+      #if start_address_op == 1
+           1       PMC1    X0116   6       Y0108   2       Small_OP_general_purpose
+      #endif
+      #if start_address_op == 2
+           1       PMC1    X0022   6       Y0008   2       Small_OP_general_purpose
+      #endif
+       $END_SLOT
+   $END_GROUP
+   #endif 
+   #if handwheel_support == 2
+   $GROUP
+     ; Group       Mode        Safety      MPG
+      #if start_address_op > 0
+       2           0           NO          1
+      #else
+       0           0           NO          1
+      #endif
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+           1       PMC1    X0068   12      Y0068   32      Hmop
+           2       PMC1    X0081   2       0       0       Reserve
+           3       PMC1    X0083   4       0       0       Status_information
+           MPG     PMC1    X0080   1       0       0       
+       $END_SLOT
+   $END_GROUP
+   #endif
+#endif
+
+// ----------------------------------------------
+// Standard machine operator's panel with 55 keys
+// ----------------------------------------------
+#if operatorspanel == 2
+   #if start_address_op > 0
+   $GROUP
+     ; Group       Mode        Safety      MPG
+      #if dcs_support == 1
+         #if handwheel_support == 1
+       0           0           PMC         1
+         #else
+       0           0           PMC         0
+         #endif
+      #else
+         #if handwheel_support == 1
+       0           0           NO          1
+         #else
+       0           0           NO          0
+         #endif
+      #endif
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+      #if start_address_op == 1
+           1       PMC1    X0100   12      Y0100   8       Operator_panel
+         #if handwheel_support == 1
+           MPG     PMC1    X0112   3       0       0       Handwheel
+         #endif
+      #endif
+      #if start_address_op == 2
+           1       PMC1    X0006   12      Y0000   8       Operator_panel
+         #if handwheel_support == 1
+           MPG     PMC1    X0018   3       0       0       Handwheel
+         #endif
+      #endif
+       $END_SLOT
+   $END_GROUP
+      #if dcs_support == 1
+   $GROUP
+     ; Group       Mode        Safety      MPG
+       1           0           DCSPMC      0
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+         #if start_address_op == 1
+           1       DCSPMC  X0103   9       0       0       DCS_Operator_Panel
+         #endif
+         #if start_address_op == 2
+           1       DCSPMC  X0008   9       0       0       DCS_Operator_Panel
+         #endif
+       $END_SLOT
+   $END_GROUP
+      #endif
+   #endif
+   #if handwheel_support == 2
+   $GROUP
+     ; Group       Mode        Safety      MPG
+      #if start_address_op > 0
+         #if dcs_support == 1
+       2           0           NO          1
+         #else
+       1           0           NO          1
+         #endif
+      #else
+       0           0           NO          1
+      #endif
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+           1       PMC1    X0068   12      Y0068   32      Hmop
+           2       PMC1    X0081   2       0       0       Reserve
+           3       PMC1    X0083   4       0       0       Status_information
+           MPG     PMC1    X0080   1       0       0       
+       $END_SLOT
+   $END_GROUP
+   #endif
+#endif
+
+// ----------------------------------------------
+// iPendant (for CNC)
+// ----------------------------------------------
+#if operatorspanel == 3
+   #if handwheel_support == 2
+   $GROUP
+     ; Group       Mode        Safety      MPG
+       0           0           NO          1
+       $SLOT
+         ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
+           1       PMC1    X0068   12      Y0068   32      Hmop
+           2       PMC1    X0081   2       0       0       Reserve
+           3       PMC1    X0083   4       0       0       Status_information
+           MPG     PMC1    X0080   1       0       0       
+       $END_SLOT
+   $END_GROUP
+   #endif   
+#endif
+$END_CHANNEL1
+// ---------------------------------------------------------------------------
+//  I/O setting channel 1
+// ---------------------------------------------------------------------------
+$CHANNEL2
+$END_CHANNEL2
+%

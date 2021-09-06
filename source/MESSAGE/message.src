@@ -1,0 +1,323 @@
+//:--------------------------------------------------------------------------:
+//: File              : message.src                                          :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Message display for one language                     :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:31.07.18: 2.0.0 :Blp    :path 11-15 added, AL added to ALARM              :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// message display for one language
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message display for one language
+*)
+#endif
+
+// ---------------------------------------------------------------------------
+// message: 1000 EMERGENCY STOP ACTIVE
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: 1000 EMERGENCY STOP ACTIVE
+*)
+#endif
+                 RD        EMG_STP              ;"emergency stop active"
+                 WRT       M_1000               ;"emergency alarm"
+
+// ---------------------------------------------------------------------------
+// message: BATTERIE ALARM
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message: BATTERIE ALARM
+*)
+#endif
+                 RD        BAL_P01              ;"P01:battery alarm signal"
+                 AND.NOT   PGMRUN_P01           ;"P01:program running"
+                 AND       PATH_P01             ;"path 01 selected"
+#if nbr_of_path > 1
+                 RD.STK    BAL_P02              ;"P02:battery alarm signal"
+                 AND.NOT   PGMRUN_P02           ;"P02:program running"
+                 AND       PATH_P02             ;"path 02 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 2
+                 RD.STK    BAL_P03              ;"P03:battery alarm signal"
+                 AND.NOT   PGMRUN_P03           ;"P03:program running"
+                 AND       PATH_P03             ;"path 03 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 3
+                 RD.STK    BAL_P04              ;"P04:battery alarm signal"
+                 AND.NOT   PGMRUN_P04           ;"P04:program running"
+                 AND       PATH_P04             ;"path 04 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 4
+                 RD.STK    BAL_P05              ;"P05:battery alarm signal"
+                 AND.NOT   PGMRUN_P05           ;"P05:program running"
+                 AND       PATH_P05             ;"path 05 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 5
+                 RD.STK    BAL_P06              ;"P06:battery alarm signal"
+                 AND.NOT   PGMRUN_P06           ;"P06:program running"
+                 AND       PATH_P06             ;"path 06 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 6
+                 RD.STK    BAL_P07              ;"P07:battery alarm signal"
+                 AND.NOT   PGMRUN_P07           ;"P07:program running"
+                 AND       PATH_P07             ;"path 07 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 7
+                 RD.STK    BAL_P08              ;"P08:battery alarm signal"
+                 AND.NOT   PGMRUN_P08           ;"P08:program running"
+                 AND       PATH_P08             ;"path 08 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 8
+                 RD.STK    BAL_P09              ;"P09:battery alarm signal"
+                 AND.NOT   PGMRUN_P09           ;"P09:program running"
+                 AND       PATH_P09             ;"path 09 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 9
+                 RD.STK    BAL_P10              ;"P10:battery alarm signal"
+                 AND.NOT   PGMRUN_P10           ;"P10:program running"
+                 AND       PATH_P10             ;"path 10 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 10
+                 RD.STK    BAL_P11              ;"P11:battery alarm signal"
+                 AND.NOT   PGMRUN_P11           ;"P11:program running"
+                 AND       PATH_P11             ;"path 11 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 11
+                 RD.STK    BAL_P12              ;"P12:battery alarm signal"
+                 AND.NOT   PGMRUN_P12           ;"P12:program running"
+                 AND       PATH_P12             ;"path 12 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 12
+                 RD.STK    BAL_P13              ;"P13:battery alarm signal"
+                 AND.NOT   PGMRUN_P13           ;"P13:program running"
+                 AND       PATH_P13             ;"path 13 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 13
+                 RD.STK    BAL_P14              ;"P14:battery alarm signal"
+                 AND.NOT   PGMRUN_P14           ;"P14:program running"
+                 AND       PATH_P14             ;"path 14 selected"
+                 OR.STK
+#endif
+#if nbr_of_path > 14
+                 RD.STK    BAL_P15              ;"P15:battery alarm signal"
+                 AND.NOT   PGMRUN_P15           ;"P15:program running"
+                 AND       PATH_P15             ;"path 15 selected"
+                 OR.STK
+#endif
+                 WRT       M_2102               ;"batterie alarm"
+
+// ---------------------------------------------------------------------------
+// check if an emergency message is active
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+check if an emergency message is active
+*)
+#endif
+                 RD        LOG1                 ;"logic one"
+                 EQD       
+                           0
+                           MADR_A00             ;"message display address A00"
+                 WRT       n_mes1               ;"no messages A0.0 - A3.7"
+                 RD        LOG1                 ;"logic one"
+                 EQD       
+                           0
+                           MADR_A04             ;"message display address A04"
+                 WRT       n_mes2               ;"no messages A4.0 - A7.7"
+
+// ---------------------------------------------------------------------------
+// check if an error message is active
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+check if an error message is active
+*)
+#endif
+
+                 RD        LOG1                 ;"logic one"
+                 EQD       
+                           0
+                           MADR_A08             ;"message display address A08"
+                 WRT       n_mes3               ;"no messages A8.0 - A11.7"
+
+                 RD        LOG1                 ;"logic one"
+                 EQD       
+                           0
+                           MADR_A12             ;"message display address A12"
+                 WRT       n_mes4               ;"no messages A12.0 - A15.7"
+
+                 RD        LOG1                 ;"logic one"
+                 EQD       
+                           0
+                           MADR_A16             ;"message display address A12"
+                 WRT       n_mes5               ;"no messages A16.0 - A19.7"
+
+// ---------------------------------------------------------------------------
+// global variable AL (alarm message active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable AL (alarm message active)
+*)
+#endif
+                 RD        AL_P01               ;"P01:alarm signal"
+   #if nbr_of_path > 1
+                 OR        AL_P02               ;"P02:alarm signal"
+   #endif
+   #if nbr_of_path > 2
+                 OR        AL_P03               ;"P03:alarm signal"
+   #endif
+   #if nbr_of_path > 3
+                 OR        AL_P04               ;"P04:alarm signal"
+   #endif
+   #if nbr_of_path > 4
+                 OR        AL_P05               ;"P05:alarm signal"
+   #endif
+   #if nbr_of_path > 5
+                 OR        AL_P06               ;"P06:alarm signal"
+   #endif
+   #if nbr_of_path > 6
+                 OR        AL_P07               ;"P07:alarm signal"
+   #endif
+   #if nbr_of_path > 7
+                 OR        AL_P08               ;"P08:alarm signal"
+   #endif
+   #if nbr_of_path > 8
+                 OR        AL_P09               ;"P09:alarm signal"
+   #endif
+   #if nbr_of_path > 9
+                 OR        AL_P10               ;"P10:alarm signal"
+   #endif
+   #if nbr_of_path > 10
+                 OR        AL_P11               ;"P11:alarm signal"
+   #endif
+   #if nbr_of_path > 11
+                 OR        AL_P12               ;"P12:alarm signal"
+   #endif
+   #if nbr_of_path > 12
+                 OR        AL_P13               ;"P13:alarm signal"
+   #endif
+   #if nbr_of_path > 13
+                 OR        AL_P14               ;"P14:alarm signal"
+   #endif
+   #if nbr_of_path > 14
+                 OR        AL_P15               ;"P15:alarm signal"
+   #endif
+                 WRT       AL                   ;"alarm signal"
+
+// ---------------------------------------------------------------------------
+// global variable M_1XXX_Pxx (emergency message active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable M_1XXX__Pxx (emergency message active)
+*)
+#endif
+                 RD.NOT    n_mes1               ;"no messages A0.0 - A3.7"
+                 OR.NOT    n_mes2               ;"no messages A4.0 - A7.7"
+                 WRT       M_1XXX_P01           ;"P01:emergency message active"
+   #if nbr_of_path > 1
+                 WRT       M_1XXX_P02           ;"P02:emergency message active"
+   #endif
+   #if nbr_of_path > 2
+                 WRT       M_1XXX_P03           ;"P03:emergency message active"
+   #endif
+   #if nbr_of_path > 3
+                 WRT       M_1XXX_P04           ;"P04:emergency message active"
+   #endif
+   #if nbr_of_path > 4
+                 WRT       M_1XXX_P05           ;"P05:emergency message active"
+   #endif
+   #if nbr_of_path > 5
+                 WRT       M_1XXX_P06           ;"P06:emergency message active"
+   #endif
+   #if nbr_of_path > 6
+                 WRT       M_1XXX_P07           ;"P07:emergency message active"
+   #endif
+   #if nbr_of_path > 7
+                 WRT       M_1XXX_P08           ;"P08:emergency message active"
+   #endif
+   #if nbr_of_path > 8
+                 WRT       M_1XXX_P09           ;"P09:emergency message active"
+   #endif
+   #if nbr_of_path > 9
+                 WRT       M_1XXX_P10           ;"P10:emergency message active"
+   #endif
+   #if nbr_of_path > 10
+                 WRT       M_1XXX_P11           ;"P11:emergency message active"
+   #endif
+   #if nbr_of_path > 11
+                 WRT       M_1XXX_P12           ;"P12:emergency message active"
+   #endif
+   #if nbr_of_path > 12
+                 WRT       M_1XXX_P13           ;"P13:emergency message active"
+   #endif
+   #if nbr_of_path > 13
+                 WRT       M_1XXX_P14           ;"P14:emergency message active"
+   #endif
+   #if nbr_of_path > 14
+                 WRT       M_1XXX_P15           ;"P15:emergency message active"
+   #endif
+
+// ---------------------------------------------------------------------------
+// global variable ALARM (alarm message active)
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+global variable (alarm message active)
+*)
+#endif
+                 RD        AL                   ;"alarm signal"
+                 OR.NOT    n_mes1               ;"no messages A0.0 - A3.7"
+                 OR.NOT    n_mes2               ;"no messages A4.0 - A7.7"
+                 OR.NOT    n_mes3               ;"no messages A8.0 - A11.7"
+                 OR.NOT    n_mes4               ;"no messages A12.0 - A15.7"
+                 OR.NOT    n_mes5               ;"no messages A16.0 - A19.7"
+                 WRT       ALARM                ;"alarm message active"
+
+// ---------------------------------------------------------------------------
+// message display function
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+message display function
+*)
+#endif   
+                 RD        LOG1                 ;"logic one"
+                 DISPB
+                           0

@@ -1,0 +1,233 @@
+//:--------------------------------------------------------------------------:
+//: File              : b_code.src                                           :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : B code support                                       :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:20.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+#if b_code_support_P01 > 0
+// ---------------------------------------------------------------------------
+// P01:b code decoding
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+P01:b code decoding
+*)
+   #endif
+                 CALLU     B_Codes_P01          ;"P01:b code decoding"
+#endif
+
+#if nbr_of_path > 1
+   #if b_code_support_P02 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P02:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P02:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P02          ;"P02:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 2
+   #if b_code_support_P03 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P03:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P03:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P03          ;"P03:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 3
+   #if b_code_support_P04 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P04:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P04:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P04          ;"P04:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 4
+   #if b_code_support_P05 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P05:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P05:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P05          ;"P05:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 5
+   #if b_code_support_P06 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P06:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P06:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P06          ;"P06:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 6
+   #if b_code_support_P07 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P07:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P07:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P07          ;"P07:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 7
+   #if b_code_support_P08 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P08:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P08:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P08          ;"P08:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 8
+   #if b_code_support_P09 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P09:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P09:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P09          ;"P09:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 9
+   #if b_code_support_P10 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P10:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P10:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P10          ;"P10:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 10
+   #if b_code_support_P11 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P11:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P11:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P11          ;"P11:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 11
+   #if b_code_support_P12 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P12:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P12:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P12          ;"P12:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 12
+   #if b_code_support_P13 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P13:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P13:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P13          ;"P13:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 13
+   #if b_code_support_P14 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P14:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P14:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P14          ;"P14:b code decoding"
+   #endif
+#endif
+
+#if nbr_of_path > 14
+   #if b_code_support_P15 > 0 && b_code_support_P01 > -1
+// ---------------------------------------------------------------------------
+// P15:b code decoding
+// ---------------------------------------------------------------------------
+      #if net_comment == 1
+(*
+P15:b code decoding
+*)
+      #endif
+                 CALLU     B_Codes_P15          ;"P15:b code decoding"
+   #endif
+#endif

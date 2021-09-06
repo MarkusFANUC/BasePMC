@@ -1,0 +1,74 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_sub_pgm.sym                                      :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Symbols for the DCS subprograms                      :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:29.09.16: 2.0.0 :Blp    :path 11-15 added                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Subprograms
+// ===========================================================================
+Machine_Inputs,P0001,inputs from machine,
+CNC_Outputs,P0002,DCS outputs to CNC,
+Machine_Outputs,P0003,outputs to machine,
+
+CNC_Out_P01,P0010,P01:DCS outputs to CNC,
+#if nbr_of_path > 1
+CNC_Out_P02,P0011,P02:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 2
+CNC_Out_P03,P0012,P03:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 3
+CNC_Out_P04,P0013,P04:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 4
+CNC_Out_P05,P0014,P05:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 5
+CNC_Out_P06,P0015,P06:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 6
+CNC_Out_P07,P0016,P07:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 7
+CNC_Out_P08,P0017,P08:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 8
+CNC_Out_P09,P0018,P09:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 9
+CNC_Out_P10,P0019,P10:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 10
+CNC_Out_P11,P0020,P11:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 11
+CNC_Out_P12,P0021,P12:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 12
+CNC_Out_P13,P0022,P13:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 13
+CNC_Out_P14,P0023,P14:DCS outputs to CNC,
+#endif
+#if nbr_of_path > 14
+CNC_Out_P15,P0024,P15:DCS outputs to CNC,
+#endif
+
+

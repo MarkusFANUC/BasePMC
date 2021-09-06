@@ -1,0 +1,172 @@
+//:--------------------------------------------------------------------------:
+//: File              : coolant__PATH__.src                                      :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : path specific coolant management                     :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:13.06.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// --------------------------------------------------------------------------
+// _PATH__: rising edge of coolant button
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: rising edge of coolant button
+*)
+#endif
+                 RD        K_COOL__PATH__       ;"key coolant manual"
+                 AND.NOT   mkcool__PATH__       ;"mem key coolant"
+                 WRT       re_cool__PATH__      ;"re key coolant"
+                 RD        K_COOL__PATH__       ;"key coolant manual"
+                 WRT       mkcool__PATH__       ;"mem key coolant"
+
+// --------------------------------------------------------------------------
+// _PATH__: M00, M01: memorize state of coolant
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: M00, M01: memorize state of coolant
+*)
+#endif
+                 RD        M000__PATH__         ;"stop program run"
+                 RD.STK    M001__PATH__         ;"optional stop"
+                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 OR.STK
+                 AND       COOLON__PATH__       ;"coolant on"
+                 OR        cool_m__PATH__       ;"memory coolant"
+                 RD.STK.NOT ST__PATH__          ;"cycle start signal"
+                 OR.NOT    COOLON__PATH__       ;"coolant on"
+                 AND.STK   
+                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 WRT       cool_m__PATH__       ;"memory coolant"
+
+// --------------------------------------------------------------------------
+// _PATH__: coolant off
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: coolant off
+*)
+#endif
+                 RD        M000__PATH__         ;"stop program run"
+                 RD.STK    M001__PATH__         ;"optional stop"
+                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 OR.STK    
+                 OR        M009__PATH__         ;"coolant off"
+                 OR        RST__PATH__          ;"resetting signal"
+                 OR        M_1XXX__PATH__       ;"emergency message active"
+                 RD.STK    re_cool__PATH__      ;"re key coolant"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 OR.STK    
+                 WRT       coolsp__PATH__       ;"stop coolant"
+
+// --------------------------------------------------------------------------
+// _PATH__: global variable COOLON__PATH__ (coolant on)
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: global variable COOLON__PATH__ (coolant on)
+*)
+#endif
+                 RD        M008__PATH__         ;"coolant on"
+#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
+                 OR        M013__PATH__         ;"sp start cw coolant on"
+                 OR        M014__PATH__         ;"sp start ccw coolant on"
+#endif
+                 RD.STK    ST__PATH__           ;"cycle start signal"
+                 AND       cool_m__PATH__       ;"memory coolant"
+                 OR.STK
+                 RD.STK    re_cool__PATH__      ;"re key coolant"
+                 AND       M_MAN__PATH__        ;"manual mode active"
+                 OR.STK
+                 OR        COOLON__PATH__       ;"coolant on"
+                 AND.NOT   coolsp__PATH__       ;"stop coolant"
+                 WRT       COOLON__PATH__       ;"coolant on"
+
+// --------------------------------------------------------------------------
+// _PATH__: management of M08 and M09
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of M08 and M09
+*)
+#endif
+                 RD        M008__PATH__         ;"coolant on"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 RST       M008__PATH__         ;"coolant on"
+
+                 RD        M009__PATH__         ;"coolant off"
+                 AND.NOT   COOLON__PATH__       ;"coolant on"
+                 RST       M009__PATH__         ;"coolant off"
+
+// --------------------------------------------------------------------------
+// _PATH__: coolant off/on in automatic modes
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: coolant off/on in automatic modes
+*)
+#endif
+                 RD        re_cool__PATH__      ;"re key coolant"
+                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 AND.NOT   mkaco__PATH__        ;"mem key auto coolant on"
+                 WRT       rekaco__PATH__       ;"re auto coolant on"
+
+                 RD        re_cool__PATH__      ;"re key coolant"
+                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 WRT       mkaco__PATH__        ;"mem key auto coolant on"
+
+                 RD        COOLON__PATH__       ;"coolant on"
+                 AND       rekaco__PATH__       ;"re auto coolant on"
+                 AND.NOT   tacoof__PATH__       ;"temporary auto coolant off"
+                 RD.STK    tacoof__PATH__       ;"temporary auto coolant off"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 AND.NOT   rekaco__PATH__       ;"re auto coolant on"
+                 OR.STK
+                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 WRT       tacoof__PATH__       ;"temporary auto coolant off"
+
+                 RD        tacoof__PATH__       ;"temporary auto coolant off"
+                 AND.NOT   ALARM                ;"alarm message active"
+                 WRT       M_COFF__PATH__       ;"message coolant off"
+
+// --------------------------------------------------------------------------
+// _PATH__: management of the coolant output
+// replace T_BIT000 with the real coolant output Yxxx.y
+// --------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: management of the coolant output
+replace T_BIT000 with the real coolant output Yxxx.y
+*)
+#endif
+                 RD        M_AUTO__PATH__       ;"automatic mode active"
+                 AND.NOT   tacoof__PATH__       ;"temporary auto coolant off"
+                 OR        M_MAN__PATH__        ;"manual mode active"
+                 AND       COOLON__PATH__       ;"coolant on"
+                 WRT       L_COOL__PATH__       ;"led coolant manual on"
+                 WRT       T_BIT000             ;"temporary bit 000"

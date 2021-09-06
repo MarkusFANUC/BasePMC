@@ -1,0 +1,117 @@
+//:--------------------------------------------------------------------------:
+//: File              : op_30keys_out.sym                                    :
+//: Creation date     : 23.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Definition of outputs for the operator's panel with  :
+//:                   : 30 keys                                              :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// outputs
+// ===========================================================================
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool:
+// -----------------------------------
+oS_L_A01,__LED_MODE_MEM,op30: led A01,
+oS_L_A02,__LED_MODE_EDIT,op30: led A02,
+oS_L_A03,__LED_MODE_MDI,op30: led A03,
+oS_L_A04,__LED_DNC_MODE,op30: led A04,
+oS_L_A05,__LED_MODE_REF,op30: led A05,
+oS_L_A06,__LED_MODE_JOG,op30: led A06,
+
+oS_L_B01,__LED_MODE_INC,op30: led B01,
+oS_L_B02,__LED_MODE_HANDLE,op30: led B02,
+oS_L_B03,__LED_MODE_TEACH,op30: led B03,
+
+oS_L_C01,__LED_SINGLE_BLOCK,op30: led C01,
+oS_L_C02,__LED_BLOCK_SKIP,op30: led C02,
+oS_L_C03,__LED_OPT_STOP,op30: led C03,
+
+oS_L_D01,__LED_PGM_REST,op30: led D01,
+oS_L_D02,__LED_PGM_TEST,op30: led D02,
+oS_L_D03,__LED_DRY_RUN,op30: led D03,
+
+oS_L_E01,__LED_CYCLE_STOP,op30: led E01,
+oS_L_E02,__LED_CYCLE_START,op30: led E02,
+oS_L_E03,__LED_PGM_STOP,op30: led E03,
+
+#if spindle_support_P01 > -1
+oS_L_E04,__LED_SPINDLE_CW,op30: led E04,
+oS_L_E05,__LED_SPINDLE_STOP,op30: led E05,
+oS_L_E06,__LED_SPINDEL_CCW,op30: led E06,
+#endif
+
+#if start_address_op == 0
+oS_L_A07,__LED_KEY_PROTECT,op30: led A07,
+oS_L_B07,__LED_KEY_RST,op30: led B07,
+oS_L_C07,__LED_KEY_EMGSTOP,op30: led C07,
+   #if control_type == 0         // m-type control
+oS_L_B04,__LED_3RD_AXIS_PLUS,op30: led B04,
+oS_L_B05,__LED_2ND_AXIS_PLUS,op30: led B05,
+oS_L_B06,__LED_4TH_AXIS_MINUS,op30: led B06,
+oS_L_C04,__LED_1ST_AXIS_PLUS,op30: led C04,
+oS_L_C05,__LED_RAPID_TRAVERSE,op30: led C05,
+oS_L_C06,__LED_1ST_AXIS_MINUS,op30: led C06,
+oS_L_D04,__LED_4TH_AXIS_PLUS,op30: led D04,
+oS_L_D05,__LED_2ND_AXIS_MINUS,op30: led D05,
+oS_L_D06,__LED_3RD_AXIS_MINUS,op30: led D06,
+   #else
+oS_L_B04,__LED_3RD_AXIS_PLUS,op30: led B04,
+oS_L_B05,__LED_1ST_AXIS_MINUS,op30: led B05,
+oS_L_B06,__LED_4TH_AXIS_MINUS,op30: led B06,
+oS_L_C04,__LED_2ND_AXIS_MINUS,op30: led C04,
+oS_L_C05,__LED_RAPID_TRAVERSE,op30: led C05,
+oS_L_C06,__LED_2ND_AXIS_PLUS,op30: led C06,
+oS_L_D04,__LED_4TH_AXIS_PLUS,op30: led D04,
+oS_L_D05,__LED_1ST_AXIS_PLUS,op30: led D05,
+oS_L_D06,__LED_3RD_AXIS_MINUS,op30: led D06,
+   #endif
+#endif
+
+#if operatorspanel == 0 || soft_op_panel == 1
+oS_L_D07,__LED_SOPACT,op30: led D07,
+#endif
+
+// ===========================================================================
+// Extra Relay
+// ===========================================================================
+// -------------------------------------------------------
+// global variables E9790.0 - E9791.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------
+
+// -------------------------------------------------------
+// local variables E9792.0 - E9799.7
+// -------------------------------------------------------
+// -----------------------------------
+// byte
+// -----------------------------------
+
+// -----------------------------------
+// bool
+// -----------------------------------

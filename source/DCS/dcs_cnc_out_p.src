@@ -1,0 +1,387 @@
+//:--------------------------------------------------------------------------:
+//: File              : dcs_cnc_out__PATH__.src                                  :
+//: Creation date     : 16.09.2013                                           :
+//: Last modification : see table below                                      :
+//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+//: Description       : Path specific DCS related outputs to the CNC         :
+//:--------------------------------------------------------------------------:
+//
+//:--------------------------------------------------------------------------:
+//:                     Modification                                         :
+//:--------------------------------------------------------------------------:
+//: Date   :Version: Sign  :Description                                      :
+//:--------------------------------------------------------------------------:
+//:13.07.18: 2.0.0 : Blp   :spindle safe torque off included                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+//:        :       :       :                                                 :
+//:--------------------------------------------------------------------------:
+
+// ===========================================================================
+// Code
+// ===========================================================================
+
+// ---------------------------------------------------------------------------
+// _PATH__: axes: activation of safety check if the doors are open
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: axes: activation of safety check if the doors are open
+*)
+#endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 WRT       *VLDV1__PATH__       ;"safety check req. 1st ax."
+#if axis_number__PATH__ > 1
+                 WRT       *VLDV2__PATH__       ;"safety check req. 2nd ax."
+#endif
+#if axis_number__PATH__ > 2
+                 WRT       *VLDV3__PATH__       ;"safety check req. 3rd ax."
+#endif
+#if axis_number__PATH__ > 3
+                 WRT       *VLDV4__PATH__       ;"safety check req. 4th ax."
+#endif
+#if axis_number__PATH__ > 4
+                 WRT       *VLDV5__PATH__       ;"safety check req. 5th ax."
+#endif
+#if axis_number__PATH__ > 5
+                 WRT       *VLDV6__PATH__       ;"safety check req. 6th ax."
+#endif
+#if axis_number__PATH__ > 6
+                 WRT       *VLDV7__PATH__       ;"safety check req. 7th ax."
+#endif
+#if axis_number__PATH__ > 7
+                 WRT       *VLDV8__PATH__       ;"safety check req. 8th ax."
+#endif
+
+
+// ---------------------------------------------------------------------------
+// _PATH__: axes: selection of safety speed set 2
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: axes: selection of safety speed set 2
+*)
+#endif
+                 RD        DCS_S02              ;"DCS speed set 2"
+                 WRT       SVA1__PATH__         ;" saf. sel. sig. A 1st axis"
+#if axis_number__PATH__ > 1
+                 WRT       SVA2__PATH__         ;"saf. sel. sig. A 2nd axis"
+#endif
+#if axis_number__PATH__ > 2
+                 WRT       SVA3__PATH__         ;"saf. sel. sig. A 3rd axis"
+#endif
+#if axis_number__PATH__ > 3
+                 WRT       SVA4__PATH__         ;"saf. sel. sig. A 4th axis"
+#endif
+#if axis_number__PATH__ > 4
+                 WRT       SVA5__PATH__         ;"saf. sel. sig. A 5th axis"
+#endif
+#if axis_number__PATH__ > 5
+                 WRT       SVA6__PATH__         ;"saf. sel. sig. A 6th axis"
+#endif
+#if axis_number__PATH__ > 6
+                 WRT       SVA7__PATH__         ;"saf. sel. sig. A 7th axis"
+#endif
+#if axis_number__PATH__ > 7
+                 WRT       SVA8__PATH__         ;"saf. sel. sig. A 8th axis"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: axes: safety zero speed monitoring
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: axes: safety zero speed monitoring
+*)
+#endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SVZR1__PATH__        ;"zero mon. req. 1st axis"
+#if axis_number__PATH__ > 1
+                 WRT       SVZR2__PATH__        ;"zero mon. req. 2nd axis"
+#endif
+#if axis_number__PATH__ > 2
+                 WRT       SVZR3__PATH__        ;"zero mon. req. 3rd axis"
+#endif
+#if axis_number__PATH__ > 3
+                 WRT       SVZR4__PATH__        ;"zero mon. req. 4th axis"
+#endif
+#if axis_number__PATH__ > 4
+                 WRT       SVZR5__PATH__        ;"zero mon. req. 5th axis"
+#endif
+#if axis_number__PATH__ > 5
+                 WRT       SVZR6__PATH__        ;"zero mon. req. 6th axis"
+#endif
+#if axis_number__PATH__ > 6
+                 WRT       SVZR7__PATH__        ;"zero mon. req. 7th axis"
+#endif
+#if axis_number__PATH__ > 7
+                 WRT       SVZR8__PATH__        ;"zero mon. req. 8th axis"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking axes specific MCC off signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: checking axes specific MCC off signals
+*)
+#endif
+                 RD.NOT    *MCFV1__PATH__       ;"MCC off signal 1st axis"
+#if axis_number__PATH__ > 1
+                 OR.NOT    *MCFV2__PATH__       ;"MCC off signal 2nd axis"
+#endif
+#if axis_number__PATH__ > 2
+                 OR.NOT    *MCFV3__PATH__       ;"MCC off signal 3rd axis"
+#endif
+#if axis_number__PATH__ > 3
+                 OR.NOT    *MCFV4__PATH__       ;"MCC off signal 4th axis"
+#endif
+#if axis_number__PATH__ > 4
+                 OR.NOT    *MCFV5__PATH__       ;"MCC off signal 5th axis"
+#endif
+#if axis_number__PATH__ > 5
+                 OR.NOT    *MCFV6__PATH__       ;"MCC off signal 6th axis"
+#endif
+#if axis_number__PATH__ > 6
+                 OR.NOT    *MCFV7__PATH__       ;"MCC off signal 7th axis"
+#endif
+#if axis_number__PATH__ > 7
+                 OR.NOT    *MCFV8__PATH__       ;"MCC off signal 8th axis"
+#endif
+#if demo_control == 1
+                 AND.NOT   LOG1                 ;"logic one"
+#endif
+                 WRT       MCFVx_NOK__PATH__    ;"mcf axes not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking axes specific monitoring signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: checking axes specific monitoring signals
+*)
+#endif
+#if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD.NOT    RSV1__PATH__         ;"monit. result 1st axis"
+   #if axis_number__PATH__ > 1
+                 OR.NOT    RSV2__PATH__         ;"monit. result 2nd axis"
+   #endif
+   #if axis_number__PATH__ > 2
+                 OR.NOT    RSV3__PATH__         ;"monit. result 3rd axis"
+   #endif
+   #if axis_number__PATH__ > 3
+                 OR.NOT    RSV4__PATH__         ;"monit. result 4th axis"
+   #endif
+   #if axis_number__PATH__ > 4
+                 OR.NOT    RSV5__PATH__         ;"monit. result 5th axis"
+   #endif
+   #if axis_number__PATH__ > 5
+                 OR.NOT    RSV6__PATH__         ;"monit. result 6th axis"
+   #endif
+   #if axis_number__PATH__ > 6
+                 OR.NOT    RSV7__PATH__         ;"monit. result 7th axis"
+   #endif
+   #if axis_number__PATH__ > 7
+                 OR.NOT    RSV8__PATH__         ;"monit. result 8th axis"
+   #endif
+#endif
+                 WRT       RSVx_NOK__PATH__     ;"rsv monitoring not ok"
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking position information effect signals
+// ---------------------------------------------------------------------------
+#if net_comment == 1
+(*
+_PATH__: checking position information effect signals
+*)
+#endif
+#if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+#else
+                 RD.NOT    POSE1__PATH__        ;"pos. inf. effect 1st axis"
+   #if axis_number__PATH__ > 1
+                 OR.NOT    POSE2__PATH__        ;"pos. inf. effect 2nd axis"
+   #endif
+   #if axis_number__PATH__ > 2
+                 OR.NOT    POSE3__PATH__        ;"pos. inf. effect 3rd axis"
+   #endif
+   #if axis_number__PATH__ > 3
+                 OR.NOT    POSE4__PATH__        ;"pos. inf. effect 4th axis"
+   #endif
+   #if axis_number__PATH__ > 4
+                 OR.NOT    POSE5__PATH__        ;"pos. inf. effect 5th axis"
+   #endif
+   #if axis_number__PATH__ > 5
+                 OR.NOT    POSE6__PATH__        ;"pos. inf. effect 6th axis"
+   #endif
+   #if axis_number__PATH__ > 6
+                 OR.NOT    POSE7__PATH__        ;"pos. inf. effect 7th axis"
+   #endif
+   #if axis_number__PATH__ > 7
+                 OR.NOT    POSE8__PATH__        ;"pos. inf. effect 8th axis"
+   #endif
+#endif
+                 WRT       POSEx_NOK__PATH__    ;"pose information not ok"
+
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
+// ---------------------------------------------------------------------------
+// _PATH__: DCS spindle safety check deactivation at closed doors and emergency stop
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS spindle safety check deactivation at closed doors and
+emergency stop
+*)
+   #endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        EXOF2__PATH__        ;"spindle exitation off"
+                 RD.STK.NOT *ESP__PATH__        ;"emergency stop signal"
+                 AND       *SMC                 ;"MCC contact state(group)"
+                 OR.STK    
+                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
+#endif
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type == 2 || pmc_type >= 6)
+// ---------------------------------------------------------------------------
+// _PATH__: DCS spindle safety check deactivation at closed doors and spindle STO
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS spindle safety check deactivation at closed doors and spindle STO
+*)
+   #endif
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR        DCS_S02              ;"DCS speed set 2"
+                 WRT       SP_TRQ_ON__PATH__    ;"spindle torque on"
+
+                 RD.NOT    SP_TRQ_ON__PATH__    ;"spindle torque on"
+                 AND       SP_STO__PATH__       ;"spindle STO state"
+                 WRT       SP_STO_MON__PATH__   ;"spindle monitoring logic A"
+
+                 RD        *SGOPN               ;"guard state doors closed"
+                 OR.NOT    SP_TRQ_ON__PATH__    ;"spindle torque on"
+                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
+#endif
+
+#if spindle_support__PATH__ == 5 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// _PATH__: DCS spindle safety check deactivation
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: DCS spindle safety check deactivation
+*)
+   #endif
+                 RD        LOG1                 ;"logic one"
+                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
+#endif
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
+// ---------------------------------------------------------------------------
+// _PATH__: spindle: selection of safety speed set 2
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__:  spindle: selection of safety speed set 2
+*)
+   #endif
+                 RD        DCS_S02              ;"DCS speed set 2"
+                 WRT       SPA1__PATH__         ;"saf. sel. A 1st spindle"
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
+// ---------------------------------------------------------------------------
+// _PATH__: spindle: safety zero speed monitoring
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: spindle: safety zero speed monitoring
+*)
+   #endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 AND.NOT   EXOF2__PATH__        ;"spindle exitation off"
+                 WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
+#endif
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type == 2 || pmc_type >= 6)
+// ---------------------------------------------------------------------------
+// spindle: safety zero speed monitoring
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: spindle: safety zero speed monitoring
+*)
+   #endif
+                 RD.NOT    DCS_S02              ;"DCS speed set 2"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 AND       SP_TRQ_ON__PATH__    ;"spindle torque on"
+                 WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking spindle specific MCC off signals
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: checking spindle specific MCC off signals
+*)
+   #endif
+   #if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    *MCFP1__PATH__       ;"MCC off signal 1st spin."
+   #endif
+                 WRT       MCFPx_NOK__PATH__    ;"mcc spindles not ok"
+
+#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1 && (pmc_type !=2 && pmc_type < 6)
+// ---------------------------------------------------------------------------
+// _PATH__: Monitoring logic for Safe Spindle rotation by Hand:
+// Alarm results if Spindle is excitated (EXOF=0) when
+// - Door is open
+// - Hold to Run button is not pressed or setup mode 01 is not active
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: Monitoring logic for Safe Spindle rotation by Hand:
+Alarm results if Spindle is excitated (EXOF=0) when
+   - Door is open
+   - Hold to Run button is not pressed or setup mode 01
+     is not active
+*)
+   #endif
+                 RD.NOT    HTR              ;"hold to run button"
+                 OR.NOT    SET_M01          ;"setup mode 01"
+                 AND.NOT   *SGOPN           ;"guard state doors closed"
+                 AND.NOT   EXOF2__PATH__    ;"spindle exitation off"
+                 TMRB      
+                           0
+                           500
+                 WRT       SP_MON_A__PATH__ ;"spindle monitoring logic A"
+
+                 RD.NOT    LOG1             ;"logic one"
+                 WRT       SP_MON_B__PATH__ ;"spindle monitoring logic B"
+#endif
+
+// ---------------------------------------------------------------------------
+// _PATH__: checking spindle specific monitoring signals
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+_PATH__: checking spindle specific monitoring signals
+*)
+   #endif
+   #if demo_control == 1
+                 RD.NOT    LOG1                 ;"logic one"
+   #else
+                 RD.NOT    RSP1__PATH__         ;"monit. result 1st spindle"
+   #endif
+                 WRT       RSPs_NOK__PATH__     ;"rsp monitoring not ok"
+#endif
+
