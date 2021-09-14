@@ -115,6 +115,36 @@ sed -e s/_PATH__/P14/g -e s/__ADDR__/13/g ..\source\mmi\op_sop_in_p.src > ..\inc
 @echo P15
 sed -e s/_PATH__/P15/g -e s/__ADDR__/14/g ..\source\mmi\op_sop_in_p.src > ..\include\op_sop_in_p15.src
 
+@echo P01 pmpg_in_p.src
+sed -e s/_PATH__/P01/g -e s/__ADDR__/0/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p01.src
+@echo P02
+sed -e s/_PATH__/P02/g -e s/__ADDR__/1/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p02.src
+@echo P03
+sed -e s/_PATH__/P03/g -e s/__ADDR__/2/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p03.src
+@echo P04
+sed -e s/_PATH__/P04/g -e s/__ADDR__/3/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p04.src
+@echo P05
+sed -e s/_PATH__/P05/g -e s/__ADDR__/4/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p05.src
+@echo P06
+sed -e s/_PATH__/P06/g -e s/__ADDR__/5/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p06.src
+@echo P07
+sed -e s/_PATH__/P07/g -e s/__ADDR__/6/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p07.src
+@echo P08
+sed -e s/_PATH__/P08/g -e s/__ADDR__/7/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p08.src
+@echo P09
+sed -e s/_PATH__/P09/g -e s/__ADDR__/8/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p09.src
+@echo P10
+sed -e s/_PATH__/P10/g -e s/__ADDR__/9/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p10.src
+@echo P11
+sed -e s/_PATH__/P11/g -e s/__ADDR__/10/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p11.src
+@echo P12
+sed -e s/_PATH__/P12/g -e s/__ADDR__/11/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p12.src
+@echo P13
+sed -e s/_PATH__/P13/g -e s/__ADDR__/12/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p13.src
+@echo P14
+sed -e s/_PATH__/P14/g -e s/__ADDR__/13/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p14.src
+@echo P15
+sed -e s/_PATH__/P15/g -e s/__ADDR__/14/g ..\source\mmi\pmpg_in_p.src > ..\include\pmpg_in_p15.src
 
 @echo.
 @echo ----------------------------------------
