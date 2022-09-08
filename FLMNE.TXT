@@ -1,0 +1,4 @@
+##### SYMBOL & COMMENT #####
+          Conversion completed   Error count = 00000  Warning count = 00000
+##### Conversion of External Symbol File #####
+          Conversion completed   Error count = 00000  Warning count = 00000

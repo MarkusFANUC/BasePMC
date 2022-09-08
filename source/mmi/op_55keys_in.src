@@ -17,7 +17,7 @@
 //:15.11.16: 2.0.0 :Blp    :selection of pgm_protect_key added               :
 //:        :       :       :in case of SOP, edit enable of SOP will be used  :
 //:--------------------------------------------------------------------------:
-//:01.07.21: 3.0.0 :Blp    :path specific comment of coolant key removed     :
+//:03.09.21: 3.0.0 :Blp    :path specific comment of coolant key removed     :
 //:        :       :       :virtual operator's panel added                   :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
@@ -30,12 +30,55 @@
 // ------------------------------------
 // activation of virtual operator's panel
 // ------------------------------------
-#if net_comment == 1
+#if virtual_op_panel == 1 && start_address_op > 0  && demo_control == 1
+   #if net_comment == 1
+(*
+disable virtual operator panel selection
+*)
+   #endif
+                 RD        iF_K_D07             ;"op55: key D07"
+                 AND.NOT   mkey_vopdis          ;"mem key virt. op disable"
+                 WRT       re_vop_dis           ;"re virtual op disable"
+
+                 RD        iF_K_D07             ;"op55: key D07"
+                 WRT       mkey_vopdis          ;"mem key virt. op disable"
+
+                 RD        re_vop_dis           ;"re virtual op disable"
+                 AND.NOT   V_OP_DIS             ;"Virtual OP disable"
+                 RD.STK    V_OP_DIS             ;"Virtual OP disable"
+                 AND.NOT   re_vop_dis           ;"re virtual op disable"
+                 OR.STK    
+                 WRT       V_OP_DIS             ;"Virtual OP disable"
+
+   #if net_comment == 1
 (*
 activation of virtual operator panel
 *)
+   #endif
+                 RD        iF_K_D08             ;"op55: key D08"
+                 OR        iV_K_D08             ;"op55: virtual key D08"
+                 AND.NOT   mkey_vopen           ;"mem key virtual op enable"
+                 WRT       re_key_vop           ;"re key virtual op"
+
+                 RD        iF_K_D08             ;"op55: key D08"
+                 OR        iV_K_D08             ;"op55: virtual key D08"
+                 WRT       mkey_vopen           ;"mem key virtual op enable"
+
+                 RD        re_key_vop           ;"re key virtual op"
+                 AND.NOT   VIRTUAL_OP           ;"virtual op with 55key"
+                 RD.STK    VIRTUAL_OP           ;"virtual op with 55key"
+                 AND.NOT   re_key_vop           ;"re key virtual op"
+                 OR.STK    
+                 AND.NOT   V_OP_DIS             ;"Virtual OP disable"
+                 WRT       VIRTUAL_OP           ;"virtual op with 55key"
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0
+
+#if virtual_op_panel == 1 && start_address_op > 0  && demo_control == 0
+   #if net_comment == 1
+(*
+activation of virtual operator panel
+*)
+   #endif
                  RD.NOT    iK_ESP               ;"button emergency stop"
                  AND       iF_K_D09             ;"op55: key D09"
                  AND       iF_K_D11             ;"op55: key D11"

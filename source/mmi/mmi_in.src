@@ -18,7 +18,7 @@
 //:--------------------------------------------------------------------------:
 //:21.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
 //:--------------------------------------------------------------------------:
-//:25.06.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+//:03.09.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:        :       :       :virtual operator's panel added                   :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
@@ -339,7 +339,7 @@ operator panel key input map
       #endif
    #endif
                  CALL      Op_Keyb_55_In        ;"op. 55-key inputs"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
                  RDNT      iK_ESP               ;"button emergency stop"
                  RST       VIRTUAL_OP           ;"Virtual operator panel 55Key"
    #endif

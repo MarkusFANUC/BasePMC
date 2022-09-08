@@ -15,7 +15,8 @@
 //:        :       :       :Behaviour of hold to run button improved         :
 //:        :       :       :path specific code transfered to external files  :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:31.08.21: 3.0.0 :Blp    :key switch for set-up mode will only be checked  :
+//:        :       :       :when protection door is not locked               :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -223,8 +224,9 @@ this signal will be DCS I/O cross checked
 *)
 #endif
 #if demo_control == 1
-                 RD.NOT    LOG1             ;"logic one"
+                 RD.NOT    LOG1                 ;"logic one"
 #else
-                 RD        iSET01           ;"setup switch pos 01"
+                 RD        iSET01               ;"setup switch pos 01"
 #endif
-                 WRT       SET_M01          ;"setup mode 01"
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
+                 WRT       SET_M01              ;"setup mode 01"

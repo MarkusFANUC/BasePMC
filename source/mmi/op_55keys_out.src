@@ -16,7 +16,7 @@
 //:--------------------------------------------------------------------------:
 //:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
 //:--------------------------------------------------------------------------:
-//:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, led SOP removed  :
+//:03.09.21: 3.0.0 :Blp    :virtual operator's panel added, led SOP removed  :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -24,6 +24,25 @@
 // ===========================================================================
 // Code
 // ===========================================================================
+
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 1
+// ---------------------------------------------------------------------------
+// led virtual operator panel switching
+// ---------------------------------------------------------------------------
+   #if net_comment == 1
+(*
+led virtual operator panel switching
+*)
+   #endif
+                 RD        V_OP_DIS             ;"Virtual OP disable"
+                 WRT       oF_L_D07             ;"op55: led D07"
+                 WRT       oV_L_D07             ;"op55: virtual led D07"
+
+                 RD        VIRTUAL_OP           ;"virtual op with 55key"
+                 WRT       oF_L_D08             ;"op55: led D08"
+                 WRT       oV_L_D08             ;"op55: virtual led D08"
+#endif
+
 
 #if nbr_of_path > 1
 // ---------------------------------------------------------------------------
@@ -584,8 +603,14 @@ led dnc mode
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
+                 AND.NOT    VIRTUAL_OP          ;"virtual op with 55key"
+                 RD.STK     VIRTUAL_OP          ;"virtual op with 55key"
+                 AND        500MS               ;"500 ms"
+                 OR.STK     
+#endif
                  WRT       oF_L_A04             ;"op55: led A04"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
                  WRT       oV_L_A04             ;"op55: virtual led A04"
 #endif
 
@@ -3716,7 +3741,7 @@ led axis plus direction
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
                  RD.STK    V_OP_SW              ;"switching to virtual op"
                  AND       100MS                ;"100 ms"
                  OR.STK    
@@ -4225,7 +4250,7 @@ led axis minus direction
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
                  RD.STK    V_OP_SW              ;"switching to virtual op"
                  AND       100MS                ;"100 ms"
                  OR.STK    

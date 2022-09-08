@@ -19,12 +19,14 @@
 //:07.12.18: 2.1.0 :Blp    :Portable manual pulse generator                  :
 //:        :       :       :(A13B-0206-Cxyz#...) added                       :
 //:--------------------------------------------------------------------------:
-//:22.06.21: 3.0.0 :Blp    :0i-D and 3xi-A removed, Function Block added     :
+//:07.09.21: 3.0.0 :Blp    :0i-D and 3xi-A removed, Function Block added     :
 //:        :       :       :I/O link removed, virtual operator's panel added :
+//:--------------------------------------------------------------------------:
+//:26.08.22: 3.0.1 :BMk    :0i-F-L added								     :
+//:        :       :       :												 :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
-
 #ifndef config_def
 #define config_def
 
@@ -36,7 +38,7 @@
 //    0  =  m_type
 //    1  =  t_type
 
-   #define  control_type               1
+   #define  control_type               0
 
 
 // Used for the axis key assignment on the small operator's panel with 30 keys
@@ -51,8 +53,9 @@
 //    4  32i-B PMC
 //    5  31i-B PMC
 //    6  30i-B PMC
+//    7  0i-F-L PMC 
 
-   #define  pmc_type                   5
+   #define  pmc_type                   7
 
 
 // ---------------------------------------------------------------------------
@@ -67,7 +70,7 @@
 // ---------------------------------------------------
 // PMC memory type
 // ---------------------------------------------------
-// 0 = Memory B
+// 0 = Memory B			   (Make sure to select in case of 0i-F-L)
 // 1 = Memory C
 // 2 = Memory D
 // 3 = Memory E            (30i-B nbr_of_path > 10)
@@ -81,7 +84,7 @@
 // Selection of number of CNC path
 // 1-15
 
-   #define  nbr_of_path                3
+   #define  nbr_of_path                2
 
 // Note: When nbr_of_path > 8 the PMC Memory C or Memory D must be used
 //       pmc_mem_type 1 or 2 
@@ -106,7 +109,7 @@
 //    0  =  Normal use
 //    1  =  Control is used for demonstration
 
-   #define  demo_control               1
+   #define  demo_control               0
 
 
 // ---------------------------------------------------------------------------
@@ -171,7 +174,7 @@
 //    1  =  X0100 / Y0100
 //    2  =  X0006 / Y0000
 
-   #define  start_address_op           2
+   #define  start_address_op           1
 
 
 // Note: If the emergency_by_pass equal 1, you must define
@@ -186,7 +189,7 @@
 //    0  = No Program protect key
 //    1  = Program protect key
 
-   #define pgm_protect_key             0
+   #define pgm_protect_key             1
 
 // Note: This definition will be only taken into account when
 // operatorspanel == 2 or start_address_op == 0
@@ -204,7 +207,7 @@
 //    1  =  Five languages supported
 //    2  =  External message file
 
-   #define  language_support           0
+   #define  language_support           1
 
 // ---------------------------------------------------
 // Select language for one language support
@@ -237,7 +240,7 @@
 //    0  =  No support
 //    1  =  T-code
 
-   #define  t_code_support_P01         0        // T-code support path 01
+   #define  t_code_support_P01         1        // T-code support path 01
    #define  t_code_support_P02         1        // T-code support path 02
    #define  t_code_support_P03         0        // T-code support path 03
    #define  t_code_support_P04         0        // T-code support path 04
@@ -266,8 +269,8 @@
 //    0  =  No support
 //    1  =  B-code
 
-   #define  b_code_support_P01         -1        // B-code support path 01
-   #define  b_code_support_P02         0        // B-code support path 02
+   #define  b_code_support_P01         1        // B-code support path 01
+   #define  b_code_support_P02         1        // B-code support path 02
    #define  b_code_support_P03         0        // B-code support path 03
    #define  b_code_support_P04         0        // B-code support path 04
    #define  b_code_support_P05         0        // B-code support path 05
@@ -299,8 +302,8 @@
 //                                     (35i-B, PMi-A: basic option 1 required)
 //    5  =  Spindle control with servo motor (option -J978 required)
 
-   #define  spindle_support_P01        0        // spindle support path 01
-   #define  spindle_support_P02        5        // spindle support path 02
+   #define  spindle_support_P01        1        // spindle support path 01
+   #define  spindle_support_P02        4        // spindle support path 02
    #define  spindle_support_P03        0        // spindle support path 03
    #define  spindle_support_P04        0        // spindle support path 04
    #define  spindle_support_P05        0        // spindle support path 05
@@ -322,8 +325,8 @@
 // spindle_sv_axis_Pxx
 
    #define  spindle_sv_axis_P01        1        // axis nbr. for spindle path 01
-   #define  spindle_sv_axis_P02        3        // axis nbr. for spindle path 02
-   #define  spindle_sv_axis_P03        1        // axis nbr. for spindle path 03
+   #define  spindle_sv_axis_P02        6       // axis nbr. for spindle path 02
+   #define  spindle_sv_axis_P03        1       // axis nbr. for spindle path 03
    #define  spindle_sv_axis_P04        1        // axis nbr. for spindle path 04
    #define  spindle_sv_axis_P05        1        // axis nbr. for spindle path 05
    #define  spindle_sv_axis_P06        1        // axis nbr. for spindle path 06
@@ -360,7 +363,7 @@
 //    1  =  Spindle orientation (One position)
 //    2  =  Spindle orientation (External stop position)
 
-   #define  spindle_orientation_P01    0        // spindle orientation path 01
+   #define  spindle_orientation_P01    1        // spindle orientation path 01
    #define  spindle_orientation_P02    1        // spindle orientation path 02
    #define  spindle_orientation_P03    0        // spindle orientation path 03
    #define  spindle_orientation_P04    0        // spindle orientation path 04
@@ -387,8 +390,8 @@
 //    0  =  No rigid tapping
 //    1  =  Rigid tapping
 
-   #define  rigid_tapping_P01          -1        // rigid tapping path 01
-   #define  rigid_tapping_P02          0        // rigid tapping path 02
+   #define  rigid_tapping_P01          1        // rigid tapping path 01
+   #define  rigid_tapping_P02          1        // rigid tapping path 02
    #define  rigid_tapping_P03          0        // rigid tapping path 03
    #define  rigid_tapping_P04          0        // rigid tapping path 04
    #define  rigid_tapping_P05          0        // rigid tapping path 05
@@ -414,7 +417,7 @@
 //    0  =  No Cs Contour Control
 //    1  =  Cs Contour Control (serial spindle)
 
-   #define  cs_contour_ctrl_P01        0        // cs contour control path 01
+   #define  cs_contour_ctrl_P01        1        // cs contour control path 01
    #define  cs_contour_ctrl_P02        1        // cs contour control path 02
    #define  cs_contour_ctrl_P03        0        // cs contour control path 03
    #define  cs_contour_ctrl_P04        0        // cs contour control path 04
@@ -440,10 +443,10 @@
 //    0  =  No coolant
 //    1  =  Coolant
 
-   #define  coolant_support_P01        -1        // coolant support path 01
+   #define  coolant_support_P01        1        // coolant support path 01
    #define  coolant_support_P02        1        // coolant support path 02
-   #define  coolant_support_P03        1        // coolant support path 03
-   #define  coolant_support_P04        1        // coolant support path 04
+   #define  coolant_support_P03        0        // coolant support path 03
+   #define  coolant_support_P04        0        // coolant support path 04
    #define  coolant_support_P05        0        // coolant support path 05
    #define  coolant_support_P06        0        // coolant support path 06
    #define  coolant_support_P07        0        // coolant support path 07
@@ -467,7 +470,7 @@
 //    0  =  No lubrication
 //    1  =  Lubrication with level and pressure control
 
-   #define  lubrication_support        0
+   #define  lubrication_support        1
 
 // ---------------------------------------------------------------------------
 // One Touch Macro Call
@@ -509,7 +512,7 @@
 //    0  =  No Dual Check Safety
 //    1  =  Dual Check Safety
 
-   #define  dcs_support                1
+   #define  dcs_support                0
 
 // ---------------------------------------------------
 // MCC test
@@ -518,7 +521,7 @@
 //    0  =  No MCC test
 //    1  =  execute MCC test
 
-   #define  mcc_test                   0
+   #define  mcc_test                   1
 
 // ---------------------------------------------------
 // brake test
@@ -527,7 +530,7 @@
 //    0  =  No brake test
 //    1  =  execute brake test
 
-   #define  brake_test                 0
+   #define  brake_test                 1
 
 // ---------------------------------------------------------------------------
 // Axes
@@ -538,21 +541,21 @@
 //    6  iPendant (for CNC)
 //    8  Standard machine operator's panel
 
-   #define  axis_number_P01            2        // number of axis path 01
-   #define  axis_number_P02            6        // number of axis path 02
-   #define  axis_number_P03            1        // number of axis path 03
-   #define  axis_number_P04            1        // number of axis path 04
-   #define  axis_number_P05            1        // number of axis path 05
-   #define  axis_number_P06            1        // number of axis path 06
-   #define  axis_number_P07            1        // number of axis path 07
-   #define  axis_number_P08            1        // number of axis path 08
-   #define  axis_number_P09            1        // number of axis path 09
-   #define  axis_number_P10            1        // number of axis path 10
-   #define  axis_number_P11            1        // number of axis path 11
-   #define  axis_number_P12            1        // number of axis path 12
-   #define  axis_number_P13            1        // number of axis path 13
-   #define  axis_number_P14            1        // number of axis path 14
-   #define  axis_number_P15            1        // number of axis path 15
+   #define  axis_number_P01            8        // number of axis path 01
+   #define  axis_number_P02            8        // number of axis path 02
+   #define  axis_number_P03            8        // number of axis path 03
+   #define  axis_number_P04            0        // number of axis path 04
+   #define  axis_number_P05            0        // number of axis path 05
+   #define  axis_number_P06            0        // number of axis path 06
+   #define  axis_number_P07            0        // number of axis path 07
+   #define  axis_number_P08            0        // number of axis path 08
+   #define  axis_number_P09            0        // number of axis path 09
+   #define  axis_number_P10            0        // number of axis path 10
+   #define  axis_number_P11            0        // number of axis path 11
+   #define  axis_number_P12            0        // number of axis path 12
+   #define  axis_number_P13            0        // number of axis path 13
+   #define  axis_number_P14            0        // number of axis path 14
+   #define  axis_number_P15            0        // number of axis path 15
 
 
 // ---------------------------------------------------
@@ -569,7 +572,7 @@
 //    2  =  Handy machine operator's panel (A02B-0259-C221/C241)
 //    3  =  Portable manual pulse generator (A13B-0206-Cxyz#....)
 
-   #define  handwheel_support          3
+   #define  handwheel_support          1
 
 // ---------------------------------------------------
 // Reference position return
@@ -733,32 +736,32 @@
 // 0 = No axis brake
 // 1 = axis brake
 
-   #define  brake_1st_axis_P01         0     // axis brake 1st axis path 01
-   #define  brake_2nd_axis_P01         0     // axis brake 2nd axis path 01
-   #define  brake_3rd_axis_P01         0     // axis brake 3rd axis path 01
-   #define  brake_4th_axis_P01         0     // axis brake 4th axis path 01
-   #define  brake_5th_axis_P01         0     // axis brake 5th axis path 01
-   #define  brake_6th_axis_P01         0     // axis brake 6th axis path 01
-   #define  brake_7th_axis_P01         0     // axis brake 7th axis path 01
-   #define  brake_8th_axis_P01         0     // axis brake 8th axis path 01
+   #define  brake_1st_axis_P01         1     // axis brake 1st axis path 01
+   #define  brake_2nd_axis_P01         1     // axis brake 2nd axis path 01
+   #define  brake_3rd_axis_P01         1     // axis brake 3rd axis path 01
+   #define  brake_4th_axis_P01         1     // axis brake 4th axis path 01
+   #define  brake_5th_axis_P01         1     // axis brake 5th axis path 01
+   #define  brake_6th_axis_P01         1     // axis brake 6th axis path 01
+   #define  brake_7th_axis_P01         1     // axis brake 7th axis path 01
+   #define  brake_8th_axis_P01         1     // axis brake 8th axis path 01
 
-   #define  brake_1st_axis_P02         0     // axis brake 1st axis path 02
-   #define  brake_2nd_axis_P02         0     // axis brake 2nd axis path 02
-   #define  brake_3rd_axis_P02         0     // axis brake 3rd axis path 02
-   #define  brake_4th_axis_P02         0     // axis brake 4th axis path 02
-   #define  brake_5th_axis_P02         0     // axis brake 5th axis path 02
-   #define  brake_6th_axis_P02         0     // axis brake 6th axis path 02
-   #define  brake_7th_axis_P02         0     // axis brake 7th axis path 02
-   #define  brake_8th_axis_P02         0     // axis brake 8th axis path 02
+   #define  brake_1st_axis_P02         1     // axis brake 1st axis path 02
+   #define  brake_2nd_axis_P02         1     // axis brake 2nd axis path 02
+   #define  brake_3rd_axis_P02         1     // axis brake 3rd axis path 02
+   #define  brake_4th_axis_P02         1     // axis brake 4th axis path 02
+   #define  brake_5th_axis_P02         1     // axis brake 5th axis path 02
+   #define  brake_6th_axis_P02         1     // axis brake 6th axis path 02
+   #define  brake_7th_axis_P02         1     // axis brake 7th axis path 02
+   #define  brake_8th_axis_P02         1     // axis brake 8th axis path 02
 
-   #define  brake_1st_axis_P03         0     // axis brake 1st axis path 03
-   #define  brake_2nd_axis_P03         0     // axis brake 2nd axis path 03
-   #define  brake_3rd_axis_P03         0     // axis brake 3rd axis path 03
-   #define  brake_4th_axis_P03         0     // axis brake 4th axis path 03
-   #define  brake_5th_axis_P03         0     // axis brake 5th axis path 03
-   #define  brake_6th_axis_P03         0     // axis brake 6th axis path 03
-   #define  brake_7th_axis_P03         0     // axis brake 7th axis path 03
-   #define  brake_8th_axis_P03         0     // axis brake 8th axis path 03
+   #define  brake_1st_axis_P03         1     // axis brake 1st axis path 03
+   #define  brake_2nd_axis_P03         1     // axis brake 2nd axis path 03
+   #define  brake_3rd_axis_P03         1     // axis brake 3rd axis path 03
+   #define  brake_4th_axis_P03         1     // axis brake 4th axis path 03
+   #define  brake_5th_axis_P03         1     // axis brake 5th axis path 03
+   #define  brake_6th_axis_P03         1     // axis brake 6th axis path 03
+   #define  brake_7th_axis_P03         1     // axis brake 7th axis path 03
+   #define  brake_8th_axis_P03         1     // axis brake 8th axis path 03
 
    #define  brake_1st_axis_P04         0     // axis brake 1st axis path 04
    #define  brake_2nd_axis_P04         0     // axis brake 2nd axis path 04

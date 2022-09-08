@@ -2,14 +2,6 @@
 mode con: cols=55 lines=29
 color 0A
 @echo ========================================
-@echo Checking folders
-@echo ========================================
-if exist  ..\include\ (
- echo ok 
-) else (
-mkdir ..\include\
-)
-@echo ========================================
 @echo 1st PMC source file generation
 @echo ========================================
 @echo.

@@ -4,6 +4,8 @@ rem Date     :Version: Sign  :Description                                    :
 rem --------------------------------------------------------------------------
 rem :26.06.20: 3.0.0 :Blp    :3xi-A + 0i-D removed, FLT + FB added           :
 rem --------------------------------------------------------------------------
+rem :26.08.22: 3.0.1 :BMk    :0i-F-L added 						             :
+rem --------------------------------------------------------------------------
 rem :        :       :       :                                               :
 rem --------------------------------------------------------------------------
 set MNEMONIC_FILE=..\sysprm.mne
@@ -89,6 +91,18 @@ if %PMCTYPE% EQU 0iF_Mem_B_FB goto compile
 findstr /b /c:"4 0i-F PMC(MEM-B,FLT)" %MNEMONIC_FILE% > NUL
 if not errorlevel 1 (set PMCTYPE=0iF_Mem_B)
 if %PMCTYPE% EQU 0iF_Mem_B goto compile
+
+rem --------------------------------------------------------------------------
+rem 0i-F-L
+rem --------------------------------------------------------------------------
+
+findstr /b /c:"4 0i-F PMC/L(MEM-B,FB,FLT)" %MNEMONIC_FILE% > NUL
+if not errorlevel 1 (set PMCTYPE=0iF-L_Mem_B_FB)
+if %PMCTYPE% EQU 0iF-L_Mem_B_FB goto compile
+
+findstr /b /c:"4 0i-F PMC/L(MEM-B,FLT)" %MNEMONIC_FILE% > NUL
+if not errorlevel 1 (set PMCTYPE=0iF-L_Mem_B)
+if %PMCTYPE% EQU 0iF-L_Mem_B goto compile
 
 rem --------------------------------------------------------------------------
 rem 32i-B

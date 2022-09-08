@@ -15,7 +15,7 @@
 //:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
 //:        :       :       :keys for one touch macro added                   :
 //:--------------------------------------------------------------------------:
-//:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, SOP removed      :
+//:03.09.21: 3.0.0 :Blp    :virtual operator's panel added, SOP removed      :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -167,6 +167,9 @@ iF_K_E11,__KEY_SPINDLE_CCW,op55: key E11,
 #if virtual_op_panel == 1 && start_address_op > 0
 VIRTUAL_OP,E9750.0,virtual op with 55key,
 V_OP_SW,E9750.1,switching to virtual op,
+    #if demo_control == 1
+V_OP_DIS,E9750.2,virtual OP disable,
+    #endif
 #endif
 
 // -------------------------------------------------------
@@ -181,3 +184,11 @@ V_OP_SW,E9750.1,switching to virtual op,
 // -----------------------------------
 e_fovr,E9752.0,error decoding f-override,
 e_sovr,E9752.1,error decoding s-override,
+
+#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 1
+re_vop_dis,E9752.2,re virtual op disable,
+mkey_vopdis,E9752.3,mem key virt. op disable,
+re_key_vop,E9752.4,re key virtual op,
+mkey_vopen,E9752.5,mem key virtual op enable,
+#endif
+

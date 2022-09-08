@@ -6,6 +6,22 @@
     NewMP_BasePMC library.
 
 --------------------------------------------------------------------------------
+Version 3.0.0 -> 3.0.1
+--------------------------------------------------------------------------------
+---------------------------------------
+News:
+---------------------------------------
+- Added 0iF/L support for mem B
+
+---------------------------------------
+Modifications:
+---------------------------------------
+
+---------------------------------------
+Bug fixes:
+---------------------------------------
+
+--------------------------------------------------------------------------------
 Version 2.0.0 -> 3.0.0
 --------------------------------------------------------------------------------
 ---------------------------------------
@@ -16,6 +32,7 @@ News:
 - Support of Floating Point functions
 - Virtual operator's panel added. This panel can be used in parallel to the
   Standard machine operator's panel with 55 keys when X/Y addresses are selected
+  (Possibility for remote control)
 
 ---------------------------------------
 Modifications:
@@ -26,6 +43,8 @@ Modifications:
 - Selection of I/O Link removed
 - In case of abnormal termination of One Touch Macro Call, MEM mode will be forced
   by RESET
+- The signals of the setup mode selection switch are now crosschecked at open
+  protection door
 
 ---------------------------------------
 Bug fixes:

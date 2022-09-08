@@ -15,7 +15,7 @@
 //:        :       :       :pmc_type < 3 || pmc_type == 6                    :
 //:        :       :       :path 11-15 added                                 :
 //:--------------------------------------------------------------------------:
-//:02.07.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+//:07.09.21: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
 //:        :       :       :virtual operator's panel added, SOP modified     :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
@@ -287,19 +287,21 @@ transfering monitoring bit00 to DCSPMC
    #endif
 
    #if operatorspanel == 2 && soft_op_panel == 0
+      #if start_address_op == 0 || virtual_op_panel == 1
 // ---------------------------------------------------------------------------
 // transfering monitoring bit00 to DCSPMC (EMG STOP switch)
 // ---------------------------------------------------------------------------
-      #if net_comment == 1
+         #if net_comment == 1
 (*
 transfering monitoring bit00 to DCSPMC
 (EMG STOP switch)
 *)
-      #endif
+         #endif
                  RD        iV_K_EMG             ;"op55: virtual emg key"
-      #if virtual_op_panel == 1 && start_address_op > 0
+         #if virtual_op_panel == 1 && start_address_op > 0
                  OR.NOT    VIRTUAL_OP           ;"virtual op with 55key"
-      #endif
+         #endif
                  WRT       TPMG00               ;"interface to DCS bit00"
+      #endif           
    #endif
 #endif

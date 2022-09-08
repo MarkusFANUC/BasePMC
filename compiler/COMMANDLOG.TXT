@@ -1,0 +1,11 @@
+"compile_0iF-L_Mem_B.cmd" batch command start.
+compile_0iF-L_Mem_B.cmd  1 Line FLNEW:   Completed.
+compile_0iF-L_Mem_B.cmd  2 Line FLOPEN:   Completed.
+compile_0iF-L_Mem_B.cmd  3 Line MNEMONICTOSRC:   Completed.
+compile_0iF-L_Mem_B.cmd  4 Line MNEMONICTOSRC:   Completed.
+compile_0iF-L_Mem_B.cmd  5 Line MNEMONICTOSRC:   Completed.
+compile_0iF-L_Mem_B.cmd  6 Line COMPILE:   Completed.
+compile_0iF-L_Mem_B.cmd  7 Line EXPORT: [/MemData]  Completed.
+compile_0iF-L_Mem_B.cmd  8 Line EXPORT: [/EXTSYM]  Completed.
+compile_0iF-L_Mem_B.cmd  9 Line FLCLOSE:   Completed.
+Batch command completed.

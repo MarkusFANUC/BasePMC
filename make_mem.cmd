@@ -14,7 +14,7 @@ utility\sleep 1s
 @echo   - Preprocessor running.....
 utility\mcpp.exe -@std -W0 source/sysprm.src -P sysprm.i
 utility\grep.exe [%%@()0-9A-Za-z] sysprm.i > sysprm.mne
-rem if exist sysprm.i del sysprm.i
+if exist sysprm.i del sysprm.i
 if exist compilerlog.txt del compilerlog.txt
 @echo   - System parameter file sysprm.mne created
 @echo ---------------------------------------------

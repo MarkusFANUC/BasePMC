@@ -14,7 +14,8 @@
 //:20.10.17: 2.0.0 :Blp    :path 11-15 added                                 :
 //:        :       :       :Behaviour of hold to run button improved         :
 //:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
+//:31.08.21: 3.0.0 :Blp    :key switch for set-up mode will only be checked  :
+//:        :       :       :when protection door is not locked               :
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
@@ -113,6 +114,7 @@ this signal will be DCS I/O cross checked
    #else
                  RD        iSET01               ;"setup switch pos 01"
    #endif
+                 AND.NOT   *SGOPN               ;"guard state doors closed"
                  WRT       SET_M01              ;"setup mode 01"
 
    #if mcc_test == 1

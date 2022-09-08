@@ -1,0 +1,62 @@
+FANUC LADDER-III Version 9.40 Memory map
+
+File name          PMC_0iF-L_Mem_B.LAD
+PMC Type           0i-F PMC/L(MEM-B,FLT)
+Log Date           01 September 2022 10:44:37
+
+                    Start     Stop     Length
+Netcomment         ------H   ------H   000000H ........  0.0KB
+Message            2841F7H   2848FFH   000709H ........  1.8KB
+Symbol             284900H   291ED7H   00D5D8H _
+Comment            2921CDH   29D4FFH   00B333H _l...... 98.3KB
+Ladder program     29D500H   2A42DFH   006DE0H ........ 27.5KB
+
+Memory Used                  144.8KB
+F-ROM Used                     256KB
+
+
+
+Automatic numbering of TMRB/TMRBF/DIFU/DIFD
+
+TMRB   500   P10(3net)
+TMRB   499   P101(4net)
+TMRB   498   P151(25net)
+TMRB   497   P151(28net)
+TMRB   496   P152(8net)
+TMRB   495   P154(43net)
+TMRB   494   P312(18net)
+TMRB   493   P312(21net)
+TMRB   492   P313(18net)
+TMRB   491   P313(21net)
+TMRB   490   P314(18net)
+TMRB   489   P314(21net)
+TMRB   488   P315(18net)
+TMRB   487   P315(21net)
+TMRB   486   P316(18net)
+TMRB   485   P316(21net)
+TMRB   484   P317(18net)
+TMRB   483   P317(21net)
+TMRB   482   P318(18net)
+TMRB   481   P318(21net)
+TMRB   480   P319(18net)
+TMRB   479   P319(21net)
+TMRB   478   P322(18net)
+TMRB   477   P322(21net)
+TMRB   476   P323(18net)
+TMRB   475   P323(21net)
+TMRB   474   P324(18net)
+TMRB   473   P324(21net)
+TMRB   472   P325(18net)
+TMRB   471   P325(21net)
+TMRB   470   P326(18net)
+TMRB   469   P326(21net)
+TMRB   468   P327(18net)
+TMRB   467   P327(21net)
+TMRB   466   P328(18net)
+TMRB   465   P328(21net)
+TMRB   464   P329(18net)
+TMRB   463   P329(21net)
+TMRB   462   P510(6net)
+TMRB   461   P510(41net)
+TMRB   460   P511(6net)
+TMRB   459   P511(41net)
