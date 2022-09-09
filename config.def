@@ -27,8 +27,6 @@
 //:--------------------------------------------------------------------------:
 //:        :       :       :                                                 :
 //:--------------------------------------------------------------------------:
-#ifndef config_def
-#define config_def
 
 // ---------------------------------------------------------------------------
 // Control type
@@ -38,7 +36,7 @@
 //    0  =  m_type
 //    1  =  t_type
 
-   #define  control_type               0
+   #set  control_type               =0
 
 
 // Used for the axis key assignment on the small operator's panel with 30 keys
@@ -55,7 +53,7 @@
 //    6  30i-B PMC
 //    7  0i-F-L PMC 
 
-   #define  pmc_type                   7
+   #set  pmc_type                   =7
 
 
 // ---------------------------------------------------------------------------
@@ -64,7 +62,7 @@
 //    0  no Function Block support
 //    1  Function Block support
 
-   #define  function_block             0
+   #set  function_block             =0
 
 
 // ---------------------------------------------------
@@ -75,7 +73,7 @@
 // 2 = Memory D
 // 3 = Memory E            (30i-B nbr_of_path > 10)
 
-   #define  pmc_mem_type               0
+   #set  pmc_mem_type               =0
 
 
 // ---------------------------------------------------------------------------
@@ -84,7 +82,7 @@
 // Selection of number of CNC path
 // 1-15
 
-   #define  nbr_of_path                2
+   #set  nbr_of_path                =2
 
 // Note: When nbr_of_path > 8 the PMC Memory C or Memory D must be used
 //       pmc_mem_type 1 or 2 
@@ -98,7 +96,7 @@
 //    0  =  No net comment
 //    1  =  Display net comment
 
-   #define  net_comment                1
+   #set  net_comment                =1
 
 
 // ---------------------------------------------------------------------------
@@ -109,7 +107,7 @@
 //    0  =  Normal use
 //    1  =  Control is used for demonstration
 
-   #define  demo_control               0
+   #set  demo_control               =0
 
 
 // ---------------------------------------------------------------------------
@@ -120,7 +118,7 @@
 //    0  =  No emergency stop by-pass
 //    1  =  Emergency stop by-pass
 
-   #define  emergency_by_pass          0
+   #set  emergency_by_pass          =0
 
 
 // Note: If the emergency_by_pass equal 1, you must define
@@ -137,7 +135,7 @@
 //    2  =  Standard machine operator's panel with 55 keys
 //    3  =  iPendant (for CNC)
 
-   #define  operatorspanel             2
+   #set  operatorspanel             =2
 
 // ---------------------------------------------------------------------------
 // Virtual operator's panel
@@ -145,7 +143,7 @@
 //    0 = No virtual operator's panel with 55 keys
 //    1 = Virtual operator's panel with 55 keys
 
-   #define virtual_op_panel            1
+   #set virtual_op_panel            =1
 
 
 // In case of operatorspanel equal 2 and start_address_op equal 1 or 2 a
@@ -158,7 +156,7 @@
 //    1  =  Software operator's panel     (30i/31i/32i option -J960 required)
 //                                        (35i-B, PMi-A Basic option 2 required)
 
-   #define  soft_op_panel              1
+   #set  soft_op_panel              =1
 
 
 // In case of operatorspanel equal 1, 2 or 3 a software operator's panel can be
@@ -174,7 +172,7 @@
 //    1  =  X0100 / Y0100
 //    2  =  X0006 / Y0000
 
-   #define  start_address_op           1
+   #set  start_address_op           =1
 
 
 // Note: If the emergency_by_pass equal 1, you must define
@@ -189,7 +187,7 @@
 //    0  = No Program protect key
 //    1  = Program protect key
 
-   #define pgm_protect_key             1
+   #set pgm_protect_key             =1
 
 // Note: This definition will be only taken into account when
 // operatorspanel == 2 or start_address_op == 0
@@ -207,7 +205,7 @@
 //    1  =  Five languages supported
 //    2  =  External message file
 
-   #define  language_support           1
+   #set  language_support           =1
 
 // ---------------------------------------------------
 // Select language for one language support
@@ -218,7 +216,7 @@
 //    3  =  italian
 //    4  =  spanish
 
-   #define  language_choose            0
+   #set  language_choose            =0
 
 
 // ---------------------------------------------------------------------------
@@ -230,7 +228,7 @@
 //    1  =  Up to three M-codes per block
 //    2  =  Up to five M-codes per block
 
-   #define  m_code_support             2
+   #set  m_code_support             =2
 
 // ---------------------------------------------------------------------------
 // T-code
@@ -240,21 +238,21 @@
 //    0  =  No support
 //    1  =  T-code
 
-   #define  t_code_support_P01         1        // T-code support path 01
-   #define  t_code_support_P02         1        // T-code support path 02
-   #define  t_code_support_P03         0        // T-code support path 03
-   #define  t_code_support_P04         0        // T-code support path 04
-   #define  t_code_support_P05         0        // T-code support path 05
-   #define  t_code_support_P06         0        // T-code support path 06
-   #define  t_code_support_P07         0        // T-code support path 07
-   #define  t_code_support_P08         0        // T-code support path 08
-   #define  t_code_support_P09         0        // T-code support path 09
-   #define  t_code_support_P10         0        // T-code support path 10
-   #define  t_code_support_P11         0        // T-code support path 11
-   #define  t_code_support_P12         0        // T-code support path 12
-   #define  t_code_support_P13         0        // T-code support path 13
-   #define  t_code_support_P14         0        // T-code support path 14
-   #define  t_code_support_P15         0        // T-code support path 15
+   #set  t_code_support_P01         =1        // T-code support path 01
+   #set  t_code_support_P02         =1        // T-code support path 02
+   #set  t_code_support_P03         =0        // T-code support path 03
+   #set  t_code_support_P04         =0        // T-code support path 04
+   #set  t_code_support_P05         =0        // T-code support path 05
+   #set  t_code_support_P06         =0        // T-code support path 06
+   #set  t_code_support_P07         =0        // T-code support path 07
+   #set  t_code_support_P08         =0        // T-code support path 08
+   #set  t_code_support_P09         =0        // T-code support path 09
+   #set  t_code_support_P10         =0        // T-code support path 10
+   #set  t_code_support_P11         =0        // T-code support path 11
+   #set  t_code_support_P12         =0        // T-code support path 12
+   #set  t_code_support_P13         =0        // T-code support path 13
+   #set  t_code_support_P14         =0        // T-code support path 14
+   #set  t_code_support_P15         =0        // T-code support path 15
 
 
 // Hint: if you set t_code_support_P01 equal -1 the code for the
@@ -269,21 +267,21 @@
 //    0  =  No support
 //    1  =  B-code
 
-   #define  b_code_support_P01         1        // B-code support path 01
-   #define  b_code_support_P02         1        // B-code support path 02
-   #define  b_code_support_P03         0        // B-code support path 03
-   #define  b_code_support_P04         0        // B-code support path 04
-   #define  b_code_support_P05         0        // B-code support path 05
-   #define  b_code_support_P06         0        // B-code support path 06
-   #define  b_code_support_P07         0        // B-code support path 07
-   #define  b_code_support_P08         0        // B-code support path 08
-   #define  b_code_support_P09         0        // B-code support path 09
-   #define  b_code_support_P10         0        // B-code support path 10
-   #define  b_code_support_P11         0        // B-code support path 11
-   #define  b_code_support_P12         0        // B-code support path 12
-   #define  b_code_support_P13         0        // B-code support path 13
-   #define  b_code_support_P14         0        // B-code support path 14
-   #define  b_code_support_P15         0        // B-code support path 15
+   #set  b_code_support_P01         =1        // B-code support path 01
+   #set  b_code_support_P02         =1        // B-code support path 02
+   #set  b_code_support_P03         =0        // B-code support path 03
+   #set  b_code_support_P04         =0        // B-code support path 04
+   #set  b_code_support_P05         =0        // B-code support path 05
+   #set  b_code_support_P06         =0        // B-code support path 06
+   #set  b_code_support_P07         =0        // B-code support path 07
+   #set  b_code_support_P08         =0        // B-code support path 08
+   #set  b_code_support_P09         =0        // B-code support path 09
+   #set  b_code_support_P10         =0        // B-code support path 10
+   #set  b_code_support_P11         =0        // B-code support path 11
+   #set  b_code_support_P12         =0        // B-code support path 12
+   #set  b_code_support_P13         =0        // B-code support path 13
+   #set  b_code_support_P14         =0        // B-code support path 14
+   #set  b_code_support_P15         =0        // B-code support path 15
 
 
 // Hint: if you set b_code_support_P01 equal -1 the code for the
@@ -302,21 +300,21 @@
 //                                     (35i-B, PMi-A: basic option 1 required)
 //    5  =  Spindle control with servo motor (option -J978 required)
 
-   #define  spindle_support_P01        1        // spindle support path 01
-   #define  spindle_support_P02        4        // spindle support path 02
-   #define  spindle_support_P03        0        // spindle support path 03
-   #define  spindle_support_P04        0        // spindle support path 04
-   #define  spindle_support_P05        0        // spindle support path 05
-   #define  spindle_support_P06        0        // spindle support path 06
-   #define  spindle_support_P07        0        // spindle support path 07
-   #define  spindle_support_P08        0        // spindle support path 08
-   #define  spindle_support_P09        0        // spindle support path 09
-   #define  spindle_support_P10        0        // spindle support path 10
-   #define  spindle_support_P11        0        // spindle support path 11
-   #define  spindle_support_P12        0        // spindle support path 12
-   #define  spindle_support_P13        0        // spindle support path 13
-   #define  spindle_support_P14        0        // spindle support path 14
-   #define  spindle_support_P15        0        // spindle support path 15
+   #set  spindle_support_P01        =1        // spindle support path 01
+   #set  spindle_support_P02        =4        // spindle support path 02
+   #set  spindle_support_P03        =0        // spindle support path 03
+   #set  spindle_support_P04        =0        // spindle support path 04
+   #set  spindle_support_P05        =0        // spindle support path 05
+   #set  spindle_support_P06        =0        // spindle support path 06
+   #set  spindle_support_P07        =0        // spindle support path 07
+   #set  spindle_support_P08        =0        // spindle support path 08
+   #set  spindle_support_P09        =0        // spindle support path 09
+   #set  spindle_support_P10        =0        // spindle support path 10
+   #set  spindle_support_P11        =0        // spindle support path 11
+   #set  spindle_support_P12        =0        // spindle support path 12
+   #set  spindle_support_P13        =0        // spindle support path 13
+   #set  spindle_support_P14        =0        // spindle support path 14
+   #set  spindle_support_P15        =0        // spindle support path 15
 
 // Hint: if you set spindle_support_P01 equal -1 the code for the
 // spindle support of all path will not be included
@@ -324,21 +322,21 @@
 // In case of spindle_support_Pxx equal 4 or 5 define the related servo axis in
 // spindle_sv_axis_Pxx
 
-   #define  spindle_sv_axis_P01        1        // axis nbr. for spindle path 01
-   #define  spindle_sv_axis_P02        6       // axis nbr. for spindle path 02
-   #define  spindle_sv_axis_P03        1       // axis nbr. for spindle path 03
-   #define  spindle_sv_axis_P04        1        // axis nbr. for spindle path 04
-   #define  spindle_sv_axis_P05        1        // axis nbr. for spindle path 05
-   #define  spindle_sv_axis_P06        1        // axis nbr. for spindle path 06
-   #define  spindle_sv_axis_P07        1        // axis nbr. for spindle path 07
-   #define  spindle_sv_axis_P08        1        // axis nbr. for spindle path 08
-   #define  spindle_sv_axis_P09        1        // axis nbr. for spindle path 09
-   #define  spindle_sv_axis_P10        1        // axis nbr. for spindle path 10
-   #define  spindle_sv_axis_P11        1        // axis nbr. for spindle path 11
-   #define  spindle_sv_axis_P12        1        // axis nbr. for spindle path 12
-   #define  spindle_sv_axis_P13        1        // axis nbr. for spindle path 13
-   #define  spindle_sv_axis_P14        1        // axis nbr. for spindle path 14
-   #define  spindle_sv_axis_P15        1        // axis nbr. for spindle path 15
+   #set  spindle_sv_axis_P01        =1        // axis nbr. for spindle path 01
+   #set  spindle_sv_axis_P02        =6       // axis nbr. for spindle path 02
+   #set  spindle_sv_axis_P03        =1       // axis nbr. for spindle path 03
+   #set  spindle_sv_axis_P04        =1        // axis nbr. for spindle path 04
+   #set  spindle_sv_axis_P05        =1        // axis nbr. for spindle path 05
+   #set  spindle_sv_axis_P06        =1        // axis nbr. for spindle path 06
+   #set  spindle_sv_axis_P07        =1        // axis nbr. for spindle path 07
+   #set  spindle_sv_axis_P08        =1        // axis nbr. for spindle path 08
+   #set  spindle_sv_axis_P09        =1        // axis nbr. for spindle path 09
+   #set  spindle_sv_axis_P10        =1        // axis nbr. for spindle path 10
+   #set  spindle_sv_axis_P11        =1        // axis nbr. for spindle path 11
+   #set  spindle_sv_axis_P12        =1        // axis nbr. for spindle path 12
+   #set  spindle_sv_axis_P13        =1        // axis nbr. for spindle path 13
+   #set  spindle_sv_axis_P14        =1        // axis nbr. for spindle path 14
+   #set  spindle_sv_axis_P15        =1        // axis nbr. for spindle path 15
 
 
 // ---------------------------------------------------
@@ -350,7 +348,7 @@
 //    0  =  Spindle override 100%
 //    1  =  Spindle override with gray coded selector
 
-   #define  spindle_override           1
+   #set  spindle_override           =1
 
 // ---------------------------------------------------
 // Spindle orientation
@@ -363,21 +361,21 @@
 //    1  =  Spindle orientation (One position)
 //    2  =  Spindle orientation (External stop position)
 
-   #define  spindle_orientation_P01    1        // spindle orientation path 01
-   #define  spindle_orientation_P02    1        // spindle orientation path 02
-   #define  spindle_orientation_P03    0        // spindle orientation path 03
-   #define  spindle_orientation_P04    0        // spindle orientation path 04
-   #define  spindle_orientation_P05    0        // spindle orientation path 05
-   #define  spindle_orientation_P06    0        // spindle orientation path 06
-   #define  spindle_orientation_P07    0        // spindle orientation path 07
-   #define  spindle_orientation_P08    0        // spindle orientation path 08
-   #define  spindle_orientation_P09    0        // spindle orientation path 09
-   #define  spindle_orientation_P10    0        // spindle orientation path 10
-   #define  spindle_orientation_P11    0        // spindle orientation path 11
-   #define  spindle_orientation_P12    0        // spindle orientation path 12
-   #define  spindle_orientation_P13    0        // spindle orientation path 13
-   #define  spindle_orientation_P14    0        // spindle orientation path 14
-   #define  spindle_orientation_P15    0        // spindle orientation path 15
+   #set  spindle_orientation_P01    =1        // spindle orientation path 01
+   #set  spindle_orientation_P02    =1        // spindle orientation path 02
+   #set  spindle_orientation_P03    =0        // spindle orientation path 03
+   #set  spindle_orientation_P04    =0        // spindle orientation path 04
+   #set  spindle_orientation_P05    =0        // spindle orientation path 05
+   #set  spindle_orientation_P06    =0        // spindle orientation path 06
+   #set  spindle_orientation_P07    =0        // spindle orientation path 07
+   #set  spindle_orientation_P08    =0        // spindle orientation path 08
+   #set  spindle_orientation_P09    =0        // spindle orientation path 09
+   #set  spindle_orientation_P10    =0        // spindle orientation path 10
+   #set  spindle_orientation_P11    =0        // spindle orientation path 11
+   #set  spindle_orientation_P12    =0        // spindle orientation path 12
+   #set  spindle_orientation_P13    =0        // spindle orientation path 13
+   #set  spindle_orientation_P14    =0        // spindle orientation path 14
+   #set  spindle_orientation_P15    =0        // spindle orientation path 15
 
 // Only valid for serial spindle
 
@@ -390,21 +388,21 @@
 //    0  =  No rigid tapping
 //    1  =  Rigid tapping
 
-   #define  rigid_tapping_P01          1        // rigid tapping path 01
-   #define  rigid_tapping_P02          1        // rigid tapping path 02
-   #define  rigid_tapping_P03          0        // rigid tapping path 03
-   #define  rigid_tapping_P04          0        // rigid tapping path 04
-   #define  rigid_tapping_P05          0        // rigid tapping path 05
-   #define  rigid_tapping_P06          0        // rigid tapping path 06
-   #define  rigid_tapping_P07          0        // rigid tapping path 07
-   #define  rigid_tapping_P08          0        // rigid tapping path 08
-   #define  rigid_tapping_P09          0        // rigid tapping path 09
-   #define  rigid_tapping_P10          0        // rigid tapping path 10
-   #define  rigid_tapping_P11          0        // rigid tapping path 11
-   #define  rigid_tapping_P12          0        // rigid tapping path 12
-   #define  rigid_tapping_P13          0        // rigid tapping path 13
-   #define  rigid_tapping_P14          0        // rigid tapping path 14
-   #define  rigid_tapping_P15          0        // rigid tapping path 15
+   #set  rigid_tapping_P01          =1        // rigid tapping path 01
+   #set  rigid_tapping_P02          =1        // rigid tapping path 02
+   #set  rigid_tapping_P03          =0        // rigid tapping path 03
+   #set  rigid_tapping_P04          =0        // rigid tapping path 04
+   #set  rigid_tapping_P05          =0        // rigid tapping path 05
+   #set  rigid_tapping_P06          =0        // rigid tapping path 06
+   #set  rigid_tapping_P07          =0        // rigid tapping path 07
+   #set  rigid_tapping_P08          =0        // rigid tapping path 08
+   #set  rigid_tapping_P09          =0        // rigid tapping path 09
+   #set  rigid_tapping_P10          =0        // rigid tapping path 10
+   #set  rigid_tapping_P11          =0        // rigid tapping path 11
+   #set  rigid_tapping_P12          =0        // rigid tapping path 12
+   #set  rigid_tapping_P13          =0        // rigid tapping path 13
+   #set  rigid_tapping_P14          =0        // rigid tapping path 14
+   #set  rigid_tapping_P15          =0        // rigid tapping path 15
 
 // Only valid for "Serial spindle" and "Spindle control with servo motor"
 
@@ -417,21 +415,21 @@
 //    0  =  No Cs Contour Control
 //    1  =  Cs Contour Control (serial spindle)
 
-   #define  cs_contour_ctrl_P01        1        // cs contour control path 01
-   #define  cs_contour_ctrl_P02        1        // cs contour control path 02
-   #define  cs_contour_ctrl_P03        0        // cs contour control path 03
-   #define  cs_contour_ctrl_P04        0        // cs contour control path 04
-   #define  cs_contour_ctrl_P05        0        // cs contour control path 05
-   #define  cs_contour_ctrl_P06        0        // cs contour control path 06
-   #define  cs_contour_ctrl_P07        0        // cs contour control path 07
-   #define  cs_contour_ctrl_P08        0        // cs contour control path 08
-   #define  cs_contour_ctrl_P09        0        // cs contour control path 09
-   #define  cs_contour_ctrl_P10        0        // cs contour control path 10
-   #define  cs_contour_ctrl_P11        0        // cs contour control path 11
-   #define  cs_contour_ctrl_P12        0        // cs contour control path 12
-   #define  cs_contour_ctrl_P13        0        // cs contour control path 13
-   #define  cs_contour_ctrl_P14        0        // cs contour control path 14
-   #define  cs_contour_ctrl_P15        0        // cs contour control path 15
+   #set  cs_contour_ctrl_P01        =1        // cs contour control path 01
+   #set  cs_contour_ctrl_P02        =1        // cs contour control path 02
+   #set  cs_contour_ctrl_P03        =0        // cs contour control path 03
+   #set  cs_contour_ctrl_P04        =0        // cs contour control path 04
+   #set  cs_contour_ctrl_P05        =0        // cs contour control path 05
+   #set  cs_contour_ctrl_P06        =0        // cs contour control path 06
+   #set  cs_contour_ctrl_P07        =0        // cs contour control path 07
+   #set  cs_contour_ctrl_P08        =0        // cs contour control path 08
+   #set  cs_contour_ctrl_P09        =0        // cs contour control path 09
+   #set  cs_contour_ctrl_P10        =0        // cs contour control path 10
+   #set  cs_contour_ctrl_P11        =0        // cs contour control path 11
+   #set  cs_contour_ctrl_P12        =0        // cs contour control path 12
+   #set  cs_contour_ctrl_P13        =0        // cs contour control path 13
+   #set  cs_contour_ctrl_P14        =0        // cs contour control path 14
+   #set  cs_contour_ctrl_P15        =0        // cs contour control path 15
 
 // Only valid for serial spindle
 
@@ -443,21 +441,21 @@
 //    0  =  No coolant
 //    1  =  Coolant
 
-   #define  coolant_support_P01        1        // coolant support path 01
-   #define  coolant_support_P02        1        // coolant support path 02
-   #define  coolant_support_P03        0        // coolant support path 03
-   #define  coolant_support_P04        0        // coolant support path 04
-   #define  coolant_support_P05        0        // coolant support path 05
-   #define  coolant_support_P06        0        // coolant support path 06
-   #define  coolant_support_P07        0        // coolant support path 07
-   #define  coolant_support_P08        0        // coolant support path 08
-   #define  coolant_support_P09        0        // coolant support path 09
-   #define  coolant_support_P10        0        // coolant support path 10
-   #define  coolant_support_P11        0        // coolant support path 11
-   #define  coolant_support_P12        0        // coolant support path 12
-   #define  coolant_support_P13        0        // coolant support path 13
-   #define  coolant_support_P14        0        // coolant support path 14
-   #define  coolant_support_P15        0        // coolant support path 15
+   #set  coolant_support_P01        =1        // coolant support path 01
+   #set  coolant_support_P02        =1        // coolant support path 02
+   #set  coolant_support_P03        =0        // coolant support path 03
+   #set  coolant_support_P04        =0        // coolant support path 04
+   #set  coolant_support_P05        =0        // coolant support path 05
+   #set  coolant_support_P06        =0        // coolant support path 06
+   #set  coolant_support_P07        =0        // coolant support path 07
+   #set  coolant_support_P08        =0        // coolant support path 08
+   #set  coolant_support_P09        =0        // coolant support path 09
+   #set  coolant_support_P10        =0        // coolant support path 10
+   #set  coolant_support_P11        =0        // coolant support path 11
+   #set  coolant_support_P12        =0        // coolant support path 12
+   #set  coolant_support_P13        =0        // coolant support path 13
+   #set  coolant_support_P14        =0        // coolant support path 14
+   #set  coolant_support_P15        =0        // coolant support path 15
 
 
 // Hint: if you set coolant_support_P01 equal -1 the code for the
@@ -470,7 +468,7 @@
 //    0  =  No lubrication
 //    1  =  Lubrication with level and pressure control
 
-   #define  lubrication_support        1
+   #set  lubrication_support        =1
 
 // ---------------------------------------------------------------------------
 // One Touch Macro Call
@@ -480,21 +478,21 @@
 //    0  =  No One Touch Macro Call
 //    1  =  One Touch Macro Call included
 
-   #define  otmc_support_P01           1        // omtc support path 01
-   #define  otmc_support_P02           1        // omtc support path 02
-   #define  otmc_support_P03           0        // omtc support path 03
-   #define  otmc_support_P04           0        // omtc support path 04
-   #define  otmc_support_P05           0        // omtc support path 05
-   #define  otmc_support_P06           0        // omtc support path 06
-   #define  otmc_support_P07           0        // omtc support path 07
-   #define  otmc_support_P08           0        // omtc support path 08
-   #define  otmc_support_P09           0        // omtc support path 09
-   #define  otmc_support_P10           0        // omtc support path 10
-   #define  otmc_support_P11           0        // omtc support path 11
-   #define  otmc_support_P12           0        // omtc support path 12
-   #define  otmc_support_P13           0        // omtc support path 13
-   #define  otmc_support_P14           0        // omtc support path 14
-   #define  otmc_support_P15           0        // omtc support path 15
+   #set  otmc_support_P01           =1        // omtc support path 01
+   #set  otmc_support_P02           =1        // omtc support path 02
+   #set  otmc_support_P03           =0        // omtc support path 03
+   #set  otmc_support_P04           =0        // omtc support path 04
+   #set  otmc_support_P05           =0        // omtc support path 05
+   #set  otmc_support_P06           =0        // omtc support path 06
+   #set  otmc_support_P07           =0        // omtc support path 07
+   #set  otmc_support_P08           =0        // omtc support path 08
+   #set  otmc_support_P09           =0        // omtc support path 09
+   #set  otmc_support_P10           =0        // omtc support path 10
+   #set  otmc_support_P11           =0        // omtc support path 11
+   #set  otmc_support_P12           =0        // omtc support path 12
+   #set  otmc_support_P13           =0        // omtc support path 13
+   #set  otmc_support_P14           =0        // omtc support path 14
+   #set  otmc_support_P15           =0        // omtc support path 15
 
 
 // Will be only included in case of standard machine operator's panel with
@@ -512,7 +510,7 @@
 //    0  =  No Dual Check Safety
 //    1  =  Dual Check Safety
 
-   #define  dcs_support                0
+   #set  dcs_support                =0
 
 // ---------------------------------------------------
 // MCC test
@@ -521,7 +519,7 @@
 //    0  =  No MCC test
 //    1  =  execute MCC test
 
-   #define  mcc_test                   1
+   #set  mcc_test                   =1
 
 // ---------------------------------------------------
 // brake test
@@ -530,7 +528,7 @@
 //    0  =  No brake test
 //    1  =  execute brake test
 
-   #define  brake_test                 1
+   #set  brake_test                 =1
 
 // ---------------------------------------------------------------------------
 // Axes
@@ -541,21 +539,21 @@
 //    6  iPendant (for CNC)
 //    8  Standard machine operator's panel
 
-   #define  axis_number_P01            8        // number of axis path 01
-   #define  axis_number_P02            8        // number of axis path 02
-   #define  axis_number_P03            8        // number of axis path 03
-   #define  axis_number_P04            0        // number of axis path 04
-   #define  axis_number_P05            0        // number of axis path 05
-   #define  axis_number_P06            0        // number of axis path 06
-   #define  axis_number_P07            0        // number of axis path 07
-   #define  axis_number_P08            0        // number of axis path 08
-   #define  axis_number_P09            0        // number of axis path 09
-   #define  axis_number_P10            0        // number of axis path 10
-   #define  axis_number_P11            0        // number of axis path 11
-   #define  axis_number_P12            0        // number of axis path 12
-   #define  axis_number_P13            0        // number of axis path 13
-   #define  axis_number_P14            0        // number of axis path 14
-   #define  axis_number_P15            0        // number of axis path 15
+   #set  axis_number_P01            =8        // number of axis path 01
+   #set  axis_number_P02            =8        // number of axis path 02
+   #set  axis_number_P03            =8        // number of axis path 03
+   #set  axis_number_P04            =0        // number of axis path 04
+   #set  axis_number_P05            =0        // number of axis path 05
+   #set  axis_number_P06            =0        // number of axis path 06
+   #set  axis_number_P07            =0        // number of axis path 07
+   #set  axis_number_P08            =0        // number of axis path 08
+   #set  axis_number_P09            =0        // number of axis path 09
+   #set  axis_number_P10            =0        // number of axis path 10
+   #set  axis_number_P11            =0        // number of axis path 11
+   #set  axis_number_P12            =0        // number of axis path 12
+   #set  axis_number_P13            =0        // number of axis path 13
+   #set  axis_number_P14            =0        // number of axis path 14
+   #set  axis_number_P15            =0        // number of axis path 15
 
 
 // ---------------------------------------------------
@@ -572,7 +570,7 @@
 //    2  =  Handy machine operator's panel (A02B-0259-C221/C241)
 //    3  =  Portable manual pulse generator (A13B-0206-Cxyz#....)
 
-   #define  handwheel_support          1
+   #set  handwheel_support          =1
 
 // ---------------------------------------------------
 // Reference position return
@@ -590,140 +588,140 @@
 //    6  =  Without dog minus direction
 
 
-   #define  ref_dir_1st_axis_P01       -1     // ref. return 1st axis path 01
-   #define  ref_dir_2nd_axis_P01       0     // ref. return 2nd axis path 01
-   #define  ref_dir_3rd_axis_P01       0     // ref. return 3rd axis path 01
-   #define  ref_dir_4th_axis_P01       0     // ref. return 4th axis path 01
-   #define  ref_dir_5th_axis_P01       0     // ref. return 5th axis path 01
-   #define  ref_dir_6th_axis_P01       3     // ref. return 6th axis path 01
-   #define  ref_dir_7th_axis_P01       0     // ref. return 7th axis path 01
-   #define  ref_dir_8th_axis_P01       0     // ref. return 8th axis path 01
+   #set  ref_dir_1st_axis_P01       =-1     // ref. return 1st axis path 01
+   #set  ref_dir_2nd_axis_P01       =0     // ref. return 2nd axis path 01
+   #set  ref_dir_3rd_axis_P01       =0     // ref. return 3rd axis path 01
+   #set  ref_dir_4th_axis_P01       =0     // ref. return 4th axis path 01
+   #set  ref_dir_5th_axis_P01       =0     // ref. return 5th axis path 01
+   #set  ref_dir_6th_axis_P01       =3     // ref. return 6th axis path 01
+   #set  ref_dir_7th_axis_P01       =0     // ref. return 7th axis path 01
+   #set  ref_dir_8th_axis_P01       =0     // ref. return 8th axis path 01
 
-   #define  ref_dir_1st_axis_P02       -1     // ref. return 1st axis path 02
-   #define  ref_dir_2nd_axis_P02       0     // ref. return 2nd axis path 02
-   #define  ref_dir_3rd_axis_P02       0     // ref. return 3rd axis path 02
-   #define  ref_dir_4th_axis_P02       0     // ref. return 4th axis path 02
-   #define  ref_dir_5th_axis_P02       0     // ref. return 5th axis path 02
-   #define  ref_dir_6th_axis_P02       0     // ref. return 6th axis path 02
-   #define  ref_dir_7th_axis_P02       0     // ref. return 7th axis path 02
-   #define  ref_dir_8th_axis_P02       0     // ref. return 8th axis path 02
+   #set  ref_dir_1st_axis_P02       =-1     // ref. return 1st axis path 02
+   #set  ref_dir_2nd_axis_P02       =0     // ref. return 2nd axis path 02
+   #set  ref_dir_3rd_axis_P02       =0     // ref. return 3rd axis path 02
+   #set  ref_dir_4th_axis_P02       =0     // ref. return 4th axis path 02
+   #set  ref_dir_5th_axis_P02       =0     // ref. return 5th axis path 02
+   #set  ref_dir_6th_axis_P02       =0     // ref. return 6th axis path 02
+   #set  ref_dir_7th_axis_P02       =0     // ref. return 7th axis path 02
+   #set  ref_dir_8th_axis_P02       =0     // ref. return 8th axis path 02
 
-   #define  ref_dir_1st_axis_P03       -1     // ref. return 1st axis path 03
-   #define  ref_dir_2nd_axis_P03       0     // ref. return 2nd axis path 03
-   #define  ref_dir_3rd_axis_P03       0     // ref. return 3rd axis path 03
-   #define  ref_dir_4th_axis_P03       0     // ref. return 4th axis path 03
-   #define  ref_dir_5th_axis_P03       0     // ref. return 5th axis path 03
-   #define  ref_dir_6th_axis_P03       0     // ref. return 6th axis path 03
-   #define  ref_dir_7th_axis_P03       0     // ref. return 7th axis path 03
-   #define  ref_dir_8th_axis_P03       0     // ref. return 8th axis path 03
+   #set  ref_dir_1st_axis_P03       =-1     // ref. return 1st axis path 03
+   #set  ref_dir_2nd_axis_P03       =0     // ref. return 2nd axis path 03
+   #set  ref_dir_3rd_axis_P03       =0     // ref. return 3rd axis path 03
+   #set  ref_dir_4th_axis_P03       =0     // ref. return 4th axis path 03
+   #set  ref_dir_5th_axis_P03       =0     // ref. return 5th axis path 03
+   #set  ref_dir_6th_axis_P03       =0     // ref. return 6th axis path 03
+   #set  ref_dir_7th_axis_P03       =0     // ref. return 7th axis path 03
+   #set  ref_dir_8th_axis_P03       =0     // ref. return 8th axis path 03
 
-   #define  ref_dir_1st_axis_P04       -1     // ref. return 1st axis path 04
-   #define  ref_dir_2nd_axis_P04       0     // ref. return 2nd axis path 04
-   #define  ref_dir_3rd_axis_P04       0     // ref. return 3rd axis path 04
-   #define  ref_dir_4th_axis_P04       0     // ref. return 4th axis path 04
-   #define  ref_dir_5th_axis_P04       0     // ref. return 5th axis path 04
-   #define  ref_dir_6th_axis_P04       0     // ref. return 6th axis path 04
-   #define  ref_dir_7th_axis_P04       0     // ref. return 7th axis path 04
-   #define  ref_dir_8th_axis_P04       0     // ref. return 8th axis path 04
+   #set  ref_dir_1st_axis_P04       =-1     // ref. return 1st axis path 04
+   #set  ref_dir_2nd_axis_P04       =0     // ref. return 2nd axis path 04
+   #set  ref_dir_3rd_axis_P04       =0     // ref. return 3rd axis path 04
+   #set  ref_dir_4th_axis_P04       =0     // ref. return 4th axis path 04
+   #set  ref_dir_5th_axis_P04       =0     // ref. return 5th axis path 04
+   #set  ref_dir_6th_axis_P04       =0     // ref. return 6th axis path 04
+   #set  ref_dir_7th_axis_P04       =0     // ref. return 7th axis path 04
+   #set  ref_dir_8th_axis_P04       =0     // ref. return 8th axis path 04
 
-   #define  ref_dir_1st_axis_P05       -1     // ref. return 1st axis path 05
-   #define  ref_dir_2nd_axis_P05       0     // ref. return 2nd axis path 05
-   #define  ref_dir_3rd_axis_P05       0     // ref. return 3rd axis path 05
-   #define  ref_dir_4th_axis_P05       0     // ref. return 4th axis path 05
-   #define  ref_dir_5th_axis_P05       0     // ref. return 5th axis path 05
-   #define  ref_dir_6th_axis_P05       0     // ref. return 6th axis path 05
-   #define  ref_dir_7th_axis_P05       0     // ref. return 7th axis path 05
-   #define  ref_dir_8th_axis_P05       0     // ref. return 8th axis path 05
+   #set  ref_dir_1st_axis_P05       =-1     // ref. return 1st axis path 05
+   #set  ref_dir_2nd_axis_P05       =0     // ref. return 2nd axis path 05
+   #set  ref_dir_3rd_axis_P05       =0     // ref. return 3rd axis path 05
+   #set  ref_dir_4th_axis_P05       =0     // ref. return 4th axis path 05
+   #set  ref_dir_5th_axis_P05       =0     // ref. return 5th axis path 05
+   #set  ref_dir_6th_axis_P05       =0     // ref. return 6th axis path 05
+   #set  ref_dir_7th_axis_P05       =0     // ref. return 7th axis path 05
+   #set  ref_dir_8th_axis_P05       =0     // ref. return 8th axis path 05
 
-   #define  ref_dir_1st_axis_P06       -1     // ref. return 1st axis path 06
-   #define  ref_dir_2nd_axis_P06       0     // ref. return 2nd axis path 06
-   #define  ref_dir_3rd_axis_P06       0     // ref. return 3rd axis path 06
-   #define  ref_dir_4th_axis_P06       0     // ref. return 4th axis path 06
-   #define  ref_dir_5th_axis_P06       0     // ref. return 5th axis path 06
-   #define  ref_dir_6th_axis_P06       0     // ref. return 6th axis path 06
-   #define  ref_dir_7th_axis_P06       0     // ref. return 7th axis path 06
-   #define  ref_dir_8th_axis_P06       0     // ref. return 8th axis path 06
+   #set  ref_dir_1st_axis_P06       =-1     // ref. return 1st axis path 06
+   #set  ref_dir_2nd_axis_P06       =0     // ref. return 2nd axis path 06
+   #set  ref_dir_3rd_axis_P06       =0     // ref. return 3rd axis path 06
+   #set  ref_dir_4th_axis_P06       =0     // ref. return 4th axis path 06
+   #set  ref_dir_5th_axis_P06       =0     // ref. return 5th axis path 06
+   #set  ref_dir_6th_axis_P06       =0     // ref. return 6th axis path 06
+   #set  ref_dir_7th_axis_P06       =0     // ref. return 7th axis path 06
+   #set  ref_dir_8th_axis_P06       =0     // ref. return 8th axis path 06
 
-   #define  ref_dir_1st_axis_P07       -1     // ref. return 1st axis path 07
-   #define  ref_dir_2nd_axis_P07       0     // ref. return 2nd axis path 07
-   #define  ref_dir_3rd_axis_P07       0     // ref. return 3rd axis path 07
-   #define  ref_dir_4th_axis_P07       0     // ref. return 4th axis path 07
-   #define  ref_dir_5th_axis_P07       0     // ref. return 5th axis path 07
-   #define  ref_dir_6th_axis_P07       0     // ref. return 6th axis path 07
-   #define  ref_dir_7th_axis_P07       0     // ref. return 7th axis path 07
-   #define  ref_dir_8th_axis_P07       0     // ref. return 8th axis path 07
+   #set  ref_dir_1st_axis_P07       =-1     // ref. return 1st axis path 07
+   #set  ref_dir_2nd_axis_P07       =0     // ref. return 2nd axis path 07
+   #set  ref_dir_3rd_axis_P07       =0     // ref. return 3rd axis path 07
+   #set  ref_dir_4th_axis_P07       =0     // ref. return 4th axis path 07
+   #set  ref_dir_5th_axis_P07       =0     // ref. return 5th axis path 07
+   #set  ref_dir_6th_axis_P07       =0     // ref. return 6th axis path 07
+   #set  ref_dir_7th_axis_P07       =0     // ref. return 7th axis path 07
+   #set  ref_dir_8th_axis_P07       =0     // ref. return 8th axis path 07
 
-   #define  ref_dir_1st_axis_P08       -1     // ref. return 1st axis path 08
-   #define  ref_dir_2nd_axis_P08       0     // ref. return 2nd axis path 08
-   #define  ref_dir_3rd_axis_P08       0     // ref. return 3rd axis path 08
-   #define  ref_dir_4th_axis_P08       0     // ref. return 4th axis path 08
-   #define  ref_dir_5th_axis_P08       0     // ref. return 5th axis path 08
-   #define  ref_dir_6th_axis_P08       0     // ref. return 6th axis path 08
-   #define  ref_dir_7th_axis_P08       0     // ref. return 7th axis path 08
-   #define  ref_dir_8th_axis_P08       0     // ref. return 8th axis path 08
+   #set  ref_dir_1st_axis_P08       =-1     // ref. return 1st axis path 08
+   #set  ref_dir_2nd_axis_P08       =0     // ref. return 2nd axis path 08
+   #set  ref_dir_3rd_axis_P08       =0     // ref. return 3rd axis path 08
+   #set  ref_dir_4th_axis_P08       =0     // ref. return 4th axis path 08
+   #set  ref_dir_5th_axis_P08       =0     // ref. return 5th axis path 08
+   #set  ref_dir_6th_axis_P08       =0     // ref. return 6th axis path 08
+   #set  ref_dir_7th_axis_P08       =0     // ref. return 7th axis path 08
+   #set  ref_dir_8th_axis_P08       =0     // ref. return 8th axis path 08
 
-   #define  ref_dir_1st_axis_P09       -1     // ref. return 1st axis path 09
-   #define  ref_dir_2nd_axis_P09       0     // ref. return 2nd axis path 09
-   #define  ref_dir_3rd_axis_P09       0     // ref. return 3rd axis path 09
-   #define  ref_dir_4th_axis_P09       0     // ref. return 4th axis path 09
-   #define  ref_dir_5th_axis_P09       0     // ref. return 5th axis path 09
-   #define  ref_dir_6th_axis_P09       0     // ref. return 6th axis path 09
-   #define  ref_dir_7th_axis_P09       0     // ref. return 7th axis path 09
-   #define  ref_dir_8th_axis_P09       0     // ref. return 8th axis path 09
+   #set  ref_dir_1st_axis_P09       =-1     // ref. return 1st axis path 09
+   #set  ref_dir_2nd_axis_P09       =0     // ref. return 2nd axis path 09
+   #set  ref_dir_3rd_axis_P09       =0     // ref. return 3rd axis path 09
+   #set  ref_dir_4th_axis_P09       =0     // ref. return 4th axis path 09
+   #set  ref_dir_5th_axis_P09       =0     // ref. return 5th axis path 09
+   #set  ref_dir_6th_axis_P09       =0     // ref. return 6th axis path 09
+   #set  ref_dir_7th_axis_P09       =0     // ref. return 7th axis path 09
+   #set  ref_dir_8th_axis_P09       =0     // ref. return 8th axis path 09
 
-   #define  ref_dir_1st_axis_P10       -1     // ref. return 1st axis path 10
-   #define  ref_dir_2nd_axis_P10       0     // ref. return 2nd axis path 10
-   #define  ref_dir_3rd_axis_P10       0     // ref. return 3rd axis path 10
-   #define  ref_dir_4th_axis_P10       0     // ref. return 4th axis path 10
-   #define  ref_dir_5th_axis_P10       0     // ref. return 5th axis path 10
-   #define  ref_dir_6th_axis_P10       0     // ref. return 6th axis path 10
-   #define  ref_dir_7th_axis_P10       0     // ref. return 7th axis path 10
-   #define  ref_dir_8th_axis_P10       0     // ref. return 8th axis path 10
+   #set  ref_dir_1st_axis_P10       =-1     // ref. return 1st axis path 10
+   #set  ref_dir_2nd_axis_P10       =0     // ref. return 2nd axis path 10
+   #set  ref_dir_3rd_axis_P10       =0     // ref. return 3rd axis path 10
+   #set  ref_dir_4th_axis_P10       =0     // ref. return 4th axis path 10
+   #set  ref_dir_5th_axis_P10       =0     // ref. return 5th axis path 10
+   #set  ref_dir_6th_axis_P10       =0     // ref. return 6th axis path 10
+   #set  ref_dir_7th_axis_P10       =0     // ref. return 7th axis path 10
+   #set  ref_dir_8th_axis_P10       =0     // ref. return 8th axis path 10
 
-   #define  ref_dir_1st_axis_P11       -1     // ref. return 1st axis path 11
-   #define  ref_dir_2nd_axis_P11       0     // ref. return 2nd axis path 11
-   #define  ref_dir_3rd_axis_P11       0     // ref. return 3rd axis path 11
-   #define  ref_dir_4th_axis_P11       0     // ref. return 4th axis path 11
-   #define  ref_dir_5th_axis_P11       0     // ref. return 5th axis path 11
-   #define  ref_dir_6th_axis_P11       0     // ref. return 6th axis path 11
-   #define  ref_dir_7th_axis_P11       0     // ref. return 7th axis path 11
-   #define  ref_dir_8th_axis_P11       0     // ref. return 8th axis path 11
+   #set  ref_dir_1st_axis_P11       =-1     // ref. return 1st axis path 11
+   #set  ref_dir_2nd_axis_P11       =0     // ref. return 2nd axis path 11
+   #set  ref_dir_3rd_axis_P11       =0     // ref. return 3rd axis path 11
+   #set  ref_dir_4th_axis_P11       =0     // ref. return 4th axis path 11
+   #set  ref_dir_5th_axis_P11       =0     // ref. return 5th axis path 11
+   #set  ref_dir_6th_axis_P11       =0     // ref. return 6th axis path 11
+   #set  ref_dir_7th_axis_P11       =0     // ref. return 7th axis path 11
+   #set  ref_dir_8th_axis_P11       =0     // ref. return 8th axis path 11
 
-   #define  ref_dir_1st_axis_P12       -1     // ref. return 1st axis path 12
-   #define  ref_dir_2nd_axis_P12       0     // ref. return 2nd axis path 12
-   #define  ref_dir_3rd_axis_P12       0     // ref. return 3rd axis path 12
-   #define  ref_dir_4th_axis_P12       0     // ref. return 4th axis path 12
-   #define  ref_dir_5th_axis_P12       0     // ref. return 5th axis path 12
-   #define  ref_dir_6th_axis_P12       0     // ref. return 6th axis path 12
-   #define  ref_dir_7th_axis_P12       0     // ref. return 7th axis path 12
-   #define  ref_dir_8th_axis_P12       0     // ref. return 8th axis path 12
+   #set  ref_dir_1st_axis_P12       =-1     // ref. return 1st axis path 12
+   #set  ref_dir_2nd_axis_P12       =0     // ref. return 2nd axis path 12
+   #set  ref_dir_3rd_axis_P12       =0     // ref. return 3rd axis path 12
+   #set  ref_dir_4th_axis_P12       =0     // ref. return 4th axis path 12
+   #set  ref_dir_5th_axis_P12       =0     // ref. return 5th axis path 12
+   #set  ref_dir_6th_axis_P12       =0     // ref. return 6th axis path 12
+   #set  ref_dir_7th_axis_P12       =0     // ref. return 7th axis path 12
+   #set  ref_dir_8th_axis_P12       =0     // ref. return 8th axis path 12
 
-   #define  ref_dir_1st_axis_P13       -1     // ref. return 1st axis path 13
-   #define  ref_dir_2nd_axis_P13       0     // ref. return 2nd axis path 13
-   #define  ref_dir_3rd_axis_P13       0     // ref. return 3rd axis path 13
-   #define  ref_dir_4th_axis_P13       0     // ref. return 4th axis path 13
-   #define  ref_dir_5th_axis_P13       0     // ref. return 5th axis path 13
-   #define  ref_dir_6th_axis_P13       0     // ref. return 6th axis path 13
-   #define  ref_dir_7th_axis_P13       0     // ref. return 7th axis path 13
-   #define  ref_dir_8th_axis_P13       0     // ref. return 8th axis path 13
+   #set  ref_dir_1st_axis_P13       =-1     // ref. return 1st axis path 13
+   #set  ref_dir_2nd_axis_P13       =0     // ref. return 2nd axis path 13
+   #set  ref_dir_3rd_axis_P13       =0     // ref. return 3rd axis path 13
+   #set  ref_dir_4th_axis_P13       =0     // ref. return 4th axis path 13
+   #set  ref_dir_5th_axis_P13       =0     // ref. return 5th axis path 13
+   #set  ref_dir_6th_axis_P13       =0     // ref. return 6th axis path 13
+   #set  ref_dir_7th_axis_P13       =0     // ref. return 7th axis path 13
+   #set  ref_dir_8th_axis_P13       =0     // ref. return 8th axis path 13
 
-   #define  ref_dir_1st_axis_P14       -1     // ref. return 1st axis path 14
-   #define  ref_dir_2nd_axis_P14       0     // ref. return 2nd axis path 14
-   #define  ref_dir_3rd_axis_P14       0     // ref. return 3rd axis path 14
-   #define  ref_dir_4th_axis_P14       0     // ref. return 4th axis path 14
-   #define  ref_dir_5th_axis_P14       0     // ref. return 5th axis path 14
-   #define  ref_dir_6th_axis_P14       0     // ref. return 6th axis path 14
-   #define  ref_dir_7th_axis_P14       0     // ref. return 7th axis path 14
-   #define  ref_dir_8th_axis_P14       0     // ref. return 8th axis path 14
+   #set  ref_dir_1st_axis_P14       =-1     // ref. return 1st axis path 14
+   #set  ref_dir_2nd_axis_P14       =0     // ref. return 2nd axis path 14
+   #set  ref_dir_3rd_axis_P14       =0     // ref. return 3rd axis path 14
+   #set  ref_dir_4th_axis_P14       =0     // ref. return 4th axis path 14
+   #set  ref_dir_5th_axis_P14       =0     // ref. return 5th axis path 14
+   #set  ref_dir_6th_axis_P14       =0     // ref. return 6th axis path 14
+   #set  ref_dir_7th_axis_P14       =0     // ref. return 7th axis path 14
+   #set  ref_dir_8th_axis_P14       =0     // ref. return 8th axis path 14
 
-   #define  ref_dir_1st_axis_P15       -1     // ref. return 1st axis path 15
-   #define  ref_dir_2nd_axis_P15       0     // ref. return 2nd axis path 15
-   #define  ref_dir_3rd_axis_P15       0     // ref. return 3rd axis path 15
-   #define  ref_dir_4th_axis_P15       0     // ref. return 4th axis path 15
-   #define  ref_dir_5th_axis_P15       0     // ref. return 5th axis path 15
-   #define  ref_dir_6th_axis_P15       0     // ref. return 6th axis path 15
-   #define  ref_dir_7th_axis_P15       0     // ref. return 7th axis path 15
-   #define  ref_dir_8th_axis_P15       0     // ref. return 8th axis path 15
+   #set  ref_dir_1st_axis_P15       =-1     // ref. return 1st axis path 15
+   #set  ref_dir_2nd_axis_P15       =0     // ref. return 2nd axis path 15
+   #set  ref_dir_3rd_axis_P15       =0     // ref. return 3rd axis path 15
+   #set  ref_dir_4th_axis_P15       =0     // ref. return 4th axis path 15
+   #set  ref_dir_5th_axis_P15       =0     // ref. return 5th axis path 15
+   #set  ref_dir_6th_axis_P15       =0     // ref. return 6th axis path 15
+   #set  ref_dir_7th_axis_P15       =0     // ref. return 7th axis path 15
+   #set  ref_dir_8th_axis_P15       =0     // ref. return 8th axis path 15
 
 // Hint: if you set ref_dir_1st_axis_Pxx equal -1 (only 1st axis) the code for
 // the reference return of all axis of this path will not be included.
@@ -736,139 +734,139 @@
 // 0 = No axis brake
 // 1 = axis brake
 
-   #define  brake_1st_axis_P01         1     // axis brake 1st axis path 01
-   #define  brake_2nd_axis_P01         1     // axis brake 2nd axis path 01
-   #define  brake_3rd_axis_P01         1     // axis brake 3rd axis path 01
-   #define  brake_4th_axis_P01         1     // axis brake 4th axis path 01
-   #define  brake_5th_axis_P01         1     // axis brake 5th axis path 01
-   #define  brake_6th_axis_P01         1     // axis brake 6th axis path 01
-   #define  brake_7th_axis_P01         1     // axis brake 7th axis path 01
-   #define  brake_8th_axis_P01         1     // axis brake 8th axis path 01
+   #set  brake_1st_axis_P01         =1     // axis brake 1st axis path 01
+   #set  brake_2nd_axis_P01         =1     // axis brake 2nd axis path 01
+   #set  brake_3rd_axis_P01         =1     // axis brake 3rd axis path 01
+   #set  brake_4th_axis_P01         =1     // axis brake 4th axis path 01
+   #set  brake_5th_axis_P01         =1     // axis brake 5th axis path 01
+   #set  brake_6th_axis_P01         =1     // axis brake 6th axis path 01
+   #set  brake_7th_axis_P01         =1     // axis brake 7th axis path 01
+   #set  brake_8th_axis_P01         =1     // axis brake 8th axis path 01
 
-   #define  brake_1st_axis_P02         1     // axis brake 1st axis path 02
-   #define  brake_2nd_axis_P02         1     // axis brake 2nd axis path 02
-   #define  brake_3rd_axis_P02         1     // axis brake 3rd axis path 02
-   #define  brake_4th_axis_P02         1     // axis brake 4th axis path 02
-   #define  brake_5th_axis_P02         1     // axis brake 5th axis path 02
-   #define  brake_6th_axis_P02         1     // axis brake 6th axis path 02
-   #define  brake_7th_axis_P02         1     // axis brake 7th axis path 02
-   #define  brake_8th_axis_P02         1     // axis brake 8th axis path 02
+   #set  brake_1st_axis_P02         =1     // axis brake 1st axis path 02
+   #set  brake_2nd_axis_P02         =1     // axis brake 2nd axis path 02
+   #set  brake_3rd_axis_P02         =1     // axis brake 3rd axis path 02
+   #set  brake_4th_axis_P02         =1     // axis brake 4th axis path 02
+   #set  brake_5th_axis_P02         =1     // axis brake 5th axis path 02
+   #set  brake_6th_axis_P02         =1     // axis brake 6th axis path 02
+   #set  brake_7th_axis_P02         =1     // axis brake 7th axis path 02
+   #set  brake_8th_axis_P02         =1     // axis brake 8th axis path 02
 
-   #define  brake_1st_axis_P03         1     // axis brake 1st axis path 03
-   #define  brake_2nd_axis_P03         1     // axis brake 2nd axis path 03
-   #define  brake_3rd_axis_P03         1     // axis brake 3rd axis path 03
-   #define  brake_4th_axis_P03         1     // axis brake 4th axis path 03
-   #define  brake_5th_axis_P03         1     // axis brake 5th axis path 03
-   #define  brake_6th_axis_P03         1     // axis brake 6th axis path 03
-   #define  brake_7th_axis_P03         1     // axis brake 7th axis path 03
-   #define  brake_8th_axis_P03         1     // axis brake 8th axis path 03
+   #set  brake_1st_axis_P03         =1     // axis brake 1st axis path 03
+   #set  brake_2nd_axis_P03         =1     // axis brake 2nd axis path 03
+   #set  brake_3rd_axis_P03         =1     // axis brake 3rd axis path 03
+   #set  brake_4th_axis_P03         =1     // axis brake 4th axis path 03
+   #set  brake_5th_axis_P03         =1     // axis brake 5th axis path 03
+   #set  brake_6th_axis_P03         =1     // axis brake 6th axis path 03
+   #set  brake_7th_axis_P03         =1     // axis brake 7th axis path 03
+   #set  brake_8th_axis_P03         =1     // axis brake 8th axis path 03
 
-   #define  brake_1st_axis_P04         0     // axis brake 1st axis path 04
-   #define  brake_2nd_axis_P04         0     // axis brake 2nd axis path 04
-   #define  brake_3rd_axis_P04         0     // axis brake 3rd axis path 04
-   #define  brake_4th_axis_P04         0     // axis brake 4th axis path 04
-   #define  brake_5th_axis_P04         0     // axis brake 5th axis path 04
-   #define  brake_6th_axis_P04         0     // axis brake 6th axis path 04
-   #define  brake_7th_axis_P04         0     // axis brake 7th axis path 04
-   #define  brake_8th_axis_P04         0     // axis brake 8th axis path 04
+   #set  brake_1st_axis_P04         =0     // axis brake 1st axis path 04
+   #set  brake_2nd_axis_P04         =0     // axis brake 2nd axis path 04
+   #set  brake_3rd_axis_P04         =0     // axis brake 3rd axis path 04
+   #set  brake_4th_axis_P04         =0     // axis brake 4th axis path 04
+   #set  brake_5th_axis_P04         =0     // axis brake 5th axis path 04
+   #set  brake_6th_axis_P04         =0     // axis brake 6th axis path 04
+   #set  brake_7th_axis_P04         =0     // axis brake 7th axis path 04
+   #set  brake_8th_axis_P04         =0     // axis brake 8th axis path 04
 
-   #define  brake_1st_axis_P05         0     // axis brake 1st axis path 05
-   #define  brake_2nd_axis_P05         0     // axis brake 2nd axis path 05
-   #define  brake_3rd_axis_P05         0     // axis brake 3rd axis path 05
-   #define  brake_4th_axis_P05         0     // axis brake 4th axis path 05
-   #define  brake_5th_axis_P05         0     // axis brake 5th axis path 05
-   #define  brake_6th_axis_P05         0     // axis brake 6th axis path 05
-   #define  brake_7th_axis_P05         0     // axis brake 7th axis path 05
-   #define  brake_8th_axis_P05         0     // axis brake 8th axis path 05
+   #set  brake_1st_axis_P05         =0     // axis brake 1st axis path 05
+   #set  brake_2nd_axis_P05         =0     // axis brake 2nd axis path 05
+   #set  brake_3rd_axis_P05         =0     // axis brake 3rd axis path 05
+   #set  brake_4th_axis_P05         =0     // axis brake 4th axis path 05
+   #set  brake_5th_axis_P05         =0     // axis brake 5th axis path 05
+   #set  brake_6th_axis_P05         =0     // axis brake 6th axis path 05
+   #set  brake_7th_axis_P05         =0     // axis brake 7th axis path 05
+   #set  brake_8th_axis_P05         =0     // axis brake 8th axis path 05
 
-   #define  brake_1st_axis_P06         0     // axis brake 1st axis path 06
-   #define  brake_2nd_axis_P06         0     // axis brake 2nd axis path 06
-   #define  brake_3rd_axis_P06         0     // axis brake 3rd axis path 06
-   #define  brake_4th_axis_P06         0     // axis brake 4th axis path 06
-   #define  brake_5th_axis_P06         0     // axis brake 5th axis path 06
-   #define  brake_6th_axis_P06         0     // axis brake 6th axis path 06
-   #define  brake_7th_axis_P06         0     // axis brake 7th axis path 06
-   #define  brake_8th_axis_P06         0     // axis brake 8th axis path 06
+   #set  brake_1st_axis_P06         =0     // axis brake 1st axis path 06
+   #set  brake_2nd_axis_P06         =0     // axis brake 2nd axis path 06
+   #set  brake_3rd_axis_P06         =0     // axis brake 3rd axis path 06
+   #set  brake_4th_axis_P06         =0     // axis brake 4th axis path 06
+   #set  brake_5th_axis_P06         =0     // axis brake 5th axis path 06
+   #set  brake_6th_axis_P06         =0     // axis brake 6th axis path 06
+   #set  brake_7th_axis_P06         =0     // axis brake 7th axis path 06
+   #set  brake_8th_axis_P06         =0     // axis brake 8th axis path 06
 
-   #define  brake_1st_axis_P07         0     // axis brake 1st axis path 07
-   #define  brake_2nd_axis_P07         0     // axis brake 2nd axis path 07
-   #define  brake_3rd_axis_P07         0     // axis brake 3rd axis path 07
-   #define  brake_4th_axis_P07         0     // axis brake 4th axis path 07
-   #define  brake_5th_axis_P07         0     // axis brake 5th axis path 07
-   #define  brake_6th_axis_P07         0     // axis brake 6th axis path 07
-   #define  brake_7th_axis_P07         0     // axis brake 7th axis path 07
-   #define  brake_8th_axis_P07         0     // axis brake 8th axis path 07
+   #set  brake_1st_axis_P07         =0     // axis brake 1st axis path 07
+   #set  brake_2nd_axis_P07         =0     // axis brake 2nd axis path 07
+   #set  brake_3rd_axis_P07         =0     // axis brake 3rd axis path 07
+   #set  brake_4th_axis_P07         =0     // axis brake 4th axis path 07
+   #set  brake_5th_axis_P07         =0     // axis brake 5th axis path 07
+   #set  brake_6th_axis_P07         =0     // axis brake 6th axis path 07
+   #set  brake_7th_axis_P07         =0     // axis brake 7th axis path 07
+   #set  brake_8th_axis_P07         =0     // axis brake 8th axis path 07
    
-   #define  brake_1st_axis_P08         0     // axis brake 1st axis path 08
-   #define  brake_2nd_axis_P08         0     // axis brake 2nd axis path 08
-   #define  brake_3rd_axis_P08         0     // axis brake 3rd axis path 08
-   #define  brake_4th_axis_P08         0     // axis brake 4th axis path 08
-   #define  brake_5th_axis_P08         0     // axis brake 5th axis path 08
-   #define  brake_6th_axis_P08         0     // axis brake 6th axis path 08
-   #define  brake_7th_axis_P08         0     // axis brake 7th axis path 08
-   #define  brake_8th_axis_P08         0     // axis brake 8th axis path 08
+   #set  brake_1st_axis_P08         =0     // axis brake 1st axis path 08
+   #set  brake_2nd_axis_P08         =0     // axis brake 2nd axis path 08
+   #set  brake_3rd_axis_P08         =0     // axis brake 3rd axis path 08
+   #set  brake_4th_axis_P08         =0     // axis brake 4th axis path 08
+   #set  brake_5th_axis_P08         =0     // axis brake 5th axis path 08
+   #set  brake_6th_axis_P08         =0     // axis brake 6th axis path 08
+   #set  brake_7th_axis_P08         =0     // axis brake 7th axis path 08
+   #set  brake_8th_axis_P08         =0     // axis brake 8th axis path 08
 
-   #define  brake_1st_axis_P09         0     // axis brake 1st axis path 09
-   #define  brake_2nd_axis_P09         0     // axis brake 2nd axis path 09
-   #define  brake_3rd_axis_P09         0     // axis brake 3rd axis path 09
-   #define  brake_4th_axis_P09         0     // axis brake 4th axis path 09
-   #define  brake_5th_axis_P09         0     // axis brake 5th axis path 09
-   #define  brake_6th_axis_P09         0     // axis brake 6th axis path 09
-   #define  brake_7th_axis_P09         0     // axis brake 7th axis path 09
-   #define  brake_8th_axis_P09         0     // axis brake 8th axis path 09
+   #set  brake_1st_axis_P09         =0     // axis brake 1st axis path 09
+   #set  brake_2nd_axis_P09         =0     // axis brake 2nd axis path 09
+   #set  brake_3rd_axis_P09         =0     // axis brake 3rd axis path 09
+   #set  brake_4th_axis_P09         =0     // axis brake 4th axis path 09
+   #set  brake_5th_axis_P09         =0     // axis brake 5th axis path 09
+   #set  brake_6th_axis_P09         =0     // axis brake 6th axis path 09
+   #set  brake_7th_axis_P09         =0     // axis brake 7th axis path 09
+   #set  brake_8th_axis_P09         =0     // axis brake 8th axis path 09
 
-   #define  brake_1st_axis_P10         0     // axis brake 1st axis path 10
-   #define  brake_2nd_axis_P10         0     // axis brake 2nd axis path 10
-   #define  brake_3rd_axis_P10         0     // axis brake 3rd axis path 10
-   #define  brake_4th_axis_P10         0     // axis brake 4th axis path 10
-   #define  brake_5th_axis_P10         0     // axis brake 5th axis path 10
-   #define  brake_6th_axis_P10         0     // axis brake 6th axis path 10
-   #define  brake_7th_axis_P10         0     // axis brake 7th axis path 10
-   #define  brake_8th_axis_P10         0     // axis brake 8th axis path 10
+   #set  brake_1st_axis_P10         =0     // axis brake 1st axis path 10
+   #set  brake_2nd_axis_P10         =0     // axis brake 2nd axis path 10
+   #set  brake_3rd_axis_P10         =0     // axis brake 3rd axis path 10
+   #set  brake_4th_axis_P10         =0     // axis brake 4th axis path 10
+   #set  brake_5th_axis_P10         =0     // axis brake 5th axis path 10
+   #set  brake_6th_axis_P10         =0     // axis brake 6th axis path 10
+   #set  brake_7th_axis_P10         =0     // axis brake 7th axis path 10
+   #set  brake_8th_axis_P10         =0     // axis brake 8th axis path 10
 
-   #define  brake_1st_axis_P11         0     // axis brake 1st axis path 11
-   #define  brake_2nd_axis_P11         0     // axis brake 2nd axis path 11
-   #define  brake_3rd_axis_P11         0     // axis brake 3rd axis path 11
-   #define  brake_4th_axis_P11         0     // axis brake 4th axis path 11
-   #define  brake_5th_axis_P11         0     // axis brake 5th axis path 11
-   #define  brake_6th_axis_P11         0     // axis brake 6th axis path 11
-   #define  brake_7th_axis_P11         0     // axis brake 7th axis path 11
-   #define  brake_8th_axis_P11         0     // axis brake 8th axis path 11
+   #set  brake_1st_axis_P11         =0     // axis brake 1st axis path 11
+   #set  brake_2nd_axis_P11         =0     // axis brake 2nd axis path 11
+   #set  brake_3rd_axis_P11         =0     // axis brake 3rd axis path 11
+   #set  brake_4th_axis_P11         =0     // axis brake 4th axis path 11
+   #set  brake_5th_axis_P11         =0     // axis brake 5th axis path 11
+   #set  brake_6th_axis_P11         =0     // axis brake 6th axis path 11
+   #set  brake_7th_axis_P11         =0     // axis brake 7th axis path 11
+   #set  brake_8th_axis_P11         =0     // axis brake 8th axis path 11
 
-   #define  brake_1st_axis_P12         0     // axis brake 1st axis path 12
-   #define  brake_2nd_axis_P12         0     // axis brake 2nd axis path 12
-   #define  brake_3rd_axis_P12         0     // axis brake 3rd axis path 12
-   #define  brake_4th_axis_P12         0     // axis brake 4th axis path 12
-   #define  brake_5th_axis_P12         0     // axis brake 5th axis path 12
-   #define  brake_6th_axis_P12         0     // axis brake 6th axis path 12
-   #define  brake_7th_axis_P12         0     // axis brake 7th axis path 12
-   #define  brake_8th_axis_P12         0     // axis brake 8th axis path 12
+   #set  brake_1st_axis_P12         =0     // axis brake 1st axis path 12
+   #set  brake_2nd_axis_P12         =0     // axis brake 2nd axis path 12
+   #set  brake_3rd_axis_P12         =0     // axis brake 3rd axis path 12
+   #set  brake_4th_axis_P12         =0     // axis brake 4th axis path 12
+   #set  brake_5th_axis_P12         =0     // axis brake 5th axis path 12
+   #set  brake_6th_axis_P12         =0     // axis brake 6th axis path 12
+   #set  brake_7th_axis_P12         =0     // axis brake 7th axis path 12
+   #set  brake_8th_axis_P12         =0     // axis brake 8th axis path 12
 
-   #define  brake_1st_axis_P13         0     // axis brake 1st axis path 13
-   #define  brake_2nd_axis_P13         0     // axis brake 2nd axis path 13
-   #define  brake_3rd_axis_P13         0     // axis brake 3rd axis path 13
-   #define  brake_4th_axis_P13         0     // axis brake 4th axis path 13
-   #define  brake_5th_axis_P13         0     // axis brake 5th axis path 13
-   #define  brake_6th_axis_P13         0     // axis brake 6th axis path 13
-   #define  brake_7th_axis_P13         0     // axis brake 7th axis path 13
-   #define  brake_8th_axis_P13         0     // axis brake 8th axis path 13
+   #set  brake_1st_axis_P13         =0     // axis brake 1st axis path 13
+   #set  brake_2nd_axis_P13         =0     // axis brake 2nd axis path 13
+   #set  brake_3rd_axis_P13         =0     // axis brake 3rd axis path 13
+   #set  brake_4th_axis_P13         =0     // axis brake 4th axis path 13
+   #set  brake_5th_axis_P13         =0     // axis brake 5th axis path 13
+   #set  brake_6th_axis_P13         =0     // axis brake 6th axis path 13
+   #set  brake_7th_axis_P13         =0     // axis brake 7th axis path 13
+   #set  brake_8th_axis_P13         =0     // axis brake 8th axis path 13
 
-   #define  brake_1st_axis_P14         0     // axis brake 1st axis path 14
-   #define  brake_2nd_axis_P14         0     // axis brake 2nd axis path 14
-   #define  brake_3rd_axis_P14         0     // axis brake 3rd axis path 14
-   #define  brake_4th_axis_P14         0     // axis brake 4th axis path 14
-   #define  brake_5th_axis_P14         0     // axis brake 5th axis path 14
-   #define  brake_6th_axis_P14         0     // axis brake 6th axis path 14
-   #define  brake_7th_axis_P14         0     // axis brake 7th axis path 14
-   #define  brake_8th_axis_P14         0     // axis brake 8th axis path 14
+   #set  brake_1st_axis_P14         =0     // axis brake 1st axis path 14
+   #set  brake_2nd_axis_P14         =0     // axis brake 2nd axis path 14
+   #set  brake_3rd_axis_P14         =0     // axis brake 3rd axis path 14
+   #set  brake_4th_axis_P14         =0     // axis brake 4th axis path 14
+   #set  brake_5th_axis_P14         =0     // axis brake 5th axis path 14
+   #set  brake_6th_axis_P14         =0     // axis brake 6th axis path 14
+   #set  brake_7th_axis_P14         =0     // axis brake 7th axis path 14
+   #set  brake_8th_axis_P14         =0     // axis brake 8th axis path 14
 
-   #define  brake_1st_axis_P15         0     // axis brake 1st axis path 15
-   #define  brake_2nd_axis_P15         0     // axis brake 2nd axis path 15
-   #define  brake_3rd_axis_P15         0     // axis brake 3rd axis path 15
-   #define  brake_4th_axis_P15         0     // axis brake 4th axis path 15
-   #define  brake_5th_axis_P15         0     // axis brake 5th axis path 15
-   #define  brake_6th_axis_P15         0     // axis brake 6th axis path 15
-   #define  brake_7th_axis_P15         0     // axis brake 7th axis path 15
-   #define  brake_8th_axis_P15         0     // axis brake 8th axis path 15
+   #set  brake_1st_axis_P15         =0     // axis brake 1st axis path 15
+   #set  brake_2nd_axis_P15         =0     // axis brake 2nd axis path 15
+   #set  brake_3rd_axis_P15         =0     // axis brake 3rd axis path 15
+   #set  brake_4th_axis_P15         =0     // axis brake 4th axis path 15
+   #set  brake_5th_axis_P15         =0     // axis brake 5th axis path 15
+   #set  brake_6th_axis_P15         =0     // axis brake 6th axis path 15
+   #set  brake_7th_axis_P15         =0     // axis brake 7th axis path 15
+   #set  brake_8th_axis_P15         =0     // axis brake 8th axis path 15
 
-#endif
+
