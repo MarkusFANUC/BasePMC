@@ -1,5 +1,6 @@
 #import section
 from jinja2 import Environment, FileSystemLoader, FunctionLoader, select_autoescape
+from pathvalidate.argparse import validate_filename_arg, validate_filepath_arg
 import re, os, argparse, sys, ast
 
 #Add arguments to arguments parser
@@ -11,6 +12,8 @@ parser.add_argument("-s","--single", help="set direct template evaluation", acti
 parser.add_argument("-d","--dictionary", help="set custom dictionary to evaluate")
 parser.add_argument("-pd","--predictionary", help="set custom pre dictionary to evaluate")
 parser.add_argument("-c","--console", help="set console execution - GUI will not be started", action="store_true")
+parser.add_argument("-tf","--target_file",type=validate_filename_arg, help="set the target file name")
+parser.add_argument("-tp","--target_file_path",type=validate_filepath_arg, help="set the target file path")
 
 #Parse arguments
 args = parser.parse_args()
@@ -18,28 +21,46 @@ args = parser.parse_args()
 #Set arguments for internal functions, set default values where necessary
 #Set debug settings
 debug = bool(args.verbose)
+
 #Set template file
 if not(args.file):
     tempname = "config.def"
 else:
     tempname = args.file
+
 #Set path to template, \ must be double escaped
 if not(args.path):
     temppath = os.getcwd().replace("\\","\\\\")
 else:
     temppath = args.path
+
 #Single run setting, execute only single template evaluation
 singlerun = bool(args.single)
+
 #Set main dictionary, else use empty dictionary
 if not(args.dictionary):
     d = dict()
 else:
     d = ast.literal_eval(args.predictionary)
+
 #Set predictionary, else use empty dictionary
 if not(args.dictionary):
     predict = dict()
 else:
     predict = ast.literal_eval(args.predictionary)
+
+#Set traget file path, else use local path
+if not(args.target_file_path):
+    targetpath = default=os.getcwd()
+else:
+    targetpath = args.target_file_path
+
+#Set traget file name, else use test name
+if not(args.target_file):
+    targetfile = "test.mne"
+else:
+    targetfile = args.target_file
+
 
 #Debug output
 if debug:
@@ -48,6 +69,9 @@ if debug:
     print("Single run setting: "+str(singlerun))
     print("Dictionary main evaluation: "+str(d))
     print("Dictionary pre evaluation: "+str(predict))
+    print("Target output file path: "+str(targetpath))
+    print("Target output file name: "+str(targetfile))
+    
 
 #Preload function - first pass to set variables inside of commands
 def preload(temppath,predict):
@@ -90,3 +114,5 @@ else:
     #Debug output
     if debug:
         print(re.sub(r'\n\s*\n',r'\n',output,re.MULTILINE))
+
+    #f = open()

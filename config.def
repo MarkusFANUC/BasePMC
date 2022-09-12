@@ -869,4 +869,9 @@
    #set  brake_7th_axis_P15         =0     // axis brake 7th axis path 15
    #set  brake_8th_axis_P15         =0     // axis brake 8th axis path 15
 
-
+// ---------------------------------------------------
+// Include files
+// ---------------------------------------------------
+// This section contains all files included/ is the starting point 
+// for the BasePMC generation
+//#include 
