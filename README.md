@@ -1,4 +1,9 @@
 # BasePMC
+## IMPORTANT NOTE
+The BasePMC is currently in a transition to a Python/Jinja2 based templating engine. Therefore the Main branch 
+is under transition. If you want to use a stable version, please check tag 3.0 or 3.0.1. The current main branch
+might no longer work as intended until a new release comes.
+
 ## Introduction
 This is an open source project intially developed by an employee of FCH, now maintained by FEG and the FANUC
  community. The target of the tool is to make the startup of a FANUC machine easier by providing a base
