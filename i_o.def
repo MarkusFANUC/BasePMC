@@ -1,179 +1,140 @@
-//:--------------------------------------------------------------------------:
-//: File              : i_o.def                                              :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Definition of inputs/outputs for PMC preprocessing   :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:08.06.18: 2.0.0 :Blp    :Definitions for spindle STO added                :
-//:--------------------------------------------------------------------------:
-//:20.12.18: 2.1.0 :Blp    :I/O for portable manual pulse generator added    :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-#ifndef i_o_def
-#define i_o_def
+!!:--------------------------------------------------------------------------:
+!!: File              : i_o.def                                              :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Definition of inputs/outputs for PMC preprocessing   :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:08.06.18: 2.0.0 :Blp    :Definitions for spindle STO added                :
+!!:--------------------------------------------------------------------------:
+!!:20.12.18: 2.1.0 :Blp    :I/O for portable manual pulse generator added    :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+
+
 
 #include   "config.def"
 
-// ---------------------------------------------------------------------------
-// lubrication
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! lubrication
+!! ---------------------------------------------------------------------------
 #if lubrication_support > 0
-   #define  __S_LEVEL_LUBRIC        X4.0
-   #define  __S_PRESSURE_LUBRIC     X4.1
-   #define  __OUTPUT_LUBRIC_ON      Y10.1
+   #set __S_LEVEL_LUBRIC = X4.0 #set __S_PRESSURE_LUBRIC = X4.1 #set __OUTPUT_LUBRIC_ON = Y10.1 #endif
+
+!! ---------------------------------------------------------------------------
+!! Path switching
+!! in case of operatorspanel 0 (Software operator's panel) or
+!! operatorspanel 1 (Small machine operator's panel with 30 keys),
+!! define the inputs for path synchronization and path switching
+!! ---------------------------------------------------------------------------
+#if operatorspanel < 2 and nbr_of_path > 1
+
+   #set __PATH_SYNC = X15.4 #set __PATH_SYNC_LAMP = Y11.4 #set __PATH_PLUS = X15.5 #set __PATH_PLUS_LAMP = Y11.5 #if nbr_of_path > 2
+      #set __PATH_MINUS = X15.6 #set __PATH_MINUS_LAMP = Y11.6 #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// Path switching
-// in case of operatorspanel 0 (Software operator's panel) or
-// operatorspanel 1 (Small machine operator's panel with 30 keys),
-// define the inputs for path synchronization and path switching
-// ---------------------------------------------------------------------------
-#if operatorspanel < 2 && nbr_of_path > 1
-
-   #define  __PATH_SYNC             X15.4
-   #define  __PATH_SYNC_LAMP        Y11.4
-
-   #define  __PATH_PLUS             X15.5
-   #define  __PATH_PLUS_LAMP        Y11.5
-
-   #if nbr_of_path > 2
-      #define  __PATH_MINUS         X15.6
-      #define  __PATH_MINUS_LAMP    Y11.6
-   #endif
-#endif
-
-// ---------------------------------------------------------------------------
-// portable manual pulse generator (A13B-0206-Cxyz#....)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! portable manual pulse generator (A13B-0206-Cxyz#....)
+!! ---------------------------------------------------------------------------
 #if handwheel_support == 3
-   #define  __PMPG_SELECTOR_X1      X4.4
-   #define  __PMPG_SELECTOR_X10     X4.5
-   #define  __PMPG_SELECTOR_X100    X4.6
-   #define  __PMPG_SELECTOR_X1000   X4.7
+   #set __PMPG_SELECTOR_X1 = X4.4 #set __PMPG_SELECTOR_X10 = X4.5 #set __PMPG_SELECTOR_X100 = X4.6 #set __PMPG_SELECTOR_X1000 = X4.7 #set __PMPG_SELECTOR_AXIS_1 = X5.0 #set __PMPG_SELECTOR_AXIS_2 = X5.1 #set __PMPG_SELECTOR_AXIS_3 = X5.2 #set __PMPG_SELECTOR_AXIS_4 = X5.3 #set __PMPG_SELECTOR_AXIS_5 = X5.4 #set __PMPG_SELECTOR_AXIS_6 = X5.5 #set __PMPG_LED = Y10.2 #endif
 
-   #define  __PMPG_SELECTOR_AXIS_1  X5.0
-   #define  __PMPG_SELECTOR_AXIS_2  X5.1
-   #define  __PMPG_SELECTOR_AXIS_3  X5.2
-   #define  __PMPG_SELECTOR_AXIS_4  X5.3
-   #define  __PMPG_SELECTOR_AXIS_5  X5.4
-   #define  __PMPG_SELECTOR_AXIS_6  X5.5
-
-   #define  __PMPG_LED              Y10.2
-#endif
-
-// ---------------------------------------------------------------------------
-// Dual Check Safety
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Dual Check Safety
+!! ---------------------------------------------------------------------------
 #if dcs_support == 1
-// --------------------------------------
-// main contactor (MCC) 
-// --------------------------------------
-   #define  __MCC_STATE             X8.0
-   #define  __OUTPUT_MCC            Y8.0
-
-// --------------------------------------
-// door status
-// --------------------------------------
-   #define  __GUARD_STATE           X8.1
-   #define  __UNLOCK_DOOR           Y8.1
-
-// --------------------------------------
-// hold to run button
-// --------------------------------------
-   #define  __HOLD_TO_RUN_BUTTON    X8.2
-
-// --------------------------------------
-// switch to activate setup mode
-// --------------------------------------
-   #define  __SETUP_SWITCH          X8.3
-   
-// --------------------------------------
-// In case standard machine operator's
-// panel with 55 keys isn't used, define
-// the key to open the protection door 
-// --------------------------------------
+!! --------------------------------------
+!! main contactor (MCC) 
+!! --------------------------------------
+   #set __MCC_STATE = X8.0 #set __OUTPUT_MCC = Y8.0 !! --------------------------------------
+!! door status
+!! --------------------------------------
+   #set __GUARD_STATE = X8.1 #set __UNLOCK_DOOR = Y8.1 !! --------------------------------------
+!! hold to run button
+!! --------------------------------------
+   #set __HOLD_TO_RUN_BUTTON = X8.2 !! --------------------------------------
+!! switch to activate setup mode
+!! --------------------------------------
+   #set __SETUP_SWITCH = X8.3 !! --------------------------------------
+!! In case standard machine operator's
+!! panel with 55 keys isn't used, define
+!! the key to open the protection door 
+!! --------------------------------------
    #if operatorspanel != 2
 
-      #define  __DOOR_KEY           X8.5
-      #define  __DOOR_LAMP          Y8.7
-   #endif
+      #set __DOOR_KEY = X8.5 #set __DOOR_LAMP = Y8.7 #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// overtravel inputs
-// ---------------------------------------------------------------------------
-// The code for the overtravel inputs need to be modified at the beginning of
-// each axis specific sub-program (Axis0x_Pyy).
+!! ---------------------------------------------------------------------------
+!! overtravel inputs
+!! ---------------------------------------------------------------------------
+!! The code for the overtravel inputs need to be modified at the beginning of
+!! each axis specific sub-program (Axis0x_Pyy).
 
-// ---------------------------------------------------------------------------
-// reference inputs
-// ---------------------------------------------------------------------------
-// The code for the reference input need to be modified at the beginning of each
-// axis specific sub-program (Axis0x_Pyy).
+!! ---------------------------------------------------------------------------
+!! reference inputs
+!! ---------------------------------------------------------------------------
+!! The code for the reference input need to be modified at the beginning of each
+!! axis specific sub-program (Axis0x_Pyy).
 
-// ---------------------------------------------------------------------------
-// serial spindle safe torque off STO (LEVEL-UP ALPHA iSP-B, BETA iSVSP-B)
-// this functionality will be included in case of 3xi-B, 0i-F, PMi-A controls
-// and Dual Check Safety active
-// ---------------------------------------------------------------------------
-// The code for the serial spindle safe off outputs need to be modified at
-// the beginning of each spindle specific sub-program (SpiRun_Pxx).
+!! ---------------------------------------------------------------------------
+!! serial spindle safe torque off STO (LEVEL-UP ALPHA iSP-B, BETA iSVSP-B)
+!! this functionality will be included in case of 3xi-B, 0i-F, PMi-A controls
+!! and Dual Check Safety active
+!! ---------------------------------------------------------------------------
+!! The code for the serial spindle safe off outputs need to be modified at
+!! the beginning of each spindle specific sub-program (SpiRun_Pxx).
 
-// ---------------------------------------------------------------------------
-// analog spindle I/O module A (ADA02A)
-// ---------------------------------------------------------------------------
-// The code for the outputs for the analog output module need to be modified at
-// the end of each path specific sub-program SpiRun_Pyy.
+!! ---------------------------------------------------------------------------
+!! analog spindle I/O module A (ADA02A)
+!! ---------------------------------------------------------------------------
+!! The code for the outputs for the analog output module need to be modified at
+!! the end of each path specific sub-program SpiRun_Pyy.
 
-// ---------------------------------------------------------------------------
-// coolant
-// ---------------------------------------------------------------------------
-// The code for the coolant output need to be modified at the end of each path
-// specific coolant sub-program (Coolant_Pyy).
+!! ---------------------------------------------------------------------------
+!! coolant
+!! ---------------------------------------------------------------------------
+!! The code for the coolant output need to be modified at the end of each path
+!! specific coolant sub-program (Coolant_Pyy).
 
-// ---------------------------------------------------------------------------
-// axis brake
-// ---------------------------------------------------------------------------
-// The code for the brake output need to be modified at the end of each axis
-// specific sub-program (Axis0x_Pyy) which includes brake support.
-
-
-// ===========================================================================
-// ===========================================================================
-// ===========================================================================
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//
-// do not change the following definitions!!!!!!!!!!!!!
-//
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! ---------------------------------------------------------------------------
+!! axis brake
+!! ---------------------------------------------------------------------------
+!! The code for the brake output need to be modified at the end of each axis
+!! specific sub-program (Axis0x_Pyy) which includes brake support.
 
 
-// ---------------------------------------------------------------------------
-// emergency stop
-// ---------------------------------------------------------------------------
+!! ===========================================================================
+!! ===========================================================================
+!! ===========================================================================
+
+!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!! do not change the following definitions!!!!!!!!!!!!!
+!!
+!! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+!! ---------------------------------------------------------------------------
+!! emergency stop
+!! ---------------------------------------------------------------------------
    #define  __B_EMG_STOP            X0008
-   #define  __KEY_EMG_STOP          X0008.4
-
-
-// ---------------------------------------------------------------------------
-// operatorspanel
-// ---------------------------------------------------------------------------
-//    0  =  software operator's panel
-//    1  =  small machine operator's panel with 30 keys
-//    2  =  standard machine operator's panel with 55 keys
-//    3  =  iPendant (for CNC)
+   #set __KEY_EMG_STOP = X0008.4 !! ---------------------------------------------------------------------------
+!! operatorspanel
+!! ---------------------------------------------------------------------------
+!!    0  =  software operator's panel
+!!    1  =  small machine operator's panel with 30 keys
+!!    2  =  standard machine operator's panel with 55 keys
+!!    3  =  iPendant (for CNC)
 
 #if operatorspanel == 1
    #include "def\op_30keys.def"
@@ -191,4 +152,4 @@
    #include "def\hmop.def"
 #endif
 
-#endif   // i_o_def
+#endif   !! i_o_def

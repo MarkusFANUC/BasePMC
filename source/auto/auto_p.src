@@ -1,84 +1,84 @@
-//:--------------------------------------------------------------------------:
-//: File              : auto__PATH__.src                                         :
-//: Creation date     : 29.11.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific automatic operation                    :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:04.07.17: 2.0.0 :Blp    :key message reset added                          :
-//:--------------------------------------------------------------------------:
-//:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : auto_{{PATH}}.src                                         :
+!!: Creation date     : 29.11.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific automatic operation                    :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:04.07.17: 2.0.0 :Blp    :key message reset added                          :
+!!:--------------------------------------------------------------------------:
+!!:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: external reset
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: external reset
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: external reset
+{{PATH}}: external reset
 *)
 #endif
-                 RD        K_RST__PATH__        ;"rst key"
-                 WRT       ERS__PATH__          ;"external reset signal"
+                 RD        K_RST_{{PATH}}        ;"rst key"
+                 WRT       ERS_{{PATH}}          ;"external reset signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: rising edge reset signal and signal for machine message reset
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: rising edge reset signal and signal for machine message reset
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: rising edge reset signal and signal for machine message reset
+{{PATH}}: rising edge reset signal and signal for machine message reset
 *)
 #endif
-                 RD        RST__PATH__          ;"resetting signal"
-                 AND.NOT   m_rst__PATH__        ;"memory reset"
-                 WRT       RE_RST__PATH__       ;"rising edge reset"
+                 RD        RST_{{PATH}}          ;"resetting signal"
+                 AND.NOT   m_rst_{{PATH}}        ;"memory reset"
+                 WRT       RE_RST_{{PATH}}       ;"rising edge reset"
 
-                 RD.NOT    RST__PATH__          ;"resetting signal"
-                 AND       m_rst__PATH__        ;"memory reset"
-                 WRT       FE_RST__PATH__       ;"falling edge reset"
+                 RD.NOT    RST_{{PATH}}          ;"resetting signal"
+                 AND       m_rst_{{PATH}}        ;"memory reset"
+                 WRT       FE_RST_{{PATH}}       ;"falling edge reset"
 
-                 RD        RST__PATH__          ;"resetting signal"
-                 WRT       m_rst__PATH__        ;"memory reset"
-#if start_address_op == 0 || handwheel_support == 2 || virtual_op_panel == 1
-                 WRT       L_RST__PATH__        ;"led rst key"
+                 RD        RST_{{PATH}}          ;"resetting signal"
+                 WRT       m_rst_{{PATH}}        ;"memory reset"
+#if start_address_op == 0 or handwheel_support == 2 or virtual_op_panel == 1
+                 WRT       L_RST_{{PATH}}        ;"led rst key"
 #endif
-                 RD        B_RST__PATH__        ;"button reset"
-                 OR        K_RST__PATH__        ;"reset key"
+                 RD        B_RST_{{PATH}}        ;"button reset"
+                 OR        K_RST_{{PATH}}        ;"reset key"
 #if handwheel_support == 2
-                 OR        K_MESRST__PATH__     ;"message reset key"
+                 OR        K_MESRST_{{PATH}}     ;"message reset key"
 #endif
-                 WRT       MESRST__PATH__       ;"message reset"
+                 WRT       MESRST_{{PATH}}       ;"message reset"
 
-// ---------------------------------------------------------------------------
-// _PATH__: conditions for cycle start disable
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: conditions for cycle start disable
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: conditions for cycle start disable
+{{PATH}}: conditions for cycle start disable
 *)
 #endif
-                 RD.NOT    INIT_F__PATH__       ;"initialisation finished"
+                 RD.NOT    INIT_F_{{PATH}}       ;"initialisation finished"
                  OR        WIN_WR               ;"window write active"
-                 OR        SETUP__PATH__        ;"set-up active"
-                 OR.NOT    REF_OK__PATH__       ;"all axis referenced"
-                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
-                 OR        AL__PATH__           ;"alarm signal"
-                 OR        M_1XXX__PATH__       ;"emergency message active"
-                 OR        RST__PATH__          ;"resetting signal"
+                 OR        SETUP_{{PATH}}        ;"set-up active"
+                 OR.NOT    REF_OK_{{PATH}}       ;"all axis referenced"
+                 OR.NOT    POW_OK_{{PATH}}       ;"power suply axis ok"
+                 OR        AL_{{PATH}}           ;"alarm signal"
+                 OR        M_1XXX_{{PATH}}       ;"emergency message active"
+                 OR        RST_{{PATH}}          ;"resetting signal"
 #if dcs_support == 1
    #if mcc_test == 1
                  OR        MCC_TEST             ;"mcc test running"
@@ -87,192 +87,192 @@ _PATH__: conditions for cycle start disable
                  OR        BRK_TEST             ;"brake test active"
    #endif
 #endif
-                 WRT       st_dis__PATH__       ;"program start disable"
+                 WRT       st_dis_{{PATH}}       ;"program start disable"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable ST_EN__PATH__ (cycle start enable)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable ST_EN_{{PATH}} (cycle start enable)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable ST_EN__PATH__ (cycle start enable)
+{{PATH}}: global variable ST_EN_{{PATH}} (cycle start enable)
 *)
 #endif
-                 RD        M_AUTO__PATH__       ;"automatic mode active"
-                 AND.NOT   st_dis__PATH__       ;"program start disable"
-                 WRT       ST_EN__PATH__        ;"program start enable"
+                 RD        M_AUTO_{{PATH}}       ;"automatic mode active"
+                 AND.NOT   st_dis_{{PATH}}       ;"program start disable"
+                 WRT       ST_EN_{{PATH}}        ;"program start enable"
 
-                 RD        K_ST__PATH__         ;"key cycle start"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 AND       st_dis__PATH__       ;"program start disable"
-                 WRT       M_STDIS__PATH__      ;"message start disable"
+                 RD        K_ST_{{PATH}}         ;"key cycle start"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 AND       st_dis_{{PATH}}       ;"program start disable"
+                 WRT       M_STDIS_{{PATH}}      ;"message start disable"
 
-// ---------------------------------------------------------------------------
-// _PATH__: cycle start
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: cycle start
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: cycle start
+{{PATH}}: cycle start
 *)
 #endif
-                 RD        K_ST__PATH__         ;"key cycle start"
-                 AND.NOT   M_KST__PATH__        ;"memory key cycle start"
-                 WRT       RE_KST__PATH__       ;"re key cycle start"
+                 RD        K_ST_{{PATH}}         ;"key cycle start"
+                 AND.NOT   M_KST_{{PATH}}        ;"memory key cycle start"
+                 WRT       RE_KST_{{PATH}}       ;"re key cycle start"
 
-                 RD        K_ST__PATH__         ;"key cycle start"
-                 WRT       M_KST__PATH__        ;"memory key cycle start"
+                 RD        K_ST_{{PATH}}         ;"key cycle start"
+                 WRT       M_KST_{{PATH}}        ;"memory key cycle start"
 
-                 RD        K_ST__PATH__         ;"key cycle start"
-                 AND       ST_EN__PATH__        ;"program start enable"
+                 RD        K_ST_{{PATH}}         ;"key cycle start"
+                 AND       ST_EN_{{PATH}}        ;"program start enable"
    #if nbr_of_path > 1
                  AND.NOT   SYNST                ;"synchronous start"
                  OR        SYNST                ;"synchronous start"
    #endif
-                 WRT       ST__PATH__           ;"cycle start signal"
+                 WRT       ST_{{PATH}}           ;"cycle start signal"
 
-                 RD        STL__PATH__          ;"cycle start lamp signal"
-#if ref_dir_1st_axis__PATH__ > -1
-                 OR        AUTREF__PATH__       ;"automatic zero return"
+                 RD        STL_{{PATH}}          ;"cycle start lamp signal"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 OR        AUTREF_{{PATH}}       ;"automatic zero return"
 #endif
-                 WRT       L_STL__PATH__        ;"led cycle start lamp"
+                 WRT       L_STL_{{PATH}}        ;"led cycle start lamp"
 
-// ---------------------------------------------------------------------------
-// _PATH__: cycle stop (feed hold)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: cycle stop (feed hold)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: cycle stop (feed hold)
+{{PATH}}: cycle stop (feed hold)
 *)
 #endif
-                 RD        K_CYSP__PATH__       ;"key cycle stop"
-                 OR        M000__PATH__         ;"stop program run"
-                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
-                 OR        M_1XXX__PATH__       ;"emergency message active"
-                 RD.STK    O_STOP__PATH__       ;"optional stop m01 active"
-                 AND       M001__PATH__         ;"optional stop"
+                 RD        K_CYSP_{{PATH}}       ;"key cycle stop"
+                 OR        M000_{{PATH}}         ;"stop program run"
+                 OR.NOT    POW_OK_{{PATH}}       ;"power suply axis ok"
+                 OR        M_1XXX_{{PATH}}       ;"emergency message active"
+                 RD.STK    O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 AND       M001_{{PATH}}         ;"optional stop"
                  OR.STK
-                 WRT.NOT   *SP__PATH__          ;"feed hold signal"
+                 WRT.NOT   *SP_{{PATH}}          ;"feed hold signal"
 
-                 RD        SPL__PATH__          ;"feed hold lamp signal"
-                 WRT       L_SPL__PATH__        ;"led cycle stop"
+                 RD        SPL_{{PATH}}          ;"feed hold lamp signal"
+                 WRT       L_SPL_{{PATH}}        ;"led cycle stop"
 
-// ---------------------------------------------------------------------------
-// _PATH__: cutting block start interlock (parameter 3004 bit 0 (BSL) = 1)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: cutting block start interlock (parameter 3004 bit 0 (BSL) = 1)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: cutting block start interlock
+{{PATH}}: cutting block start interlock
 (parameter 3004 bit 0 (BSL) = 1)
 *)
 #endif
                  RD        LOG1                 ;"logic one"
-                 WRT       *CSL__PATH__         ;"cutting block lock"
+                 WRT       *CSL_{{PATH}}         ;"cutting block lock"
 
-// ---------------------------------------------------------------------------
-// _PATH__: block start interlock signal (parameter 3004 bit 0 (BSL) = 1)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: block start interlock signal (parameter 3004 bit 0 (BSL) = 1)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: block start interlock signal
+{{PATH}}: block start interlock signal
 (parameter 3004 bit 0 (BSL) = 1)
 *)
 #endif
                  RD        LOG1                 ;"logic one"
-                 WRT       *BSL__PATH__         ;"block start lock signal"
+                 WRT       *BSL_{{PATH}}         ;"block start lock signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: end of program (m02/m30 reset and rewind)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: end of program (m02/m30 reset and rewind)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: end of program (m02/m30 reset and rewind)
+{{PATH}}: end of program (m02/m30 reset and rewind)
 *)
 #endif
-                 RD        RST__PATH__          ;"resetting signal"
-                 AND       RRW__PATH__          ;"reset and rewind signal"
-                 WRT       rrwact__PATH__       ;"reset and rewind active"
+                 RD        RST_{{PATH}}          ;"resetting signal"
+                 AND       RRW_{{PATH}}          ;"reset and rewind signal"
+                 WRT       rrwact_{{PATH}}       ;"reset and rewind active"
 
-                 RD        M_AUTO__PATH__       ;"automatic mode active"
-                 AND       RE_RST__PATH__       ;"rising edge reset"
-                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
-                 AND       PGMRUN__PATH__       ;"program running"
+                 RD        M_AUTO_{{PATH}}       ;"automatic mode active"
+                 AND       RE_RST_{{PATH}}       ;"rising edge reset"
+                 RD.STK    FEPGMT_{{PATH}}       ;"falling edge program test"
+                 AND       PGMRUN_{{PATH}}       ;"program running"
                  OR.STK    
-                 OR        M002__PATH__         ;"end of program"
-                 OR        M030__PATH__         ;"end of program"
-                 OR        delrrw__PATH__       ;"delay for rrw signal"
-                 AND.NOT   rrwact__PATH__       ;"reset and rewind active"
-                 WRT       delrrw__PATH__       ;"delay for rrw signal"
+                 OR        M002_{{PATH}}         ;"end of program"
+                 OR        M030_{{PATH}}         ;"end of program"
+                 OR        delrrw_{{PATH}}       ;"delay for rrw signal"
+                 AND.NOT   rrwact_{{PATH}}       ;"reset and rewind active"
+                 WRT       delrrw_{{PATH}}       ;"delay for rrw signal"
 
-                 RD        delrrw__PATH__       ;"delay for rrw signal"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       RRW__PATH__          ;"reset and rewind signal"
+                 RD        delrrw_{{PATH}}       ;"delay for rrw signal"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       RRW_{{PATH}}          ;"reset and rewind signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable PGMRUN__PATH__ (program running)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable PGMRUN_{{PATH}} (program running)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable PGMRUN__PATH__ (program running)
+{{PATH}}: global variable PGMRUN_{{PATH}} (program running)
 *)
 #endif
-                 RD        M_MEM__PATH__        ;"mode mem selected"
-                 OR        M_DNC__PATH__        ;"mode dnc selected"
-                 AND       STL__PATH__          ;"cycle start lamp signal"
-                 RD.STK    M_MEM__PATH__        ;"mode mem selected"
-                 OR        M_DNC__PATH__        ;"mode dnc selected"
-                 AND       PGMRUN__PATH__       ;"program running"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
+                 RD        M_MEM_{{PATH}}        ;"mode mem selected"
+                 OR        M_DNC_{{PATH}}        ;"mode dnc selected"
+                 AND       STL_{{PATH}}          ;"cycle start lamp signal"
+                 RD.STK    M_MEM_{{PATH}}        ;"mode mem selected"
+                 OR        M_DNC_{{PATH}}        ;"mode dnc selected"
+                 AND       PGMRUN_{{PATH}}       ;"program running"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
                  OR.STK
-                 WRT       PGMRUN__PATH__       ;"program running"
+                 WRT       PGMRUN_{{PATH}}       ;"program running"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: led program stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: led program stop
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: led program stop
+{{PATH}}: led program stop
 *)
 #endif
-                 RD        STL__PATH__          ;"cycle start lamp signal"
-                 AND.NOT   m_stl__PATH__        ;"memory stl signal"
-                 WRT       re_stl__PATH__       ;"re stl signal"
+                 RD        STL_{{PATH}}          ;"cycle start lamp signal"
+                 AND.NOT   m_stl_{{PATH}}        ;"memory stl signal"
+                 WRT       re_stl_{{PATH}}       ;"re stl signal"
 
-                 RD        STL__PATH__          ;"cycle start lamp signal"
-                 WRT       m_stl__PATH__        ;"memory stl signal"
+                 RD        STL_{{PATH}}          ;"cycle start lamp signal"
+                 WRT       m_stl_{{PATH}}        ;"memory stl signal"
 
-                 RD        M000__PATH__         ;"stop program run"
-                 RD.STK    L_PGSP__PATH__       ;"led program stop"
-                 AND.NOT   re_stl__PATH__       ;"re stl signal"
+                 RD        M000_{{PATH}}         ;"stop program run"
+                 RD.STK    L_PGSP_{{PATH}}       ;"led program stop"
+                 AND.NOT   re_stl_{{PATH}}       ;"re stl signal"
                  OR.STK
-                 AND       PGMRUN__PATH__       ;"program running"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       L_PGSP__PATH__       ;"led program stop"
+                 AND       PGMRUN_{{PATH}}       ;"program running"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       L_PGSP_{{PATH}}       ;"led program stop"
 
-// ---------------------------------------------------------------------------
-// _PATH__: management of m00, m01, m02, m30, m198
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: management of m00, m01, m02, m30, m198
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: management of m00, m01, m02, m30, m198
+{{PATH}}: management of m00, m01, m02, m30, m198
 *)
 #endif
-                 RD        M000__PATH__         ;"stop program run"
-                 AND       SPL__PATH__          ;"feed hold lamp signal"
-                 RST       M000__PATH__         ;"stop program run"
+                 RD        M000_{{PATH}}         ;"stop program run"
+                 AND       SPL_{{PATH}}          ;"feed hold lamp signal"
+                 RST       M000_{{PATH}}         ;"stop program run"
 
-                 RD        O_STOP__PATH__       ;"optional stop m01 active"
-                 AND       SPL__PATH__          ;"feed hold lamp signal"
-                 OR.NOT    O_STOP__PATH__       ;"optional stop m01 active"
-                 AND       M001__PATH__         ;"optional stop"
-                 RST       M001__PATH__         ;"optional stop"
+                 RD        O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 AND       SPL_{{PATH}}          ;"feed hold lamp signal"
+                 OR.NOT    O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 AND       M001_{{PATH}}         ;"optional stop"
+                 RST       M001_{{PATH}}         ;"optional stop"
 
-                 RD        M002__PATH__         ;"end of program"
-                 AND       RRW__PATH__          ;"reset and rewind signal"
-                 RST       M002__PATH__         ;"end of program"
+                 RD        M002_{{PATH}}         ;"end of program"
+                 AND       RRW_{{PATH}}          ;"reset and rewind signal"
+                 RST       M002_{{PATH}}         ;"end of program"
 
-                 RD        M030__PATH__         ;"end of program"
-                 AND       RRW__PATH__          ;"reset and rewind signal"
-                 RST       M030__PATH__         ;"end of program"
+                 RD        M030_{{PATH}}         ;"end of program"
+                 AND       RRW_{{PATH}}          ;"reset and rewind signal"
+                 RST       M030_{{PATH}}         ;"end of program"
 
-                 RD        M198__PATH__         ;"External subprogram call"
-                 RST       M198__PATH__         ;"External subprogram call"
+                 RD        M198_{{PATH}}         ;"External subprogram call"
+                 RST       M198_{{PATH}}         ;"External subprogram call"

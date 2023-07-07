@@ -1,50 +1,50 @@
-//:--------------------------------------------------------------------------:
-//: File              : s_serial__PATH__.src                                     :
-//: Creation date     : 11.10.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : serial spindle                                       :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:16.07.14: 1.1.0 :Blp    :Monitoring logic for Safe Spindle rotation by    :
-//:        :       :       :Hand for Cs contouring adapted                   :
-//:--------------------------------------------------------------------------:
-//:02.02.18: 2.0.0 :Blp    :spindle STO added                                :
-//:--------------------------------------------------------------------------:
-//:02.06.20: 3.0.0 :Blp    :code 0i-D and 3xi-A removed                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : s_serial_{{PATH}}.src                                     :
+!!: Creation date     : 11.10.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : serial spindle                                       :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:16.07.14: 1.1.0 :Blp    :Monitoring logic for Safe Spindle rotation by    :
+!!:        :       :       :Hand for Cs contouring adapted                   :
+!!:--------------------------------------------------------------------------:
+!!:02.02.18: 2.0.0 :Blp    :spindle STO added                                :
+!!:--------------------------------------------------------------------------:
+!!:02.06.20: 3.0.0 :Blp    :code 0i-D and 3xi-A removed                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: this module manages the first serial spindle.
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: this module manages the first serial spindle.
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: this module manages the first serial spindle.
+{{PATH}}: this module manages the first serial spindle.
 *)
 #endif
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// spindle torque on
-// replace T_BIT000 with the spindle torque output Yxxx.y
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! spindle torque on
+!! replace T_BIT000 with the spindle torque output Yxxx.y
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 spindle torque on
@@ -53,289 +53,289 @@ replace T_BIT000 with the spindle torque output Yxxx.y
    #endif
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        DCS_S02              ;"DCS speed set 2"
-                 WRT.NOT   SP_STO_MON__PATH__   ;"spindle safe torque off"
+                 WRT.NOT   SP_STO_MON_{{PATH}}   ;"spindle safe torque off"
                  WRT       T_BIT000             ;"temporary bit 000"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: soft start/stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: soft start/stop
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: soft start/stop
+{{PATH}}: soft start/stop
 parameter setting: N04030 (soft start/stop time)
 *)
 #endif
-                 RD.NOT    SETUP__PATH__        ;"set-up active"
-                 WRT       SOGNA__PATH__        ;"soft start/stop signal"
+                 RD.NOT    SETUP_{{PATH}}        ;"set-up active"
+                 WRT       SOGNA_{{PATH}}        ;"soft start/stop signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: ready and alarm signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: ready and alarm signals
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: ready and alarm signals
+{{PATH}}: ready and alarm signals
 *)
 #endif
 #if dcs_support == 1
                  RD        *SGOPN               ;"guard state doors closed"
-   #if cs_contour_ctrl__PATH__ == 1
-                 OR        FSCSL__PATH__        ;"Cs contour ctrl active"
+   #if cs_contour_ctrl_{{PATH}} == 1
+                 OR        FSCSL_{{PATH}}        ;"Cs contour ctrl active"
    #endif
                  OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       *ESP__PATH__         ;"emergency stop signal"
+                 AND       *ESP_{{PATH}}         ;"emergency stop signal"
 #else
-                 RD        *ESP__PATH__         ;"emergency stop signal"
+                 RD        *ESP_{{PATH}}         ;"emergency stop signal"
 #endif
-                 WRT       *ESPA__PATH__        ;"emergency stop spindle"
+                 WRT       *ESPA_{{PATH}}        ;"emergency stop spindle"
 
-                 RD        MA__PATH__           ;"cnc ready signal"
-                 AND       SA__PATH__           ;"servo ready signal"
-                 WRT       MRDYA__PATH__        ;"machine ready signal"
+                 RD        MA_{{PATH}}           ;"cnc ready signal"
+                 AND       SA_{{PATH}}           ;"servo ready signal"
+                 WRT       MRDYA_{{PATH}}        ;"machine ready signal"
 
-                 RD        ALMA__PATH__         ;"alm signal serial spindle"
-                 WRT       SP_ALM__PATH__       ;"spindle alarm"
+                 RD        ALMA_{{PATH}}         ;"alm signal serial spindle"
+                 WRT       SP_ALM_{{PATH}}       ;"spindle alarm"
 
-                 RD        RST__PATH__          ;"resetting signal"
-                 AND       ALMA__PATH__         ;"alm signal serial spindle"
-                 WRT       ARSTA__PATH__        ;"alarm reset signal"
+                 RD        RST_{{PATH}}          ;"resetting signal"
+                 AND       ALMA_{{PATH}}         ;"alm signal serial spindle"
+                 WRT       ARSTA_{{PATH}}        ;"alarm reset signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: impulse to restart the timer for the speed arrival signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: impulse to restart the timer for the speed arrival signal
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: impulse to restart the timer for the speed arrival signal
+{{PATH}}: impulse to restart the timer for the speed arrival signal
 *)
 #endif
-                 RD        SP_CW__PATH__        ;"spindle start cw"
-                 AND       SRVA__PATH__         ;"ccw command signal"
-                 RD.STK    SP_CCW__PATH__       ;"spindle start ccw"
-                 AND       SFRA__PATH__         ;"cw command signal"
+                 RD        SP_CW_{{PATH}}        ;"spindle start cw"
+                 AND       SRVA_{{PATH}}         ;"ccw command signal"
+                 RD.STK    SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 AND       SFRA_{{PATH}}         ;"cw command signal"
                  OR.STK
-                 OR        RE_SCH__PATH__       ;"rising edge speed change"
-                 WRT       sr_sar__PATH__       ;"restart timer for sp_sar"
+                 OR        RE_SCH_{{PATH}}       ;"rising edge speed change"
+                 WRT       sr_sar_{{PATH}}       ;"restart timer for sp_sar"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable: SP_RUN__PATH__ (spindle turning)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable: SP_RUN_{{PATH}} (spindle turning)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable: SP_RUN__PATH__ (spindle turning)
+{{PATH}}: global variable: SP_RUN_{{PATH}} (spindle turning)
 *)
 #endif
-                 RD        SP_CW__PATH__        ;"spindle start cw"
-                 OR        SP_CCW__PATH__       ;"spindle start ccw"
-                 WRT       SP_RUN__PATH__       ;"spindle is turning"
+                 RD        SP_CW_{{PATH}}        ;"spindle start cw"
+                 OR        SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 WRT       SP_RUN_{{PATH}}       ;"spindle is turning"
 
-// ---------------------------------------------------------------------------
-// _PATH__: Cs contour control
-// ---------------------------------------------------------------------------
-#if cs_contour_ctrl__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: Cs contour control
+!! ---------------------------------------------------------------------------
+#if cs_contour_ctrl_{{PATH}} == 1
    #if net_comment == 1
 (*
-_PATH__: Cs contour control
+{{PATH}}: Cs contour control
 *)
    #endif
-                 RD        M027__PATH__         ;"Cs contour ctrl on"
-                 AND       SSTA__PATH__         ;"spindle speed zero"
-                 RD.STK    CON__PATH__          ;"Cs contour ctrl"
-                 AND.NOT   M005__PATH__         ;"spindle stop"
-                 AND.NOT   M028__PATH__         ;"Cs contour ctrl off"
-                 AND.NOT   ALMA__PATH__         ;"alm signal serial spindle"
-                 AND.NOT   SP_RUN__PATH__       ;"spindle is turning"
-   #if spindle_orientation__PATH__ >  0
-                 AND.NOT   M019__PATH__         ;"spindle orientation"
+                 RD        M027_{{PATH}}         ;"Cs contour ctrl on"
+                 AND       SSTA_{{PATH}}         ;"spindle speed zero"
+                 RD.STK    CON_{{PATH}}          ;"Cs contour ctrl"
+                 AND.NOT   M005_{{PATH}}         ;"spindle stop"
+                 AND.NOT   M028_{{PATH}}         ;"Cs contour ctrl off"
+                 AND.NOT   ALMA_{{PATH}}         ;"alm signal serial spindle"
+                 AND.NOT   SP_RUN_{{PATH}}       ;"spindle is turning"
+   #if spindle_orientation_{{PATH}} >  0
+                 AND.NOT   M019_{{PATH}}         ;"spindle orientation"
    #endif
-   #if rigid_tapping__PATH__ == 1
-                 AND.NOT   M029__PATH__         ;"rigid tapping"
+   #if rigid_tapping_{{PATH}} == 1
+                 AND.NOT   M029_{{PATH}}         ;"rigid tapping"
    #endif
                  OR.STK
-                 WRT       CON__PATH__          ;"Cs contour ctrl"
-                 RD        M027__PATH__         ;"Cs contour ctrl on"
-                 AND       CON__PATH__          ;"Cs contour ctrl"
-                 AND       FSCSL__PATH__        ;"Cs contour ctrl active"
-                 RST       M027__PATH__         ;"Cs contour ctrl on"
-                 RD        M028__PATH__         ;"Cs contour ctrl off"
-                 AND.NOT   CON__PATH__          ;"Cs contour ctrl"
-                 AND.NOT   FSCSL__PATH__        ;"Cs contour ctrl active"
-                 RST       M028__PATH__         ;"Cs contour ctrl off"
+                 WRT       CON_{{PATH}}          ;"Cs contour ctrl"
+                 RD        M027_{{PATH}}         ;"Cs contour ctrl on"
+                 AND       CON_{{PATH}}          ;"Cs contour ctrl"
+                 AND       FSCSL_{{PATH}}        ;"Cs contour ctrl active"
+                 RST       M027_{{PATH}}         ;"Cs contour ctrl on"
+                 RD        M028_{{PATH}}         ;"Cs contour ctrl off"
+                 AND.NOT   CON_{{PATH}}          ;"Cs contour ctrl"
+                 AND.NOT   FSCSL_{{PATH}}        ;"Cs contour ctrl active"
+                 RST       M028_{{PATH}}         ;"Cs contour ctrl off"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle start / stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle start / stop
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: spindle start / stop
+{{PATH}}: spindle start / stop
 *)
 #endif
-                 RD        SP_CW__PATH__        ;"spindle start cw"
-#if rigid_tapping__PATH__ == 1 || cs_contour_ctrl__PATH__ == 1
-                 RD.STK    SSTA__PATH__         ;"spindle speed zero"
-                 OR        SFRA__PATH__         ;"cw command signal"
-   #if rigid_tapping__PATH__ == 1 && cs_contour_ctrl__PATH__ == 0
-                 AND       RGTAP__PATH__        ;"rigid tapping signal"
+                 RD        SP_CW_{{PATH}}        ;"spindle start cw"
+#if rigid_tapping_{{PATH}} == 1 or cs_contour_ctrl_{{PATH}} == 1
+                 RD.STK    SSTA_{{PATH}}         ;"spindle speed zero"
+                 OR        SFRA_{{PATH}}         ;"cw command signal"
+   #if rigid_tapping_{{PATH}} == 1 and cs_contour_ctrl_{{PATH}} == 0
+                 AND       RGTAP_{{PATH}}        ;"rigid tapping signal"
    #endif
-   #if rigid_tapping__PATH__ == 0 && cs_contour_ctrl__PATH__ == 1
-                 AND       CON__PATH__          ;"Cs contour ctrl"
+   #if rigid_tapping_{{PATH}} == 0 and cs_contour_ctrl_{{PATH}} == 1
+                 AND       CON_{{PATH}}          ;"Cs contour ctrl"
    #endif
-   #if rigid_tapping__PATH__ == 1 && cs_contour_ctrl__PATH__ == 1
-                 RD.STK    RGTAP__PATH__        ;"rigid tapping signal"
-                 OR        CON__PATH__          ;"Cs contour ctrl"
+   #if rigid_tapping_{{PATH}} == 1 and cs_contour_ctrl_{{PATH}} == 1
+                 RD.STK    RGTAP_{{PATH}}        ;"rigid tapping signal"
+                 OR        CON_{{PATH}}          ;"Cs contour ctrl"
                  AND.STK
    #endif
                  OR.STK
 #endif
-                 WRT       SFRA__PATH__         ;"cw command signal"
+                 WRT       SFRA_{{PATH}}         ;"cw command signal"
 
-                 RD        SP_CCW__PATH__       ;"spindle start ccw"
-                 WRT       SRVA__PATH__         ;"ccw command signal"
+                 RD        SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 WRT       SRVA_{{PATH}}         ;"ccw command signal"
 
-                 RD.NOT    SP_CW__PATH__        ;"spindle start cw"
-                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
-                 WRT.NOT   *SSTP__PATH__        ;"spindle stop signal"
+                 RD.NOT    SP_CW_{{PATH}}        ;"spindle start cw"
+                 AND.NOT   SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 WRT.NOT   *SSTP_{{PATH}}        ;"spindle stop signal"
 
-// ---------------------------------------------------------------------------
-// global variables: SP_STP (spindle stopped)
-//                   SAR    (speed arrival signal)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variables: SP_STP (spindle stopped)
+!!                   SAR    (speed arrival signal)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable: SP_STP__PATH__  (spindle stopped)
+{{PATH}}: global variable: SP_STP_{{PATH}}  (spindle stopped)
 *)
 #endif
-                 RD        SSTA__PATH__         ;"spindle speed zero"
+                 RD        SSTA_{{PATH}}         ;"spindle speed zero"
 #if demo_control == 1
                  OR        LOG1                 ;"logic one"
 #endif
-                 AND.NOT   *SSTP__PATH__        ;"spindle stop signal"
-                 WRT       SP_STP__PATH__       ;"spindle stopped"
+                 AND.NOT   *SSTP_{{PATH}}        ;"spindle stop signal"
+                 WRT       SP_STP_{{PATH}}       ;"spindle stopped"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: delay speed arrival
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: delay speed arrival
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: delay speed arrival
+{{PATH}}: delay speed arrival
 *)
 #endif
-                 RD        SARA__PATH__         ;"sp speed arrival signal"
+                 RD        SARA_{{PATH}}         ;"sp speed arrival signal"
 #if demo_control == 1
                  OR        LOG1                 ;"logic one"
 #endif
-                 AND       SP_RUN__PATH__       ;"spindle is turning"
-                 AND.NOT   sr_sar__PATH__       ;"restart timer for sp_sar"
+                 AND       SP_RUN_{{PATH}}       ;"spindle is turning"
+                 AND.NOT   sr_sar_{{PATH}}       ;"restart timer for sp_sar"
                  TMRB
                            0
                            200
-                 WRT       SP_SAR__PATH__       ;"spindle speed arrival"
+                 WRT       SP_SAR_{{PATH}}       ;"spindle speed arrival"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: rigid tapping
-// ---------------------------------------------------------------------------
-#if rigid_tapping__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: rigid tapping
+!! ---------------------------------------------------------------------------
+#if rigid_tapping_{{PATH}} == 1
    #if net_comment == 1
 (*
-_PATH__: rigid tapping
+{{PATH}}: rigid tapping
 *)
    #endif
-                 RD        SSTA__PATH__         ;"spindle speed zero"
-                 OR        RGTAP__PATH__        ;"rigid tapping signal"
-                 AND       RTAP__PATH__         ;"rigid tapping in progress"
-                 WRT       RGTAP__PATH__        ;"rigid tapping signal"
+                 RD        SSTA_{{PATH}}         ;"spindle speed zero"
+                 OR        RGTAP_{{PATH}}        ;"rigid tapping signal"
+                 AND       RTAP_{{PATH}}         ;"rigid tapping in progress"
+                 WRT       RGTAP_{{PATH}}        ;"rigid tapping signal"
 
-                 RD        RGTAP__PATH__        ;"rigid tapping signal"
+                 RD        RGTAP_{{PATH}}        ;"rigid tapping signal"
                  TMRB
                            0
                            300
-                 RST       M029__PATH__         ;"rigid tapping"
+                 RST       M029_{{PATH}}         ;"rigid tapping"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle orientation
-// ---------------------------------------------------------------------------
-#if spindle_orientation__PATH__ >  0
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle orientation
+!! ---------------------------------------------------------------------------
+#if spindle_orientation_{{PATH}} >  0
    #if net_comment == 1
 (*
-_PATH__: spindle orientation
+{{PATH}}: spindle orientation
 *)
    #endif
-                 CALLU     SpiOri__PATH__       ;"spindle orientation"
+                 CALLU     SpiOri_{{PATH}}       ;"spindle orientation"
 #endif
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// _PATH__: DCS related speed check in case of open doors
-// set data:   MAX_SP__PATH__ (max spindle speed)
-//             MAX_SPSET__PATH__ (max setup spindle speed)
-//
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS related speed check in case of open doors
+!! set data:   MAX_SP_{{PATH}} (max spindle speed)
+!!             MAX_SPSET_{{PATH}} (max setup spindle speed)
+!!
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS related speed check in case of open doors
-set data: MAX_SP__PATH__ (max spindle speed)
-          MAX_SPSET__PATH__ (max setup spindle speed)
+{{PATH}}: DCS related speed check in case of open doors
+set data: MAX_SP_{{PATH}} (max spindle speed)
+          MAX_SPSET_{{PATH}} (max setup spindle speed)
 *)
    #endif
-// ---------------------------------------------------------------------------
-// _PATH__: moving the programmed spindle speed into the temporary
-// variables for further calculations
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: moving the programmed spindle speed into the temporary
+!! variables for further calculations
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: moving the programmed spindle speed into the temporary
+{{PATH}}: moving the programmed spindle speed into the temporary
 variables for further calculations
 *)
    #endif
 
                  RD        LOG1                 ;"logic one"
                  MOVD      
-                           S00-S31__PATH__      ;"spindle speed code"
+                           S00-S31_{{PATH}}      ;"spindle speed code"
                            TMP_B00              ;"temporary byte 00"
 
-// ---------------------------------------------------------------------------
-// _PATH__: comparison of programmed and maximal spindle speed
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: comparison of programmed and maximal spindle speed
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: comparison of programmed and maximal spindle speed
+{{PATH}}: comparison of programmed and maximal spindle speed
 *)
    #endif
                  RD        LOG1                 ;"logic one"
                  LED       
                            TMP_B00              ;"temporary byte 00"
-                           MAX_SP__PATH__       ;"maximal spindle speed"
-                 WRT       pgspok__PATH__       ;"prog. spindle speed ok"
+                           MAX_SP_{{PATH}}       ;"maximal spindle speed"
+                 WRT       pgspok_{{PATH}}       ;"prog. spindle speed ok"
 
-// ---------------------------------------------------------------------------
-// _PATH__: if the programmed speed is to high, the speed will be
-// clamped to the maximal allowed speed
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: if the programmed speed is to high, the speed will be
+!! clamped to the maximal allowed speed
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: if the programmed speed is to high, the speed will be
+{{PATH}}: if the programmed speed is to high, the speed will be
 clamped to the maximal allowed speed
 *)
    #endif
-                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
+                 RD.NOT    pgspok_{{PATH}}       ;"prog. spindle speed ok"
                  MOVD      
-                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           MAX_SP_{{PATH}}       ;"maximal spindle speed"
                            TMP_B00              ;"temporary byte 00"
 
-                 RD.NOT    pgspok__PATH__       ;"prog. spindle speed ok"
-                 AND.NOT   M_1XXX__PATH__       ;"emergency message active"
-                 AND       POW_OK__PATH__       ;"power supply axis ok"
-                 WRT       SP_S_NOK__PATH__     ;"spindle speed not ok"
+                 RD.NOT    pgspok_{{PATH}}       ;"prog. spindle speed ok"
+                 AND.NOT   M_1XXX_{{PATH}}       ;"emergency message active"
+                 AND       POW_OK_{{PATH}}       ;"power supply axis ok"
+                 WRT       SP_S_NOK_{{PATH}}     ;"spindle speed not ok"
 
-// ---------------------------------------------------------------------------
-// _PATH__: initialisation of temporary variables (4 bytes)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: initialisation of temporary variables (4 bytes)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: initialisation of temporary variables (4 bytes)
+{{PATH}}: initialisation of temporary variables (4 bytes)
 *)
    #endif
                  RD        LOG1                 ;"logic one"
@@ -344,87 +344,87 @@ _PATH__: initialisation of temporary variables (4 bytes)
                            0
                            TMP_B04              ;"temporary byte 04"
 
-// ---------------------------------------------------------------------------
-// _PATH__: multiplication of the spindle speed with the spindle override
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: multiplication of the spindle speed with the spindle override
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: multiplication of the spindle speed with the spindle
+{{PATH}}: multiplication of the spindle speed with the spindle
 override
 *)
    #endif
                  RD        LOG1                 ;"logic one"
                  MOVB      
-                           SOV__PATH__          ;"spindle speed ovr signal"
+                           SOV_{{PATH}}          ;"spindle speed ovr signal"
                            TMP_B04              ;"temporary byte 04"
-                 RD        RST__PATH__          ;"resetting signal"
+                 RD        RST_{{PATH}}          ;"resetting signal"
                  RD.STK    LOG1                 ;"logic one"
                  MULB      
                            1004
                            TMP_B00              ;"temporary byte 00"
                            TMP_B04              ;"temporary byte 04"
                            TMP_B00              ;"temporary byte 00"
-                 WRT       emuspov__PATH__      ;"multipl. err spindle ovr."
-                 RD        RST__PATH__          ;"resetting signal"
+                 WRT       emuspov_{{PATH}}      ;"multipl. err spindle ovr."
+                 RD        RST_{{PATH}}          ;"resetting signal"
                  RD.STK    LOG1                 ;"logic one"
                  DIVB      
                            4
                            TMP_B00              ;"temporary byte 00"
                            100
                            TMP_B00              ;"temporary byte 00"
-                 WRT       edispov__PATH__      ;"division err spindle ovr."
+                 WRT       edispov_{{PATH}}      ;"division err spindle ovr."
 
-// ---------------------------------------------------------------------------
-// _PATH__: checking max. setup speed
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: checking max. setup speed
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: checking max. setup speed
+{{PATH}}: checking max. setup speed
 *)
    #endif
                  RD.NOT    *SGOPN               ;"guard state doors closed"
                  GTD       
                            TMP_B00              ;"temporary byte 00"
-                           MAX_SPSET__PATH__    ;"max spindle setup speed"
-                 WRT       sp_mset__PATH__      ;"max. spind. setup speed"
-                 RD        sp_mset__PATH__      ;"max. spind. setup speed"
+                           MAX_SPSET_{{PATH}}    ;"max spindle setup speed"
+                 WRT       sp_mset_{{PATH}}      ;"max. spind. setup speed"
+                 RD        sp_mset_{{PATH}}      ;"max. spind. setup speed"
                  MOVD      
-                           MAX_SPSET__PATH__    ;"max spindle setup speed"
+                           MAX_SPSET_{{PATH}}    ;"max spindle setup speed"
                            TMP_B00              ;"temporary byte 00"
 
-// ---------------------------------------------------------------------------
-// _PATH__: calculation of the output value for the analog output
-// 4095 * prog. spindle speed / max. allowed speed 
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: calculation of the output value for the analog output
+!! 4095 * prog. spindle speed / max. allowed speed 
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: calculation of the output value for the analog output
+{{PATH}}: calculation of the output value for the analog output
 4095 * prog. spindle speed / max. allowed speed
 *)
    #endif
-                 RD        RST__PATH__          ;"resetting signal"
+                 RD        RST_{{PATH}}          ;"resetting signal"
                  RD.STK    LOG1                 ;"logic one"
                  MULB      
                            4
                            TMP_B00              ;"temporary byte 00"
                            4095
                            TMP_B00              ;"temporary byte 00"
-                 WRT       emusps__PATH__       ;"multipl. err spindle speed"
-                 RD        RST__PATH__          ;"resetting signal"
+                 WRT       emusps_{{PATH}}       ;"multipl. err spindle speed"
+                 RD        RST_{{PATH}}          ;"resetting signal"
                  RD.STK    LOG1                 ;"logic one"
                  DIVB      
                            1004
                            TMP_B00              ;"temporary byte 00"
-                           MAX_SP__PATH__       ;"maximal spindle speed"
+                           MAX_SP_{{PATH}}       ;"maximal spindle speed"
                            TMP_B00              ;"temporary byte 00"
-                 WRT       edisps__PATH__       ;"division err spindle speed"
+                 WRT       edisps_{{PATH}}       ;"division err spindle speed"
 
-// ---------------------------------------------------------------------------
-// _PATH__: if the value is greater than 4095 the value will be clamped to 4095
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: if the value is greater than 4095 the value will be clamped to 4095
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: if the value is greater than 4095 the value will be clamped
+{{PATH}}: if the value is greater than 4095 the value will be clamped
 to 4095
 *)
    #endif
@@ -432,34 +432,34 @@ to 4095
                  LED       
                            4095
                            TMP_B00              ;"temporary byte 00"
-                 WRT       maxsdr__PATH__       ;"max. spindle speed reached"
-                 RD        maxsdr__PATH__       ;"max. spindle speed reached"
+                 WRT       maxsdr_{{PATH}}       ;"max. spindle speed reached"
+                 RD        maxsdr_{{PATH}}       ;"max. spindle speed reached"
                  NUMEB     
                            4
                            4095
                            TMP_B00              ;"temporary byte 00"
 
-// ---------------------------------------------------------------------------
-// _PATH__: when stopping the spindle the output value must be 0
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: when stopping the spindle the output value must be 0
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: when stopping the spindle the output value must be 0
+{{PATH}}: when stopping the spindle the output value must be 0
 *)
    #endif
-                 RD.NOT    SP_RUN__PATH__       ;"spindle is turning"
+                 RD.NOT    SP_RUN_{{PATH}}       ;"spindle is turning"
                  OR        *SGOPN               ;"guard state doors closed"
                  NUMEB     
                            4
                            0
                            TMP_B00              ;"temporary byte 00"
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle motor speed command
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle motor speed command
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: spindle motor speed command
+{{PATH}}: spindle motor speed command
 *)
    #endif
                  RD        LOG1                 ;"logic one"
@@ -467,83 +467,83 @@ _PATH__: spindle motor speed command
                            2
                            TMP_B00              ;"temporary byte 00"
                            4095
-                           ROXL__PATH__         ;"sp motor speed command"
+                           ROXL_{{PATH}}         ;"sp motor speed command"
 
-// ---------------------------------------------------------------------------
-// _PATH__: PMC spindle control
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: PMC spindle control
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: PMC spindle control
+{{PATH}}: PMC spindle control
 *)
    #endif
                  RD.NOT    *SGOPN               ;"guard state doors closed"
-                 WRT       SIND__PATH__         ;"spindle mode select signal"
+                 WRT       SIND_{{PATH}}         ;"spindle mode select signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS spindle specific MCC off signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS spindle specific MCC off signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS spindle specific MCC off signal
+{{PATH}}: DCS spindle specific MCC off signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        *MCFP1__PATH__       ;"MCC off signal 1st spindle"
+                 RD        *MCFP1_{{PATH}}       ;"MCC off signal 1st spindle"
    #endif
-                 WRT       M*MCFP1__PATH__      ;"1st spindle MCC off signal"
+                 WRT       M*MCFP1_{{PATH}}      ;"1st spindle MCC off signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS spindle specific monitoring signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS spindle specific monitoring signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS spindle specific monitoring signal
+{{PATH}}: DCS spindle specific monitoring signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        RSP1__PATH__         ;"monit. result 1st spindle"
+                 RD        RSP1_{{PATH}}         ;"monit. result 1st spindle"
    #endif
-                 WRT       MRSP1__PATH__        ;"1st spindle monit. result"
+                 WRT       MRSP1_{{PATH}}        ;"1st spindle monit. result"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS spindle safety check deactivation at closed doors and emergency stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS spindle safety check deactivation at closed doors and emergency stop
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS spindle safety check deactivation at closed doors and
+{{PATH}}: DCS spindle safety check deactivation at closed doors and
 emergency stop
 *)
    #endif
                  RD        *SGOPN               ;"guard state doors closed"
-                 OR        SP_STO_MON__PATH__   ;"spindle safe torque off"
-                 WRT       *VLDP1__PATH__       ;"saf. check req. 1st spin."
+                 OR        SP_STO_MON_{{PATH}}   ;"spindle safe torque off"
+                 WRT       *VLDP1_{{PATH}}       ;"saf. check req. 1st spin."
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety zero speed monitoring
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS safety zero speed monitoring
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS safety zero speed monitoring
+{{PATH}}: DCS safety zero speed monitoring
 *)
    #endif
                  RD.NOT    DCS_S02              ;"DCS speed set 2"
                  AND.NOT   *SGOPN               ;"guard state doors closed"
-                 AND.NOT   SP_STO_MON__PATH__   ;"spindle safe torque off"
-                 WRT       SPZR1__PATH__        ;"zero mon. req. 1st spin."
+                 AND.NOT   SP_STO_MON_{{PATH}}   ;"spindle safe torque off"
+                 WRT       SPZR1_{{PATH}}        ;"zero mon. req. 1st spin."
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS selection of safety speed set 2
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS selection of safety speed set 2
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS selection of safety speed set 2
+{{PATH}}: DCS selection of safety speed set 2
 *)
    #endif
                  RD        DCS_S02              ;"DCS speed set 2"
-                 WRT       SPA1__PATH__         ;"saf. sel. A 1st spindle"
+                 WRT       SPA1_{{PATH}}         ;"saf. sel. A 1st spindle"
 #endif

@@ -1,171 +1,129 @@
-//:--------------------------------------------------------------------------:
-//: File              : hmop.def                                             :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Definition of inputs/outputs for the handy machine   :
-//:                   : operator's panel                                     :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-#ifndef hmop_def
-#define hmop_def
+!!:--------------------------------------------------------------------------:
+!!: File              : hmop.def                                             :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Definition of inputs/outputs for the handy machine   :
+!!:                   : operator's panel                                     :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Definitions
-// ===========================================================================
 
-// ---------------------------------------------------------------------------
-// operation switch
-// ---------------------------------------------------------------------------
-   #define  ___HMOP_KEY_OPERATION      X0073.4
 
-// ---------------------------------------------------------------------------
-// feed override switch
-// ---------------------------------------------------------------------------
-   #define  __HMOP_FEED_OVR_ADDR       X0072    // inputs feed override switch
-   #define  __HMOP_OVREN               X0072.4  // override enable
+!! ===========================================================================
+!! Definitions
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// key definitions
-// ---------------------------------------------------------------------------
-   #define  __HMOP_KEY_AXES_SELECT     X0075.0  // axes selection
-   #define  __HMOP_LED_AXES_SELECT     Y0068.0
+!! ---------------------------------------------------------------------------
+!! operation switch
+!! ---------------------------------------------------------------------------
+   #set ___HMOP_KEY_OPERATION = X0073.4 !! ---------------------------------------------------------------------------
+!! feed override switch
+!! ---------------------------------------------------------------------------
+   #define  __HMOP_FEED_OVR_ADDR       X0072    !! inputs feed override switch
+   #set __HMOP_OVREN = X0072.4 !! override enable
 
-   #define  __HMOP_KEY_MODE_REF        X0075.1  // ref return
-   #define  __HMOP_LED_MODE_REF        Y0068.1
+!! ---------------------------------------------------------------------------
+!! key definitions
+!! ---------------------------------------------------------------------------
+   #set __HMOP_KEY_AXES_SELECT = X0075.0 !! axes selection
+   #set __HMOP_LED_AXES_SELECT = Y0068.0 #set __HMOP_KEY_MODE_REF = X0075.1 !! ref return
+   #set __HMOP_LED_MODE_REF = Y0068.1 #set __HMOP_KEY_SP_START = X0075.2 !! spindle start
+   #set __HMOP_LED_SP_START = Y0068.2 #set __HMOP_KEY_SP_STOP = X0075.3 !! spindle stop
+   #set __HMOP_LED_SP_STOP = Y0068.3 #set __HMOP_KEY_RESET = X0075.4 !! reset key
+   #set __HMOP_LED_RESET = Y0068.4 #set __HMOP_LED_SRDY = Y0068.6 !! servo ready
 
-   #define  __HMOP_KEY_SP_START        X0075.2  // spindle start
-   #define  __HMOP_LED_SP_START        Y0068.2
+   #set __HMOP_LED_ALM = Y0068.7 !! cnc alarm
 
-   #define  __HMOP_KEY_SP_STOP         X0075.3  // spindle stop
-   #define  __HMOP_LED_SP_STOP         Y0068.3
+   #set __HMOP_KEY_MODE_HANDLE = X0076.0 !! handle
+   #set __HMOP_LED_MODE_HANDLE = Y0069.0 #set __HMOP_KEY_MODE_JOG = X0076.1 !! jog
+   #set __HMOP_LED_JOG = Y0069.1 #set __HMOP_KEY_SP_INC = X0076.2 !! spindle inc
+   #set __HMOP_LED_SP_INC = Y0069.2 #set __HMOP_KEY_SP_DEC = X0076.3 !! spindle dec
+   #set __HMOP_LED_SP_DEC = Y0069.3 #set __HMOP_KEY_AXIS_PLUS = X0076.4 !! +
+   #set __HMOP_LED_AXIS_PLUS = Y0069.4 #set __HMOP_KEY_FACTOR = X0077.0 !! factor Xn
+   #set __HMOP_LED_FACTOR = Y0070.0 #set __HMOP_KEY_MODE_MEM = X0077.1 !! auto
+   #set __HMOP_LED_MEM = Y0070.1 #set __HMOP_KEY_FUNCTION = X0077.2 !! function
+   #set __HMOP_LED_FUNCTION = Y0070.2 #set __HMOP_KEY_MESSAGE = X0077.3 !! message
+   #set __HMOP_LED_MESSAGE = Y0070.3 #set __HMOP_KEY_RAPID_TRAVERSE = X0077.4 !! trvrs
+   #set __HMOP_LED_RAPID_TRAVERSE = Y0070.4 #set __HMOP_KEY_SINGLE_BLOCK = X0078.0 !! single block
+   #set __HMOP_LED_SINGLE_BLOCK = Y0071.0 #set __HMOP_KEY_DRY_RUN = X0078.1 !! dry run
+   #set __HMOP_LED_DRY_RUN = Y0071.1 #set __HMOP_KEY_CYCLE_START = X0078.2 !! cycle start
+   #set __HMOP_LED_CYCLE_START = Y0071.2 #set __HMOP_KEY_CYCLE_STOP = X0078.3 !! cycle stop
+   #set __HMOP_LED_CYCLE_STOP = Y0071.3 #set __HMOP_KEY_AXIS_MINUS = X0078.4 !! -
+   #set __HMOP_LED_AXIS_MINUS = Y0071.4 !! ---------------------------------------------------------------------------
+!! display
+!! ---------------------------------------------------------------------------
+   #set __HMOP_ACKLCD = X0074.0 !! ack of lcd display request
 
-   #define  __HMOP_KEY_RESET           X0075.4  // reset key
-   #define  __HMOP_LED_RESET           Y0068.4
+   #set __HMOP_SELLN = Y0072.0 !! line selection
+   #set __HMOP_REQDSP = Y0072.1 !! display request
 
-   #define  __HMOP_LED_SRDY            Y0068.6  // servo ready
+   #define  __HMOP_CDATA01             Y0073    !! 1st character
+   #define  __HMOP_CDATA02             Y0074    !! 2nd character
+   #define  __HMOP_CDATA03             Y0075    !! 3rd character
+   #define  __HMOP_CDATA04             Y0076    !! 4th character
+   #define  __HMOP_CDATA05             Y0077    !! 5th character
+   #define  __HMOP_CDATA06             Y0078    !! 6th character
+   #define  __HMOP_CDATA07             Y0079    !! 7th character
+   #define  __HMOP_CDATA08             Y0080    !! 8th character
+   #define  __HMOP_CDATA09             Y0081    !! 9th character
+   #define  __HMOP_CDATA10             Y0082    !! 10th character
+   #define  __HMOP_CDATA11             Y0083    !! 11th character
+   #define  __HMOP_CDATA12             Y0084    !! 12th character
+   #define  __HMOP_CDATA13             Y0085    !! 13th character
+   #define  __HMOP_CDATA14             Y0086    !! 14th character
+   #define  __HMOP_CDATA15             Y0087    !! 15th character
+   #define  __HMOP_CDATA16             Y0088    !! 16th character
 
-   #define  __HMOP_LED_ALM             Y0068.7  // cnc alarm
+   #define  __HMOP_VINF01              Y0089    !! variable format spec 01
+   #set __HMOP_VTYPE0 = Y0089.0 !! numeric type
+   #set __HMOP_VTYPE1 = Y0089.1 !! bit1 numeric type
 
-   #define  __HMOP_KEY_MODE_HANDLE     X0076.0  // handle
-   #define  __HMOP_LED_MODE_HANDLE     Y0069.0
+   #set __HMOP_VDTLN0 = Y0089.4 !! bit0 numeric data lenght
+   #set __HMOP_VDTLN1 = Y0089.5 !! bit1 numeric data lenght
+   #set __HMOP_VDTLN2 = Y0089.6 !! bit2 numeric data lenght
+   #set __HMOP_VDTLN3 = Y0089.7 !! bit3 numeric data lenght
 
-   #define  __HMOP_KEY_MODE_JOG        X0076.1  // jog
-   #define  __HMOP_LED_JOG             Y0069.1
+   #define  __HMOP_VINF02              Y0090    !! variable format spec 02
+   #set __HMOP_DECCL0 = Y0090.0 !! bit0 decimal digits
+   #set __HMOP_DECCL1 = Y0090.1 !! bit1 decimal digits
+   #set __HMOP_DECCL2 = Y0090.2 !! bit2 decimal digits
 
-   #define  __HMOP_KEY_SP_INC          X0076.2  // spindle inc
-   #define  __HMOP_LED_SP_INC          Y0069.2
+   #set __HMOP_DSPPRC = Y0090.3 !! rounding half-adjust
+   #set __HMOP_DSPPOS = Y0090.4 !! left justify
+   #set __HMOP_LZERO = Y0090.5 !! leading zero display
 
-   #define  __HMOP_KEY_SP_DEC          X0076.3  // spindle dec
-   #define  __HMOP_LED_SP_DEC          Y0069.3
+   #define  __HMOP_VINF03              Y0091    !! variable format spec 03
+   #set __HMOP_DSPCL0 = Y0091.0 !! bit0 num display columns
+   #set __HMOP_DSPCL1 = Y0091.1 !! bit1 num display columns
+   #set __HMOP_DSPCL2 = Y0091.2 !! bit2 num display columns
+   #set __HMOP_DSPCL3 = Y0091.3 !! bit3 num display columns
+   #set __HMOP_DSPCL4 = Y0091.4 !! bit4 num display columns
 
-   #define  __HMOP_KEY_AXIS_PLUS       X0076.4  // +
-   #define  __HMOP_LED_AXIS_PLUS       Y0069.4
+   #set __HMOP_DSPDE0 = Y0091.5 !! bit0 decimal point digits
+   #set __HMOP_DSPDE1 = Y0091.6 !! bit1 decimal point digits
+   #set __HMOP_DSPDE2 = Y0091.7 !! bit2 decimal point digits
 
-   #define  __HMOP_KEY_FACTOR          X0077.0  // factor Xn
-   #define  __HMOP_LED_FACTOR          Y0070.0
+   #define  __HMOP_VDATA0              Y0092    !! byte0 numeric data
+   #define  __HMOP_VDATA1              Y0093    !! byte0 numeric data
+   #define  __HMOP_VDATA2              Y0094    !! byte0 numeric data
+   #define  __HMOP_VDATA3              Y0095    !! byte0 numeric data
+   #define  __HMOP_VDATA4              Y0096    !! byte0 numeric data
+   #define  __HMOP_VDATA5              Y0097    !! byte0 numeric data
+   #define  __HMOP_VDATA6              Y0098    !! byte0 numeric data
+   #define  __HMOP_VDATA7              Y0099    !! byte0 numeric data
 
-   #define  __HMOP_KEY_MODE_MEM        X0077.1  // auto
-   #define  __HMOP_LED_MEM             Y0070.1
-
-   #define  __HMOP_KEY_FUNCTION        X0077.2  // function
-   #define  __HMOP_LED_FUNCTION        Y0070.2
-
-   #define  __HMOP_KEY_MESSAGE         X0077.3  // message
-   #define  __HMOP_LED_MESSAGE         Y0070.3
-
-   #define  __HMOP_KEY_RAPID_TRAVERSE  X0077.4  // trvrs
-   #define  __HMOP_LED_RAPID_TRAVERSE  Y0070.4
-
-   #define  __HMOP_KEY_SINGLE_BLOCK    X0078.0  // single block
-   #define  __HMOP_LED_SINGLE_BLOCK    Y0071.0
-
-   #define  __HMOP_KEY_DRY_RUN         X0078.1  // dry run
-   #define  __HMOP_LED_DRY_RUN         Y0071.1
-
-   #define  __HMOP_KEY_CYCLE_START     X0078.2  // cycle start
-   #define  __HMOP_LED_CYCLE_START     Y0071.2
-
-   #define  __HMOP_KEY_CYCLE_STOP      X0078.3  // cycle stop
-   #define  __HMOP_LED_CYCLE_STOP      Y0071.3
-
-   #define  __HMOP_KEY_AXIS_MINUS      X0078.4  // -
-   #define  __HMOP_LED_AXIS_MINUS      Y0071.4
-
-// ---------------------------------------------------------------------------
-// display
-// ---------------------------------------------------------------------------
-   #define  __HMOP_ACKLCD              X0074.0  // ack of lcd display request
-
-   #define  __HMOP_SELLN               Y0072.0  // line selection
-   #define  __HMOP_REQDSP              Y0072.1  // display request
-
-   #define  __HMOP_CDATA01             Y0073    // 1st character
-   #define  __HMOP_CDATA02             Y0074    // 2nd character
-   #define  __HMOP_CDATA03             Y0075    // 3rd character
-   #define  __HMOP_CDATA04             Y0076    // 4th character
-   #define  __HMOP_CDATA05             Y0077    // 5th character
-   #define  __HMOP_CDATA06             Y0078    // 6th character
-   #define  __HMOP_CDATA07             Y0079    // 7th character
-   #define  __HMOP_CDATA08             Y0080    // 8th character
-   #define  __HMOP_CDATA09             Y0081    // 9th character
-   #define  __HMOP_CDATA10             Y0082    // 10th character
-   #define  __HMOP_CDATA11             Y0083    // 11th character
-   #define  __HMOP_CDATA12             Y0084    // 12th character
-   #define  __HMOP_CDATA13             Y0085    // 13th character
-   #define  __HMOP_CDATA14             Y0086    // 14th character
-   #define  __HMOP_CDATA15             Y0087    // 15th character
-   #define  __HMOP_CDATA16             Y0088    // 16th character
-
-   #define  __HMOP_VINF01              Y0089    // variable format spec 01
-   #define  __HMOP_VTYPE0              Y0089.0  // numeric type
-   #define  __HMOP_VTYPE1              Y0089.1  // bit1 numeric type
-
-   #define  __HMOP_VDTLN0              Y0089.4  // bit0 numeric data lenght
-   #define  __HMOP_VDTLN1              Y0089.5  // bit1 numeric data lenght
-   #define  __HMOP_VDTLN2              Y0089.6  // bit2 numeric data lenght
-   #define  __HMOP_VDTLN3              Y0089.7  // bit3 numeric data lenght
-
-   #define  __HMOP_VINF02              Y0090    // variable format spec 02
-   #define  __HMOP_DECCL0              Y0090.0  // bit0 decimal digits
-   #define  __HMOP_DECCL1              Y0090.1  // bit1 decimal digits
-   #define  __HMOP_DECCL2              Y0090.2  // bit2 decimal digits
-
-   #define  __HMOP_DSPPRC              Y0090.3  // rounding half-adjust
-   #define  __HMOP_DSPPOS              Y0090.4  // left justify
-   #define  __HMOP_LZERO               Y0090.5  // leading zero display
-
-   #define  __HMOP_VINF03              Y0091    // variable format spec 03
-   #define  __HMOP_DSPCL0              Y0091.0  // bit0 num display columns
-   #define  __HMOP_DSPCL1              Y0091.1  // bit1 num display columns
-   #define  __HMOP_DSPCL2              Y0091.2  // bit2 num display columns
-   #define  __HMOP_DSPCL3              Y0091.3  // bit3 num display columns
-   #define  __HMOP_DSPCL4              Y0091.4  // bit4 num display columns
-
-   #define  __HMOP_DSPDE0              Y0091.5  // bit0 decimal point digits
-   #define  __HMOP_DSPDE1              Y0091.6  // bit1 decimal point digits
-   #define  __HMOP_DSPDE2              Y0091.7  // bit2 decimal point digits
-
-   #define  __HMOP_VDATA0              Y0092    // byte0 numeric data
-   #define  __HMOP_VDATA1              Y0093    // byte0 numeric data
-   #define  __HMOP_VDATA2              Y0094    // byte0 numeric data
-   #define  __HMOP_VDATA3              Y0095    // byte0 numeric data
-   #define  __HMOP_VDATA4              Y0096    // byte0 numeric data
-   #define  __HMOP_VDATA5              Y0097    // byte0 numeric data
-   #define  __HMOP_VDATA6              Y0098    // byte0 numeric data
-   #define  __HMOP_VDATA7              Y0099    // byte0 numeric data
-
-#endif   // hmop_def
+#endif   !! hmop_def

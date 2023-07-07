@@ -1,33 +1,33 @@
-//:--------------------------------------------------------------------------:
-//: File              : macro__PATH__.src                                        :
-//: Creation date     : 03.09.2014                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific one touch macro code                   :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:03.05.21: 3.0.0 :Blp    :Forcing of SETMEM__PATH__ by reset at abnormal   :
-//:        :       :       :termination added                                :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : macro_{{PATH}}.src                                        :
+!!: Creation date     : 03.09.2014                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific one touch macro code                   :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:03.05.21: 3.0.0 :Blp    :Forcing of SETMEM_{{PATH}} by reset at abnormal   :
+!!:        :       :       :termination added                                :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// description
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! description
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 key C05 of standard machine op calls macro 1
@@ -41,342 +41,342 @@ N06096 = xxxx (starting at Oxxxx)
 *)
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro start enable
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro start enable
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro start enable
+{{PATH}}: one touch macro start enable
 *)
 #endif
-                 RD.NOT    REF_OK__PATH__       ;"all axis referenced"
-                 OR.NOT    MDCHEN__PATH__       ;"mode change enable"
-                 OR        OP__PATH__           ;"automatic operation lamp"
-                 WRT.NOT   mcsten__PATH__       ;"macro start enable"
+                 RD.NOT    REF_OK_{{PATH}}       ;"all axis referenced"
+                 OR.NOT    MDCHEN_{{PATH}}       ;"mode change enable"
+                 OR        OP_{{PATH}}           ;"automatic operation lamp"
+                 WRT.NOT   mcsten_{{PATH}}       ;"macro start enable"
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro call start impulse (>=32ms)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro call start impulse (>=32ms)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro call start impulse (>=32ms)
+{{PATH}}: one touch macro call start impulse (>=32ms)
 *)
 #endif
-                 RD        MCST1__PATH__        ;"macro call 1 start"
-                 OR        MCST2__PATH__        ;"macro call 2 start"
-                 OR        MCST3__PATH__        ;"macro call 3 start"
-                 OR        MCST4__PATH__        ;"macro call 4 start"
+                 RD        MCST1_{{PATH}}        ;"macro call 1 start"
+                 OR        MCST2_{{PATH}}        ;"macro call 2 start"
+                 OR        MCST3_{{PATH}}        ;"macro call 3 start"
+                 OR        MCST4_{{PATH}}        ;"macro call 4 start"
                  TMRB      
                            0
                            48
-                 WRT       m_mcst__PATH__       ;"help memory start macro call"
+                 WRT       m_mcst_{{PATH}}       ;"help memory start macro call"
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro call 1
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro call 1
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro call 1
+{{PATH}}: one touch macro call 1
 *)
 #endif
-                 RD        K_MC1__PATH__        ;"key macro call 1"
-                 AND.NOT   m_k_mc1__PATH__      ;"help memory key macro call 1"
-                 WRT       re_k_mc1__PATH__     ;"rising edge key macro call 1"
+                 RD        K_MC1_{{PATH}}        ;"key macro call 1"
+                 AND.NOT   m_k_mc1_{{PATH}}      ;"help memory key macro call 1"
+                 WRT       re_k_mc1_{{PATH}}     ;"rising edge key macro call 1"
 
-                 RD        K_MC1__PATH__        ;"key macro call 1"
-                 WRT       m_k_mc1__PATH__      ;"help memory key macro call 1"
+                 RD        K_MC1_{{PATH}}        ;"key macro call 1"
+                 WRT       m_k_mc1_{{PATH}}      ;"help memory key macro call 1"
 
-                 RD        MCEX1__PATH__        ;"macro call 1 in progress"
-                 WRT       L_MC1__PATH__        ;"led macro call 1"
+                 RD        MCEX1_{{PATH}}        ;"macro call 1 in progress"
+                 WRT       L_MC1_{{PATH}}        ;"led macro call 1"
 
-                 RD        re_k_mc1__PATH__     ;"rising edge key macro call 1"
-                 AND       mcsten__PATH__       ;"macro start enable"
-                 OR        MCST1__PATH__        ;"macro call 1 start"
-                 AND.NOT   MCRQ__PATH__         ;"mode change request signal"
-                 AND.NOT   m_mcst__PATH__       ;"help memory start macro call"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       MCST1__PATH__        ;"macro call 1 start"
+                 RD        re_k_mc1_{{PATH}}     ;"rising edge key macro call 1"
+                 AND       mcsten_{{PATH}}       ;"macro start enable"
+                 OR        MCST1_{{PATH}}        ;"macro call 1 start"
+                 AND.NOT   MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND.NOT   m_mcst_{{PATH}}       ;"help memory start macro call"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       MCST1_{{PATH}}        ;"macro call 1 start"
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro call 2
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro call 2
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro call 2
+{{PATH}}: one touch macro call 2
 *)
 #endif
-                 RD        K_MC2__PATH__        ;"key macro call 2"
-                 AND.NOT   m_k_mc2__PATH__      ;"help memory key macro call 2"
-                 WRT       re_k_mc2__PATH__     ;"rising edge key macro call 2"
+                 RD        K_MC2_{{PATH}}        ;"key macro call 2"
+                 AND.NOT   m_k_mc2_{{PATH}}      ;"help memory key macro call 2"
+                 WRT       re_k_mc2_{{PATH}}     ;"rising edge key macro call 2"
 
-                 RD        K_MC2__PATH__        ;"key macro call 2"
-                 WRT       m_k_mc2__PATH__      ;"help memory key macro call 2"
+                 RD        K_MC2_{{PATH}}        ;"key macro call 2"
+                 WRT       m_k_mc2_{{PATH}}      ;"help memory key macro call 2"
 
-                 RD        MCEX2__PATH__        ;"macro call 2 in progress"
-                 WRT       L_MC2__PATH__        ;"led macro call 2"
+                 RD        MCEX2_{{PATH}}        ;"macro call 2 in progress"
+                 WRT       L_MC2_{{PATH}}        ;"led macro call 2"
 
-                 RD        re_k_mc2__PATH__     ;"rising edge key macro call 2"
-                 AND       mcsten__PATH__       ;"macro start enable"
-                 OR        MCST2__PATH__        ;"macro call 2 start"
-                 AND.NOT   MCRQ__PATH__         ;"mode change request signal"
-                 AND.NOT   m_mcst__PATH__       ;"help memory start macro call"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       MCST2__PATH__        ;"macro call 2 start"
+                 RD        re_k_mc2_{{PATH}}     ;"rising edge key macro call 2"
+                 AND       mcsten_{{PATH}}       ;"macro start enable"
+                 OR        MCST2_{{PATH}}        ;"macro call 2 start"
+                 AND.NOT   MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND.NOT   m_mcst_{{PATH}}       ;"help memory start macro call"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       MCST2_{{PATH}}        ;"macro call 2 start"
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro call 3
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro call 3
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro call 3
+{{PATH}}: one touch macro call 3
 *)
 #endif
-                 RD        K_MC3__PATH__        ;"key macro call 3"
-                 AND.NOT   m_k_mc3__PATH__      ;"help memory key macro call 3"
-                 WRT       re_k_mc3__PATH__     ;"rising edge key macro call 3"
+                 RD        K_MC3_{{PATH}}        ;"key macro call 3"
+                 AND.NOT   m_k_mc3_{{PATH}}      ;"help memory key macro call 3"
+                 WRT       re_k_mc3_{{PATH}}     ;"rising edge key macro call 3"
 
-                 RD        K_MC3__PATH__        ;"key macro call 3"
-                 WRT       m_k_mc3__PATH__      ;"help memory key macro call 3"
+                 RD        K_MC3_{{PATH}}        ;"key macro call 3"
+                 WRT       m_k_mc3_{{PATH}}      ;"help memory key macro call 3"
 
-                 RD        MCEX3__PATH__        ;"macro call 3 in progress"
-                 WRT       L_MC3__PATH__        ;"led macro call 3"
+                 RD        MCEX3_{{PATH}}        ;"macro call 3 in progress"
+                 WRT       L_MC3_{{PATH}}        ;"led macro call 3"
 
-                 RD        re_k_mc3__PATH__     ;"rising edge key macro call 3"
-                 AND       mcsten__PATH__       ;"macro start enable"
-                 OR        MCST3__PATH__        ;"macro call 3 start"
-                 AND.NOT   MCRQ__PATH__         ;"mode change request signal"
-                 AND.NOT   m_mcst__PATH__       ;"help memory start macro call"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       MCST3__PATH__        ;"macro call 3 start"
+                 RD        re_k_mc3_{{PATH}}     ;"rising edge key macro call 3"
+                 AND       mcsten_{{PATH}}       ;"macro start enable"
+                 OR        MCST3_{{PATH}}        ;"macro call 3 start"
+                 AND.NOT   MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND.NOT   m_mcst_{{PATH}}       ;"help memory start macro call"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       MCST3_{{PATH}}        ;"macro call 3 start"
 
-// ---------------------------------------------------------------------------
-// _PATH__: one touch macro call 4
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: one touch macro call 4
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: one touch macro call 4
+{{PATH}}: one touch macro call 4
 *)
 #endif
-                 RD        K_MC4__PATH__        ;"key macro call 4"
-                 AND.NOT   m_k_mc4__PATH__      ;"help memory key macro call 4"
-                 WRT       re_k_mc4__PATH__     ;"rising edge key macro call 4"
-                 RD        K_MC4__PATH__        ;"key macro call 4"
-                 WRT       m_k_mc4__PATH__      ;"help memory key macro call 4"
-                 RD        MCEX4__PATH__        ;"macro call 4 in progress"
-                 WRT       L_MC4__PATH__        ;"led macro call 4"
-                 RD        re_k_mc4__PATH__     ;"rising edge key macro call 4"
-                 AND       mcsten__PATH__       ;"macro start enable"
-                 OR        MCST4__PATH__        ;"macro call 4 start"
-                 AND.NOT   MCRQ__PATH__         ;"mode change request signal"
-                 AND.NOT   m_mcst__PATH__       ;"help memory start macro call"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       MCST4__PATH__        ;"macro call 4 start"
+                 RD        K_MC4_{{PATH}}        ;"key macro call 4"
+                 AND.NOT   m_k_mc4_{{PATH}}      ;"help memory key macro call 4"
+                 WRT       re_k_mc4_{{PATH}}     ;"rising edge key macro call 4"
+                 RD        K_MC4_{{PATH}}        ;"key macro call 4"
+                 WRT       m_k_mc4_{{PATH}}      ;"help memory key macro call 4"
+                 RD        MCEX4_{{PATH}}        ;"macro call 4 in progress"
+                 WRT       L_MC4_{{PATH}}        ;"led macro call 4"
+                 RD        re_k_mc4_{{PATH}}     ;"rising edge key macro call 4"
+                 AND       mcsten_{{PATH}}       ;"macro start enable"
+                 OR        MCST4_{{PATH}}        ;"macro call 4 start"
+                 AND.NOT   MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND.NOT   m_mcst_{{PATH}}       ;"help memory start macro call"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       MCST4_{{PATH}}        ;"macro call 4 start"
 
-// ---------------------------------------------------------------------------
-// _PATH__: mode switching request
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: mode switching request
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: mode switching request
+{{PATH}}: mode switching request
 *)
 #endif
-                 RD        M_HD__PATH__         ;"mode HANDLE selected"
-                 OR        m_mchd__PATH__       ;"mem hd was selected before"
-                 AND       MCEXE__PATH__        ;"macro call executing signal"
-                 WRT       m_mchd__PATH__       ;"mem hd was selected before"
+                 RD        M_HD_{{PATH}}         ;"mode HANDLE selected"
+                 OR        m_mchd_{{PATH}}       ;"mem hd was selected before"
+                 AND       MCEXE_{{PATH}}        ;"macro call executing signal"
+                 WRT       m_mchd_{{PATH}}       ;"mem hd was selected before"
 
-                 RD        MCRQ__PATH__         ;"mode change request signal"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 WRT       mcmoden__PATH__      ;"macro call mode change enable"
+                 RD        MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 WRT       mcmoden_{{PATH}}      ;"macro call mode change enable"
 
-                 RD.NOT    MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND.NOT   M_MDI__PATH__        ;"mode mdi selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETMDI__PATH__       ;"force to mode mdi"
+                 RD.NOT    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND.NOT   M_MDI_{{PATH}}        ;"mode mdi selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETMDI_{{PATH}}       ;"force to mode mdi"
 
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND.NOT   DNCIR__PATH__        ;"DNC notification signal"
-                 AND.NOT   M_MEM__PATH__        ;"mode mem selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETMEM__PATH__       ;"force to mode mem"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND.NOT   DNCIR_{{PATH}}        ;"DNC notification signal"
+                 AND.NOT   M_MEM_{{PATH}}        ;"mode mem selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETMEM_{{PATH}}       ;"force to mode mem"
 
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND       DNCIR__PATH__        ;"DNC notification signal"
-                 AND.NOT   M_DNC__PATH__        ;"mode dnc selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETDNC__PATH__       ;"force to dnc operation"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       DNCIR_{{PATH}}        ;"DNC notification signal"
+                 AND.NOT   M_DNC_{{PATH}}        ;"mode dnc selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETDNC_{{PATH}}       ;"force to dnc operation"
 
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND.NOT   M_EDT__PATH__        ;"mode edit selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETEDT__PATH__       ;"force to mode edit"
-                 RD.NOT    MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 RD.STK    MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND.NOT   M_EDT_{{PATH}}        ;"mode edit selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETEDT_{{PATH}}       ;"force to mode edit"
+                 RD.NOT    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 RD.STK    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 AND.NOT   m_mchd__PATH__       ;"mem hd was selected before"
-                 AND.NOT   M_INC__PATH__        ;"mode INC selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETINC__PATH__       ;"force to mode inc feed"
+                 AND.NOT   m_mchd_{{PATH}}       ;"mem hd was selected before"
+                 AND.NOT   M_INC_{{PATH}}        ;"mode INC selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETINC_{{PATH}}       ;"force to mode inc feed"
 
-                 RD.NOT    MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 RD.STK    MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.NOT    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 RD.STK    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 AND       m_mchd__PATH__       ;"mem hd was selected before"
-                 AND.NOT   M_HD__PATH__         ;"mode HANDLE selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SET_HD__PATH__       ;"force to mode handle"
+                 AND       m_mchd_{{PATH}}       ;"mem hd was selected before"
+                 AND.NOT   M_HD_{{PATH}}         ;"mode HANDLE selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SET_HD_{{PATH}}       ;"force to mode handle"
 
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 RD.STK.NOT MD1R__PATH__        ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 RD.STK.NOT MD1R_{{PATH}}        ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 AND.NOT   ZRNR__PATH__         ;"ZRN notification signal"
-                 AND.NOT   M_JOG__PATH__        ;"mode jog selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETJOG__PATH__       ;"force to mode jog"
+                 AND.NOT   ZRNR_{{PATH}}         ;"ZRN notification signal"
+                 AND.NOT   M_JOG_{{PATH}}        ;"mode jog selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETJOG_{{PATH}}       ;"force to mode jog"
 
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 AND       ZRNR__PATH__         ;"ZRN notification signal"
-                 AND.NOT   M_REF__PATH__        ;"mode REF selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETREF__PATH__       ;"force mode ref"
-                 RD        MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 AND       M_INC__PATH__        ;"mode INC selected"
-                 AND.NOT   m_mchd__PATH__       ;"mem hd was selected before"
-                 RD.STK    MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 AND       M_HD__PATH__         ;"mode HANDLE selected"
-                 AND       m_mchd__PATH__       ;"mem hd was selected before"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       ZRNR_{{PATH}}         ;"ZRN notification signal"
+                 AND.NOT   M_REF_{{PATH}}        ;"mode REF selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETREF_{{PATH}}       ;"force mode ref"
+                 RD        MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       M_INC_{{PATH}}        ;"mode INC selected"
+                 AND.NOT   m_mchd_{{PATH}}       ;"mem hd was selected before"
+                 RD.STK    MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       M_HD_{{PATH}}         ;"mode HANDLE selected"
+                 AND       m_mchd_{{PATH}}       ;"mem hd was selected before"
                  OR.STK    
-                 RD.STK.NOT MD1R__PATH__        ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
-                 AND       M_JOG__PATH__        ;"mode jog selected"
+                 RD.STK.NOT MD1R_{{PATH}}        ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       M_JOG_{{PATH}}        ;"mode jog selected"
                  OR.STK    
-                 AND.NOT   M_TEACH__PATH__      ;"mode TEACH IN selected"
-                 AND       mcmoden__PATH__      ;"macro call mode change enable"
-                 SET       SETTCH__PATH__       ;"force teach in"
+                 AND.NOT   M_TEACH_{{PATH}}      ;"mode TEACH IN selected"
+                 AND       mcmoden_{{PATH}}      ;"macro call mode change enable"
+                 SET       SETTCH_{{PATH}}       ;"force teach in"
 
-// ---------------------------------------------------------------------------
-// _PATH__: mode switching acknowledge one touch macro call
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: mode switching acknowledge one touch macro call
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: mode switching acknowledge one touch macro call
+{{PATH}}: mode switching acknowledge one touch macro call
 *)
 #endif
-                 RD        MCRQ__PATH__         ;"mode change request signal"
+                 RD        MCRQ_{{PATH}}         ;"mode change request signal"
                  EQW       
-                           SETMODE__PATH__      ;"mode forcing word"
+                           SETMODE_{{PATH}}      ;"mode forcing word"
                            0
-                 WRT       mc_modeok__PATH__    ;"mc mode change finsihed"
+                 WRT       mc_modeok_{{PATH}}    ;"mc mode change finsihed"
 
-                 RD        mc_modeok__PATH__    ;"mc mode change finsihed"
+                 RD        mc_modeok_{{PATH}}    ;"mc mode change finsihed"
                  TMRB      
                            0
                            100
-                 WRT       dmcfin__PATH__       ;"delay mode completion"
+                 WRT       dmcfin_{{PATH}}       ;"delay mode completion"
 
-                 RD        M_MDI__PATH__        ;"mode mdi selected"
-                 AND.NOT   MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 RD.STK    M_MEM__PATH__        ;"mode mem selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND.NOT   DNCIR__PATH__        ;"DNC notification signal"
+                 RD        M_MDI_{{PATH}}        ;"mode mdi selected"
+                 AND.NOT   MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 RD.STK    M_MEM_{{PATH}}        ;"mode mem selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND.NOT   DNCIR_{{PATH}}        ;"DNC notification signal"
                  OR.STK    
-                 RD.STK    M_DNC__PATH__        ;"mode dnc selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
-                 AND       DNCIR__PATH__        ;"DNC notification signal"
+                 RD.STK    M_DNC_{{PATH}}        ;"mode dnc selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
+                 AND       DNCIR_{{PATH}}        ;"DNC notification signal"
                  OR.STK    
-                 RD.STK    M_EDT__PATH__        ;"mode edit selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND.NOT   MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_EDT_{{PATH}}        ;"mode edit selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND.NOT   MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 RD.STK    M_INC__PATH__        ;"mode INC selected"
-                 OR        M_HD__PATH__         ;"mode HANDLE selected"
-                 AND.NOT   MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_INC_{{PATH}}        ;"mode INC selected"
+                 OR        M_HD_{{PATH}}         ;"mode HANDLE selected"
+                 AND.NOT   MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 RD.STK    M_INC__PATH__        ;"mode INC selected"
-                 OR        M_HD__PATH__         ;"mode HANDLE selected"
-                 AND       M_TEACH__PATH__      ;"mode TEACH IN selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_INC_{{PATH}}        ;"mode INC selected"
+                 OR        M_HD_{{PATH}}         ;"mode HANDLE selected"
+                 AND       M_TEACH_{{PATH}}      ;"mode TEACH IN selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 RD.STK    M_JOG__PATH__        ;"mode jog selected"
-                 AND.NOT   M_REF__PATH__        ;"mode REF selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_JOG_{{PATH}}        ;"mode jog selected"
+                 AND.NOT   M_REF_{{PATH}}        ;"mode REF selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 RD.STK    M_JOG__PATH__        ;"mode jog selected"
-                 AND.NOT   M_REF__PATH__        ;"mode REF selected"
-                 AND       M_TEACH__PATH__      ;"mode TEACH IN selected"
-                 AND.NOT   MD1R__PATH__         ;"mode notification signal 1"
-                 AND       MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_JOG_{{PATH}}        ;"mode jog selected"
+                 AND.NOT   M_REF_{{PATH}}        ;"mode REF selected"
+                 AND       M_TEACH_{{PATH}}      ;"mode TEACH IN selected"
+                 AND.NOT   MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND       MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 RD.STK    M_REF__PATH__        ;"mode REF selected"
-                 AND       MD1R__PATH__         ;"mode notification signal 1"
-                 AND.NOT   MD2R__PATH__         ;"mode notification signal 2"
-                 AND       MD4R__PATH__         ;"mode notification signal 4"
+                 RD.STK    M_REF_{{PATH}}        ;"mode REF selected"
+                 AND       MD1R_{{PATH}}         ;"mode notification signal 1"
+                 AND.NOT   MD2R_{{PATH}}         ;"mode notification signal 2"
+                 AND       MD4R_{{PATH}}         ;"mode notification signal 4"
                  OR.STK    
-                 AND       MCRQ__PATH__         ;"mode change request signal"
-                 AND       dmcfin__PATH__       ;"delay mode completion"
-                 WRT       MCFIN__PATH__        ;"mode change completion signal"
+                 AND       MCRQ_{{PATH}}         ;"mode change request signal"
+                 AND       dmcfin_{{PATH}}       ;"delay mode completion"
+                 WRT       MCFIN_{{PATH}}        ;"mode change completion signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: In case of abnormal termination MEM mode will be called by reset
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: In case of abnormal termination MEM mode will be called by reset
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: In case of abnormal termination MEM mode will be called by reset
+{{PATH}}: In case of abnormal termination MEM mode will be called by reset
 *)
 #endif
-               RD        MCSP__PATH__           ;"OTM abnormal end"
-               AND       MCEXE__PATH__          ;"macro call exec. signal"
-               AND       RE_RST__PATH__         ;"rising edge reset"
-               SET       SETMEM__PATH__         ;"force to mode mem"
+               RD        MCSP_{{PATH}}           ;"OTM abnormal end"
+               AND       MCEXE_{{PATH}}          ;"macro call exec. signal"
+               AND       RE_RST_{{PATH}}         ;"rising edge reset"
+               SET       SETMEM_{{PATH}}         ;"force to mode mem"
 
-// ---------------------------------------------------------------------------
-// _PATH__: custom macro variable #1000 (used to detect one touch macro call in custo macro)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: custom macro variable #1000 (used to detect one touch macro call in custo macro)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: custom macro variable #1000 (used to detect one touch macro call in custo macro)
+{{PATH}}: custom macro variable #1000 (used to detect one touch macro call in custo macro)
 *)
 #endif
-                 RD        MCEXE__PATH__        ;"macro call executing signal"
-                 WRT       UI000__PATH__        ;"custom macro output bit00"
+                 RD        MCEXE_{{PATH}}        ;"macro call executing signal"
+                 WRT       UI000_{{PATH}}        ;"custom macro output bit00"

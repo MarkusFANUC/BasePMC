@@ -1,136 +1,136 @@
-//:--------------------------------------------------------------------------:
-//: File              : safe_io.sym                                          :
-//: Creation date     : 09.12.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : symbols for safety input / outputs                   :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:16.07.18: 2.0.0 :Blp    :path 11-15 added, spindle STO added              :
-//:--------------------------------------------------------------------------:
-//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : safe_io.sym                                          :
+!!: Creation date     : 09.12.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : symbols for safety input / outputs                   :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:16.07.18: 2.0.0 :Blp    :path 11-15 added, spindle STO added              :
+!!:--------------------------------------------------------------------------:
+!!:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Extra Relay
-// ===========================================================================
-// -------------------------------------------------------
-// safe inputs E9980.0 - E9989.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
+!! ===========================================================================
+!! Extra Relay
+!! ===========================================================================
+!! -------------------------------------------------------
+!! safe inputs E9980.0 - E9989.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 *SGOPN,E9980.0,guard state doors closed,
 HTR,E9980.1,hold to run button,
 SET_M01,E9980.2,setup mode 01,
 
-// -------------------------------------------------------
-// safe outputs E9990.0 - E9999.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
+!! -------------------------------------------------------
+!! safe outputs E9990.0 - E9999.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 #if spindle_support_P01 == 1 
 SP_STO_MON_P01,E9990.0,P01:spindle sto monitoring,
 #endif
 
 #if nbr_of_path > 1
-   #if spindle_support_P02 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P02 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P02,E9990.1,P02:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 2
-   #if spindle_support_P03 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P03 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P03,E9990.2,P03:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 3
-   #if spindle_support_P04 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P04 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P04,E9990.3,P04:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 4
-   #if spindle_support_P05 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P05 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P05,E9990.4,P05:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 5
-   #if spindle_support_P06 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P06 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P06,E9990.5,P06:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 6
-   #if spindle_support_P07 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P07 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P07,E9990.6,P07:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 7
-   #if spindle_support_P08 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P08 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P08,E9990.7,P08:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 8
-   #if spindle_support_P09 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P09 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P09,E9991.0,P09:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 9
-   #if spindle_support_P10 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P10 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P10,E9991.1,P10:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 10
-   #if spindle_support_P11 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P11 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P11,E9991.2,P11:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 11
-   #if spindle_support_P12 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P12 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P12,E9991.3,P12:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 12
-   #if spindle_support_P13 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P13 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P13,E9991.4,P13:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 13
-   #if spindle_support_P14 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P14 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P14,E9991.5,P14:spindle sto monitoring,
    #endif
 #endif
 
 #if nbr_of_path > 14
-   #if spindle_support_P15 == 1 && spindle_support_P01 > -1
+   #if spindle_support_P15 == 1 and spindle_support_P01 > -1
 SP_STO_MON_P15,E9991.6,P15:spindle sto monitoring,
    #endif
 #endif

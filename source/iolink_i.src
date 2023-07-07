@@ -1,50 +1,50 @@
-//:--------------------------------------------------------------------------:
-//: File              : iolink_i.src                                         :
-//: Creation date     : 20.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Source for the io link i file                        :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:20.10.17: 2.0.0 :Blp    :I/O assignment changed Y6->Y0                    :
-//:        :       :       :safety operator panel + small op with general    :
-//:        :       :       :DI/DO included                                   :
-//:--------------------------------------------------------------------------:
-//:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
-//:        :       :       :handwheel_support == 3                           :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : iolink_i.src                                         :
+!!: Creation date     : 20.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Source for the io link i file                        :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:20.10.17: 2.0.0 :Blp    :I/O assignment changed Y6->Y0                    :
+!!:        :       :       :safety operator panel + small op with general    :
+!!:        :       :       :DI/DO included                                   :
+!!:--------------------------------------------------------------------------:
+!!:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
+!!:        :       :       :handwheel_support == 3                           :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Include files
-// ===========================================================================
+!! ===========================================================================
+!! Include files
+!! ===========================================================================
 #include "..\config.def"
 
-// ---------------------------------------------------------------------------
-// Title
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Title
+!! ---------------------------------------------------------------------------
 %@7
 $TITLE 'I/O Link i for MBasePMC\n'
-// ---------------------------------------------------------------------------
-// Selectable I/O Link i channel 1
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Selectable I/O Link i channel 1
+!! ---------------------------------------------------------------------------
 $SELECT_IO
-#if start_address_op > 0 || handwheel_support == 2
+#if start_address_op > 0 or handwheel_support == 2
 1  USE             ; SELECTABLE I/O Link i (CHANNEL 1)
 #else
 1  UNUSE           ; SELECTABLE I/O Link i (CHANNEL 1)
 #endif
-// ----------------------------------------------
-// Software operator's panel
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Software operator's panel
+!! ----------------------------------------------
 #if operatorspanel == 0
    #if handwheel_support == 2
 2  1               ; BASIC GROUP COUNT
@@ -53,9 +53,9 @@ $SELECT_IO
    #endif
 #endif
 
-// ----------------------------------------------
-// Small machine operator's panel with 30 keys
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Small machine operator's panel with 30 keys
+!! ----------------------------------------------
 #if operatorspanel == 1
    #if start_address_op > 0
       #if handwheel_support == 2
@@ -70,9 +70,9 @@ $SELECT_IO
    #endif      
 #endif
 
-// ----------------------------------------------
-// Standard machine operator's panel with 55 keys
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Standard machine operator's panel with 55 keys
+!! ----------------------------------------------
 #if operatorspanel == 2
    #if start_address_op > 0
       #if dcs_support == 1
@@ -97,9 +97,9 @@ $SELECT_IO
    #endif      
 #endif
 
-// ----------------------------------------------
-// iPendant (for CNC)
-// ----------------------------------------------
+!! ----------------------------------------------
+!! iPendant (for CNC)
+!! ----------------------------------------------
 #if operatorspanel == 3
    #if handwheel_support == 2
 2  1               ; BASIC GROUP COUNT
@@ -108,20 +108,20 @@ $SELECT_IO
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// Selectable I/O Link i channel 2
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Selectable I/O Link i channel 2
+!! ---------------------------------------------------------------------------
 3  UNUSE           ; SELECTABLE I/O Link i (CHANNEL 2)
 4  0               ; BASIC GROUP COUNT
 $END_SELECT_IO
 
-// ---------------------------------------------------------------------------
-//  I/O setting channel 1
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!!  I/O setting channel 1
+!! ---------------------------------------------------------------------------
 $CHANNEL1
-// ----------------------------------------------
-// Software operator's panel
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Software operator's panel
+!! ----------------------------------------------
 #if operatorspanel == 0
    #if handwheel_support == 2
    $GROUP
@@ -138,14 +138,14 @@ $CHANNEL1
    #endif   
 #endif
 
-// ----------------------------------------------
-// Small machine operator's panel with 30 keys
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Small machine operator's panel with 30 keys
+!! ----------------------------------------------
 #if operatorspanel == 1
    #if start_address_op > 0
    $GROUP
      ; Group       Mode        Safety      MPG
-      #if handwheel_support == 1 || handwheel_support == 3
+      #if handwheel_support == 1 or handwheel_support == 3
        0           0           NO          1
       #else
        0           0           NO          0
@@ -154,13 +154,13 @@ $CHANNEL1
          ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
       #if start_address_op == 1
            1       PMC1    X0100   9       Y0100   5       Small_operator_panel
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
            MPG     PMC1    X0112   3       0       0       Handwheel
          #endif
       #endif
       #if start_address_op == 2
            1       PMC1    X0006   9       Y0000   5       Small_operator_panel
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
            MPG     PMC1    X0018   3       0       0       Handwheel
          #endif
       #endif
@@ -199,21 +199,21 @@ $CHANNEL1
    #endif
 #endif
 
-// ----------------------------------------------
-// Standard machine operator's panel with 55 keys
-// ----------------------------------------------
+!! ----------------------------------------------
+!! Standard machine operator's panel with 55 keys
+!! ----------------------------------------------
 #if operatorspanel == 2
    #if start_address_op > 0
    $GROUP
      ; Group       Mode        Safety      MPG
       #if dcs_support == 1
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
        0           0           PMC         1
          #else
        0           0           PMC         0
          #endif
       #else
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
        0           0           NO          1
          #else
        0           0           NO          0
@@ -223,13 +223,13 @@ $CHANNEL1
          ; Slot    PMC     X-Adr   X-Size  Y-Adr   Y-Size  Comment
       #if start_address_op == 1
            1       PMC1    X0100   12      Y0100   8       Operator_panel
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
            MPG     PMC1    X0112   3       0       0       Handwheel
          #endif
       #endif
       #if start_address_op == 2
            1       PMC1    X0006   12      Y0000   8       Operator_panel
-         #if handwheel_support == 1 || handwheel_support == 3
+         #if handwheel_support == 1 or handwheel_support == 3
            MPG     PMC1    X0018   3       0       0       Handwheel
          #endif
       #endif
@@ -274,9 +274,9 @@ $CHANNEL1
    #endif
 #endif
 
-// ----------------------------------------------
-// iPendant (for CNC)
-// ----------------------------------------------
+!! ----------------------------------------------
+!! iPendant (for CNC)
+!! ----------------------------------------------
 #if operatorspanel == 3
    #if handwheel_support == 2
    $GROUP
@@ -293,9 +293,9 @@ $CHANNEL1
    #endif   
 #endif
 $END_CHANNEL1
-// ---------------------------------------------------------------------------
-//  I/O setting channel 1
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!!  I/O setting channel 1
+!! ---------------------------------------------------------------------------
 $CHANNEL2
 $END_CHANNEL2
 %

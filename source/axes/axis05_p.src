@@ -1,291 +1,291 @@
-//:--------------------------------------------------------------------------:
-//: File              : axis05__PATH__.src                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Management of 5th axis                               :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
-//:        :       :       :*IT signal is accelerated when wp coordinate     :
-//:        :       :       :preset is executed or hold to run button is      :
-//:        :       :       :pressed.                                         :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : axis05_{{PATH}}.src                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Management of 5th axis                               :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
+!!:        :       :       :*IT signal is accelerated when wp coordinate     :
+!!:        :       :       :preset is executed or hold to run button is      :
+!!:        :       :       :pressed.                                         :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: overtravel check
-// if there are limit switches for the 5th axis,
-// replace LOG1 with the real input signals Xxxx.y
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: overtravel check
+!! if there are limit switches for the 5th axis,
+!! replace LOG1 with the real input signals Xxxx.y
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: overtravel check
+{{PATH}}: overtravel check
 if there are limit switches for the 5th axis,
 replace LOG1 with the real input signals Xxxx.y
 *)
 #endif
                  RD        LOG1                 ;"logic one"
-                 WRT       *+L5__PATH__         ;"overtravel + 5th axis"
+                 WRT       *+L5_{{PATH}}         ;"overtravel + 5th axis"
 
                  RD        LOG1                 ;"logic one"
-                 WRT       *-L5__PATH__         ;"overtravel - 5th axis"
+                 WRT       *-L5_{{PATH}}         ;"overtravel - 5th axis"
 
-// ---------------------------------------------------------------------------
-// reference position return
-// ---------------------------------------------------------------------------
-#if ref_dir_5th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-   #include "axis05ref__PATH__.src"       // reference position return 5th axis
+!! ---------------------------------------------------------------------------
+!! reference position return
+!! ---------------------------------------------------------------------------
+#if ref_dir_5th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+   #include "axis05ref_{{PATH}}.src"       !! reference position return 5th axis
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: led 5th axis selected
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: led 5th axis selected
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: led 5th axis selected
+{{PATH}}: led 5th axis selected
 *)
 #endif
-                 RD        M_K5AX__PATH__       ;"memory 5th axis selected"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-   #if ref_dir_5th_axis__PATH__ > 0
-                 OR        R_REF5__PATH__       ;"reference return 5th axis"
+                 RD        M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+   #if ref_dir_5th_axis_{{PATH}} > 0
+                 OR        R_REF5_{{PATH}}       ;"reference return 5th axis"
    #endif
 #endif
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       L_5AX__PATH__        ;"led 5th axis sel."
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       L_5AX_{{PATH}}        ;"led 5th axis sel."
 
-// ---------------------------------------------------------------------------
-// _PATH__: jog feed
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: jog feed
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: jog feed
+{{PATH}}: jog feed
 *)
 #endif
-                 RD        M_K5AX__PATH__       ;"memory 5th axis selected"
-                 AND       M_KPLUS__PATH__      ;"memory axis plus dir."
-                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
-#if ref_dir_5th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-                 OR        aref_5p__PATH__      ;"ref: move 5th axis +dir."
+                 RD        M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+                 AND       M_KPLUS_{{PATH}}      ;"memory axis plus dir."
+                 AND.NOT   M_REF_{{PATH}}        ;"mode ref selected"
+#if ref_dir_5th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+                 OR        aref_5p_{{PATH}}      ;"ref: move 5th axis +dir."
 #endif
-                 AND       AX_MEN__PATH__       ;"axis move enable"
-#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 5 && spindle_support_P01 > -1
-                 AND.NOT   EAX5__PATH__         ;"5th axis is pmc axis"
+                 AND       AX_MEN_{{PATH}}       ;"axis move enable"
+#if spindle_support_{{PATH}} == 4 and spindle_sv_axis_{{PATH}} == 5 and spindle_support_P01 > -1
+                 AND.NOT   EAX5_{{PATH}}         ;"5th axis is pmc axis"
 #endif
-                 WRT       J5+__PATH__          ;"feed 5th axis + direction"
-                 WRT       L_5AXP__PATH__       ;"led 5th axis + dir."
+                 WRT       J5+_{{PATH}}          ;"feed 5th axis + direction"
+                 WRT       L_5AXP_{{PATH}}       ;"led 5th axis + dir."
 
-                 RD        M_K5AX__PATH__       ;"memory 5th axis selected"
-                 AND       M_KMINUS__PATH__     ;"memory axis minus dir."
-                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
-#if ref_dir_5th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-                 OR        aref_5m__PATH__      ;"ref: move 5th axis -dir."
+                 RD        M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+                 AND       M_KMINUS_{{PATH}}     ;"memory axis minus dir."
+                 AND.NOT   M_REF_{{PATH}}        ;"mode ref selected"
+#if ref_dir_5th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+                 OR        aref_5m_{{PATH}}      ;"ref: move 5th axis -dir."
 #endif
-                 AND       AX_MEN__PATH__       ;"axis move enable"
-#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 5 && spindle_support_P01 > -1
-                 AND.NOT   EAX5__PATH__         ;"5th axis is pmc axis"
+                 AND       AX_MEN_{{PATH}}       ;"axis move enable"
+#if spindle_support_{{PATH}} == 4 and spindle_sv_axis_{{PATH}} == 5 and spindle_support_P01 > -1
+                 AND.NOT   EAX5_{{PATH}}         ;"5th axis is pmc axis"
 #endif
-                 WRT       J5-__PATH__          ;"feed 5th axis - direction"
-                 WRT       L_5AXM__PATH__       ;"led 5th axis - dir."
+                 WRT       J5-_{{PATH}}          ;"feed 5th axis - direction"
+                 WRT       L_5AXM_{{PATH}}       ;"led 5th axis - dir."
 
-// ---------------------------------------------------------------------------
-// _PATH__: workpiece coordinate system preset
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: workpiece coordinate system preset
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: workpiece coordinate system preset
+{{PATH}}: workpiece coordinate system preset
 *)
 #endif
-                 RD        REQWP5__PATH__       ;"req wp coord preset 5th axis"
-                 AND       WPRST5__PATH__       ;"wp coord. preset 5th axis"
-                 AND       WPSF5__PATH__        ;"wp coord. preset fin 5th axis"
-                 OR        RST__PATH__          ;"resetting signal"
-                 RST       REQWP5__PATH__       ;"req wp coord preset 5th axis"
+                 RD        REQWP5_{{PATH}}       ;"req wp coord preset 5th axis"
+                 AND       WPRST5_{{PATH}}       ;"wp coord. preset 5th axis"
+                 AND       WPSF5_{{PATH}}        ;"wp coord. preset fin 5th axis"
+                 OR        RST_{{PATH}}          ;"resetting signal"
+                 RST       REQWP5_{{PATH}}       ;"req wp coord preset 5th axis"
 
-                 RD        M105__PATH__         ;"wp coord preset 5th axis"
-                 AND       WPRST5__PATH__       ;"wp coord preset 5th axis"
-                 AND       WPSF5__PATH__        ;"wp coord preset fin 5th ax"
-                 RST       M105__PATH__         ;"wp coord preset 5th axis"
+                 RD        M105_{{PATH}}         ;"wp coord preset 5th axis"
+                 AND       WPRST5_{{PATH}}       ;"wp coord preset 5th axis"
+                 AND       WPSF5_{{PATH}}        ;"wp coord preset fin 5th ax"
+                 RST       M105_{{PATH}}         ;"wp coord preset 5th axis"
 
-                 RD        FE_RST__PATH__       ;"falling edge reset"
-                 AND       wppsreq5__PATH__     ;"req wp coord. preset 5th ax"
-                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
-                 AND.NOT   PGMRUN__PATH__       ;"program running"
+                 RD        FE_RST_{{PATH}}       ;"falling edge reset"
+                 AND       wppsreq5_{{PATH}}     ;"req wp coord. preset 5th ax"
+                 RD.STK    FEPGMT_{{PATH}}       ;"falling edge program test"
+                 AND.NOT   PGMRUN_{{PATH}}       ;"program running"
                  OR.STK    
-                 OR        REQWP5__PATH__       ;"req wp coord preset 5th axis"
-                 OR        M105__PATH__         ;"wp coord preset 5th axis"
-                 RD.STK    WPRST5__PATH__       ;"wp coord. preset 5th axis"
-                 AND.NOT   WPSF5__PATH__        ;"wp coord. preset fin 5th axis"
+                 OR        REQWP5_{{PATH}}       ;"req wp coord preset 5th axis"
+                 OR        M105_{{PATH}}         ;"wp coord preset 5th axis"
+                 RD.STK    WPRST5_{{PATH}}       ;"wp coord. preset 5th axis"
+                 AND.NOT   WPSF5_{{PATH}}        ;"wp coord. preset fin 5th axis"
                  OR.STK    
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       WPRST5__PATH__       ;"wp coord. preset 5th axis"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       WPRST5_{{PATH}}       ;"wp coord. preset 5th axis"
 
-                 RD        FEPGMT__PATH__       ;"falling edge program test"
-                 AND       PGMRUN__PATH__       ;"program running"
-                 RD.STK    wppsreq5__PATH__     ;"req wp coord. preset 5th ax"
-                 AND.NOT   FE_RST__PATH__       ;"falling edge reset"
+                 RD        FEPGMT_{{PATH}}       ;"falling edge program test"
+                 AND       PGMRUN_{{PATH}}       ;"program running"
+                 RD.STK    wppsreq5_{{PATH}}     ;"req wp coord. preset 5th ax"
+                 AND.NOT   FE_RST_{{PATH}}       ;"falling edge reset"
                  OR.STK    
-                 WRT       wppsreq5__PATH__     ;"req wp coord. preset 5th ax"
+                 WRT       wppsreq5_{{PATH}}     ;"req wp coord. preset 5th ax"
 
-#if brake_5th_axis__PATH__ == 0
-// ---------------------------------------------------------------------------
-// _PATH__: axis interlock
-// ---------------------------------------------------------------------------
+#if brake_5th_axis_{{PATH}} == 0
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: axis interlock
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: axis interlock
+{{PATH}}: axis interlock
 *)
    #endif
    #if dcs_support == 1
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       POW_OK__PATH__       ;"power supply axis ok"
+                 AND       POW_OK_{{PATH}}       ;"power supply axis ok"
    #else
-                 RD        POW_OK__PATH__       ;"power suply axis ok"
+                 RD        POW_OK_{{PATH}}       ;"power suply axis ok"
    #endif
-                 AND.NOT   WPRST5__PATH__       ;"wp coord. preset 5th axis"
-                 WRT       *IT5__PATH__         ;"interlock 5th axis"
+                 AND.NOT   WPRST5_{{PATH}}       ;"wp coord. preset 5th axis"
+                 WRT       *IT5_{{PATH}}         ;"interlock 5th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: servo off
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: servo off
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: servo off
+{{PATH}}: servo off
 *)
    #endif
-                 RD.NOT    POW_OK__PATH__       ;"power suply axis ok"
-                 WRT       SVF5__PATH__         ;"servo off 5th axis"
+                 RD.NOT    POW_OK_{{PATH}}       ;"power suply axis ok"
+                 WRT       SVF5_{{PATH}}         ;"servo off 5th axis"
 #else
-// ---------------------------------------------------------------------------
-// _PATH__: brake control
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: brake control
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: brake control
+{{PATH}}: brake control
 *)
    #endif
-                 RD        POW_OK__PATH__       ;"power supply axis ok"
-                 AND       SA5__PATH__          ;"5th axis servo ready"
-                 WRT       relb_5th__PATH__     ;"release brake 5th axis"
+                 RD        POW_OK_{{PATH}}       ;"power supply axis ok"
+                 AND       SA5_{{PATH}}          ;"5th axis servo ready"
+                 WRT       relb_5th_{{PATH}}     ;"release brake 5th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: delay brake released
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: delay brake released
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: delay brake released
+{{PATH}}: delay brake released
 *)
    #endif
-                 RD        relb_5th__PATH__     ;"release brake 5th axis"
+                 RD        relb_5th_{{PATH}}     ;"release brake 5th axis"
                  TMRB      
                            0
                            96
-                 WRT       brel_5th__PATH__     ;"brake 5th axis released"
+                 WRT       brel_5th_{{PATH}}     ;"brake 5th axis released"
 
    #if dcs_support == 1
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       brel_5th__PATH__     ;"brake 5th axis released"
+                 AND       brel_5th_{{PATH}}     ;"brake 5th axis released"
    #else
-                 RD        brel_5th__PATH__     ;"brake 5th axis released"
+                 RD        brel_5th_{{PATH}}     ;"brake 5th axis released"
    #endif
-                 AND.NOT   WPRST5__PATH__       ;"wp coord preset 5th axis"
-                 WRT       *IT5__PATH__         ;"interlock 5th axis"
+                 AND.NOT   WPRST5_{{PATH}}       ;"wp coord preset 5th axis"
+                 WRT       *IT5_{{PATH}}         ;"interlock 5th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: delay brake clamped
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: delay brake clamped
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: delay brake clamped
+{{PATH}}: delay brake clamped
 *)
    #endif
-                 RD.NOT    relb_5th__PATH__     ;"release brake 5th axis"
+                 RD.NOT    relb_5th_{{PATH}}     ;"release brake 5th axis"
                  TMRB      
                            0
                            48
-                 WRT       5th_soff__PATH__     ;"5th axis servo off"
+                 WRT       5th_soff_{{PATH}}     ;"5th axis servo off"
 
-// ---------------------------------------------------------------------------
-// _PATH__: servo off
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: servo off
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: servo off
+{{PATH}}: servo off
 *)
    #endif
                  RD.NOT    FICYCL               ;"first cycle finished"
-                 OR        1st_svf5__PATH__     ;"1st servo off 5th axis"
-                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
-                 WRT       1st_svf5__PATH__     ;"1st servo off 5th axis"
+                 OR        1st_svf5_{{PATH}}     ;"1st servo off 5th axis"
+                 AND.NOT   POW_OK_{{PATH}}       ;"power supply axis ok"
+                 WRT       1st_svf5_{{PATH}}     ;"1st servo off 5th axis"
 
-                 RD        1st_svf5__PATH__     ;"1st servo off 5th axis"
-                 OR        5th_soff__PATH__     ;"5th axis servo off"
-                 WRT       SVF5__PATH__         ;"servo off 5th axis"
+                 RD        1st_svf5_{{PATH}}     ;"1st servo off 5th axis"
+                 OR        5th_soff_{{PATH}}     ;"5th axis servo off"
+                 WRT       SVF5_{{PATH}}         ;"servo off 5th axis"
 #endif
-// ---------------------------------------------------------------------------
-// _PATH__: external deceleration
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: external deceleration
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: external deceleration
+{{PATH}}: external deceleration
 *)
 #endif
-                 RD.NOT    SETUP__PATH__        ;"set-up active"
-                 WRT       *+ED5__PATH__        ;"external dec. + 5th axis"
-                 WRT       *-ED5__PATH__        ;"external dec. - 5th axis"
+                 RD.NOT    SETUP_{{PATH}}        ;"set-up active"
+                 WRT       *+ED5_{{PATH}}        ;"external dec. + 5th axis"
+                 WRT       *-ED5_{{PATH}}        ;"external dec. - 5th axis"
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// _PATH__: DCS MCC off signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS MCC off signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS MCC off signal
+{{PATH}}: DCS MCC off signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        *MCFV5__PATH__       ;"MCC off signal 5th axis"
+                 RD        *MCFV5_{{PATH}}       ;"MCC off signal 5th axis"
    #endif
-                 WRT       M*MCFV5__PATH__      ;"5th axis MCC off signal"
+                 WRT       M*MCFV5_{{PATH}}      ;"5th axis MCC off signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS monitoring result signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS monitoring result signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS monitoring result signal
+{{PATH}}: DCS monitoring result signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        RSV5__PATH__         ;"monitoring result 5th axis"
+                 RD        RSV5_{{PATH}}         ;"monitoring result 5th axis"
    #endif
-                 WRT       MRSV5__PATH__        ;"5th axis monit. result"
+                 WRT       MRSV5_{{PATH}}        ;"5th axis monit. result"
 
-// ---------------------------------------------------------------------------
-// _PATH__: position information effect signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: position information effect signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 DCS position information effect signal
@@ -294,63 +294,63 @@ DCS position information effect signal
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        POSE5__PATH__        ;"pos. inf. effect 5th axis"
+                 RD        POSE5_{{PATH}}        ;"pos. inf. effect 5th axis"
    #endif
-                 WRT       MPOSE5__PATH__       ;"5th axis pos. inf. effect"
+                 WRT       MPOSE5_{{PATH}}       ;"5th axis pos. inf. effect"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety check activation
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS safety check activation
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS safety check activation
+{{PATH}}: DCS safety check activation
 *)
    #endif
                  RD        *SGOPN               ;"guard state doors closed"
-                 WRT       *VLDV5__PATH__       ;"safety check req. 5th ax."
+                 WRT       *VLDV5_{{PATH}}       ;"safety check req. 5th ax."
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety zero speed monitoring
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS safety zero speed monitoring
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS safety zero speed monitoring
+{{PATH}}: DCS safety zero speed monitoring
 *)
    #endif
                  RD.NOT    DCS_S02              ;"DCS speed set 2"
                  AND.NOT   *SGOPN               ;"guard state doors closed"
-                 WRT       SVZR5__PATH__        ;"zero mon. req. 5th axis"
+                 WRT       SVZR5_{{PATH}}        ;"zero mon. req. 5th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS selection of safety speed set 2
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS selection of safety speed set 2
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS selection of safety speed set 2
+{{PATH}}: DCS selection of safety speed set 2
 *)
    #endif
                  RD        DCS_S02              ;"DCS speed set 2"
-                 WRT       SVA5__PATH__         ;"saf. sel. sig. A 5th axis"
+                 WRT       SVA5_{{PATH}}         ;"saf. sel. sig. A 5th axis"
 #endif
 
-#if brake_5th_axis__PATH__ == 1
-// ---------------------------------------------------------------------------
-// _PATH__: management of the brake output
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
+#if brake_5th_axis_{{PATH}} == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: management of the brake output
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: management of the brake output
+{{PATH}}: management of the brake output
 replace T_BIT000 with the real brake output Yxxx.y
 *)
    #endif
 
    #if dcs_support == 0
-                 RD        relb_5th__PATH__     ;"release brake 5th axis"
+                 RD        relb_5th_{{PATH}}     ;"release brake 5th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #else
-                 RD        relb_5th__PATH__     ;"release brake 5th axis"
-                 AND       *BRK5__PATH__        ;"Safety Brake sig. 5th axis"
+                 RD        relb_5th_{{PATH}}     ;"release brake 5th axis"
+                 AND       *BRK5_{{PATH}}        ;"Safety Brake sig. 5th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif

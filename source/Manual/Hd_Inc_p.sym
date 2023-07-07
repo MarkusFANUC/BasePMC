@@ -1,121 +1,121 @@
-//:--------------------------------------------------------------------------:
-//: File              : Hd_Inc__PATH__.sym                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific symbols for handle / inc modes         :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : Hd_Inc_{{PATH}}.sym                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific symbols for handle / inc modes         :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Data Table
-// ===========================================================================
-// -------------------------------------------------------
-// global variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! ===========================================================================
+!! Data Table
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool:
-// -----------------------------------
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
 
-// -------------------------------------------------------
-// local variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! -------------------------------------------------------
+!! local variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 
-// ===========================================================================
-// Internal Relay
-// ===========================================================================
-// -------------------------------------------------------
-// global variables Rx544.0 - Rx547.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
+!! ===========================================================================
+!! Internal Relay
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables Rx544.0 - Rx547.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
-MHD1__PATH__,R__ADDR__544.0,_PATH__:memory handwheel 1st axis,
-#if axis_number__PATH__ > 1
-MHD2__PATH__,R__ADDR__544.1,_PATH__:memory handwheel 2nd axis,
+!! -----------------------------------
+!! bool
+!! -----------------------------------
+MHD1_{{PATH}},R{{ADDR}}544.0,{{PATH}}:memory handwheel 1st axis,
+#if axis_number_{{PATH}} > 1
+MHD2_{{PATH}},R{{ADDR}}544.1,{{PATH}}:memory handwheel 2nd axis,
 #endif
-#if axis_number__PATH__ > 2
-MHD3__PATH__,R__ADDR__544.2,_PATH__:memory handwheel 3rd axis,
+#if axis_number_{{PATH}} > 2
+MHD3_{{PATH}},R{{ADDR}}544.2,{{PATH}}:memory handwheel 3rd axis,
 #endif
-#if axis_number__PATH__ > 3
-MHD4__PATH__,R__ADDR__544.3,_PATH__:memory handwheel 4th axis,
+#if axis_number_{{PATH}} > 3
+MHD4_{{PATH}},R{{ADDR}}544.3,{{PATH}}:memory handwheel 4th axis,
 #endif
-#if axis_number__PATH__ > 4
-MHD5__PATH__,R__ADDR__544.4,_PATH__:memory handwheel 5th axis,
+#if axis_number_{{PATH}} > 4
+MHD5_{{PATH}},R{{ADDR}}544.4,{{PATH}}:memory handwheel 5th axis,
 #endif
-#if axis_number__PATH__ > 5
-MHD6__PATH__,R__ADDR__544.5,_PATH__:memory handwheel 6th axis,
+#if axis_number_{{PATH}} > 5
+MHD6_{{PATH}},R{{ADDR}}544.5,{{PATH}}:memory handwheel 6th axis,
 #endif
-#if axis_number__PATH__ > 6
-MHD7__PATH__,R__ADDR__544.6,_PATH__:memory handwheel 7th axis,
+#if axis_number_{{PATH}} > 6
+MHD7_{{PATH}},R{{ADDR}}544.6,{{PATH}}:memory handwheel 7th axis,
 #endif
-#if axis_number__PATH__ > 7
-MHD8__PATH__,R__ADDR__544.7,_PATH__:memory handwheel 8th axis,
+#if axis_number_{{PATH}} > 7
+MHD8_{{PATH}},R{{ADDR}}544.7,{{PATH}}:memory handwheel 8th axis,
 #endif
 
-X_1__PATH__,R__ADDR__545.0,_PATH__:memory 1 increment,
-X_10__PATH__,R__ADDR__545.1,_PATH__:memory 10 increment,
-X_100__PATH__,R__ADDR__545.2,_PATH__:memory 100 increment,
-X_1000__PATH__,R__ADDR__545.3,_PATH__:memory 1000 increment,
+X_1_{{PATH}},R{{ADDR}}545.0,{{PATH}}:memory 1 increment,
+X_10_{{PATH}},R{{ADDR}}545.1,{{PATH}}:memory 10 increment,
+X_100_{{PATH}},R{{ADDR}}545.2,{{PATH}}:memory 100 increment,
+X_1000_{{PATH}},R{{ADDR}}545.3,{{PATH}}:memory 1000 increment,
 
-// -------------------------------------------------------
-// local variables Rx548.0 - Rx559.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
+!! -------------------------------------------------------
+!! local variables Rx548.0 - Rx559.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
-mhdinc__PATH__,R__ADDR__548.0,memory handle/inc mode,
-hd1sel__PATH__,R__ADDR__549.0,_PATH__:handwheel 1st axis sel.,
-#if axis_number__PATH__ > 1
-hd2sel__PATH__,R__ADDR__549.1,_PATH__:handwheel 2nd axis sel.,
+!! -----------------------------------
+!! bool
+!! -----------------------------------
+mhdinc_{{PATH}},R{{ADDR}}548.0,memory handle/inc mode,
+hd1sel_{{PATH}},R{{ADDR}}549.0,{{PATH}}:handwheel 1st axis sel.,
+#if axis_number_{{PATH}} > 1
+hd2sel_{{PATH}},R{{ADDR}}549.1,{{PATH}}:handwheel 2nd axis sel.,
 #endif
-#if axis_number__PATH__ > 2
-hd3sel__PATH__,R__ADDR__549.2,_PATH__:handwheel 3rd axis sel.,
+#if axis_number_{{PATH}} > 2
+hd3sel_{{PATH}},R{{ADDR}}549.2,{{PATH}}:handwheel 3rd axis sel.,
 #endif
-#if axis_number__PATH__ > 3
-hd4sel__PATH__,R__ADDR__549.3,_PATH__:handwheel 4th axis sel.,
+#if axis_number_{{PATH}} > 3
+hd4sel_{{PATH}},R{{ADDR}}549.3,{{PATH}}:handwheel 4th axis sel.,
 #endif
-#if axis_number__PATH__ > 4
-hd5sel__PATH__,R__ADDR__549.4,_PATH__:handwheel 5th axis sel.,
+#if axis_number_{{PATH}} > 4
+hd5sel_{{PATH}},R{{ADDR}}549.4,{{PATH}}:handwheel 5th axis sel.,
 #endif
-#if axis_number__PATH__ > 5
-hd6sel__PATH__,R__ADDR__549.5,_PATH__:handwheel 6th axis sel.,
+#if axis_number_{{PATH}} > 5
+hd6sel_{{PATH}},R{{ADDR}}549.5,{{PATH}}:handwheel 6th axis sel.,
 #endif
-#if axis_number__PATH__ > 6
-hd7sel__PATH__,R__ADDR__549.6,_PATH__:handwheel 7th axis sel.,
+#if axis_number_{{PATH}} > 6
+hd7sel_{{PATH}},R{{ADDR}}549.6,{{PATH}}:handwheel 7th axis sel.,
 #endif
-#if axis_number__PATH__ > 7
-hd8sel__PATH__,R__ADDR__549.7,_PATH__:handwheel 8th axis sel.,
+#if axis_number_{{PATH}} > 7
+hd8sel_{{PATH}},R{{ADDR}}549.7,{{PATH}}:handwheel 8th axis sel.,
 #endif

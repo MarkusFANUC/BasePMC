@@ -1,301 +1,301 @@
-//:--------------------------------------------------------------------------:
-//: File              : axis08ref__PATH__.src                                    :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Reference position return 8th axis                   :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : axis08ref_{{PATH}}.src                                    :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Reference position return 8th axis                   :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-#if ref_dir_8th_axis__PATH__ == 5 || ref_dir_8th_axis__PATH__ == 6
+#if ref_dir_8th_axis_{{PATH}} == 5 or ref_dir_8th_axis_{{PATH}} == 6
 
-// ---------------------------------------------------------------------------
-// 8th axis reference position return in plus direction without dog
-// parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 0 (ZMI)
-// ---------------------------------------------------------------------------
-   #if ref_dir_8th_axis__PATH__ == 5
+!! ---------------------------------------------------------------------------
+!! 8th axis reference position return in plus direction without dog
+!! parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 0 (ZMI)
+!! ---------------------------------------------------------------------------
+   #if ref_dir_8th_axis_{{PATH}} == 5
       #if net_comment == 1
 (*
-_PATH__: 8th axis reference position return in plus direction
+{{PATH}}: 8th axis reference position return in plus direction
 without dog
 parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 0 (ZMI)
 *)
       #endif
    #endif
 
-// ---------------------------------------------------------------------------
-// 8th axis reference position return in minus direction without dog
-// parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 1 (ZMI)
-// ---------------------------------------------------------------------------
-   #if ref_dir_8th_axis__PATH__ == 6
+!! ---------------------------------------------------------------------------
+!! 8th axis reference position return in minus direction without dog
+!! parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 1 (ZMI)
+!! ---------------------------------------------------------------------------
+   #if ref_dir_8th_axis_{{PATH}} == 6
 (*
-_PATH__: 8th axis reference position return in minus direction
+{{PATH}}: 8th axis reference position return in minus direction
 without dog
 parameter setting: 1005 bit 1 = 1 (DLZx), 1006 bit 5 = 1 (ZMI)
 *)
    #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: timer to specify the time for one motor revolution
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: timer to specify the time for one motor revolution
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: timer to specify the time for one motor revolution
+{{PATH}}: timer to specify the time for one motor revolution
 *)
    #endif
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND       M_REFJ__PATH__       ;"jog mode during ref return"
-                 AND       MV8__PATH__          ;"8th axis moving signal"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND       M_REFJ_{{PATH}}       ;"jog mode during ref return"
+                 AND       MV8_{{PATH}}          ;"8th axis moving signal"
                  TMRC      
                            5
-                           psdog8__PATH__       ;"preset soft. dog 8th axis"
-                           csdog8__PATH__       ;"counter soft. dog 8th axis"
-                 SET       inctr8__PATH__       ;"increment counter 8th axis"
+                           psdog8_{{PATH}}       ;"preset soft. dog 8th axis"
+                           csdog8_{{PATH}}       ;"counter soft. dog 8th axis"
+                 SET       inctr8_{{PATH}}       ;"increment counter 8th axis"
 
-                 RD        REFSTP__PATH__       ;"stop reference return"
-                 OR        ZP8__PATH__          ;"ref position 8th axis"
-                 AND       inctr8__PATH__       ;"increment counter 8th axis"
-                 RST       inctr8__PATH__       ;"increment counter 8th axis"
+                 RD        REFSTP_{{PATH}}       ;"stop reference return"
+                 OR        ZP8_{{PATH}}          ;"ref position 8th axis"
+                 AND       inctr8_{{PATH}}       ;"increment counter 8th axis"
+                 RST       inctr8_{{PATH}}       ;"increment counter 8th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: 8th axis reference position return
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: 8th axis reference position return
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 8th axis reference position return
+{{PATH}}: 8th axis reference position return
 *)
    #endif
-                 RD        M_KPLUS__PATH__      ;"memory axis plus dir."
-                 OR        M_KMINUS__PATH__     ;"memory axis minus dir."
-                 AND       M_K8AX__PATH__       ;"memory 8th axis selected"
-                 AND.NOT   AUTREF__PATH__       ;"automatic refernce return"
-                 RD.STK    A_REF8__PATH__       ;"auto ref. return 8th axis"
-                 OR        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND.NOT   ZP8__PATH__          ;"ref position 8th axis"
+                 RD        M_KPLUS_{{PATH}}      ;"memory axis plus dir."
+                 OR        M_KMINUS_{{PATH}}     ;"memory axis minus dir."
+                 AND       M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+                 AND.NOT   AUTREF_{{PATH}}       ;"automatic refernce return"
+                 RD.STK    A_REF8_{{PATH}}       ;"auto ref. return 8th axis"
+                 OR        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND.NOT   ZP8_{{PATH}}          ;"ref position 8th axis"
                  OR.STK    
-                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
-                 AND.NOT   NOREF8__PATH__       ;"no reference return 8th axis"
-                 WRT       R_REF8__PATH__       ;"reference return 8th axis"
+                 AND.NOT   REFSTP_{{PATH}}       ;"stop reference return"
+                 AND.NOT   NOREF8_{{PATH}}       ;"no reference return 8th axis"
+                 WRT       R_REF8_{{PATH}}       ;"reference return 8th axis"
 
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
-                 AND.NOT   inctr8__PATH__       ;"increment counter 8th axis"
-                 SET       D_REF8__PATH__       ;"8th axis ref without dog"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND.NOT   REFSTP_{{PATH}}       ;"stop reference return"
+                 AND.NOT   inctr8_{{PATH}}       ;"increment counter 8th axis"
+                 SET       D_REF8_{{PATH}}       ;"8th axis ref without dog"
 
-                 RD        inctr8__PATH__       ;"increment counter 8th axis"
-                 OR.NOT    R_REF8__PATH__       ;"reference return 8th axis"
-                 OR        REFSTP__PATH__       ;"stop reference return"
-                 RST       D_REF8__PATH__       ;"8th axis ref without dog"
+                 RD        inctr8_{{PATH}}       ;"increment counter 8th axis"
+                 OR.NOT    R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 OR        REFSTP_{{PATH}}       ;"stop reference return"
+                 RST       D_REF8_{{PATH}}       ;"8th axis ref without dog"
 
-                 RD        M_REFJ__PATH__       ;"jog mode during ref return"
-                 AND       D_REF8__PATH__       ;"8th axis ref without dog"
-                 AND.NOT   inctr8__PATH__       ;"increment counter 8th axis"
-                 RD.STK    M_REF__PATH__        ;"mode REF selected"
-                 AND.NOT   M_REFJ__PATH__       ;"jog mode during ref return"
-                 AND       inctr8__PATH__       ;"increment counter 8th axis"
+                 RD        M_REFJ_{{PATH}}       ;"jog mode during ref return"
+                 AND       D_REF8_{{PATH}}       ;"8th axis ref without dog"
+                 AND.NOT   inctr8_{{PATH}}       ;"increment counter 8th axis"
+                 RD.STK    M_REF_{{PATH}}        ;"mode REF selected"
+                 AND.NOT   M_REFJ_{{PATH}}       ;"jog mode during ref return"
+                 AND       inctr8_{{PATH}}       ;"increment counter 8th axis"
                  OR.STK    
-                 AND       R_REF8__PATH__       ;"reference return 8th axis"
-                 AND       D_JOGMV__PATH__      ;"delay jog move"
-   #if ref_dir_8th_axis__PATH__ == 5
-                 WRT       aref_8p__PATH__      ;"ref: move 8th axis +dir."
+                 AND       R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND       D_JOGMV_{{PATH}}      ;"delay jog move"
+   #if ref_dir_8th_axis_{{PATH}} == 5
+                 WRT       aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
    #endif
-   #if ref_dir_8th_axis__PATH__ == 6
-                 WRT       aref_8m__PATH__      ;"ref: move 8th axis -dir."
+   #if ref_dir_8th_axis_{{PATH}} == 6
+                 WRT       aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
    #endif
 
 #else
-// ---------------------------------------------------------------------------
-// _PATH__: in case of using the reference switch for the 8th axis,
-// replace the contact 500ms with the real input signal Xxxx.y
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: in case of using the reference switch for the 8th axis,
+!! replace the contact 500ms with the real input signal Xxxx.y
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: in case of using the reference switch for the 8th axis,
+{{PATH}}: in case of using the reference switch for the 8th axis,
 replace the contact 500ms with the real input signal Xxxx.y
 *)
    #endif
                  RD        500MS                ;"500 ms"
-                 WRT       m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 WRT       m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
 
-// ---------------------------------------------------------------------------
-// counter to specify the lenght of the deceleration dog for the
-// reference position return of the 8th axis
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! counter to specify the lenght of the deceleration dog for the
+!! reference position return of the 8th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
-      #if ref_dir_8th_axis__PATH__ == 1 || ref_dir_8th_axis__PATH__ == 2
+      #if ref_dir_8th_axis_{{PATH}} == 1 or ref_dir_8th_axis_{{PATH}} == 2
 (*
-_PATH__: counter to specify the lenght of the deceleration dog for
+{{PATH}}: counter to specify the lenght of the deceleration dog for
 the reference position return of the 8th axis (contact: NC)
 *)
       #endif
-      #if ref_dir_8th_axis__PATH__ == 3 || ref_dir_8th_axis__PATH__ == 4
+      #if ref_dir_8th_axis_{{PATH}} == 3 or ref_dir_8th_axis_{{PATH}} == 4
 (*
-_PATH__: counter to specify the lenght of the deceleration dog for
+{{PATH}}: counter to specify the lenght of the deceleration dog for
 the reference position return of the 8th axis (contact: NO)
 *)
       #endif
    #endif
                  RD        LOG1                 ;"logic one"
                  RD.STK.NOT LOG1                ;"logic one"
-   #if ref_dir_8th_axis__PATH__ == 1 || ref_dir_8th_axis__PATH__ == 2
-                 RD.STK    m_iref8__PATH__      ;"mem ref. switch 8th axis"
+   #if ref_dir_8th_axis_{{PATH}} == 1 or ref_dir_8th_axis_{{PATH}} == 2
+                 RD.STK    m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
    #endif
-   #if ref_dir_8th_axis__PATH__ == 3 || ref_dir_8th_axis__PATH__ == 4
-                 RD.STK.NOT m_iref8__PATH__     ;"mem ref. switch 8th axis"
+   #if ref_dir_8th_axis_{{PATH}} == 3 or ref_dir_8th_axis_{{PATH}} == 4
+                 RD.STK.NOT m_iref8_{{PATH}}     ;"mem ref. switch 8th axis"
    #endif
                  RD.STK    CLOCK                ;"cycle clock pulse"
-                 AND       MV8__PATH__          ;"8th axis moving signal"
+                 AND       MV8_{{PATH}}          ;"8th axis moving signal"
                  CTRC
-                           psdog8__PATH__       ;"preset soft. dog 8th axis"
-                           csdog8__PATH__       ;"counter soft. dog 8th axis"
-                 WRT       inctr8__PATH__       ;"increment counter 8th axis"
+                           psdog8_{{PATH}}       ;"preset soft. dog 8th axis"
+                           csdog8_{{PATH}}       ;"counter soft. dog 8th axis"
+                 WRT       inctr8_{{PATH}}       ;"increment counter 8th axis"
 
-                 RD        inctr8__PATH__       ;"increment counter 8th axis"
-                 RD.STK    esdog8__PATH__       ;"end soft dec. dog 8th axis"
-   #if ref_dir_8th_axis__PATH__ == 1 || ref_dir_8th_axis__PATH__ == 2 
-                 AND.NOT   m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 RD        inctr8_{{PATH}}       ;"increment counter 8th axis"
+                 RD.STK    esdog8_{{PATH}}       ;"end soft dec. dog 8th axis"
+   #if ref_dir_8th_axis_{{PATH}} == 1 or ref_dir_8th_axis_{{PATH}} == 2 
+                 AND.NOT   m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
    #endif
-   #if ref_dir_8th_axis__PATH__ == 3 || ref_dir_8th_axis__PATH__ == 4
-                 AND       m_iref8__PATH__      ;"mem ref. switch 8th axis"
+   #if ref_dir_8th_axis_{{PATH}} == 3 or ref_dir_8th_axis_{{PATH}} == 4
+                 AND       m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
    #endif
                  OR.STK
-                 WRT       esdog8__PATH__       ;"end soft dec. dog 8th axis"
+                 WRT       esdog8_{{PATH}}       ;"end soft dec. dog 8th axis"
 
-// ---------------------------------------------------------------------------
-// 8th axis reference position return
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! 8th axis reference position return
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 8th axis reference position return
+{{PATH}}: 8th axis reference position return
 *)
    #endif
-                 RD        M_KPLUS__PATH__      ;"memory axis plus dir."
-                 OR        M_KMINUS__PATH__     ;"memory axis minus dir."
-                 AND       M_K8AX__PATH__       ;"memory 8th axis selected"
-                 AND.NOT   AUTREF__PATH__       ;"automatic reference return"
-                 RD.STK    A_REF8__PATH__       ;"auto ref. return 8th axis"
-                 OR        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND.NOT   ZP8__PATH__          ;"ref position 8th axis"
+                 RD        M_KPLUS_{{PATH}}      ;"memory axis plus dir."
+                 OR        M_KMINUS_{{PATH}}     ;"memory axis minus dir."
+                 AND       M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+                 AND.NOT   AUTREF_{{PATH}}       ;"automatic reference return"
+                 RD.STK    A_REF8_{{PATH}}       ;"auto ref. return 8th axis"
+                 OR        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND.NOT   ZP8_{{PATH}}          ;"ref position 8th axis"
                  OR.STK
-                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
-                 AND.NOT   NOREF8__PATH__       ;"no reference return 8th axis"
-                 WRT       R_REF8__PATH__       ;"reference return 8th axis"
+                 AND.NOT   REFSTP_{{PATH}}       ;"stop reference return"
+                 AND.NOT   NOREF8_{{PATH}}       ;"no reference return 8th axis"
+                 WRT       R_REF8_{{PATH}}       ;"reference return 8th axis"
 
-// ---------------------------------------------------------------------------
-// 8th axis reference position return in plus direction
-// parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
-// 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
-// ---------------------------------------------------------------------------
-   #if ref_dir_8th_axis__PATH__ == 1 || ref_dir_8th_axis__PATH__ == 3 
+!! ---------------------------------------------------------------------------
+!! 8th axis reference position return in plus direction
+!! parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
+!! 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
+!! ---------------------------------------------------------------------------
+   #if ref_dir_8th_axis_{{PATH}} == 1 or ref_dir_8th_axis_{{PATH}} == 3 
       #if net_comment == 1
-         #if ref_dir_8th_axis__PATH__ == 1
+         #if ref_dir_8th_axis_{{PATH}} == 1
 (*
-_PATH__: 8th axis reference position return in plus direction
+{{PATH}}: 8th axis reference position return in plus direction
 (contact: NC, dog at negative axis limit)
 parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
 3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
 *)
          #endif
-         #if ref_dir_8th_axis__PATH__ == 3
+         #if ref_dir_8th_axis_{{PATH}} == 3
 (*
-_PATH__: 8th axis reference position return in plus direction
+{{PATH}}: 8th axis reference position return in plus direction
 (contact: NO, dog at negative axis limit)
 parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 0 (ZMI),
 3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
 *)
          #endif
       #endif
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-      #if ref_dir_8th_axis__PATH__ == 1
-                  AND.NOT  m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 1
+                  AND.NOT  m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-      #if ref_dir_8th_axis__PATH__ == 3
-                 AND       m_iref8__PATH__      ;"mem ref. switch 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 3
+                 AND       m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-                 AND.NOT   aref_8m__PATH__      ;"ref: move 8th axis -dir."
-                 WRT       aref_8p__PATH__      ;"ref: move 8th axis +dir."
+                 AND.NOT   aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
+                 WRT       aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
 
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND.NOT   aref_8p__PATH__      ;"ref: move 8th axis +dir."
-                 WRT       aref_8m__PATH__      ;"ref: move 8th axis -dir."
-      #if ref_dir_8th_axis__PATH__ == 1
-                 RD        m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND.NOT   aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
+                 WRT       aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
+      #if ref_dir_8th_axis_{{PATH}} == 1
+                 RD        m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-      #if ref_dir_8th_axis__PATH__ == 3
-                 RD.NOT    m_iref8__PATH__      ;"mem ref. switch 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 3
+                 RD.NOT    m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-                 RD.STK    esdog8__PATH__       ;"end soft dec. dog 8th axis"
-                 AND       MVD8__PATH__         ;"8th axis moving dir. signal"
+                 RD.STK    esdog8_{{PATH}}       ;"end soft dec. dog 8th axis"
+                 AND       MVD8_{{PATH}}         ;"8th axis moving dir. signal"
                  OR.STK
-                 OR        aref_8p__PATH__      ;"ref: move 8th axis +dir."
-                 WRT       *DEC8__PATH__        ;"deceleration signal 8th axis"
+                 OR        aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
+                 WRT       *DEC8_{{PATH}}        ;"deceleration signal 8th axis"
    #endif
 
-// ---------------------------------------------------------------------------
-// 8th axis reference position return in minus direction
-// parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
-// 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
-// ---------------------------------------------------------------------------
-   #if ref_dir_8th_axis__PATH__ == 2 || ref_dir_8th_axis__PATH__ == 4
+!! ---------------------------------------------------------------------------
+!! 8th axis reference position return in minus direction
+!! parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
+!! 3003 bit 5 = 0 (DEC), 3006 bit 0 = 1 (GDC)
+!! ---------------------------------------------------------------------------
+   #if ref_dir_8th_axis_{{PATH}} == 2 or ref_dir_8th_axis_{{PATH}} == 4
       #if net_comment == 1
-         #if ref_dir_8th_axis__PATH__ == 2
+         #if ref_dir_8th_axis_{{PATH}} == 2
 (*
-_PATH__: 8th axis reference position return in minus direction
+{{PATH}}: 8th axis reference position return in minus direction
 (contact: NC, dog at positive axis limit)
 parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
 3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
 *)
          #endif
-         #if ref_dir_8th_axis__PATH__ == 4
+         #if ref_dir_8th_axis_{{PATH}} == 4
 (*
-_PATH__: 8th axis reference position return in minus direction
+{{PATH}}: 8th axis reference position return in minus direction
 (contact: NO, dog at positive axis limit)
 parameter setting: 1005 bit 1 = 0 (DLZx), 1006 bit 5 = 1 (ZMI),
 3003 bit 5 = 0 (DEC),  3006 bit 0 = 1 (GDC)
 *)
          #endif
       #endif
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-      #if ref_dir_8th_axis__PATH__ == 2
-                 AND.NOT   m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 2
+                 AND.NOT   m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-      #if ref_dir_8th_axis__PATH__ == 4
-                 AND       m_iref8__PATH__      ;"mem ref. switch 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 4
+                 AND       m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-                 AND.NOT   aref_8p__PATH__      ;"ref: move 8th axis +dir."
-                 WRT       aref_8m__PATH__      ;"ref: move 8th axis -dir."
+                 AND.NOT   aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
+                 WRT       aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
 
-                 RD        R_REF8__PATH__       ;"reference return 8th axis"
-                 AND.NOT   aref_8m__PATH__      ;"ref: move 8th axis -dir."
-                 WRT       aref_8p__PATH__      ;"ref: move 8th axis +dir."
-      #if ref_dir_8th_axis__PATH__ == 2
-                 RD        m_iref8__PATH__      ;"mem ref. switch 8th axis"
+                 RD        R_REF8_{{PATH}}       ;"reference return 8th axis"
+                 AND.NOT   aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
+                 WRT       aref_8p_{{PATH}}      ;"ref: move 8th axis +dir."
+      #if ref_dir_8th_axis_{{PATH}} == 2
+                 RD        m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-      #if ref_dir_8th_axis__PATH__ == 4
-                 RD.NOT    m_iref8__PATH__      ;"mem ref. switch 8th axis"
+      #if ref_dir_8th_axis_{{PATH}} == 4
+                 RD.NOT    m_iref8_{{PATH}}      ;"mem ref. switch 8th axis"
       #endif
-                 RD.STK    esdog8__PATH__       ;"end soft dec. dog 8th axis"
-                 AND.NOT   MVD8__PATH__         ;"8th axis moving dir. signal"
+                 RD.STK    esdog8_{{PATH}}       ;"end soft dec. dog 8th axis"
+                 AND.NOT   MVD8_{{PATH}}         ;"8th axis moving dir. signal"
                  OR.STK
-                 OR        aref_8m__PATH__      ;"ref: move 8th axis -dir."
-                 WRT       *DEC8__PATH__        ;"deceleration signal 8th axis"
+                 OR        aref_8m_{{PATH}}      ;"ref: move 8th axis -dir."
+                 WRT       *DEC8_{{PATH}}        ;"deceleration signal 8th axis"
    #endif
 
 #endif

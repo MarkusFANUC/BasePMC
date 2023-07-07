@@ -1,55 +1,55 @@
-//:--------------------------------------------------------------------------:
-//: File              : dcs_level1__PATH__.src                                   :
-//: Creation date     : 12.07.2018                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific DCSPMC level 1 code                    :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, SOP modified     :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : dcs_level1_{{PATH}}.src                                   :
+!!: Creation date     : 12.07.2018                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific DCSPMC level 1 code                    :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:02.07.21: 3.0.0 :Blp    :virtual operator's panel added, SOP modified     :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// __PATH__:emergency stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}:emergency stop
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__:emergency stop
+{{PATH}}:emergency stop
 *)
 #endif
                  RD        iK_ESP               ;"button emergency stop"
                  RD.STK    *SGOPN               ;"guard state doors closed"
-                 OR        *ESP__PATH__         ;"_PATH__:emergency stop signal"
+                 OR        *ESP_{{PATH}}         ;"{{PATH}}:emergency stop signal"
                  AND.STK
                  AND       *DCALM               ;"MCC off signal(system)"
-                 AND.NOT   MCFVx_NOK__PATH__    ;"_PATH__:mcf axes not ok"
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-                 AND.NOT   MCFPx_NOK__PATH__    ;"_PATH__:mcc spindles not ok"
+                 AND.NOT   MCFVx_NOK_{{PATH}}    ;"{{PATH}}:mcf axes not ok"
+#if spindle_support_{{PATH}} == 1 and spindle_support_P01 > -1
+                 AND.NOT   MCFPx_NOK_{{PATH}}    ;"{{PATH}}:mcc spindles not ok"
 #endif
-#if operatorspanel == 0 || soft_op_panel == 1
+#if operatorspanel == 0 or soft_op_panel == 1
                  AND       TPMF00               ;"interface from PMC bit00"
 #endif
-#if operatorspanel == 1 && soft_op_panel == 0 && start_address_op == 0
+#if operatorspanel == 1 and soft_op_panel == 0 and start_address_op == 0
                  AND       TPMF00               ;"interface from PMC bit00"
 #endif
-#if operatorspanel == 2 && soft_op_panel == 0
-    #if (virtual_op_panel == 1 || start_address_op == 0)
+#if operatorspanel == 2 and soft_op_panel == 0
+    #if (virtual_op_panel == 1 or start_address_op == 0)
                  AND       TPMF00               ;"interface from PMC bit00"
     #endif
 #endif
-                 WRT       *ESP__PATH__         ;"_PATH__:emergency stop signal"
+                 WRT       *ESP_{{PATH}}         ;"{{PATH}}:emergency stop signal"

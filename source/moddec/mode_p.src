@@ -1,50 +1,50 @@
-//:--------------------------------------------------------------------------:
-//: File              : mode__PATH__.src                                         :
-//: Creation date     : 29.11.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific mode decoding                          :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:01.09.14: 1.1.0 :Blp    :incsel was not set in case of                    :
-//:        :       :       :handwheel_support == 0 and pmc_type == 2 ||      :
-//:        :       :       :pmc_type == 6 ; SETTCH added                     :
-//:--------------------------------------------------------------------------:
-//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : mode_{{PATH}}.src                                         :
+!!: Creation date     : 29.11.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific mode decoding                          :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:01.09.14: 1.1.0 :Blp    :incsel was not set in case of                    :
+!!:        :       :       :handwheel_support == 0 and pmc_type == 2 or      :
+!!:        :       :       :pmc_type == 6 ; SETTCH added                     :
+!!:--------------------------------------------------------------------------:
+!!:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: mode change enable
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: mode change enable
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: mode change enable
+{{PATH}}: mode change enable
 *)
 #endif
-                 RD        STL__PATH__          ;"cycle start lamp signal"
-#if ref_dir_1st_axis__PATH__ > -1
-                 OR        REFRUN__PATH__       ;"reference return active"
+                 RD        STL_{{PATH}}          ;"cycle start lamp signal"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 OR        REFRUN_{{PATH}}       ;"reference return active"
 #endif
-                 OR        RST__PATH__          ;"resetting signal"
+                 OR        RST_{{PATH}}          ;"resetting signal"
 #if dcs_support == 1
    #if mcc_test == 1
 
@@ -54,484 +54,484 @@ _PATH__: mode change enable
                  OR        BRK_TEST             ;"brake test active"
    #endif
 #endif
-                 WRT.NOT   MDCHEN__PATH__       ;"mode change enable"
+                 WRT.NOT   MDCHEN_{{PATH}}       ;"mode change enable"
 
-// ---------------------------------------------------------------------------
-// _PATH__: automatic mode mem selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: automatic mode mem selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: automatic mode mem selection
+{{PATH}}: automatic mode mem selection
 *)
 #endif
-                 RD        K_MMEM__PATH__       ;"key mode mem"
+                 RD        K_MMEM_{{PATH}}       ;"key mode mem"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_MMEM               ;"key mode mem"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
 #endif
-                 OR        SETMEM__PATH__       ;"force to mode mem"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 OR        SETMEM_{{PATH}}       ;"force to mode mem"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_mmem__PATH__       ;"memory mode mem"
+                 WRT       m_mmem_{{PATH}}       ;"memory mode mem"
 
-                 RD        M_MEM__PATH__        ;"mode mem selected"
-                 WRT       L_MMEM__PATH__       ;"led mode mem"
+                 RD        M_MEM_{{PATH}}        ;"mode mem selected"
+                 WRT       L_MMEM_{{PATH}}       ;"led mode mem"
 
-                 RD        M_MEM__PATH__        ;"mode mem selected"
-                 RST       SETMEM__PATH__       ;"force to mode mem"
+                 RD        M_MEM_{{PATH}}        ;"mode mem selected"
+                 RST       SETMEM_{{PATH}}       ;"force to mode mem"
 
-// -----------------------------------------------
-// _PATH__: sub mode single block
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: sub mode single block
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: sub mode single block
+{{PATH}}: sub mode single block
 *)
 #endif
-                 RD        K_SBK__PATH__        ;"key single block"
-                 OR        SETSBK__PATH__       ;"force to single block"
-                 AND.NOT   mk_sbk__PATH__       ;"memory key single block"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       reksbk__PATH__       ;"re key single block"
+                 RD        K_SBK_{{PATH}}        ;"key single block"
+                 OR        SETSBK_{{PATH}}       ;"force to single block"
+                 AND.NOT   mk_sbk_{{PATH}}       ;"memory key single block"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       reksbk_{{PATH}}       ;"re key single block"
 
-                 RD        K_SBK__PATH__        ;"key single block"
-                 OR        SETSBK__PATH__       ;"force to single block"
-                 WRT       mk_sbk__PATH__       ;"memory key single block"
+                 RD        K_SBK_{{PATH}}        ;"key single block"
+                 OR        SETSBK_{{PATH}}       ;"force to single block"
+                 WRT       mk_sbk_{{PATH}}       ;"memory key single block"
 
-                 RD        reksbk__PATH__       ;"re key single block"
-                 AND.NOT   SBK__PATH__          ;"single block signal"
-                 RD.STK    SBK__PATH__          ;"single block signal"
-                 AND.NOT   reksbk__PATH__       ;"re key single block"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD        reksbk_{{PATH}}       ;"re key single block"
+                 AND.NOT   SBK_{{PATH}}          ;"single block signal"
+                 RD.STK    SBK_{{PATH}}          ;"single block signal"
+                 AND.NOT   reksbk_{{PATH}}       ;"re key single block"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR.STK
                  AND.NOT   SOP_RUN              ;"software op-panel active"
-                 RD.STK    K_SBK__PATH__        ;"key single block"
+                 RD.STK    K_SBK_{{PATH}}        ;"key single block"
                  AND       SOP_RUN              ;"software op-panel active"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
 #endif
                  OR.STK
 #if nbr_of_path > 1
                  AND.NOT   PSYNREQ              ;"path synchronization request"
 #endif
-                 WRT       SBK__PATH__          ;"single block signal"
+                 WRT       SBK_{{PATH}}          ;"single block signal"
 
-                 RD        SETSBK__PATH__       ;"force to single block"
-                 RST       SETSBK__PATH__       ;"force to single block"
+                 RD        SETSBK_{{PATH}}       ;"force to single block"
+                 RST       SETSBK_{{PATH}}       ;"force to single block"
 
-                 RD        MSBK__PATH__         ;"single block check signal"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       L_SBK__PATH__        ;"led single block"
+                 RD        MSBK_{{PATH}}         ;"single block check signal"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       L_SBK_{{PATH}}        ;"led single block"
 
-// -----------------------------------------------
-// _PATH__: block skip
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: block skip
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: block skip
+{{PATH}}: block skip
 *)
 #endif
-                 RD        K_SKIP__PATH__       ;"key block skip"
-                 AND.NOT   mkskip__PATH__       ;"memory key skip"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       rekskp__PATH__       ;"rising edge key skip"
+                 RD        K_SKIP_{{PATH}}       ;"key block skip"
+                 AND.NOT   mkskip_{{PATH}}       ;"memory key skip"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       rekskp_{{PATH}}       ;"rising edge key skip"
 
-                 RD        K_SKIP__PATH__       ;"key block skip"
-                 WRT       mkskip__PATH__       ;"memory key skip"
+                 RD        K_SKIP_{{PATH}}       ;"key block skip"
+                 WRT       mkskip_{{PATH}}       ;"memory key skip"
 
-                 RD        rekskp__PATH__       ;"rising edge key skip"
-                 AND.NOT   BDT1__PATH__         ;"skip block (bdt1)"
-                 RD.STK    BDT1__PATH__         ;"skip block (bdt1)"
-                 AND.NOT   rekskp__PATH__       ;"rising edge key skip"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD        rekskp_{{PATH}}       ;"rising edge key skip"
+                 AND.NOT   BDT1_{{PATH}}         ;"skip block (bdt1)"
+                 RD.STK    BDT1_{{PATH}}         ;"skip block (bdt1)"
+                 AND.NOT   rekskp_{{PATH}}       ;"rising edge key skip"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR.STK
                  AND.NOT   SOP_RUN              ;"software op-panel active"
-                 RD.STK    K_SKIP__PATH__       ;"key block skip"
+                 RD.STK    K_SKIP_{{PATH}}       ;"key block skip"
                  AND       SOP_RUN              ;"software op-panel active"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
 #endif
                  OR.STK
 #if nbr_of_path > 1
                  AND.NOT   PSYNREQ          ;"path synchronization request"
 #endif
-                 WRT       BDT1__PATH__         ;"skip block (bdt1)"
+                 WRT       BDT1_{{PATH}}         ;"skip block (bdt1)"
 
-                 RD        MBDT1__PATH__        ;"block skip btd1 check signal"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       L_SKIP__PATH__       ;"led block skip"
+                 RD        MBDT1_{{PATH}}        ;"block skip btd1 check signal"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       L_SKIP_{{PATH}}       ;"led block skip"
 
-// -----------------------------------------------
-// _PATH__: optional stop M01
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: optional stop M01
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: optional stop M01
+{{PATH}}: optional stop M01
 *)
 #endif
-                 RD        K_OSTP__PATH__       ;"key optional stop m01"
-                 AND.NOT   mkostp__PATH__       ;"memory key optional stop"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       rekosp__PATH__       ;"re key optional stop"
+                 RD        K_OSTP_{{PATH}}       ;"key optional stop m01"
+                 AND.NOT   mkostp_{{PATH}}       ;"memory key optional stop"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       rekosp_{{PATH}}       ;"re key optional stop"
 
-                 RD        K_OSTP__PATH__       ;"key optional stop m01"
-                 WRT       mkostp__PATH__       ;"memory key optional stop"
+                 RD        K_OSTP_{{PATH}}       ;"key optional stop m01"
+                 WRT       mkostp_{{PATH}}       ;"memory key optional stop"
 
-                 RD        rekosp__PATH__       ;"re key optional stop"
-                 AND.NOT   O_STOP__PATH__       ;"optional stop m01 active"
-                 RD.STK    O_STOP__PATH__       ;"optional stop m01 active"
-                 AND.NOT   rekosp__PATH__       ;"re key optional stop"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD        rekosp_{{PATH}}       ;"re key optional stop"
+                 AND.NOT   O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 RD.STK    O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 AND.NOT   rekosp_{{PATH}}       ;"re key optional stop"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR.STK
                  AND.NOT   SOP_RUN              ;"software op-panel active"
-                 RD.STK    K_OSTP__PATH__       ;"key optional stop m01"
+                 RD.STK    K_OSTP_{{PATH}}       ;"key optional stop m01"
                  AND       SOP_RUN              ;"software op-panel active"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
 #endif
                  OR.STK    
 #if nbr_of_path > 1
                  AND.NOT   PSYNREQ              ;"path synchronization request"
 #endif
-                 WRT       O_STOP__PATH__       ;"optional stop m01 active"
+                 WRT       O_STOP_{{PATH}}       ;"optional stop m01 active"
 
-                 RD        O_STOP__PATH__       ;"optional stop m01 active"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       L_OSTP__PATH__       ;"led optional stop m01"
+                 RD        O_STOP_{{PATH}}       ;"optional stop m01 active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       L_OSTP_{{PATH}}       ;"led optional stop m01"
 
 
-// -----------------------------------------------
-// _PATH__: program restart
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: program restart
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: program restart
+{{PATH}}: program restart
 *)
 #endif
-                 RD        K_REST__PATH__       ;"key program restart"
-                 AND.NOT   mkrest__PATH__       ;"mem key program restart"
-                 AND.NOT   STL__PATH__          ;"cycle start lamp signal"
-                 WRT       re_krest__PATH__     ;"re program restart"
+                 RD        K_REST_{{PATH}}       ;"key program restart"
+                 AND.NOT   mkrest_{{PATH}}       ;"mem key program restart"
+                 AND.NOT   STL_{{PATH}}          ;"cycle start lamp signal"
+                 WRT       re_krest_{{PATH}}     ;"re program restart"
 
-                 RD        K_REST__PATH__       ;"key program restart"
-                 WRT       mkrest__PATH__       ;"mem key program restart"
+                 RD        K_REST_{{PATH}}       ;"key program restart"
+                 WRT       mkrest_{{PATH}}       ;"mem key program restart"
 
-                 RD        re_krest__PATH__     ;"re program restart"
-                 AND.NOT   SRN__PATH__          ;"program restart signal"
-                 RD.STK    SRN__PATH__          ;"program restart signal"
-                 AND.NOT   re_krest__PATH__     ;"re program restart"
+                 RD        re_krest_{{PATH}}     ;"re program restart"
+                 AND.NOT   SRN_{{PATH}}          ;"program restart signal"
+                 RD.STK    SRN_{{PATH}}          ;"program restart signal"
+                 AND.NOT   re_krest_{{PATH}}     ;"re program restart"
                  OR.STK    
-                 AND       M_MEM__PATH__        ;"mode mem selected"
-                 WRT       SRN__PATH__          ;"program restart signal"
+                 AND       M_MEM_{{PATH}}        ;"mode mem selected"
+                 WRT       SRN_{{PATH}}          ;"program restart signal"
 
-                 RD        SRN__PATH__          ;"program restart signal"
-                 WRT       L_REST__PATH__       ;"led program restart"
+                 RD        SRN_{{PATH}}          ;"program restart signal"
+                 WRT       L_REST_{{PATH}}       ;"led program restart"
 
 
-// -----------------------------------------------
-// _PATH__: machine lock (testing a program)
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: machine lock (testing a program)
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: machine lock (testing a program)
+{{PATH}}: machine lock (testing a program)
 *)
 #endif
-                 RD        K_PGMT__PATH__       ;"key program test"
-                 AND.NOT   mkpgmt__PATH__       ;"memory key program test"
-                 AND.NOT   STL__PATH__          ;"cycle start lamp signal"
-                 WRT       repgmt__PATH__       ;"rising edge key pgm test"
+                 RD        K_PGMT_{{PATH}}       ;"key program test"
+                 AND.NOT   mkpgmt_{{PATH}}       ;"memory key program test"
+                 AND.NOT   STL_{{PATH}}          ;"cycle start lamp signal"
+                 WRT       repgmt_{{PATH}}       ;"rising edge key pgm test"
 
-                 RD        K_PGMT__PATH__       ;"key program test"
-                 WRT       mkpgmt__PATH__       ;"memory key program test"
+                 RD        K_PGMT_{{PATH}}       ;"key program test"
+                 WRT       mkpgmt_{{PATH}}       ;"memory key program test"
 
-                 RD        repgmt__PATH__       ;"rising edge key pgm test"
-                 AND.NOT   MLK__PATH__          ;"all axis machine lock"
-                 RD.STK.NOT repgmt__PATH__      ;"rising edge key pgm test"
-                 AND       MLK__PATH__          ;"all axis machine lock"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD        repgmt_{{PATH}}       ;"rising edge key pgm test"
+                 AND.NOT   MLK_{{PATH}}          ;"all axis machine lock"
+                 RD.STK.NOT repgmt_{{PATH}}      ;"rising edge key pgm test"
+                 AND       MLK_{{PATH}}          ;"all axis machine lock"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR.STK
                  AND.NOT   SOP_RUN              ;"software op-panel active"
-                 RD.STK.NOT MLK__PATH__         ;"all axis machine lock"
-                 AND.NOT   STL__PATH__          ;"cycle start lamp signal"
-                 OR        MLK__PATH__          ;"all axis machine lock"
-                 RD.STK    K_PGMT__PATH__       ;"key program test"
-                 RD.STK    MLK__PATH__          ;"all axis machine lock"
-                 AND       STL__PATH__          ;"cycle start lamp signal"
+                 RD.STK.NOT MLK_{{PATH}}         ;"all axis machine lock"
+                 AND.NOT   STL_{{PATH}}          ;"cycle start lamp signal"
+                 OR        MLK_{{PATH}}          ;"all axis machine lock"
+                 RD.STK    K_PGMT_{{PATH}}       ;"key program test"
+                 RD.STK    MLK_{{PATH}}          ;"all axis machine lock"
+                 AND       STL_{{PATH}}          ;"cycle start lamp signal"
                  OR.STK    
                  AND.STK   
                  AND       SOP_RUN              ;"software op-panel active"
 #endif
                  OR.STK
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
 #if nbr_of_path > 1
                  AND.NOT   PSYNREQ              ;"path synchronization request"
 #endif
-                 WRT       MLK__PATH__          ;"all axis machine lock"
-                 WRT       AFL__PATH__          ;"auxiliary function lock"
+                 WRT       MLK_{{PATH}}          ;"all axis machine lock"
+                 WRT       AFL_{{PATH}}          ;"auxiliary function lock"
 
-                 RD.NOT    MLK__PATH__          ;"all axis machine lock"
-                 AND       m_pgmt__PATH__       ;"memory program test"
-                 WRT       FEPGMT__PATH__       ;"falling edge program test"
+                 RD.NOT    MLK_{{PATH}}          ;"all axis machine lock"
+                 AND       m_pgmt_{{PATH}}       ;"memory program test"
+                 WRT       FEPGMT_{{PATH}}       ;"falling edge program test"
 
-                 RD        MLK__PATH__          ;"all axis machine lock"
-                 WRT       m_pgmt__PATH__       ;"memory program test"
+                 RD        MLK_{{PATH}}          ;"all axis machine lock"
+                 WRT       m_pgmt_{{PATH}}       ;"memory program test"
 
-                 RD        MMLK__PATH__         ;"all axis lock check signal"
-                 AND       MAFL__PATH__         ;"aux. function lock check signal"
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 WRT       L_PGMT__PATH__       ;"led program test"
+                 RD        MMLK_{{PATH}}         ;"all axis lock check signal"
+                 AND       MAFL_{{PATH}}         ;"aux. function lock check signal"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 WRT       L_PGMT_{{PATH}}       ;"led program test"
 
 
-// -----------------------------------------------
-// _PATH__: dry run
-// (Only active in mode mem)
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: dry run
+!! (Only active in mode mem)
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: dry run
+{{PATH}}: dry run
 (only active in mode mem)
 *)
 #endif
-                 RD        K_DRN__PATH__        ;"key dry run"
-                 AND.NOT   mk_drn__PATH__       ;"memory key dry run"
-                 WRT       rekdrn__PATH__       ;"rising edge key dry run"
+                 RD        K_DRN_{{PATH}}        ;"key dry run"
+                 AND.NOT   mk_drn_{{PATH}}       ;"memory key dry run"
+                 WRT       rekdrn_{{PATH}}       ;"rising edge key dry run"
 
-                 RD        K_DRN__PATH__        ;"key dry run"
-                 WRT       mk_drn__PATH__       ;"memory key dry run"
+                 RD        K_DRN_{{PATH}}        ;"key dry run"
+                 WRT       mk_drn_{{PATH}}       ;"memory key dry run"
 
-                 RD        rekdrn__PATH__       ;"rising edge key dry run"
-                 AND.NOT   STL__PATH__          ;"cycle start lamp signal"
-                 AND.NOT   DRN__PATH__          ;"dry run signal"
-                 RD.STK    DRN__PATH__          ;"dry run signal"
-                 AND.NOT   rekdrn__PATH__       ;"rising edge key dry run"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD        rekdrn_{{PATH}}       ;"rising edge key dry run"
+                 AND.NOT   STL_{{PATH}}          ;"cycle start lamp signal"
+                 AND.NOT   DRN_{{PATH}}          ;"dry run signal"
+                 RD.STK    DRN_{{PATH}}          ;"dry run signal"
+                 AND.NOT   rekdrn_{{PATH}}       ;"rising edge key dry run"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR.STK
                  AND.NOT   SOP_RUN              ;"software op-panel active"
-                 RD.STK.NOT DRN__PATH__         ;"dry run signal"
-                 AND.NOT   STL__PATH__          ;"cycle start lamp signal"
-                 OR        DRN__PATH__          ;"dry run signal"
-                 AND       K_DRN__PATH__        ;"key dry run"
+                 RD.STK.NOT DRN_{{PATH}}         ;"dry run signal"
+                 AND.NOT   STL_{{PATH}}          ;"cycle start lamp signal"
+                 OR        DRN_{{PATH}}          ;"dry run signal"
+                 AND       K_DRN_{{PATH}}        ;"key dry run"
                  AND       SOP_RUN              ;"software op-panel active"
 #endif
                  OR.STK
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
 #if nbr_of_path > 1
                  AND.NOT   PSYNREQ              ;"path synchronization request"
 #endif
-                 WRT       DRN__PATH__          ;"dry run signal"
+                 WRT       DRN_{{PATH}}          ;"dry run signal"
 
-                 RD        MDRN__PATH__         ;"dry run check signal"
-                 WRT       L_DRN__PATH__        ;"led dry run"
+                 RD        MDRN_{{PATH}}         ;"dry run check signal"
+                 WRT       L_DRN_{{PATH}}        ;"led dry run"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: edit mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: edit mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: edit mode selection
+{{PATH}}: edit mode selection
 *)
 #endif
-                 RD        K_MEDT__PATH__       ;"key mode edit"
+                 RD        K_MEDT_{{PATH}}       ;"key mode edit"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_MEDT               ;"key mode edit"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
 #endif
-                 OR        SETEDT__PATH__       ;"force to mode edit"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 OR        SETEDT_{{PATH}}       ;"force to mode edit"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_medt__PATH__       ;"memory mode edit"
+                 WRT       m_medt_{{PATH}}       ;"memory mode edit"
 
-                 RD        M_EDT__PATH__        ;"mode edit selected"
-                 WRT       L_MEDT__PATH__       ;"led mode edit"
+                 RD        M_EDT_{{PATH}}        ;"mode edit selected"
+                 WRT       L_MEDT_{{PATH}}       ;"led mode edit"
 
-                 RD        M_EDT__PATH__        ;"mode edit selected"
-                 RST       SETEDT__PATH__       ;"force to mode edit"
+                 RD        M_EDT_{{PATH}}        ;"mode edit selected"
+                 RST       SETEDT_{{PATH}}       ;"force to mode edit"
 
-// ---------------------------------------------------------------------------
-// _PATH__: mdi mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: mdi mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: mdi mode selection
+{{PATH}}: mdi mode selection
 *)
 #endif
-                 RD        K_MMDI__PATH__       ;"key mode mdi"
+                 RD        K_MMDI_{{PATH}}       ;"key mode mdi"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_MMDI               ;"key mode mdi"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK    
 #endif
-                 OR        SETMDI__PATH__       ;"force to mode mdi"
-#if ref_dir_1st_axis__PATH__ == -1
+                 OR        SETMDI_{{PATH}}       ;"force to mode mdi"
+#if ref_dir_1st_axis_{{PATH}} == -1
                  OR.NOT    FICYCL               ;"first cycle finished"
 #endif
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_mmdi__PATH__       ;"memory mode mdi"
+                 WRT       m_mmdi_{{PATH}}       ;"memory mode mdi"
 
-                 RD        M_MDI__PATH__        ;"mode mdi selected"
-                 WRT       L_MMDI__PATH__       ;"led mode mdi"
+                 RD        M_MDI_{{PATH}}        ;"mode mdi selected"
+                 WRT       L_MMDI_{{PATH}}       ;"led mode mdi"
 
-                 RD        M_MDI__PATH__        ;"mode mdi selected"
-                 RST       SETMDI__PATH__       ;"force to mode mdi"
+                 RD        M_MDI_{{PATH}}        ;"mode mdi selected"
+                 RST       SETMDI_{{PATH}}       ;"force to mode mdi"
 
-// ---------------------------------------------------------------------------
-// _PATH__: dnc operation mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: dnc operation mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: dnc operation mode selection
+{{PATH}}: dnc operation mode selection
 *)
 #endif
-                 RD        K_DNC__PATH__        ;"key dnc operation mode"
+                 RD        K_DNC_{{PATH}}        ;"key dnc operation mode"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_DNC                ;"key dnc operation mode"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK    
 #endif
-                 OR        SETDNC__PATH__       ;"force to dnc operation"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mdnc__PATH__       ;"memory dnc mode"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 OR        SETDNC_{{PATH}}       ;"force to dnc operation"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mdnc_{{PATH}}       ;"memory dnc mode"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_mdnc__PATH__       ;"memory dnc mode"
+                 WRT       m_mdnc_{{PATH}}       ;"memory dnc mode"
 
-                 RD        M_DNC__PATH__        ;"mode dnc selected"
-                 WRT       L_DNC__PATH__        ;"led dnc operation"
+                 RD        M_DNC_{{PATH}}        ;"mode dnc selected"
+                 WRT       L_DNC_{{PATH}}        ;"led dnc operation"
 
-                 RD        M_DNC__PATH__        ;"mode dnc selected"
-                 RST       SETDNC__PATH__       ;"force to dnc operation"
+                 RD        M_DNC_{{PATH}}        ;"mode dnc selected"
+                 RST       SETDNC_{{PATH}}       ;"force to dnc operation"
 
-// ---------------------------------------------------------------------------
-// _PATH__: jog mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: jog mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: jog mode selection
+{{PATH}}: jog mode selection
 *)
 #endif
-                 RD        K_MJ__PATH__         ;"key mode jog"
+                 RD        K_MJ_{{PATH}}         ;"key mode jog"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_MJ                 ;"key mode jog"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
 #endif
-                 OR        SETJOG__PATH__       ;"force to mode jog"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 OR        SETJOG_{{PATH}}       ;"force to mode jog"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_mj__PATH__         ;"memory mode jog"
+                 WRT       m_mj_{{PATH}}         ;"memory mode jog"
 
-                 RD        M_JOG__PATH__        ;"mode jog selected"
-                 WRT       L_MJ__PATH__         ;"led mode jog"
+                 RD        M_JOG_{{PATH}}        ;"mode jog selected"
+                 WRT       L_MJ_{{PATH}}         ;"led mode jog"
 
-                 RD        M_JOG__PATH__        ;"mode jog selected"
-                 RST       SETJOG__PATH__       ;"force to mode jog"
+                 RD        M_JOG_{{PATH}}        ;"mode jog selected"
+                 RST       SETJOG_{{PATH}}       ;"force to mode jog"
 
-// ---------------------------------------------------------------------------
-// _PATH__: ref mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: ref mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: ref mode selection
+{{PATH}}: ref mode selection
 *)
 #endif
-#if ref_dir_1st_axis__PATH__ > -1
-                 RD        K_MREF__PATH__       ;"key mode ref"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 RD        K_MREF_{{PATH}}       ;"key mode ref"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_MREF               ;"key mode ref"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
 #endif
-                 OR        SETREF__PATH__       ;"force mode ref"
+                 OR        SETREF_{{PATH}}       ;"force mode ref"
                  OR.NOT    FICYCL               ;"first cycle finished"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mref__PATH__       ;"memory mode ref"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_mhdi__PATH__       ;"memory mode handle"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mref_{{PATH}}       ;"memory mode ref"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_mhdi_{{PATH}}       ;"memory mode handle"
                  OR.STK
-                 WRT       m_mref__PATH__       ;"memory mode ref"
+                 WRT       m_mref_{{PATH}}       ;"memory mode ref"
 
-                 RD        M_REF__PATH__        ;"mode ref selected"
-                 WRT       L_MREF__PATH__       ;"led mode ref"
+                 RD        M_REF_{{PATH}}        ;"mode ref selected"
+                 WRT       L_MREF_{{PATH}}       ;"led mode ref"
 #endif
 
-#if ref_dir_1st_axis__PATH__ > -1
-                 RD        M_REF__PATH__        ;"mode ref selected"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 RD        M_REF_{{PATH}}        ;"mode ref selected"
 #else
                  RD        LOG1                 ;"logic one"
 #endif
-                 RST       SETREF__PATH__       ;"force mode ref"
+                 RST       SETREF_{{PATH}}       ;"force mode ref"
 
-// ---------------------------------------------------------------------------
-// _PATH__: handle/incremental feed mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: handle/incremental feed mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: handle/incremental feed mode selection
+{{PATH}}: handle/incremental feed mode selection
 *)
 #endif
-                 RD        K_INC__PATH__        ;"key inc feed"
+                 RD        K_INC_{{PATH}}        ;"key inc feed"
 #if handwheel_support > 0
-                 OR        K_HD__PATH__         ;"key handle"
+                 OR        K_HD_{{PATH}}         ;"key handle"
 #endif
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
 #endif
 #if handwheel_support > 0
-                 OR        SET_HD__PATH__       ;"force to mode handle"
+                 OR        SET_HD_{{PATH}}       ;"force to mode handle"
 #endif
    #if nbr_of_path > 1
                  RD.STK    K_INC                ;"key inc feed"
@@ -541,341 +541,341 @@ _PATH__: handle/incremental feed mode selection
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
    #endif
-                 OR        SETINC__PATH__       ;"force to mode inc feed"
-                 AND       MDCHEN__PATH__       ;"mode change enable"
-                 RD.STK    m_mhdi__PATH__       ;"memory mode handle"
-                 AND.NOT   m_mmem__PATH__       ;"memory mode mem"
-                 AND.NOT   m_medt__PATH__       ;"memory mode edit"
-                 AND.NOT   m_mmdi__PATH__       ;"memory mode mdi"
-                 AND.NOT   m_mdnc__PATH__       ;"memory dnc mode"
-                 AND.NOT   m_mj__PATH__         ;"memory mode jog"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   m_mref__PATH__       ;"memory mode ref"
+                 OR        SETINC_{{PATH}}       ;"force to mode inc feed"
+                 AND       MDCHEN_{{PATH}}       ;"mode change enable"
+                 RD.STK    m_mhdi_{{PATH}}       ;"memory mode handle"
+                 AND.NOT   m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND.NOT   m_medt_{{PATH}}       ;"memory mode edit"
+                 AND.NOT   m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND.NOT   m_mdnc_{{PATH}}       ;"memory dnc mode"
+                 AND.NOT   m_mj_{{PATH}}         ;"memory mode jog"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   m_mref_{{PATH}}       ;"memory mode ref"
 #endif
                  OR.STK
-                 WRT       m_mhdi__PATH__       ;"memory mode handle"
+                 WRT       m_mhdi_{{PATH}}       ;"memory mode handle"
 
-// -----------------------------------------------
-// _PATH__: handle mode selection
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: handle mode selection
+!! -----------------------------------------------
 #if handwheel_support > 0
 #if net_comment == 1
 (*
-_PATH__: handle mode selection
+{{PATH}}: handle mode selection
 *)
 #endif
-                 RD        K_HD__PATH__         ;"key handle"
+                 RD        K_HD_{{PATH}}         ;"key handle"
 #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_HD                 ;"key handle"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
 #endif
-                 OR        SET_HD__PATH__       ;"force to mode handle"
-                 RD.STK    hdsel__PATH__        ;"handle selected"
-                 AND.NOT   incsel__PATH__       ;"inc selected"
+                 OR        SET_HD_{{PATH}}       ;"force to mode handle"
+                 RD.STK    hdsel_{{PATH}}        ;"handle selected"
+                 AND.NOT   incsel_{{PATH}}       ;"inc selected"
                  OR.STK
-                 AND       m_mhdi__PATH__       ;"memory mode handle"
-                 WRT       hdsel__PATH__        ;"handle selected"
+                 AND       m_mhdi_{{PATH}}       ;"memory mode handle"
+                 WRT       hdsel_{{PATH}}        ;"handle selected"
 
-                 RD        M_HD__PATH__         ;"mode handle selected"
-                 WRT       L_HD__PATH__         ;"led mode handle"
+                 RD        M_HD_{{PATH}}         ;"mode handle selected"
+                 WRT       L_HD_{{PATH}}         ;"led mode handle"
 
-                 RD        M_HD__PATH__         ;"mode handle selected"
-                 RST       SET_HD__PATH__       ;"force to mode handle"
+                 RD        M_HD_{{PATH}}         ;"mode handle selected"
+                 RST       SET_HD_{{PATH}}       ;"force to mode handle"
 #endif
 
-// -----------------------------------------------
-// _PATH__: inc feed mode selection
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: inc feed mode selection
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: inc feed mode selection
+{{PATH}}: inc feed mode selection
 *)
 #endif
-#if handwheel_support > 0 || pmc_type < 3
-                 RD        K_INC__PATH__        ;"key inc feed"
+#if handwheel_support > 0 or pmc_type < 3
+                 RD        K_INC_{{PATH}}        ;"key inc feed"
    #if nbr_of_path > 1
                  AND.NOT   PATHSYN              ;"Path syncronization signal"
                  RD.STK    K_INC                ;"key inc feed"
                  AND       PATHSYN              ;"Path syncronization signal"
                  OR.STK
    #endif
-                 OR        SETINC__PATH__       ;"force to mode inc feed"
-                 RD.STK    incsel__PATH__       ;"inc selected"
+                 OR        SETINC_{{PATH}}       ;"force to mode inc feed"
+                 RD.STK    incsel_{{PATH}}       ;"inc selected"
    #if handwheel_support > 0
-                 AND.NOT   hdsel__PATH__        ;"handle selected"
+                 AND.NOT   hdsel_{{PATH}}        ;"handle selected"
    #endif
                  OR.STK
-                 AND       m_mhdi__PATH__       ;"memory mode handle"
-                 WRT       incsel__PATH__       ;"inc selected"
+                 AND       m_mhdi_{{PATH}}       ;"memory mode handle"
+                 WRT       incsel_{{PATH}}       ;"inc selected"
 #endif
-                 RD        M_INC__PATH__        ;"memory mode inc"
-                 WRT       L_INC__PATH__        ;"led mode inc"
+                 RD        M_INC_{{PATH}}        ;"memory mode inc"
+                 WRT       L_INC_{{PATH}}        ;"led mode inc"
 
-                 RD        M_INC__PATH__        ;"memory mode inc"
-                 RST       SETINC__PATH__       ;"force to mode inc feed"
+                 RD        M_INC_{{PATH}}        ;"memory mode inc"
+                 RST       SETINC_{{PATH}}       ;"force to mode inc feed"
 
-// ---------------------------------------------------------------------------
-// _PATH__: teach in mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: teach in mode selection
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: teach in mode selection
+{{PATH}}: teach in mode selection
 *)
 #endif
-                 RD        K_TEACH__PATH__      ;"key teach in"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 AND.NOT   M_REF__PATH__        ;"mode REF selected"
-                 AND.NOT   mkteach__PATH__      ;"mem key teach in"
-                 WRT       rekteach__PATH__     ;"re key teach in"
+                 RD        K_TEACH_{{PATH}}      ;"key teach in"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 AND.NOT   M_REF_{{PATH}}        ;"mode REF selected"
+                 AND.NOT   mkteach_{{PATH}}      ;"mem key teach in"
+                 WRT       rekteach_{{PATH}}     ;"re key teach in"
 
-                 RD        K_TEACH__PATH__      ;"key teach in"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 AND.NOT   M_REF__PATH__        ;"mode REF selected"
-                 WRT       mkteach__PATH__      ;"mem key teach in"
+                 RD        K_TEACH_{{PATH}}      ;"key teach in"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 AND.NOT   M_REF_{{PATH}}        ;"mode REF selected"
+                 WRT       mkteach_{{PATH}}      ;"mem key teach in"
 
-                 RD        rekteach__PATH__     ;"re key teach in"
-                 OR        SETTCH__PATH__       ;"force teach in"
-                 AND.NOT   m_tchin__PATH__      ;"memory mode teach in"
-                 RD.STK    m_tchin__PATH__      ;"memory mode teach in"
-                 AND.NOT   rekteach__PATH__     ;"re key teach in"
+                 RD        rekteach_{{PATH}}     ;"re key teach in"
+                 OR        SETTCH_{{PATH}}       ;"force teach in"
+                 AND.NOT   m_tchin_{{PATH}}      ;"memory mode teach in"
+                 RD.STK    m_tchin_{{PATH}}      ;"memory mode teach in"
+                 AND.NOT   rekteach_{{PATH}}     ;"re key teach in"
                  OR.STK    
-                 WRT       m_tchin__PATH__      ;"memory mode teach in"
+                 WRT       m_tchin_{{PATH}}      ;"memory mode teach in"
 
-                 RD        M_TEACH__PATH__      ;"mode TEACH IN selected"
-                 WRT       L_TEACH__PATH__      ;"led teach in mode"
-                 RST       SETTCH__PATH__       ;"force teach in"
+                 RD        M_TEACH_{{PATH}}      ;"mode TEACH IN selected"
+                 WRT       L_TEACH_{{PATH}}      ;"led teach in mode"
+                 RST       SETTCH_{{PATH}}       ;"force teach in"
 
-// ---------------------------------------------------------------------------
-// _PATH__: mode selection signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: mode selection signals
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: mode selection signals
+{{PATH}}: mode selection signals
 *)
 #endif
-                 RD        m_mmem__PATH__       ;"memory mode mem"
-                 OR        m_medt__PATH__       ;"memory mode edit"
-                 RD.STK    m_mj__PATH__         ;"memory mode jog"
-                 AND.NOT   m_tchin__PATH__      ;"memory mode teach in"
+                 RD        m_mmem_{{PATH}}       ;"memory mode mem"
+                 OR        m_medt_{{PATH}}       ;"memory mode edit"
+                 RD.STK    m_mj_{{PATH}}         ;"memory mode jog"
+                 AND.NOT   m_tchin_{{PATH}}      ;"memory mode teach in"
                  OR.STK    
-                 RD.STK    m_mhdi__PATH__       ;"memory mode handle / inc"
-                 AND       m_tchin__PATH__      ;"memory mode teach in"
+                 RD.STK    m_mhdi_{{PATH}}       ;"memory mode handle / inc"
+                 AND       m_tchin_{{PATH}}      ;"memory mode teach in"
                  OR.STK    
-                 OR        m_mdnc__PATH__       ;"memory dnc mode"
-#if ref_dir_1st_axis__PATH__ > -1
-                 OR        m_mref__PATH__       ;"memory mode ref"
+                 OR        m_mdnc_{{PATH}}       ;"memory dnc mode"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 OR        m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 WRT       MD1__PATH__          ;"mode selection signal 1"
+                 WRT       MD1_{{PATH}}          ;"mode selection signal 1"
 
-                 RD        m_medt__PATH__       ;"memory mode edit"
-                 RD.STK    m_mj__PATH__         ;"memory mode jog"
-                 OR        m_mhdi__PATH__       ;"memory mode handle / inc"
-                 AND       m_tchin__PATH__      ;"memory mode teach in"
+                 RD        m_medt_{{PATH}}       ;"memory mode edit"
+                 RD.STK    m_mj_{{PATH}}         ;"memory mode jog"
+                 OR        m_mhdi_{{PATH}}       ;"memory mode handle / inc"
+                 AND       m_tchin_{{PATH}}      ;"memory mode teach in"
                  OR.STK    
-                 WRT       MD2__PATH__          ;"mode selection signal 2"
+                 WRT       MD2_{{PATH}}          ;"mode selection signal 2"
 
-                 RD        m_mj__PATH__         ;"memory mode jog"
-#if ref_dir_1st_axis__PATH__ > -1
-                 OR        m_mref__PATH__       ;"memory mode ref"
+                 RD        m_mj_{{PATH}}         ;"memory mode jog"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 OR        m_mref_{{PATH}}       ;"memory mode ref"
 #endif
-                 OR        m_mhdi__PATH__       ;"memory mode handle"
-                 WRT       MD4__PATH__          ;"mode selection signal 4"
+                 OR        m_mhdi_{{PATH}}       ;"memory mode handle"
+                 WRT       MD4_{{PATH}}          ;"mode selection signal 4"
 
-                 RD        m_mdnc__PATH__       ;"memory dnc mode"
-                 WRT       DNCI__PATH__         ;"dnc selection signal"
+                 RD        m_mdnc_{{PATH}}       ;"memory dnc mode"
+                 WRT       DNCI_{{PATH}}         ;"dnc selection signal"
 
-#if ref_dir_1st_axis__PATH__ > -1
-                 RD        m_mref__PATH__       ;"memory mode ref"
-                 AND.NOT   D_REFx__PATH__       ;"ref return without dog"
-                 WRT       ZRN__PATH__          ;"man. ref. pos. selection sign."
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 RD        m_mref_{{PATH}}       ;"memory mode ref"
+                 AND.NOT   D_REFx_{{PATH}}       ;"ref return without dog"
+                 WRT       ZRN_{{PATH}}          ;"man. ref. pos. selection sign."
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_MEM__PATH__ (mode mem selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_MEM_{{PATH}} (mode mem selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_MEM__PATH__ (mode mem selected)
+{{PATH}}: global variable M_MEM_{{PATH}} (mode mem selected)
 *)
 #endif
-                 RD        m_mmem__PATH__       ;"memory mode mem"
-                 AND       MMEM__PATH__         ;"mode memory operation"
-                 WRT       M_MEM__PATH__        ;"mode mem selected"
+                 RD        m_mmem_{{PATH}}       ;"memory mode mem"
+                 AND       MMEM_{{PATH}}         ;"mode memory operation"
+                 WRT       M_MEM_{{PATH}}        ;"mode mem selected"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_EDT__PATH__ (mode edit selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_EDT_{{PATH}} (mode edit selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_EDT__PATH__ (mode edit selected)
+{{PATH}}: global variable M_EDT_{{PATH}} (mode edit selected)
 *)
 #endif
-                 RD        m_medt__PATH__       ;"memory mode edit"
-                 AND       MEDT__PATH__         ;"mode edit"
-                 WRT       M_EDT__PATH__        ;"mode edit selected"
+                 RD        m_medt_{{PATH}}       ;"memory mode edit"
+                 AND       MEDT_{{PATH}}         ;"mode edit"
+                 WRT       M_EDT_{{PATH}}        ;"mode edit selected"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_MDI__PATH__ (mode mdi selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_MDI_{{PATH}} (mode mdi selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_MDI__PATH__ (mode mdi selected)
+{{PATH}}: global variable M_MDI_{{PATH}} (mode mdi selected)
 *)
 #endif
-                 RD        m_mmdi__PATH__       ;"memory mode mdi"
-                 AND       MMDI__PATH__         ;"mode mdi selected"
-                 WRT       M_MDI__PATH__        ;"mode mdi selected"
+                 RD        m_mmdi_{{PATH}}       ;"memory mode mdi"
+                 AND       MMDI_{{PATH}}         ;"mode mdi selected"
+                 WRT       M_MDI_{{PATH}}        ;"mode mdi selected"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_DNC__PATH__ (mode dnc selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_DNC_{{PATH}} (mode dnc selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_DNC__PATH__ (mode dnc selected)
+{{PATH}}: global variable M_DNC_{{PATH}} (mode dnc selected)
 *)
 #endif
-                 RD        m_mdnc__PATH__       ;"memory dnc mode"
-                 AND       MRMT__PATH__         ;"dnc operation"
-                 WRT       M_DNC__PATH__        ;"mode dnc selected"
+                 RD        m_mdnc_{{PATH}}       ;"memory dnc mode"
+                 AND       MRMT_{{PATH}}         ;"dnc operation"
+                 WRT       M_DNC_{{PATH}}        ;"mode dnc selected"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_JOG__PATH__ (jog mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_JOG_{{PATH}} (jog mode active)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_JOG__PATH__ (jog mode active)
+{{PATH}}: global variable M_JOG_{{PATH}} (jog mode active)
 *)
 #endif
-                 RD        m_mj__PATH__         ;"memory mode jog"
-                 AND       MJ__PATH__           ;"jog feed select check signal"
-                 WRT       M_JOG__PATH__        ;"mode jog selected"
+                 RD        m_mj_{{PATH}}         ;"memory mode jog"
+                 AND       MJ_{{PATH}}           ;"jog feed select check signal"
+                 WRT       M_JOG_{{PATH}}        ;"mode jog selected"
 
-#if ref_dir_1st_axis__PATH__ > -1
-// ---------------------------------------------------------------------------
-// _PATH__: global variable D_JOGMV (delay jog move)
-// ---------------------------------------------------------------------------
+#if ref_dir_1st_axis_{{PATH}} > -1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable D_JOGMV (delay jog move)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__:  global variable D_JOGMV (delay jog move)
+{{PATH}}:  global variable D_JOGMV (delay jog move)
 *)
    #endif
-                 RD        M_REFJ__PATH__       ;"jog mode during ref"
-                 AND.NOT   ZRN__PATH__          ;"ref. pos. select sign."
-                 RD.STK    MREF__PATH__         ;"mode manual ref. return"
-                 AND.NOT   D_REFx__PATH__       ;"ref return without dog"
+                 RD        M_REFJ_{{PATH}}       ;"jog mode during ref"
+                 AND.NOT   ZRN_{{PATH}}          ;"ref. pos. select sign."
+                 RD.STK    MREF_{{PATH}}         ;"mode manual ref. return"
+                 AND.NOT   D_REFx_{{PATH}}       ;"ref return without dog"
                  OR.STK    
                  TMRB      
                            0
                            48
-                 WRT       D_JOGMV__PATH__      ;"delay jog move"
+                 WRT       D_JOGMV_{{PATH}}      ;"delay jog move"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_REFJ (jog mode during ref return)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_REFJ (jog mode during ref return)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: global variable M_REFJ (jog mode during ref return)
+{{PATH}}: global variable M_REFJ (jog mode during ref return)
 *)
    #endif
-                 RD        D_REFx__PATH__       ;"Ref return without dog"
-                 RD.STK    mdrefx__PATH__       ;"memory ref without dog"
-                 AND.NOT   MREF__PATH__         ;"mode manual ref. return"
+                 RD        D_REFx_{{PATH}}       ;"Ref return without dog"
+                 RD.STK    mdrefx_{{PATH}}       ;"memory ref without dog"
+                 AND.NOT   MREF_{{PATH}}         ;"mode manual ref. return"
                  OR.STK    
-                 AND.NOT   REFSTP__PATH__       ;"stop reference return"
-                 WRT       mdrefx__PATH__       ;"memory ref without dog"
+                 AND.NOT   REFSTP_{{PATH}}       ;"stop reference return"
+                 WRT       mdrefx_{{PATH}}       ;"memory ref without dog"
 
-                 RD        mdrefx__PATH__       ;"memory ref without dog"
-                 AND       MJ__PATH__           ;"jog feed sel. check signal"
-                 WRT       M_REFJ__PATH__       ;"jog mode during ref"
+                 RD        mdrefx_{{PATH}}       ;"memory ref without dog"
+                 AND       MJ_{{PATH}}           ;"jog feed sel. check signal"
+                 WRT       M_REFJ_{{PATH}}       ;"jog mode during ref"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_REF__PATH__ (ref mode selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_REF_{{PATH}} (ref mode selected)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: global variable M_REF__PATH__ (ref mode selected)
+{{PATH}}: global variable M_REF_{{PATH}} (ref mode selected)
 *)
    #endif
-                 RD        MREF__PATH__         ;"mode manual ref. return"
-                 OR        mdrefx__PATH__       ;"memory ref without dog"
-                 AND       m_mref__PATH__       ;"memory mode ref"
-                 WRT       M_REF__PATH__        ;"mode REF selected"
+                 RD        MREF_{{PATH}}         ;"mode manual ref. return"
+                 OR        mdrefx_{{PATH}}       ;"memory ref without dog"
+                 AND       m_mref_{{PATH}}       ;"memory mode ref"
+                 WRT       M_REF_{{PATH}}        ;"mode REF selected"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_HD__PATH__ (handle mode selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_HD_{{PATH}} (handle mode selected)
+!! ---------------------------------------------------------------------------
 #if handwheel_support >0
    #if net_comment == 1
 (*
-_PATH__: global variable M_HD__PATH__ (handle mode selected)
+{{PATH}}: global variable M_HD_{{PATH}} (handle mode selected)
 *)
    #endif
-                 RD        hdsel__PATH__        ;"handle selected"
-                 AND       MH__PATH__           ;"mode handle"
-                 WRT       M_HD__PATH__         ;"mode handle selected"
+                 RD        hdsel_{{PATH}}        ;"handle selected"
+                 AND       MH_{{PATH}}           ;"mode handle"
+                 WRT       M_HD_{{PATH}}         ;"mode handle selected"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable  M_INC__PATH__ (inc feed mode selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable  M_INC_{{PATH}} (inc feed mode selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable  M_INC__PATH__ (inc feed mode selected)
+{{PATH}}: global variable  M_INC_{{PATH}} (inc feed mode selected)
 *)
 #endif
-                 RD        MINC__PATH__         ;"mode incremental feed"
-#if handwheel_support > 0 || pmc_type < 3
-                 OR        MH__PATH__           ;"mode handle"
-                 AND       incsel__PATH__       ;"inc selected"
+                 RD        MINC_{{PATH}}         ;"mode incremental feed"
+#if handwheel_support > 0 or pmc_type < 3
+                 OR        MH_{{PATH}}           ;"mode handle"
+                 AND       incsel_{{PATH}}       ;"inc selected"
 #else
-                 OR        MH__PATH__           ;"mode handle"
-                 AND       m_mhdi__PATH__       ;"memory mode handle"
+                 OR        MH_{{PATH}}           ;"mode handle"
+                 AND       m_mhdi_{{PATH}}       ;"memory mode handle"
 #endif
-                 WRT       M_INC__PATH__        ;"mode INC selected"
+                 WRT       M_INC_{{PATH}}        ;"mode INC selected"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable  M_TEACH__PATH__ (mode TEACH IN selected)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable  M_TEACH_{{PATH}} (mode TEACH IN selected)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_TEACH (teach in mode selected)
+{{PATH}}: global variable M_TEACH (teach in mode selected)
 *)
 #endif
-                 RD        m_tchin__PATH__      ;"memory mode teach in"
-                 AND       MTCHIN__PATH__       ;"teach in sel. check signal"
-                 WRT       M_TEACH__PATH__      ;"mode TEACH IN selected"
+                 RD        m_tchin_{{PATH}}      ;"memory mode teach in"
+                 AND       MTCHIN_{{PATH}}       ;"teach in sel. check signal"
+                 WRT       M_TEACH_{{PATH}}      ;"mode TEACH IN selected"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_AUTO__PATH__ (automatic mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_AUTO_{{PATH}} (automatic mode active)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_AUTO__PATH__ (automatic mode active)
+{{PATH}}: global variable M_AUTO_{{PATH}} (automatic mode active)
 *)
 #endif
-                 RD        M_MDI__PATH__        ;"mode mdi selected"
-                 OR        M_MEM__PATH__        ;"mode mem selected"
-                 OR        M_DNC__PATH__        ;"mode dnc selected"
-                 WRT       M_AUTO__PATH__       ;"automatic mode active"
+                 RD        M_MDI_{{PATH}}        ;"mode mdi selected"
+                 OR        M_MEM_{{PATH}}        ;"mode mem selected"
+                 OR        M_DNC_{{PATH}}        ;"mode dnc selected"
+                 WRT       M_AUTO_{{PATH}}       ;"automatic mode active"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable M_MAN__PATH__ (manual mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable M_MAN_{{PATH}} (manual mode active)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable M_MAN__PATH__ (manual mode active)
+{{PATH}}: global variable M_MAN_{{PATH}} (manual mode active)
 *)
 #endif
-                 RD        M_INC__PATH__        ;"mode inc selected"
+                 RD        M_INC_{{PATH}}        ;"mode inc selected"
 #if handwheel_support > 0
-                 OR        M_HD__PATH__         ;"mode handle selected"
+                 OR        M_HD_{{PATH}}         ;"mode handle selected"
 #endif
-                 OR        M_JOG__PATH__        ;"mode jog selected"
-#if ref_dir_1st_axis__PATH__ > -1
-                 OR        M_REF__PATH__        ;"mode ref selected"
+                 OR        M_JOG_{{PATH}}        ;"mode jog selected"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 OR        M_REF_{{PATH}}        ;"mode ref selected"
 #endif
-                 WRT       M_MAN__PATH__        ;"manual mode active"
+                 WRT       M_MAN_{{PATH}}        ;"manual mode active"

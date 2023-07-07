@@ -1,491 +1,491 @@
-//:--------------------------------------------------------------------------:
-//: File              : axes__PATH__.src                                         :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific axes control                           :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : axes_{{PATH}}.src                                         :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific axes control                           :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: follow up
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: follow up
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: follow up
+{{PATH}}: follow up
 *)
 #endif
                  RD.NOT    LOG1                 ;"logic one"
-                 WRT       *FLWU__PATH__        ;"follow-up signal"
+                 WRT       *FLWU_{{PATH}}        ;"follow-up signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: axis interlock
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: axis interlock
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: axis interlock
+{{PATH}}: axis interlock
 *)
 #endif
 
-                 RD        POW_OK__PATH__       ;"power suply axis ok"
-                 WRT       *IT__PATH__          ;"all axis interlock signal"
+                 RD        POW_OK_{{PATH}}       ;"power suply axis ok"
+                 WRT       *IT_{{PATH}}          ;"all axis interlock signal"
 
 
-// ---------------------------------------------------------------------------
-// __PATH__: feed override
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: feed override
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: feed override
+{{PATH}}: feed override
 *)
    #endif
-                 CALLU     FeedOvr__PATH__      ;"feed override"
+                 CALLU     FeedOvr_{{PATH}}      ;"feed override"
 
-// ---------------------------------------------------------------------------
-// Each axis workpiece coordinate system preset
-// param. setting: N03006 bit 6 = 1 (WPS), N11275 = 100
-// N11276 = 9, N11277 bit 0 = 1 (WPA)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Each axis workpiece coordinate system preset
+!! param. setting: N03006 bit 6 = 1 (WPS), N11275 = 100
+!! N11276 = 9, N11277 bit 0 = 1 (WPA)
+!! ---------------------------------------------------------------------------
 
 #if net_comment == 1
 (*
-_PATH__: Each axis workpiece coordinate system preset
+{{PATH}}: Each axis workpiece coordinate system preset
 param. setting: N03006 bit 6 = 1 (WPS), N11275 = 100
 N11276 = 9, N11277 bit 0 = 1 (WPA)
 *)
 #endif
-                 RD        M100__PATH__         ;"wp coord preset all axes"
-                 SET       REQWP1__PATH__       ;"req wp coord preset 1st ax"
-#if axis_number__PATH__ > 1
-                 SET       REQWP2__PATH__       ;"req wp coord preset 2nd ax"
+                 RD        M100_{{PATH}}         ;"wp coord preset all axes"
+                 SET       REQWP1_{{PATH}}       ;"req wp coord preset 1st ax"
+#if axis_number_{{PATH}} > 1
+                 SET       REQWP2_{{PATH}}       ;"req wp coord preset 2nd ax"
 #endif
-#if axis_number__PATH__ > 2
-                 SET       REQWP3__PATH__       ;"req wp coord preset 3rd ax"
+#if axis_number_{{PATH}} > 2
+                 SET       REQWP3_{{PATH}}       ;"req wp coord preset 3rd ax"
 #endif
-#if axis_number__PATH__ > 3
-                 SET       REQWP4__PATH__       ;"req wp coord preset 4th ax"
+#if axis_number_{{PATH}} > 3
+                 SET       REQWP4_{{PATH}}       ;"req wp coord preset 4th ax"
 #endif
-#if axis_number__PATH__ > 4
-                 SET       REQWP5__PATH__       ;"req wp coord preset 5th ax"
+#if axis_number_{{PATH}} > 4
+                 SET       REQWP5_{{PATH}}       ;"req wp coord preset 5th ax"
 #endif
-#if axis_number__PATH__ > 5
-                 SET       REQWP6__PATH__       ;"req wp coord preset 6th ax"
+#if axis_number_{{PATH}} > 5
+                 SET       REQWP6_{{PATH}}       ;"req wp coord preset 6th ax"
 #endif
-#if axis_number__PATH__ > 6
-                 SET       REQWP7__PATH__       ;"req wp coord preset 7th ax"
+#if axis_number_{{PATH}} > 6
+                 SET       REQWP7_{{PATH}}       ;"req wp coord preset 7th ax"
 #endif
-#if axis_number__PATH__ > 7
-                 SET       REQWP8__PATH__       ;"req wp coord preset 8th ax"
+#if axis_number_{{PATH}} > 7
+                 SET       REQWP8_{{PATH}}       ;"req wp coord preset 8th ax"
 #endif
 
-// ---------------------------------------------------------------------------
-// __PATH__: 1st axis
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 1st axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 1st axis
+{{PATH}}: 1st axis
 *)
    #endif
-                 CALLU     Axis01__PATH__       ;"1st axis"
+                 CALLU     Axis01_{{PATH}}       ;"1st axis"
 
-#if axis_number__PATH__ > 1
-// ---------------------------------------------------------------------------
-// __PATH__: 2nd axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 1
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 2nd axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 2nd axis
+{{PATH}}: 2nd axis
 *)
    #endif
-                 CALLU     Axis02__PATH__       ;"2nd axis"
+                 CALLU     Axis02_{{PATH}}       ;"2nd axis"
 #endif
 
-#if axis_number__PATH__ > 2
-// ---------------------------------------------------------------------------
-// __PATH__: 3rd axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 2
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 3rd axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 3rd axis
+{{PATH}}: 3rd axis
 *)
    #endif
-                 CALLU     Axis03__PATH__       ;"3rd axis"
+                 CALLU     Axis03_{{PATH}}       ;"3rd axis"
 #endif
 
-#if axis_number__PATH__ > 3
-// ---------------------------------------------------------------------------
-// __PATH__: 4th axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 3
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 4th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 4th axis
+{{PATH}}: 4th axis
 *)
    #endif
-                 CALLU     Axis04__PATH__       ;"4th axis"
+                 CALLU     Axis04_{{PATH}}       ;"4th axis"
 #endif
 
-#if axis_number__PATH__ > 4
-// ---------------------------------------------------------------------------
-// __PATH__: 5th axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 4
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 5th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 5th axis
+{{PATH}}: 5th axis
 *)
    #endif
-                 CALLU     Axis05__PATH__       ;"5th axis"
+                 CALLU     Axis05_{{PATH}}       ;"5th axis"
 #endif
 
-#if axis_number__PATH__ > 5
-// ---------------------------------------------------------------------------
-// __PATH__: 6th axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 5
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 6th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 6th axis
+{{PATH}}: 6th axis
 *)
    #endif
-                 CALLU     Axis06__PATH__       ;"6th axis"
+                 CALLU     Axis06_{{PATH}}       ;"6th axis"
 #endif
 
-#if axis_number__PATH__ > 6
-// ---------------------------------------------------------------------------
-// __PATH__: 7th axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 6
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 7th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 7th axis
+{{PATH}}: 7th axis
 *)
    #endif
-                 CALLU     Axis07__PATH__       ;"7th axis"
+                 CALLU     Axis07_{{PATH}}       ;"7th axis"
 #endif
 
-#if axis_number__PATH__ > 7
-// ---------------------------------------------------------------------------
-// __PATH__: 8th axis
-// ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 7
+!! ---------------------------------------------------------------------------
+!! _{{PATH}}: 8th axis
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: 8th axis
+{{PATH}}: 8th axis
 *)
    #endif
-                 CALLU     Axis08__PATH__       ;"8th axis"
+                 CALLU     Axis08_{{PATH}}       ;"8th axis"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable AXMOV__PATH__ (axes are moving)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable AXMOV_{{PATH}} (axes are moving)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable AXMOV (axes are moving)
+{{PATH}}: global variable AXMOV (axes are moving)
 *)
 #endif
-                 RD        MV1__PATH__          ;"1st axis moving signal"
-#if axis_number__PATH__ > 1
-                 OR        MV2__PATH__          ;"2nd axis moving signal"
+                 RD        MV1_{{PATH}}          ;"1st axis moving signal"
+#if axis_number_{{PATH}} > 1
+                 OR        MV2_{{PATH}}          ;"2nd axis moving signal"
 #endif
-#if axis_number__PATH__ > 2
-                 OR        MV3__PATH__          ;"3rd axis moving signal"
+#if axis_number_{{PATH}} > 2
+                 OR        MV3_{{PATH}}          ;"3rd axis moving signal"
 #endif
-#if axis_number__PATH__ > 3
-                 OR        MV4__PATH__          ;"4th axis moving signal"
+#if axis_number_{{PATH}} > 3
+                 OR        MV4_{{PATH}}          ;"4th axis moving signal"
 #endif
-#if axis_number__PATH__ > 4
-                 OR        MV5__PATH__          ;"5th axis moving signal"
+#if axis_number_{{PATH}} > 4
+                 OR        MV5_{{PATH}}          ;"5th axis moving signal"
 #endif
-#if axis_number__PATH__ > 5
-                 OR        MV6__PATH__          ;"6th axis moving signal"
+#if axis_number_{{PATH}} > 5
+                 OR        MV6_{{PATH}}          ;"6th axis moving signal"
 #endif
-#if axis_number__PATH__ > 6
-                 OR        MV7__PATH__          ;"7th axis moving signal"
+#if axis_number_{{PATH}} > 6
+                 OR        MV7_{{PATH}}          ;"7th axis moving signal"
 #endif
-#if axis_number__PATH__ > 7
-                 OR        MV8__PATH__          ;"8th axis moving signal"
+#if axis_number_{{PATH}} > 7
+                 OR        MV8_{{PATH}}          ;"8th axis moving signal"
 #endif
-                 WRT       AXMOV__PATH__        ;"axes moving"
+                 WRT       AXMOV_{{PATH}}        ;"axes moving"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable SER_ON__PATH__ (servos are switched on)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable SER_ON_{{PATH}} (servos are switched on)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable SER_ON__PATH__ (servos are switched on)
+{{PATH}}: global variable SER_ON_{{PATH}} (servos are switched on)
 *)
 #endif
-                 RD.NOT    SVF1__PATH__         ;"servo off 1st axis"
-#if axis_number__PATH__ > 1
-                 OR.NOT    SVF2__PATH__         ;"servo off 2nd axis"
+                 RD.NOT    SVF1_{{PATH}}         ;"servo off 1st axis"
+#if axis_number_{{PATH}} > 1
+                 OR.NOT    SVF2_{{PATH}}         ;"servo off 2nd axis"
 #endif
-#if axis_number__PATH__ > 2
-                 OR.NOT    SVF3__PATH__         ;"servo off 3rd axis"
+#if axis_number_{{PATH}} > 2
+                 OR.NOT    SVF3_{{PATH}}         ;"servo off 3rd axis"
 #endif
-#if axis_number__PATH__ > 3
-                 OR.NOT    SVF4__PATH__         ;"servo off 4th axis"
+#if axis_number_{{PATH}} > 3
+                 OR.NOT    SVF4_{{PATH}}         ;"servo off 4th axis"
 #endif
-#if axis_number__PATH__ > 4
-                 OR.NOT    SVF5__PATH__         ;"servo off 5th axis"
+#if axis_number_{{PATH}} > 4
+                 OR.NOT    SVF5_{{PATH}}         ;"servo off 5th axis"
 #endif
-#if axis_number__PATH__ > 5
-                 OR.NOT    SVF6__PATH__         ;"servo off 6th axis"
+#if axis_number_{{PATH}} > 5
+                 OR.NOT    SVF6_{{PATH}}         ;"servo off 6th axis"
 #endif
-#if axis_number__PATH__ > 6
-                 OR.NOT    SVF7__PATH__         ;"servo off 7th axis"
+#if axis_number_{{PATH}} > 6
+                 OR.NOT    SVF7_{{PATH}}         ;"servo off 7th axis"
 #endif
-#if axis_number__PATH__ > 7
-                 OR.NOT    SVF8__PATH__         ;"servo off 8th axis"
+#if axis_number_{{PATH}} > 7
+                 OR.NOT    SVF8_{{PATH}}         ;"servo off 8th axis"
 #endif
-                 WRT       SER_ON__PATH__       ;"servo on"
+                 WRT       SER_ON_{{PATH}}       ;"servo on"
 
-#if ref_dir_1st_axis__PATH__ > -1
-// ---------------------------------------------------------------------------
-// _PATH__: global variable REFRUN__PATH__ (reference return active)
-// ---------------------------------------------------------------------------
+#if ref_dir_1st_axis_{{PATH}} > -1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable REFRUN_{{PATH}} (reference return active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__:global variable REFRUN (reference return active)
+{{PATH}}:global variable REFRUN (reference return active)
 *)
    #endif
-                 RD        AUTREF__PATH__       ;"automatic refernce return"
-   #if ref_dir_1st_axis__PATH__ > 0
-                 OR        R_REF1__PATH__       ;"reference return 1st axis"
+                 RD        AUTREF_{{PATH}}       ;"automatic refernce return"
+   #if ref_dir_1st_axis_{{PATH}} > 0
+                 OR        R_REF1_{{PATH}}       ;"reference return 1st axis"
    #endif
-   #if axis_number__PATH__ > 1
-      #if ref_dir_2nd_axis__PATH__ > 0
-                 OR        R_REF2__PATH__       ;"reference return 2nd axis"
+   #if axis_number_{{PATH}} > 1
+      #if ref_dir_2nd_axis_{{PATH}} > 0
+                 OR        R_REF2_{{PATH}}       ;"reference return 2nd axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 2
-      #if ref_dir_3rd_axis__PATH__ > 0
-                 OR        R_REF3__PATH__       ;"reference return 3rd axis"
+   #if axis_number_{{PATH}} > 2
+      #if ref_dir_3rd_axis_{{PATH}} > 0
+                 OR        R_REF3_{{PATH}}       ;"reference return 3rd axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 3
-      #if ref_dir_4th_axis__PATH__ > 0
-                 OR        R_REF4__PATH__       ;"reference return 4th axis"
+   #if axis_number_{{PATH}} > 3
+      #if ref_dir_4th_axis_{{PATH}} > 0
+                 OR        R_REF4_{{PATH}}       ;"reference return 4th axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 4
-      #if ref_dir_5th_axis__PATH__ > 0
-                 OR        R_REF5__PATH__       ;"reference return 5th axis"
+   #if axis_number_{{PATH}} > 4
+      #if ref_dir_5th_axis_{{PATH}} > 0
+                 OR        R_REF5_{{PATH}}       ;"reference return 5th axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 5
-      #if ref_dir_6th_axis__PATH__ > 0
-                 OR        R_REF6__PATH__       ;"reference return 6th axis"
+   #if axis_number_{{PATH}} > 5
+      #if ref_dir_6th_axis_{{PATH}} > 0
+                 OR        R_REF6_{{PATH}}       ;"reference return 6th axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 6
-      #if ref_dir_7th_axis__PATH__ > 0
-                 OR        R_REF7__PATH__       ;"reference return 7th axis"
+   #if axis_number_{{PATH}} > 6
+      #if ref_dir_7th_axis_{{PATH}} > 0
+                 OR        R_REF7_{{PATH}}       ;"reference return 7th axis"
       #endif
    #endif
-   #if axis_number__PATH__ > 7
-      #if ref_dir_8th_axis__PATH__ > 0
-                 OR        R_REF8__PATH__       ;"reference return 8th axis"
+   #if axis_number_{{PATH}} > 7
+      #if ref_dir_8th_axis_{{PATH}} > 0
+                 OR        R_REF8_{{PATH}}       ;"reference return 8th axis"
       #endif
    #endif
-                 WRT       REFRUN__PATH__       ;"reference return active"
+                 WRT       REFRUN_{{PATH}}       ;"reference return active"
 #endif
 
-#if ref_dir_1st_axis__PATH__ > -1
-// ---------------------------------------------------------------------------
-// _PATH__: global variable: D_REFx__PATH__(ref return without dog)
-// ---------------------------------------------------------------------------
+#if ref_dir_1st_axis_{{PATH}} > -1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable: D_REFx_{{PATH}}(ref return without dog)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable: D_REFx (ref return without dog)
+{{PATH}}: global variable: D_REFx (ref return without dog)
 *)
 #endif
                  RD.NOT    LOG1                 ;"logic one"
-   #if ref_dir_1st_axis__PATH__ == 5 || ref_dir_1st_axis__PATH__ == 6
-                 OR        D_REF1__PATH__       ;"1st axis ref without dog"
+   #if ref_dir_1st_axis_{{PATH}} == 5 or ref_dir_1st_axis_{{PATH}} == 6
+                 OR        D_REF1_{{PATH}}       ;"1st axis ref without dog"
    #endif
-   #if axis_number__PATH__ > 1
-      #if ref_dir_2nd_axis__PATH__ == 5 || ref_dir_2nd_axis__PATH__ == 6
-                 OR        D_REF2__PATH__       ;"2nd axis ref without dog"
+   #if axis_number_{{PATH}} > 1
+      #if ref_dir_2nd_axis_{{PATH}} == 5 or ref_dir_2nd_axis_{{PATH}} == 6
+                 OR        D_REF2_{{PATH}}       ;"2nd axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 2
-      #if ref_dir_3rd_axis__PATH__ == 5 || ref_dir_3rd_axis__PATH__ == 6
-                 OR        D_REF3__PATH__       ;"3rd axis ref without dog"
+   #if axis_number_{{PATH}} > 2
+      #if ref_dir_3rd_axis_{{PATH}} == 5 or ref_dir_3rd_axis_{{PATH}} == 6
+                 OR        D_REF3_{{PATH}}       ;"3rd axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 3
-      #if ref_dir_4th_axis__PATH__ == 5 || ref_dir_4th_axis__PATH__ == 6
-                 OR        D_REF4__PATH__       ;"4th axis ref without dog"
+   #if axis_number_{{PATH}} > 3
+      #if ref_dir_4th_axis_{{PATH}} == 5 or ref_dir_4th_axis_{{PATH}} == 6
+                 OR        D_REF4_{{PATH}}       ;"4th axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 4
-      #if ref_dir_5th_axis__PATH__ == 5 || ref_dir_5th_axis__PATH__ == 6
-                 OR        D_REF5__PATH__       ;"5th axis ref without dog"
+   #if axis_number_{{PATH}} > 4
+      #if ref_dir_5th_axis_{{PATH}} == 5 or ref_dir_5th_axis_{{PATH}} == 6
+                 OR        D_REF5_{{PATH}}       ;"5th axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 5
-      #if ref_dir_6th_axis__PATH__ == 5 || ref_dir_6th_axis__PATH__ == 6
-                 OR        D_REF6__PATH__       ;"6th axis ref without dog"
+   #if axis_number_{{PATH}} > 5
+      #if ref_dir_6th_axis_{{PATH}} == 5 or ref_dir_6th_axis_{{PATH}} == 6
+                 OR        D_REF6_{{PATH}}       ;"6th axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 6
-      #if ref_dir_7th_axis__PATH__ == 5 || ref_dir_7th_axis__PATH__ == 6
-                 OR        D_REF7__PATH__       ;"7th axis ref without dog"
+   #if axis_number_{{PATH}} > 6
+      #if ref_dir_7th_axis_{{PATH}} == 5 or ref_dir_7th_axis_{{PATH}} == 6
+                 OR        D_REF7_{{PATH}}       ;"7th axis ref without dog"
       #endif
    #endif
-   #if axis_number__PATH__ > 7
-      #if ref_dir_8th_axis__PATH__ == 5 || ref_dir_8th_axis__PATH__ == 6
-                 OR        D_REF8__PATH__       ;"8th axis ref without dog"
+   #if axis_number_{{PATH}} > 7
+      #if ref_dir_8th_axis_{{PATH}} == 5 or ref_dir_8th_axis_{{PATH}} == 6
+                 OR        D_REF8_{{PATH}}       ;"8th axis ref without dog"
       #endif
    #endif
-                 WRT       D_REFx__PATH__       ;"ref return without dog"
+                 WRT       D_REFx_{{PATH}}       ;"ref return without dog"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: waiting wp coordinate preset end
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: waiting wp coordinate preset end
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: waiting wp coordinate preset end
+{{PATH}}: waiting wp coordinate preset end
 *)
 #endif
-                 RD        REQWP1__PATH__       ;"req wp coord preset 1st ax"
-#if axis_number__PATH__ > 1
-                 OR        REQWP2__PATH__       ;"req wp coord preset 2nd ax"
+                 RD        REQWP1_{{PATH}}       ;"req wp coord preset 1st ax"
+#if axis_number_{{PATH}} > 1
+                 OR        REQWP2_{{PATH}}       ;"req wp coord preset 2nd ax"
 #endif
-#if axis_number__PATH__ > 2
-                 OR        REQWP3__PATH__       ;"req wp coord preset 3rd ax"
+#if axis_number_{{PATH}} > 2
+                 OR        REQWP3_{{PATH}}       ;"req wp coord preset 3rd ax"
 #endif
-#if axis_number__PATH__ > 3
-                 OR        REQWP4__PATH__       ;"req wp coord preset 4th ax"
+#if axis_number_{{PATH}} > 3
+                 OR        REQWP4_{{PATH}}       ;"req wp coord preset 4th ax"
 #endif
-#if axis_number__PATH__ > 4
-                 OR        REQWP5__PATH__       ;"req wp coord preset 5th ax"
+#if axis_number_{{PATH}} > 4
+                 OR        REQWP5_{{PATH}}       ;"req wp coord preset 5th ax"
 #endif
-#if axis_number__PATH__ > 5
-                 OR        REQWP6__PATH__       ;"req wp coord preset 6th ax"
+#if axis_number_{{PATH}} > 5
+                 OR        REQWP6_{{PATH}}       ;"req wp coord preset 6th ax"
 #endif
-#if axis_number__PATH__ > 6
-                 OR        REQWP7__PATH__       ;"req wp coord preset 7th ax"
+#if axis_number_{{PATH}} > 6
+                 OR        REQWP7_{{PATH}}       ;"req wp coord preset 7th ax"
 #endif
-#if axis_number__PATH__ > 7
-                 OR        REQWP8__PATH__       ;"req wp coord preset 8th ax"
+#if axis_number_{{PATH}} > 7
+                 OR        REQWP8_{{PATH}}       ;"req wp coord preset 8th ax"
 #endif
-                 WRT       mwpset__PATH__       ;"mem wp coordinate setting"
-                 RD        M100__PATH__         ;"wp coord preset all axes"
-                 AND.NOT   mwpset__PATH__       ;"mem wp coordinate setting"
-                 RST       M100__PATH__         ;"wp coord preset all axes"
+                 WRT       mwpset_{{PATH}}       ;"mem wp coordinate setting"
+                 RD        M100_{{PATH}}         ;"wp coord preset all axes"
+                 AND.NOT   mwpset_{{PATH}}       ;"mem wp coordinate setting"
+                 RST       M100_{{PATH}}         ;"wp coord preset all axes"
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// _PATH__: checking axes specific DCS MCC off signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: checking axes specific DCS MCC off signals
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: checking axes specific DCS MCC off signals
+{{PATH}}: checking axes specific DCS MCC off signals
 *)
    #endif
-                 RD.NOT    M*MCFV1__PATH__      ;"1st axis MCC off signal"
-   #if axis_number__PATH__ > 1
-                 OR.NOT    M*MCFV2__PATH__      ;"2nd axis MCC off signal"
+                 RD.NOT    M*MCFV1_{{PATH}}      ;"1st axis MCC off signal"
+   #if axis_number_{{PATH}} > 1
+                 OR.NOT    M*MCFV2_{{PATH}}      ;"2nd axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 2
-                 OR.NOT    M*MCFV3__PATH__      ;"3rd axis MCC off signal"
+   #if axis_number_{{PATH}} > 2
+                 OR.NOT    M*MCFV3_{{PATH}}      ;"3rd axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 3
-                 OR.NOT    M*MCFV4__PATH__      ;"4th axis MCC off signal"
+   #if axis_number_{{PATH}} > 3
+                 OR.NOT    M*MCFV4_{{PATH}}      ;"4th axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 4
-                 OR.NOT    M*MCFV5__PATH__      ;"5th axis MCC off signal"
+   #if axis_number_{{PATH}} > 4
+                 OR.NOT    M*MCFV5_{{PATH}}      ;"5th axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 5
-                 OR.NOT    M*MCFV6__PATH__      ;"6th axis MCC off signal"
+   #if axis_number_{{PATH}} > 5
+                 OR.NOT    M*MCFV6_{{PATH}}      ;"6th axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 6
-                 OR.NOT    M*MCFV7__PATH__      ;"7th axis MCC off signal"
+   #if axis_number_{{PATH}} > 6
+                 OR.NOT    M*MCFV7_{{PATH}}      ;"7th axis MCC off signal"
    #endif
-   #if axis_number__PATH__ > 7
-                 OR.NOT    M*MCFV8__PATH__      ;"8th axis MCC off signal"
+   #if axis_number_{{PATH}} > 7
+                 OR.NOT    M*MCFV8_{{PATH}}      ;"8th axis MCC off signal"
    #endif
-                 WRT       MCFVx_NOK__PATH__    ;"mcf axes not ok"
+                 WRT       MCFVx_NOK_{{PATH}}    ;"mcf axes not ok"
 
-// ---------------------------------------------------------------------------
-// _PATH__: checking DCS axes specific monitoring signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: checking DCS axes specific monitoring signals
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: checking DCS axes specific monitoring signals
+{{PATH}}: checking DCS axes specific monitoring signals
 *)
    #endif
-                 RD.NOT    MRSV1__PATH__        ;"1st axis monit. result"
-   #if axis_number__PATH__ > 1
-                 OR.NOT    MRSV2__PATH__        ;"2nd axis monit. result"
+                 RD.NOT    MRSV1_{{PATH}}        ;"1st axis monit. result"
+   #if axis_number_{{PATH}} > 1
+                 OR.NOT    MRSV2_{{PATH}}        ;"2nd axis monit. result"
    #endif
-   #if axis_number__PATH__ > 2
-                 OR.NOT    MRSV3__PATH__        ;"3rd axis monit. result"
+   #if axis_number_{{PATH}} > 2
+                 OR.NOT    MRSV3_{{PATH}}        ;"3rd axis monit. result"
    #endif
-   #if axis_number__PATH__ > 3
-                 OR.NOT    MRSV4__PATH__        ;"4th axis monit. result"
+   #if axis_number_{{PATH}} > 3
+                 OR.NOT    MRSV4_{{PATH}}        ;"4th axis monit. result"
    #endif
-   #if axis_number__PATH__ > 4
-                 OR.NOT    MRSV5__PATH__        ;"5th axis monit. result"
+   #if axis_number_{{PATH}} > 4
+                 OR.NOT    MRSV5_{{PATH}}        ;"5th axis monit. result"
    #endif
-   #if axis_number__PATH__ > 5
-                 OR.NOT    MRSV6__PATH__        ;"6th axis monit. result"
+   #if axis_number_{{PATH}} > 5
+                 OR.NOT    MRSV6_{{PATH}}        ;"6th axis monit. result"
    #endif
-   #if axis_number__PATH__ > 6
-                 OR.NOT    MRSV7__PATH__        ;"7th axis monit. result"
+   #if axis_number_{{PATH}} > 6
+                 OR.NOT    MRSV7_{{PATH}}        ;"7th axis monit. result"
    #endif
-   #if axis_number__PATH__ > 7
-                 OR.NOT    MRSV8__PATH__        ;"8th axis monit. result"
+   #if axis_number_{{PATH}} > 7
+                 OR.NOT    MRSV8_{{PATH}}        ;"8th axis monit. result"
    #endif
-                 WRT       RSVx_NOK__PATH__     ;"rsv monitoring not ok"
+                 WRT       RSVx_NOK_{{PATH}}     ;"rsv monitoring not ok"
 
-// ---------------------------------------------------------------------------
-// _PATH__: checking DCS position information effect signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: checking DCS position information effect signals
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: checking DCS position information effect signals
+{{PATH}}: checking DCS position information effect signals
 *)
    #endif
-                 RD.NOT    MPOSE1__PATH__       ;"1st axis pos. inf. effect"
-   #if axis_number__PATH__ > 1
-                 OR.NOT    MPOSE2__PATH__       ;"2nd axis pos. inf. effect"
+                 RD.NOT    MPOSE1_{{PATH}}       ;"1st axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 1
+                 OR.NOT    MPOSE2_{{PATH}}       ;"2nd axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 2
-                 OR.NOT    MPOSE3__PATH__       ;"3rd axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 2
+                 OR.NOT    MPOSE3_{{PATH}}       ;"3rd axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 3
-                 OR.NOT    MPOSE4__PATH__       ;"4th axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 3
+                 OR.NOT    MPOSE4_{{PATH}}       ;"4th axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 4
-                 OR.NOT    MPOSE5__PATH__       ;"5th axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 4
+                 OR.NOT    MPOSE5_{{PATH}}       ;"5th axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 5
-                 OR.NOT    MPOSE6__PATH__       ;"6th axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 5
+                 OR.NOT    MPOSE6_{{PATH}}       ;"6th axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 6
-                 OR.NOT    MPOSE7__PATH__       ;"7th axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 6
+                 OR.NOT    MPOSE7_{{PATH}}       ;"7th axis pos. inf. effect"
    #endif
-   #if axis_number__PATH__ > 7
-                 OR.NOT    MPOSE8__PATH__       ;"8th axis pos. inf. effect"
+   #if axis_number_{{PATH}} > 7
+                 OR.NOT    MPOSE8_{{PATH}}       ;"8th axis pos. inf. effect"
    #endif
-                 WRT       POSEx_NOK__PATH__    ;"pose information not ok"
+                 WRT       POSEx_NOK_{{PATH}}    ;"pose information not ok"
 #endif
 
 

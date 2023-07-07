@@ -1,291 +1,291 @@
-//:--------------------------------------------------------------------------:
-//: File              : axis07__PATH__.src                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Management of 7th axis                               :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
-//:        :       :       :*IT signal is accelerated when wp coordinate     :
-//:        :       :       :preset is executed or hold to run button is      :
-//:        :       :       :pressed.                                         :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : axis07_{{PATH}}.src                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Management of 7th axis                               :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:05.11.18: 2.1.0 :Blp    :In case of brake control, the activation of the  :
+!!:        :       :       :*IT signal is accelerated when wp coordinate     :
+!!:        :       :       :preset is executed or hold to run button is      :
+!!:        :       :       :pressed.                                         :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// _PATH__: overtravel check
-// if there are limit switches for the 7th axis,
-// replace LOG1 with the real input signals Xxxx.y
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: overtravel check
+!! if there are limit switches for the 7th axis,
+!! replace LOG1 with the real input signals Xxxx.y
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: overtravel check
+{{PATH}}: overtravel check
 if there are limit switches for the 7th axis,
 replace LOG1 with the real input signals Xxxx.y
 *)
 #endif
                  RD        LOG1                 ;"logic one"
-                 WRT       *+L7__PATH__         ;"overtravel + 7th axis"
+                 WRT       *+L7_{{PATH}}         ;"overtravel + 7th axis"
 
                  RD        LOG1                 ;"logic one"
-                 WRT       *-L7__PATH__         ;"overtravel - 7th axis"
+                 WRT       *-L7_{{PATH}}         ;"overtravel - 7th axis"
 
-// ---------------------------------------------------------------------------
-// reference position return
-// ---------------------------------------------------------------------------
-#if ref_dir_7th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-   #include "axis07ref__PATH__.src"       // reference position return 7th axis
+!! ---------------------------------------------------------------------------
+!! reference position return
+!! ---------------------------------------------------------------------------
+#if ref_dir_7th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+   #include "axis07ref_{{PATH}}.src"       !! reference position return 7th axis
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: led 7th axis selected
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: led 7th axis selected
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: led 7th axis selected
+{{PATH}}: led 7th axis selected
 *)
 #endif
-                 RD        M_K7AX__PATH__       ;"memory 7th axis selected"
-#if ref_dir_1st_axis__PATH__ > -1
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-   #if ref_dir_7th_axis__PATH__ > 0
-                 OR        R_REF7__PATH__       ;"reference return 7th axis"
+                 RD        M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+#if ref_dir_1st_axis_{{PATH}} > -1
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+   #if ref_dir_7th_axis_{{PATH}} > 0
+                 OR        R_REF7_{{PATH}}       ;"reference return 7th axis"
    #endif
 #endif
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       L_7AX__PATH__        ;"led 7th axis sel."
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       L_7AX_{{PATH}}        ;"led 7th axis sel."
 
-// ---------------------------------------------------------------------------
-// _PATH__: jog feed
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: jog feed
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: jog feed
+{{PATH}}: jog feed
 *)
 #endif
-                 RD        M_K7AX__PATH__       ;"memory 7th axis selected"
-                 AND       M_KPLUS__PATH__      ;"memory axis plus dir."
-                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
-#if ref_dir_7th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-                 OR        aref_7p__PATH__      ;"ref: move 7th axis +dir."
+                 RD        M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+                 AND       M_KPLUS_{{PATH}}      ;"memory axis plus dir."
+                 AND.NOT   M_REF_{{PATH}}        ;"mode ref selected"
+#if ref_dir_7th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+                 OR        aref_7p_{{PATH}}      ;"ref: move 7th axis +dir."
 #endif
-                 AND       AX_MEN__PATH__       ;"axis move enable"
-#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 7 && spindle_support_P01 > -1
-                 AND.NOT   EAX7__PATH__         ;"7th axis is pmc axis"
+                 AND       AX_MEN_{{PATH}}       ;"axis move enable"
+#if spindle_support_{{PATH}} == 4 and spindle_sv_axis_{{PATH}} == 7 and spindle_support_P01 > -1
+                 AND.NOT   EAX7_{{PATH}}         ;"7th axis is pmc axis"
 #endif
-                 WRT       J7+__PATH__          ;"feed 7th axis + direction"
-                 WRT       L_7AXP__PATH__       ;"led 7th axis + dir."
+                 WRT       J7+_{{PATH}}          ;"feed 7th axis + direction"
+                 WRT       L_7AXP_{{PATH}}       ;"led 7th axis + dir."
 
-                 RD        M_K7AX__PATH__       ;"memory 7th axis selected"
-                 AND       M_KMINUS__PATH__     ;"memory axis minus dir."
-                 AND.NOT   M_REF__PATH__        ;"mode ref selected"
-#if ref_dir_7th_axis__PATH__ > 0 && ref_dir_1st_axis__PATH__ > -1
-                 OR        aref_7m__PATH__      ;"ref: move 7th axis -dir."
+                 RD        M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+                 AND       M_KMINUS_{{PATH}}     ;"memory axis minus dir."
+                 AND.NOT   M_REF_{{PATH}}        ;"mode ref selected"
+#if ref_dir_7th_axis_{{PATH}} > 0 and ref_dir_1st_axis_{{PATH}} > -1
+                 OR        aref_7m_{{PATH}}      ;"ref: move 7th axis -dir."
 #endif
-                 AND       AX_MEN__PATH__       ;"axis move enable"
-#if spindle_support__PATH__ == 4 && spindle_sv_axis__PATH__ == 7 && spindle_support_P01 > -1
-                 AND.NOT   EAX7__PATH__         ;"7th axis is pmc axis"
+                 AND       AX_MEN_{{PATH}}       ;"axis move enable"
+#if spindle_support_{{PATH}} == 4 and spindle_sv_axis_{{PATH}} == 7 and spindle_support_P01 > -1
+                 AND.NOT   EAX7_{{PATH}}         ;"7th axis is pmc axis"
 #endif
-                 WRT       J7-__PATH__          ;"feed 7th axis - direction"
-                 WRT       L_7AXM__PATH__       ;"led 7th axis - dir."
+                 WRT       J7-_{{PATH}}          ;"feed 7th axis - direction"
+                 WRT       L_7AXM_{{PATH}}       ;"led 7th axis - dir."
 
-// ---------------------------------------------------------------------------
-// _PATH__: workpiece coordinate system preset
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: workpiece coordinate system preset
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: workpiece coordinate system preset
+{{PATH}}: workpiece coordinate system preset
 *)
 #endif
-                 RD        REQWP7__PATH__       ;"req wp coord preset 7th axis"
-                 AND       WPRST7__PATH__       ;"wp coord. preset 7th axis"
-                 AND       WPSF7__PATH__        ;"wp coord. preset fin 7th axis"
-                 OR        RST__PATH__          ;"resetting signal"
-                 RST       REQWP7__PATH__       ;"req wp coord preset 7th axis"
+                 RD        REQWP7_{{PATH}}       ;"req wp coord preset 7th axis"
+                 AND       WPRST7_{{PATH}}       ;"wp coord. preset 7th axis"
+                 AND       WPSF7_{{PATH}}        ;"wp coord. preset fin 7th axis"
+                 OR        RST_{{PATH}}          ;"resetting signal"
+                 RST       REQWP7_{{PATH}}       ;"req wp coord preset 7th axis"
 
-                 RD        M107__PATH__         ;"wp coord preset 7th axis"
-                 AND       WPRST7__PATH__       ;"wp coord preset 7th axis"
-                 AND       WPSF7__PATH__        ;"wp coord preset fin 7th ax"
-                 RST       M107__PATH__         ;"wp coord preset 7th axis"
+                 RD        M107_{{PATH}}         ;"wp coord preset 7th axis"
+                 AND       WPRST7_{{PATH}}       ;"wp coord preset 7th axis"
+                 AND       WPSF7_{{PATH}}        ;"wp coord preset fin 7th ax"
+                 RST       M107_{{PATH}}         ;"wp coord preset 7th axis"
 
-                 RD        FE_RST__PATH__       ;"falling edge reset"
-                 AND       wppsreq7__PATH__     ;"req wp coord. preset 7th ax"
-                 RD.STK    FEPGMT__PATH__       ;"falling edge program test"
-                 AND.NOT   PGMRUN__PATH__       ;"program running"
+                 RD        FE_RST_{{PATH}}       ;"falling edge reset"
+                 AND       wppsreq7_{{PATH}}     ;"req wp coord. preset 7th ax"
+                 RD.STK    FEPGMT_{{PATH}}       ;"falling edge program test"
+                 AND.NOT   PGMRUN_{{PATH}}       ;"program running"
                  OR.STK    
-                 OR        REQWP7__PATH__       ;"req wp coord preset 7th axis"
-                 OR        M107__PATH__         ;"wp coord preset 7th axis"
-                 RD.STK    WPRST7__PATH__       ;"wp coord. preset 7th axis"
-                 AND.NOT   WPSF7__PATH__        ;"wp coord. preset fin 7th axis"
+                 OR        REQWP7_{{PATH}}       ;"req wp coord preset 7th axis"
+                 OR        M107_{{PATH}}         ;"wp coord preset 7th axis"
+                 RD.STK    WPRST7_{{PATH}}       ;"wp coord. preset 7th axis"
+                 AND.NOT   WPSF7_{{PATH}}        ;"wp coord. preset fin 7th axis"
                  OR.STK    
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       WPRST7__PATH__       ;"wp coord. preset 7th axis"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       WPRST7_{{PATH}}       ;"wp coord. preset 7th axis"
 
-                 RD        FEPGMT__PATH__       ;"falling edge program test"
-                 AND       PGMRUN__PATH__       ;"program running"
-                 RD.STK    wppsreq7__PATH__     ;"req wp coord. preset 7th ax"
-                 AND.NOT   FE_RST__PATH__       ;"falling edge reset"
+                 RD        FEPGMT_{{PATH}}       ;"falling edge program test"
+                 AND       PGMRUN_{{PATH}}       ;"program running"
+                 RD.STK    wppsreq7_{{PATH}}     ;"req wp coord. preset 7th ax"
+                 AND.NOT   FE_RST_{{PATH}}       ;"falling edge reset"
                  OR.STK    
-                 WRT       wppsreq7__PATH__     ;"req wp coord. preset 7th ax"
+                 WRT       wppsreq7_{{PATH}}     ;"req wp coord. preset 7th ax"
 
-#if brake_7th_axis__PATH__ == 0
-// ---------------------------------------------------------------------------
-// _PATH__: axis interlock
-// ---------------------------------------------------------------------------
+#if brake_7th_axis_{{PATH}} == 0
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: axis interlock
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: axis interlock
+{{PATH}}: axis interlock
 *)
    #endif
    #if dcs_support == 1
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       POW_OK__PATH__       ;"power supply axis ok"
+                 AND       POW_OK_{{PATH}}       ;"power supply axis ok"
    #else
-                 RD        POW_OK__PATH__       ;"power suply axis ok"
+                 RD        POW_OK_{{PATH}}       ;"power suply axis ok"
    #endif
-                 AND.NOT   WPRST7__PATH__       ;"wp coord. preset 7th axis"
-                 WRT       *IT7__PATH__         ;"interlock 7th axis"
+                 AND.NOT   WPRST7_{{PATH}}       ;"wp coord. preset 7th axis"
+                 WRT       *IT7_{{PATH}}         ;"interlock 7th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: servo off
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: servo off
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: servo off
+{{PATH}}: servo off
 *)
    #endif
-                 RD.NOT    POW_OK__PATH__       ;"power suply axis ok"
-                 WRT       SVF7__PATH__         ;"servo off 7th axis"
+                 RD.NOT    POW_OK_{{PATH}}       ;"power suply axis ok"
+                 WRT       SVF7_{{PATH}}         ;"servo off 7th axis"
 #else
-// ---------------------------------------------------------------------------
-// _PATH__: brake control
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: brake control
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: brake control
+{{PATH}}: brake control
 *)
    #endif
-                 RD        POW_OK__PATH__       ;"power supply axis ok"
-                 AND       SA7__PATH__          ;"7th axis servo ready"
-                 WRT       relb_7th__PATH__     ;"release brake 7th axis"
+                 RD        POW_OK_{{PATH}}       ;"power supply axis ok"
+                 AND       SA7_{{PATH}}          ;"7th axis servo ready"
+                 WRT       relb_7th_{{PATH}}     ;"release brake 7th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: delay brake released
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: delay brake released
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: delay brake released
+{{PATH}}: delay brake released
 *)
    #endif
-                 RD        relb_7th__PATH__     ;"release brake 7th axis"
+                 RD        relb_7th_{{PATH}}     ;"release brake 7th axis"
                  TMRB      
                            0
                            96
-                 WRT       brel_7th__PATH__     ;"brake 7th axis released"
+                 WRT       brel_7th_{{PATH}}     ;"brake 7th axis released"
 
    #if dcs_support == 1
                  RD        *SGOPN               ;"guard state doors closed"
                  OR        SET_M01_EN           ;"enable setup mode 01"
-                 AND       brel_7th__PATH__     ;"brake 7th axis released"
+                 AND       brel_7th_{{PATH}}     ;"brake 7th axis released"
    #else
-                 RD        brel_7th__PATH__     ;"brake 7th axis released"
+                 RD        brel_7th_{{PATH}}     ;"brake 7th axis released"
    #endif
-                 AND.NOT   WPRST7__PATH__       ;"wp coord preset 7th axis"
-                 WRT       *IT7__PATH__         ;"interlock 7th axis"
+                 AND.NOT   WPRST7_{{PATH}}       ;"wp coord preset 7th axis"
+                 WRT       *IT7_{{PATH}}         ;"interlock 7th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: delay brake clamped
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: delay brake clamped
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: delay brake clamped
+{{PATH}}: delay brake clamped
 *)
    #endif
-                 RD.NOT    relb_7th__PATH__     ;"release brake 7th axis"
+                 RD.NOT    relb_7th_{{PATH}}     ;"release brake 7th axis"
                  TMRB      
                            0
                            48
-                 WRT       7th_soff__PATH__     ;"7th axis servo off"
+                 WRT       7th_soff_{{PATH}}     ;"7th axis servo off"
 
-// ---------------------------------------------------------------------------
-// _PATH__: servo off
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: servo off
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: servo off
+{{PATH}}: servo off
 *)
    #endif
                  RD.NOT    FICYCL               ;"first cycle finished"
-                 OR        1st_svf7__PATH__     ;"1st servo off 7th axis"
-                 AND.NOT   POW_OK__PATH__       ;"power supply axis ok"
-                 WRT       1st_svf7__PATH__     ;"1st servo off 7th axis"
+                 OR        1st_svf7_{{PATH}}     ;"1st servo off 7th axis"
+                 AND.NOT   POW_OK_{{PATH}}       ;"power supply axis ok"
+                 WRT       1st_svf7_{{PATH}}     ;"1st servo off 7th axis"
 
-                 RD        1st_svf7__PATH__     ;"1st servo off 7th axis"
-                 OR        7th_soff__PATH__     ;"7th axis servo off"
-                 WRT       SVF7__PATH__         ;"servo off 7th axis"
+                 RD        1st_svf7_{{PATH}}     ;"1st servo off 7th axis"
+                 OR        7th_soff_{{PATH}}     ;"7th axis servo off"
+                 WRT       SVF7_{{PATH}}         ;"servo off 7th axis"
 #endif
-// ---------------------------------------------------------------------------
-// _PATH__: external deceleration
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: external deceleration
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: external deceleration
+{{PATH}}: external deceleration
 *)
 #endif
-                 RD.NOT    SETUP__PATH__        ;"set-up active"
-                 WRT       *+ED7__PATH__        ;"external dec. + 7th axis"
-                 WRT       *-ED7__PATH__        ;"external dec. - 7th axis"
+                 RD.NOT    SETUP_{{PATH}}        ;"set-up active"
+                 WRT       *+ED7_{{PATH}}        ;"external dec. + 7th axis"
+                 WRT       *-ED7_{{PATH}}        ;"external dec. - 7th axis"
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// _PATH__: DCS MCC off signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS MCC off signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS MCC off signal
+{{PATH}}: DCS MCC off signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        *MCFV7__PATH__       ;"MCC off signal 7th axis"
+                 RD        *MCFV7_{{PATH}}       ;"MCC off signal 7th axis"
    #endif
-                 WRT       M*MCFV7__PATH__      ;"7th axis MCC off signal"
+                 WRT       M*MCFV7_{{PATH}}      ;"7th axis MCC off signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS monitoring result signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS monitoring result signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS monitoring result signal
+{{PATH}}: DCS monitoring result signal
 *)
    #endif
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        RSV7__PATH__         ;"monitoring result 7th axis"
+                 RD        RSV7_{{PATH}}         ;"monitoring result 7th axis"
    #endif
-                 WRT       MRSV7__PATH__        ;"7th axis monit. result"
+                 WRT       MRSV7_{{PATH}}        ;"7th axis monit. result"
 
-// ---------------------------------------------------------------------------
-// _PATH__: position information effect signal
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: position information effect signal
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 DCS position information effect signal
@@ -294,63 +294,63 @@ DCS position information effect signal
    #if demo_control == 1
                  RD        LOG1                 ;"logic one"
    #else
-                 RD        POSE7__PATH__        ;"pos. inf. effect 7th axis"
+                 RD        POSE7_{{PATH}}        ;"pos. inf. effect 7th axis"
    #endif
-                 WRT       MPOSE7__PATH__       ;"7th axis pos. inf. effect"
+                 WRT       MPOSE7_{{PATH}}       ;"7th axis pos. inf. effect"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety check activation
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS safety check activation
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS safety check activation
+{{PATH}}: DCS safety check activation
 *)
    #endif
                  RD        *SGOPN               ;"guard state doors closed"
-                 WRT       *VLDV7__PATH__       ;"safety check req. 7th ax."
+                 WRT       *VLDV7_{{PATH}}       ;"safety check req. 7th ax."
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS safety zero speed monitoring
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS safety zero speed monitoring
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS safety zero speed monitoring
+{{PATH}}: DCS safety zero speed monitoring
 *)
    #endif
                  RD.NOT    DCS_S02              ;"DCS speed set 2"
                  AND.NOT   *SGOPN               ;"guard state doors closed"
-                 WRT       SVZR7__PATH__        ;"zero mon. req. 7th axis"
+                 WRT       SVZR7_{{PATH}}        ;"zero mon. req. 7th axis"
 
-// ---------------------------------------------------------------------------
-// _PATH__: DCS selection of safety speed set 2
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: DCS selection of safety speed set 2
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: DCS selection of safety speed set 2
+{{PATH}}: DCS selection of safety speed set 2
 *)
    #endif
                  RD        DCS_S02              ;"DCS speed set 2"
-                 WRT       SVA7__PATH__         ;"saf. sel. sig. A 7th axis"
+                 WRT       SVA7_{{PATH}}         ;"saf. sel. sig. A 7th axis"
 #endif
 
-#if brake_7th_axis__PATH__ == 1
-// ---------------------------------------------------------------------------
-// _PATH__: management of the brake output
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
+#if brake_7th_axis_{{PATH}} == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: management of the brake output
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: management of the brake output
+{{PATH}}: management of the brake output
 replace T_BIT000 with the real brake output Yxxx.y
 *)
    #endif
 
    #if dcs_support == 0
-                 RD        relb_7th__PATH__     ;"release brake 7th axis"
+                 RD        relb_7th_{{PATH}}     ;"release brake 7th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #else
-                 RD        relb_7th__PATH__     ;"release brake 7th axis"
-                 AND       *BRK7__PATH__        ;"Safety Brake sig. 7th axis"
+                 RD        relb_7th_{{PATH}}     ;"release brake 7th axis"
+                 AND       *BRK7_{{PATH}}        ;"Safety Brake sig. 7th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif

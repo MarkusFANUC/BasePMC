@@ -1,35 +1,35 @@
-//:--------------------------------------------------------------------------:
-//: File              : power.src                                            :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Power management of the drives                       :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:20.10.17: 2.0.0 :Blp    :path 11-15 added                                 :
-//:        :       :       :Behaviour of hold to run button improved         :
-//:--------------------------------------------------------------------------:
-//:31.08.21: 3.0.0 :Blp    :key switch for set-up mode will only be checked  :
-//:        :       :       :when protection door is not locked               :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : power.src                                            :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Power management of the drives                       :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:20.10.17: 2.0.0 :Blp    :path 11-15 added                                 :
+!!:        :       :       :Behaviour of hold to run button improved         :
+!!:--------------------------------------------------------------------------:
+!!:31.08.21: 3.0.0 :Blp    :key switch for set-up mode will only be checked  :
+!!:        :       :       :when protection door is not locked               :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// feedback main contactor
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! feedback main contactor
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 feedback main contactor
@@ -42,9 +42,9 @@ feedback main contactor
    #endif
                  WRT       *SMC                 ;"MCC contact state(group)"
 
-// ---------------------------------------------------------------------------
-// door state signals
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! door state signals
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 door state signals
@@ -58,9 +58,9 @@ this signal will be DCS I/O cross checked
    #endif
                  WRT       *SGOPN               ;"guard state doors closed"
 
-// ---------------------------------------------------------------------------
-// hold to run button
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! hold to run button
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 hold to run button
@@ -100,9 +100,9 @@ this signal will be DCS I/O cross checked
                  RST       mem_htr              ;"memory re htr"
    #endif
 
-// ---------------------------------------------------------------------------
-// setup mode selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! setup mode selection
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 setup mode selection
@@ -118,9 +118,9 @@ this signal will be DCS I/O cross checked
                  WRT       SET_M01              ;"setup mode 01"
 
    #if mcc_test == 1
-// ---------------------------------------------------------------------------
-// DCS MCC off test
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! DCS MCC off test
+!! ---------------------------------------------------------------------------
       #if net_comment == 1
 (*
 DCS MCC off test
@@ -162,9 +162,9 @@ DCS MCC off test
                  RST       MCC_TEST             ;"mcc test running"
    #endif
 
-// ---------------------------------------------------------------------------
-// conditions for MCC on
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! conditions for MCC on
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 conditions for MCC on
@@ -183,9 +183,9 @@ conditions for MCC on
                  AND.STK   
                  WRT       mcc_on               ;"enable mcc on"
 
-// ---------------------------------------------------------------------------
-// Delayed switch off of MCC at open Door in order to avoid dynamic brake
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Delayed switch off of MCC at open Door in order to avoid dynamic brake
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 Delayed switch off of MCC at open Door in order
@@ -199,9 +199,9 @@ to avoid dynamic brake
                            200
                  WRT       mcon_dop             ;"mcc on doors open"
 
-// ---------------------------------------------------------------------------
-// Delayed switch off of MCC at closed Door in order to avoid dynamic brake
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! Delayed switch off of MCC at closed Door in order to avoid dynamic brake
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 Delayed switch off of MCC at closed Door in order
@@ -220,9 +220,9 @@ to avoid dynamic brake
                  WRT       oMCC_ON              ;"output mcc"
 #endif
 
-// ---------------------------------------------------------------------------
-// charging DC link
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! charging DC link
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 charging DC link
@@ -282,9 +282,9 @@ charging DC link
                  WRT       IGNVRY_P15           ;"P15:ignore servo ready"
 #endif
 
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P01 (power ok == drives path P01 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P01 (power ok == drives path P01 ready)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 P01: global variable POW_OK_P01 (power ok == drives path P01 ready)
@@ -302,9 +302,9 @@ P01: global variable POW_OK_P01 (power ok == drives path P01 ready)
                  WRT       POW_OK_P01           ;"P01:power suply axis ok"
 
 #if nbr_of_path > 1
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P02 (power ok == drives path P02 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P02 (power ok == drives path P02 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P02: global variable POW_OK_P02 (power ok == drives path P02 ready)
@@ -323,9 +323,9 @@ P02: global variable POW_OK_P02 (power ok == drives path P02 ready)
 #endif
 
 #if nbr_of_path > 2
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P03 (power ok == drives path P03 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P03 (power ok == drives path P03 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P03: global variable POW_OK_P03 (power ok == drives path P03 ready)
@@ -344,9 +344,9 @@ P03: global variable POW_OK_P03 (power ok == drives path P03 ready)
 #endif
 
 #if nbr_of_path > 3
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P04 (power ok == drives path P04 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P04 (power ok == drives path P04 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P04: global variable POW_OK_P04 (power ok == drives path P04 ready)
@@ -365,9 +365,9 @@ P04: global variable POW_OK_P04 (power ok == drives path P04 ready)
 #endif
 
 #if nbr_of_path > 4
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P05 (power ok == drives path P05 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P05 (power ok == drives path P05 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P05: global variable POW_OK_P05 (power ok == drives path P05 ready)
@@ -386,9 +386,9 @@ P05: global variable POW_OK_P05 (power ok == drives path P05 ready)
 #endif
 
 #if nbr_of_path > 5
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P06 (power ok == drives path P06 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P06 (power ok == drives path P06 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P06: global variable POW_OK_P06 (power ok == drives path P06 ready)
@@ -407,9 +407,9 @@ P06: global variable POW_OK_P06 (power ok == drives path P06 ready)
 #endif
 
 #if nbr_of_path > 6
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P07 (power ok == drives path P07 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P07 (power ok == drives path P07 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P07: global variable POW_OK_P07 (power ok == drives path P07 ready)
@@ -428,9 +428,9 @@ P07: global variable POW_OK_P07 (power ok == drives path P07 ready)
 #endif
 
 #if nbr_of_path > 7
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P08 (power ok == drives path P08 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P08 (power ok == drives path P08 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P08: global variable POW_OK_P08 (power ok == drives path P08 ready)
@@ -449,9 +449,9 @@ P08: global variable POW_OK_P08 (power ok == drives path P08 ready)
 #endif
 
 #if nbr_of_path > 8
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P09 (power ok == drives path P09 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P09 (power ok == drives path P09 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P09: global variable POW_OK_P09 (power ok == drives path P09 ready)
@@ -470,9 +470,9 @@ P09: global variable POW_OK_P09 (power ok == drives path P09 ready)
 #endif
 
 #if nbr_of_path > 9
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P10 (power ok == drives path P10 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P10 (power ok == drives path P10 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P10: global variable POW_OK_P10 (power ok == drives path P10 ready)
@@ -491,9 +491,9 @@ P10: global variable POW_OK_P10 (power ok == drives path P10 ready)
 #endif
 
 #if nbr_of_path > 10
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P11 (power ok == drives path P11 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P11 (power ok == drives path P11 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P11: global variable POW_OK_P11 (power ok == drives path P11 ready)
@@ -512,9 +512,9 @@ P11: global variable POW_OK_P11 (power ok == drives path P11 ready)
 #endif
 
 #if nbr_of_path > 11
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P12 (power ok == drives path P12 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P12 (power ok == drives path P12 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P12: global variable POW_OK_P12 (power ok == drives path P12 ready)
@@ -533,9 +533,9 @@ P12: global variable POW_OK_P12 (power ok == drives path P12 ready)
 #endif
 
 #if nbr_of_path > 12
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P13 (power ok == drives path P13 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P13 (power ok == drives path P13 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P13: global variable POW_OK_P13 (power ok == drives path P13 ready)
@@ -554,9 +554,9 @@ P13: global variable POW_OK_P13 (power ok == drives path P13 ready)
 #endif
 
 #if nbr_of_path > 13
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P14 (power ok == drives path P14 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P14 (power ok == drives path P14 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P14: global variable POW_OK_P14 (power ok == drives path P14 ready)
@@ -575,9 +575,9 @@ P14: global variable POW_OK_P14 (power ok == drives path P14 ready)
 #endif
 
 #if nbr_of_path > 14
-// ---------------------------------------------------------------------------
-// global variable POW_OK_P15 (power ok == drives path P15 ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK_P15 (power ok == drives path P15 ready)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P15: global variable POW_OK_P15 (power ok == drives path P15 ready)
@@ -595,9 +595,9 @@ P15: global variable POW_OK_P15 (power ok == drives path P15 ready)
                  WRT       POW_OK_P15           ;"P15:power suply axis ok"
 #endif
 
-// ---------------------------------------------------------------------------
-// global variable POW_OK (power ok == all drives ready)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable POW_OK (power ok == all drives ready)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 global variable POW_OK (power ok == all drives ready)
@@ -648,9 +648,9 @@ global variable POW_OK (power ok == all drives ready)
 #endif
                  WRT.NOT   POW_OK               ;"power suply axis ok"
 
-// ---------------------------------------------------------------------------
-// global variable P_ON_I (impulse power on)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable P_ON_I (impulse power on)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 global variable P_ON_I (impulse power on)
@@ -662,9 +662,9 @@ global variable P_ON_I (impulse power on)
                  RD        POW_OK               ;"power suply axis ok"
                  WRT       mpowok               ;"memory power ok"
 
-// ---------------------------------------------------------------------------
-// global variable P_ON_1ST (1st power on impulse)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable P_ON_1ST (1st power on impulse)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 global variable P_ON_1ST (1st power on impulse)
@@ -674,9 +674,9 @@ global variable P_ON_1ST (1st power on impulse)
                  SET       P_ON_1ST             ;"1st power on impulse"
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// door management
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! door management
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 door management
@@ -707,10 +707,10 @@ door management
                  WRT       dis_do               ;"disable open door"
 
                  RD.NOT    dis_do               ;"disable open door"
-   #if mcc_test == 1 && brake_test == 0
+   #if mcc_test == 1 and brake_test == 0
                  OR        RQT                  ;"MCC off test request(group)"
    #endif
-   #if mcc_test == 1 && brake_test == 1
+   #if mcc_test == 1 and brake_test == 1
                  RD.STK    RQT                  ;"MCC off test request(group)"
                  AND.NOT   RQBT                 ;"brake test request(group)"
                  OR.STK    
@@ -769,9 +769,9 @@ door management
 
 #endif
 
-// ---------------------------------------------------------------------------
-// global variable SETUP_P01 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable SETUP_P01 (setup mode active)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 P01: global variable SETUP_P01 (setup mode active)
@@ -785,9 +785,9 @@ P01: global variable SETUP_P01 (setup mode active)
                  WRT       SETUP_P01            ;"P01:set-up active"
 
 #if nbr_of_path > 1
-// ---------------------------------------------------------------------------
-// P02: global variable SETUP_P02 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P02: global variable SETUP_P02 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P02: global variable SETUP_P02 (setup mode active)
@@ -802,9 +802,9 @@ P02: global variable SETUP_P02 (setup mode active)
 #endif
 
 #if nbr_of_path > 2
-// ---------------------------------------------------------------------------
-// P03: global variable SETUP_P03 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P03: global variable SETUP_P03 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P03: global variable SETUP_P03 (setup mode active)
@@ -819,9 +819,9 @@ P03: global variable SETUP_P03 (setup mode active)
 #endif
 
 #if nbr_of_path > 3
-// ---------------------------------------------------------------------------
-// P04: global variable SETUP_P04 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P04: global variable SETUP_P04 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P04: global variable SETUP_P04 (setup mode active)
@@ -836,9 +836,9 @@ P04: global variable SETUP_P04 (setup mode active)
 #endif
 
 #if nbr_of_path > 4
-// ---------------------------------------------------------------------------
-// P05: global variable SETUP_P05 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P05: global variable SETUP_P05 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P05: global variable SETUP_P05 (setup mode active)
@@ -853,9 +853,9 @@ P05: global variable SETUP_P05 (setup mode active)
 #endif
 
 #if nbr_of_path > 5
-// ---------------------------------------------------------------------------
-// P06: global variable SETUP_P06 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P06: global variable SETUP_P06 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P06: global variable SETUP_P06 (setup mode active)
@@ -870,9 +870,9 @@ P06: global variable SETUP_P06 (setup mode active)
 #endif
 
 #if nbr_of_path > 6
-// ---------------------------------------------------------------------------
-// P07: global variable SETUP_P07 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P07: global variable SETUP_P07 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P07: global variable SETUP_P07 (setup mode active)
@@ -887,9 +887,9 @@ P07: global variable SETUP_P07 (setup mode active)
 #endif
 
 #if nbr_of_path > 7
-// ---------------------------------------------------------------------------
-// P08: global variable SETUP_P08 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P08: global variable SETUP_P08 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P08: global variable SETUP_P08 (setup mode active)
@@ -904,9 +904,9 @@ P08: global variable SETUP_P08 (setup mode active)
 #endif
 
 #if nbr_of_path > 8
-// ---------------------------------------------------------------------------
-// P09: global variable SETUP_P09 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P09: global variable SETUP_P09 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P09: global variable SETUP_P09 (setup mode active)
@@ -921,9 +921,9 @@ P09: global variable SETUP_P09 (setup mode active)
 #endif
 
 #if nbr_of_path > 9
-// ---------------------------------------------------------------------------
-// P10: global variable SETUP_P10 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P10: global variable SETUP_P10 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P10: global variable SETUP_P10 (setup mode active)
@@ -938,9 +938,9 @@ P10: global variable SETUP_P10 (setup mode active)
 #endif
 
 #if nbr_of_path > 10
-// ---------------------------------------------------------------------------
-// P11: global variable SETUP_P11 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P11: global variable SETUP_P11 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P11: global variable SETUP_P11 (setup mode active)
@@ -955,9 +955,9 @@ P11: global variable SETUP_P11 (setup mode active)
 #endif
 
 #if nbr_of_path > 11
-// ---------------------------------------------------------------------------
-// P12: global variable SETUP_P12 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P12: global variable SETUP_P12 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P12: global variable SETUP_P12 (setup mode active)
@@ -972,9 +972,9 @@ P12: global variable SETUP_P12 (setup mode active)
 #endif
 
 #if nbr_of_path > 12
-// ---------------------------------------------------------------------------
-// P13: global variable SETUP_P13 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P13: global variable SETUP_P13 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P13: global variable SETUP_P13 (setup mode active)
@@ -989,9 +989,9 @@ P13: global variable SETUP_P13 (setup mode active)
 #endif
 
 #if nbr_of_path > 13
-// ---------------------------------------------------------------------------
-// P14: global variable SETUP_P14 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P14: global variable SETUP_P14 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P14: global variable SETUP_P14 (setup mode active)
@@ -1006,9 +1006,9 @@ P14: global variable SETUP_P14 (setup mode active)
 #endif
 
 #if nbr_of_path > 14
-// ---------------------------------------------------------------------------
-// P15: global variable SETUP_P15 (setup mode active)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! P15: global variable SETUP_P15 (setup mode active)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 P15: global variable SETUP_P15 (setup mode active)
@@ -1023,9 +1023,9 @@ P15: global variable SETUP_P15 (setup mode active)
 #endif
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// global variable SET_M01_EN (enable setup mode 01)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! global variable SET_M01_EN (enable setup mode 01)
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 global variable SET_M01_EN (enable setup mode 01)
@@ -1036,9 +1036,9 @@ global variable SET_M01_EN (enable setup mode 01)
                  AND.NOT   *SGOPN               ;"guard state doors closed"
                  WRT       SET_M01_EN           ;"enable setup mode 01"
 
-// ---------------------------------------------------------------------------
-// selection of DCS safety speed set
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! selection of DCS safety speed set
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 selection of DCS safety speed set

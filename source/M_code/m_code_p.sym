@@ -1,352 +1,352 @@
-//:--------------------------------------------------------------------------:
-//: File              : m_code__PATH__.sym                                       :
-//: Creation date     : 09.12.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Symbols for the path specific M code decoding        :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:19.10.17: 2.0.0 :Blp    :Symbols for 4th and 5th M-Code added             :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : m_code_{{PATH}}.sym                                       :
+!!: Creation date     : 09.12.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Symbols for the path specific M code decoding        :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:19.10.17: 2.0.0 :Blp    :Symbols for 4th and 5th M-Code added             :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Data Table
-// ===========================================================================
-// -------------------------------------------------------
-// global variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! ===========================================================================
+!! Data Table
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool:
-// -----------------------------------
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
 
-// -------------------------------------------------------
-// local variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
-mctabl__PATH__,D__ADDR__068,_PATH__:tab length for m code dec,
-ptr1mc__PATH__,D__ADDR__069,_PATH__:index ptr to 1st m code,
-dbit1m__PATH__,D__ADDR__070,_PATH__:dec. bit 1st m code table,
-#if m_code_support == 1 || m_code_support == 2
-ptr2mc__PATH__,D__ADDR__071,_PATH__:index ptr to 2nd m code,
-dbit2m__PATH__,D__ADDR__072,_PATH__:dec. bit 2nd m code table,
-ptr3mc__PATH__,D__ADDR__073,_PATH__:index ptr to 3rd m code,
-dbit3m__PATH__,D__ADDR__074,_PATH__:dec. bit 3rd m code table,
+!! -------------------------------------------------------
+!! local variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
+mctabl_{{PATH}},D{{ADDR}}068,{{PATH}}:tab length for m code dec,
+ptr1mc_{{PATH}},D{{ADDR}}069,{{PATH}}:index ptr to 1st m code,
+dbit1m_{{PATH}},D{{ADDR}}070,{{PATH}}:dec. bit 1st m code table,
+#if m_code_support == 1 or m_code_support == 2
+ptr2mc_{{PATH}},D{{ADDR}}071,{{PATH}}:index ptr to 2nd m code,
+dbit2m_{{PATH}},D{{ADDR}}072,{{PATH}}:dec. bit 2nd m code table,
+ptr3mc_{{PATH}},D{{ADDR}}073,{{PATH}}:index ptr to 3rd m code,
+dbit3m_{{PATH}},D{{ADDR}}074,{{PATH}}:dec. bit 3rd m code table,
 #endif
 #if m_code_support == 2
-ptr4mc__PATH__,D__ADDR__080,_PATH__:index ptr to 4th m-code,
-dbit4m__PATH__,D__ADDR__081,_PATH__:dec. bit 4th m-code table,
-ptr5mc__PATH__,D__ADDR__082,_PATH__:index ptr to 5th m-code,
-dbit5m__PATH__,D__ADDR__083,_PATH__:dec. bit 5th m-code table,
+ptr4mc_{{PATH}},D{{ADDR}}080,{{PATH}}:index ptr to 4th m-code,
+dbit4m_{{PATH}},D{{ADDR}}081,{{PATH}}:dec. bit 4th m-code table,
+ptr5mc_{{PATH}},D{{ADDR}}082,{{PATH}}:index ptr to 5th m-code,
+dbit5m_{{PATH}},D{{ADDR}}083,{{PATH}}:dec. bit 5th m-code table,
 #endif
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 
-// ===========================================================================
-// Internal Relay
-// ===========================================================================
-// -------------------------------------------------------
-// global variables Rx100.0 - Rx153.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
-M000_007__PATH__,R__ADDR__100,_PATH__:m codes M000 to M007,
+!! ===========================================================================
+!! Internal Relay
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables Rx100.0 - Rx153.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
+M000_007_{{PATH}},R{{ADDR}}100,{{PATH}}:m codes M000 to M007,
 
-// -----------------------------------
-// bool
-// -----------------------------------
-M000__PATH__,R__ADDR__100.0,_PATH__:stop program run,
-M001__PATH__,R__ADDR__100.1,_PATH__:optional stop,
-M002__PATH__,R__ADDR__100.2,_PATH__:end of program,
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-M003__PATH__,R__ADDR__100.3,_PATH__:spindle start cw,
-M004__PATH__,R__ADDR__100.4,_PATH__:spindle start ccw,
-M005__PATH__,R__ADDR__100.5,_PATH__:spindle stop,
+!! -----------------------------------
+!! bool
+!! -----------------------------------
+M000_{{PATH}},R{{ADDR}}100.0,{{PATH}}:stop program run,
+M001_{{PATH}},R{{ADDR}}100.1,{{PATH}}:optional stop,
+M002_{{PATH}},R{{ADDR}}100.2,{{PATH}}:end of program,
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+M003_{{PATH}},R{{ADDR}}100.3,{{PATH}}:spindle start cw,
+M004_{{PATH}},R{{ADDR}}100.4,{{PATH}}:spindle start ccw,
+M005_{{PATH}},R{{ADDR}}100.5,{{PATH}}:spindle stop,
 #else
-M003__PATH__,R__ADDR__100.3,,
-M004__PATH__,R__ADDR__100.4,,
-M005__PATH__,R__ADDR__100.5,,
+M003_{{PATH}},R{{ADDR}}100.3,,
+M004_{{PATH}},R{{ADDR}}100.4,,
+M005_{{PATH}},R{{ADDR}}100.5,,
 #endif
-M006__PATH__,R__ADDR__100.6,_PATH__:tool change,
-M007__PATH__,R__ADDR__100.7,,
+M006_{{PATH}},R{{ADDR}}100.6,{{PATH}}:tool change,
+M007_{{PATH}},R{{ADDR}}100.7,,
 
-#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
-M008__PATH__,R__ADDR__101.0,_PATH__:coolant on,
-M009__PATH__,R__ADDR__101.1,_PATH__:coolant off,
+#if coolant_support_{{PATH}} > 0 and coolant_support_P01 > -1
+M008_{{PATH}},R{{ADDR}}101.0,{{PATH}}:coolant on,
+M009_{{PATH}},R{{ADDR}}101.1,{{PATH}}:coolant off,
 #else
-M008__PATH__,R__ADDR__101.0,,
-M009__PATH__,R__ADDR__101.1,,
+M008_{{PATH}},R{{ADDR}}101.0,,
+M009_{{PATH}},R{{ADDR}}101.1,,
 #endif
-M010__PATH__,R__ADDR__101.2,,
-M011__PATH__,R__ADDR__101.3,,
-M012__PATH__,R__ADDR__101.4,,
-#if spindle_support__PATH__ > 0 && coolant_support__PATH__ > 0 && spindle_support_P01 > -1 && coolant_support_P01 > -1
-M013__PATH__,R__ADDR__101.5,_PATH__:sp start cw coolant on,
-M014__PATH__,R__ADDR__101.6,_PATH__:sp start ccw coolant on,
+M010_{{PATH}},R{{ADDR}}101.2,,
+M011_{{PATH}},R{{ADDR}}101.3,,
+M012_{{PATH}},R{{ADDR}}101.4,,
+#if spindle_support_{{PATH}} > 0 and coolant_support_{{PATH}} > 0 and spindle_support_P01 > -1 and coolant_support_P01 > -1
+M013_{{PATH}},R{{ADDR}}101.5,{{PATH}}:sp start cw coolant on,
+M014_{{PATH}},R{{ADDR}}101.6,{{PATH}}:sp start ccw coolant on,
 #else
-M013__PATH__,R__ADDR__101.5,,
-M014__PATH__,R__ADDR__101.6,,
+M013_{{PATH}},R{{ADDR}}101.5,,
+M014_{{PATH}},R{{ADDR}}101.6,,
 #endif
-M015__PATH__,R__ADDR__101.7,,
+M015_{{PATH}},R{{ADDR}}101.7,,
 
-M016__PATH__,R__ADDR__102.0,,
-M017__PATH__,R__ADDR__102.1,,
-M018__PATH__,R__ADDR__102.2,,
-#if spindle_support__PATH__ > 0 && spindle_orientation__PATH__ > 0 && spindle_support_P01 > -1
-M019__PATH__,R__ADDR__102.3,_PATH__:spindle orientation,
+M016_{{PATH}},R{{ADDR}}102.0,,
+M017_{{PATH}},R{{ADDR}}102.1,,
+M018_{{PATH}},R{{ADDR}}102.2,,
+#if spindle_support_{{PATH}} > 0 and spindle_orientation_{{PATH}} > 0 and spindle_support_P01 > -1
+M019_{{PATH}},R{{ADDR}}102.3,{{PATH}}:spindle orientation,
 #else
-M019__PATH__,R__ADDR__102.3,,
+M019_{{PATH}},R{{ADDR}}102.3,,
 #endif
-M020__PATH__,R__ADDR__102.4,,
-M021__PATH__,R__ADDR__102.5,,
-M022__PATH__,R__ADDR__102.6,,
-M023__PATH__,R__ADDR__102.7,,
+M020_{{PATH}},R{{ADDR}}102.4,,
+M021_{{PATH}},R{{ADDR}}102.5,,
+M022_{{PATH}},R{{ADDR}}102.6,,
+M023_{{PATH}},R{{ADDR}}102.7,,
 
-M024__PATH__,R__ADDR__103.0,,
-M025__PATH__,R__ADDR__103.1,,
-M026__PATH__,R__ADDR__103.2,,
-#if spindle_support__PATH__ == 1 && cs_contour_ctrl__PATH__ > 0 && spindle_support_P01 > -1
-M027__PATH__,R__ADDR__103.3,_PATH__:Cs contour ctrl on,
-M028__PATH__,R__ADDR__103.4,_PATH__:Cs contour ctrl off,
+M024_{{PATH}},R{{ADDR}}103.0,,
+M025_{{PATH}},R{{ADDR}}103.1,,
+M026_{{PATH}},R{{ADDR}}103.2,,
+#if spindle_support_{{PATH}} == 1 and cs_contour_ctrl_{{PATH}} > 0 and spindle_support_P01 > -1
+M027_{{PATH}},R{{ADDR}}103.3,{{PATH}}:Cs contour ctrl on,
+M028_{{PATH}},R{{ADDR}}103.4,{{PATH}}:Cs contour ctrl off,
 #else
-M027__PATH__,R__ADDR__103.3,,
-M028__PATH__,R__ADDR__103.4,,
+M027_{{PATH}},R{{ADDR}}103.3,,
+M028_{{PATH}},R{{ADDR}}103.4,,
 #endif
-#if spindle_support__PATH__ > 0 && rigid_tapping__PATH__ > 0 && spindle_support_P01 > -1
-M029__PATH__,R__ADDR__103.5,_PATH__:rigid tapping,
+#if spindle_support_{{PATH}} > 0 and rigid_tapping_{{PATH}} > 0 and spindle_support_P01 > -1
+M029_{{PATH}},R{{ADDR}}103.5,{{PATH}}:rigid tapping,
 #else
-M029__PATH__,R__ADDR__103.5,,
+M029_{{PATH}},R{{ADDR}}103.5,,
 #endif
-M030__PATH__,R__ADDR__103.6,_PATH__:end of program,
-M031__PATH__,R__ADDR__103.7,,
+M030_{{PATH}},R{{ADDR}}103.6,{{PATH}}:end of program,
+M031_{{PATH}},R{{ADDR}}103.7,,
 
-M032__PATH__,R__ADDR__104.0,,
-M033__PATH__,R__ADDR__104.1,,
-M034__PATH__,R__ADDR__104.2,,
-M035__PATH__,R__ADDR__104.3,,
-M036__PATH__,R__ADDR__104.4,,
-M037__PATH__,R__ADDR__104.5,,
-M038__PATH__,R__ADDR__104.6,,
-M039__PATH__,R__ADDR__104.7,,
+M032_{{PATH}},R{{ADDR}}104.0,,
+M033_{{PATH}},R{{ADDR}}104.1,,
+M034_{{PATH}},R{{ADDR}}104.2,,
+M035_{{PATH}},R{{ADDR}}104.3,,
+M036_{{PATH}},R{{ADDR}}104.4,,
+M037_{{PATH}},R{{ADDR}}104.5,,
+M038_{{PATH}},R{{ADDR}}104.6,,
+M039_{{PATH}},R{{ADDR}}104.7,,
 
-M040__PATH__,R__ADDR__105.0,,
-M041__PATH__,R__ADDR__105.1,,
-M042__PATH__,R__ADDR__105.2,,
-M043__PATH__,R__ADDR__105.3,,
-M044__PATH__,R__ADDR__105.4,,
-M045__PATH__,R__ADDR__105.5,,
-M046__PATH__,R__ADDR__105.6,,
-M047__PATH__,R__ADDR__105.7,,
+M040_{{PATH}},R{{ADDR}}105.0,,
+M041_{{PATH}},R{{ADDR}}105.1,,
+M042_{{PATH}},R{{ADDR}}105.2,,
+M043_{{PATH}},R{{ADDR}}105.3,,
+M044_{{PATH}},R{{ADDR}}105.4,,
+M045_{{PATH}},R{{ADDR}}105.5,,
+M046_{{PATH}},R{{ADDR}}105.6,,
+M047_{{PATH}},R{{ADDR}}105.7,,
 
-M048__PATH__,R__ADDR__106.0,,
-M049__PATH__,R__ADDR__106.1,,
-M050__PATH__,R__ADDR__106.2,,
-M051__PATH__,R__ADDR__106.3,,
-M052__PATH__,R__ADDR__106.4,,
-M053__PATH__,R__ADDR__106.5,,
-M054__PATH__,R__ADDR__106.6,,
-M055__PATH__,R__ADDR__106.7,,
+M048_{{PATH}},R{{ADDR}}106.0,,
+M049_{{PATH}},R{{ADDR}}106.1,,
+M050_{{PATH}},R{{ADDR}}106.2,,
+M051_{{PATH}},R{{ADDR}}106.3,,
+M052_{{PATH}},R{{ADDR}}106.4,,
+M053_{{PATH}},R{{ADDR}}106.5,,
+M054_{{PATH}},R{{ADDR}}106.6,,
+M055_{{PATH}},R{{ADDR}}106.7,,
 
-M056__PATH__,R__ADDR__107.0,,
-M057__PATH__,R__ADDR__107.1,,
-M058__PATH__,R__ADDR__107.2,,
-M059__PATH__,R__ADDR__107.3,,
-M060__PATH__,R__ADDR__107.4,,
-M061__PATH__,R__ADDR__107.5,,
-M062__PATH__,R__ADDR__107.6,,
-M063__PATH__,R__ADDR__107.7,,
+M056_{{PATH}},R{{ADDR}}107.0,,
+M057_{{PATH}},R{{ADDR}}107.1,,
+M058_{{PATH}},R{{ADDR}}107.2,,
+M059_{{PATH}},R{{ADDR}}107.3,,
+M060_{{PATH}},R{{ADDR}}107.4,,
+M061_{{PATH}},R{{ADDR}}107.5,,
+M062_{{PATH}},R{{ADDR}}107.6,,
+M063_{{PATH}},R{{ADDR}}107.7,,
 
-M064__PATH__,R__ADDR__108.0,,
-M065__PATH__,R__ADDR__108.1,,
-M066__PATH__,R__ADDR__108.2,,
-M067__PATH__,R__ADDR__108.3,,
-M068__PATH__,R__ADDR__108.4,,
-M069__PATH__,R__ADDR__108.5,,
-M070__PATH__,R__ADDR__108.6,,
-M071__PATH__,R__ADDR__108.7,,
+M064_{{PATH}},R{{ADDR}}108.0,,
+M065_{{PATH}},R{{ADDR}}108.1,,
+M066_{{PATH}},R{{ADDR}}108.2,,
+M067_{{PATH}},R{{ADDR}}108.3,,
+M068_{{PATH}},R{{ADDR}}108.4,,
+M069_{{PATH}},R{{ADDR}}108.5,,
+M070_{{PATH}},R{{ADDR}}108.6,,
+M071_{{PATH}},R{{ADDR}}108.7,,
 
-M072__PATH__,R__ADDR__109.0,,
-M073__PATH__,R__ADDR__109.1,,
-M074__PATH__,R__ADDR__109.2,,
-M075__PATH__,R__ADDR__109.3,,
-M076__PATH__,R__ADDR__109.4,,
-M077__PATH__,R__ADDR__109.5,,
-M078__PATH__,R__ADDR__109.6,,
-M079__PATH__,R__ADDR__109.7,,
+M072_{{PATH}},R{{ADDR}}109.0,,
+M073_{{PATH}},R{{ADDR}}109.1,,
+M074_{{PATH}},R{{ADDR}}109.2,,
+M075_{{PATH}},R{{ADDR}}109.3,,
+M076_{{PATH}},R{{ADDR}}109.4,,
+M077_{{PATH}},R{{ADDR}}109.5,,
+M078_{{PATH}},R{{ADDR}}109.6,,
+M079_{{PATH}},R{{ADDR}}109.7,,
 
-M080__PATH__,R__ADDR__110.0,,
-M081__PATH__,R__ADDR__110.1,,
-M082__PATH__,R__ADDR__110.2,,
-M083__PATH__,R__ADDR__110.3,,
-M084__PATH__,R__ADDR__110.4,,
-M085__PATH__,R__ADDR__110.5,,
-M086__PATH__,R__ADDR__110.6,,
-M087__PATH__,R__ADDR__110.7,,
+M080_{{PATH}},R{{ADDR}}110.0,,
+M081_{{PATH}},R{{ADDR}}110.1,,
+M082_{{PATH}},R{{ADDR}}110.2,,
+M083_{{PATH}},R{{ADDR}}110.3,,
+M084_{{PATH}},R{{ADDR}}110.4,,
+M085_{{PATH}},R{{ADDR}}110.5,,
+M086_{{PATH}},R{{ADDR}}110.6,,
+M087_{{PATH}},R{{ADDR}}110.7,,
 
-M088__PATH__,R__ADDR__111.0,,
-M089__PATH__,R__ADDR__111.1,,
-M090__PATH__,R__ADDR__111.2,,
-M091__PATH__,R__ADDR__111.3,,
-M092__PATH__,R__ADDR__111.4,,
-M093__PATH__,R__ADDR__111.5,,
-M094__PATH__,R__ADDR__111.6,,
-M095__PATH__,R__ADDR__111.7,,
+M088_{{PATH}},R{{ADDR}}111.0,,
+M089_{{PATH}},R{{ADDR}}111.1,,
+M090_{{PATH}},R{{ADDR}}111.2,,
+M091_{{PATH}},R{{ADDR}}111.3,,
+M092_{{PATH}},R{{ADDR}}111.4,,
+M093_{{PATH}},R{{ADDR}}111.5,,
+M094_{{PATH}},R{{ADDR}}111.6,,
+M095_{{PATH}},R{{ADDR}}111.7,,
 
-M096__PATH__,R__ADDR__112.0,,
-M097__PATH__,R__ADDR__112.1,,
-M100__PATH__,R__ADDR__112.4,_PATH__:wp coord preset all axes,
-M101__PATH__,R__ADDR__112.5,_PATH__:wp coord preset 1st axis,
-#if axis_number__PATH__ > 1
-M102__PATH__,R__ADDR__112.6,_PATH__:wp coord preset 2nd axis,
+M096_{{PATH}},R{{ADDR}}112.0,,
+M097_{{PATH}},R{{ADDR}}112.1,,
+M100_{{PATH}},R{{ADDR}}112.4,{{PATH}}:wp coord preset all axes,
+M101_{{PATH}},R{{ADDR}}112.5,{{PATH}}:wp coord preset 1st axis,
+#if axis_number_{{PATH}} > 1
+M102_{{PATH}},R{{ADDR}}112.6,{{PATH}}:wp coord preset 2nd axis,
 #endif
-#if axis_number__PATH__ > 2
-M103__PATH__,R__ADDR__112.7,_PATH__:wp coord preset 3rd axis,
+#if axis_number_{{PATH}} > 2
+M103_{{PATH}},R{{ADDR}}112.7,{{PATH}}:wp coord preset 3rd axis,
 #endif
-#if axis_number__PATH__ > 3
-M104__PATH__,R__ADDR__113.0,_PATH__:wp coord preset 4th axis,
+#if axis_number_{{PATH}} > 3
+M104_{{PATH}},R{{ADDR}}113.0,{{PATH}}:wp coord preset 4th axis,
 #endif
-#if axis_number__PATH__ > 4
-M105__PATH__,R__ADDR__113.1,_PATH__:wp coord preset 5th axis,
+#if axis_number_{{PATH}} > 4
+M105_{{PATH}},R{{ADDR}}113.1,{{PATH}}:wp coord preset 5th axis,
 #endif
-#if axis_number__PATH__ > 5
-M106__PATH__,R__ADDR__113.2,_PATH__:wp coord preset 6th axis,
+#if axis_number_{{PATH}} > 5
+M106_{{PATH}},R{{ADDR}}113.2,{{PATH}}:wp coord preset 6th axis,
 #endif
-#if axis_number__PATH__ > 6
-M107__PATH__,R__ADDR__113.3,_PATH__:wp coord preset 7th axis,
+#if axis_number_{{PATH}} > 6
+M107_{{PATH}},R{{ADDR}}113.3,{{PATH}}:wp coord preset 7th axis,
 #endif
-#if axis_number__PATH__ > 7
-M108__PATH__,R__ADDR__113.4,_PATH__:wp coord preset 8th axis,
+#if axis_number_{{PATH}} > 7
+M108_{{PATH}},R{{ADDR}}113.4,{{PATH}}:wp coord preset 8th axis,
 #endif
 
-M112__PATH__,R__ADDR__114.0,,
-M120__PATH__,R__ADDR__115.0,,
-M128__PATH__,R__ADDR__116.0,,
-M136__PATH__,R__ADDR__117.0,,
-M144__PATH__,R__ADDR__118.0,,
-M152__PATH__,R__ADDR__119.0,,
-M160__PATH__,R__ADDR__120.0,,
-M168__PATH__,R__ADDR__121.0,,
-M176__PATH__,R__ADDR__122.0,,
-M184__PATH__,R__ADDR__123.0,,
-M192__PATH__,R__ADDR__124.0,,
-M198__PATH__,R__ADDR__124.6,external subprogram call,
-M200__PATH__,R__ADDR__125.0,,
-M208__PATH__,R__ADDR__126.0,,
-M216__PATH__,R__ADDR__127.0,,
-M224__PATH__,R__ADDR__128.0,,
-M232__PATH__,R__ADDR__129.0,,
-M240__PATH__,R__ADDR__130.0,,
-M248__PATH__,R__ADDR__131.0,,
-M256__PATH__,R__ADDR__132.0,,
-M264__PATH__,R__ADDR__133.0,,
-M272__PATH__,R__ADDR__134.0,,
-M280__PATH__,R__ADDR__135.0,,
-M288__PATH__,R__ADDR__136.0,,
-M296__PATH__,R__ADDR__137.0,,
-M304__PATH__,R__ADDR__138.0,,
-M312__PATH__,R__ADDR__139.0,,
-M320__PATH__,R__ADDR__140.0,,
-M328__PATH__,R__ADDR__141.0,,
-M336__PATH__,R__ADDR__142.0,,
-M344__PATH__,R__ADDR__143.0,,
-M352__PATH__,R__ADDR__144.0,,
-M360__PATH__,R__ADDR__145.0,,
-M368__PATH__,R__ADDR__146.0,,
-M376__PATH__,R__ADDR__147.0,,
-M384__PATH__,R__ADDR__148.0,,
-M392__PATH__,R__ADDR__149.0,,
+M112_{{PATH}},R{{ADDR}}114.0,,
+M120_{{PATH}},R{{ADDR}}115.0,,
+M128_{{PATH}},R{{ADDR}}116.0,,
+M136_{{PATH}},R{{ADDR}}117.0,,
+M144_{{PATH}},R{{ADDR}}118.0,,
+M152_{{PATH}},R{{ADDR}}119.0,,
+M160_{{PATH}},R{{ADDR}}120.0,,
+M168_{{PATH}},R{{ADDR}}121.0,,
+M176_{{PATH}},R{{ADDR}}122.0,,
+M184_{{PATH}},R{{ADDR}}123.0,,
+M192_{{PATH}},R{{ADDR}}124.0,,
+M198_{{PATH}},R{{ADDR}}124.6,external subprogram call,
+M200_{{PATH}},R{{ADDR}}125.0,,
+M208_{{PATH}},R{{ADDR}}126.0,,
+M216_{{PATH}},R{{ADDR}}127.0,,
+M224_{{PATH}},R{{ADDR}}128.0,,
+M232_{{PATH}},R{{ADDR}}129.0,,
+M240_{{PATH}},R{{ADDR}}130.0,,
+M248_{{PATH}},R{{ADDR}}131.0,,
+M256_{{PATH}},R{{ADDR}}132.0,,
+M264_{{PATH}},R{{ADDR}}133.0,,
+M272_{{PATH}},R{{ADDR}}134.0,,
+M280_{{PATH}},R{{ADDR}}135.0,,
+M288_{{PATH}},R{{ADDR}}136.0,,
+M296_{{PATH}},R{{ADDR}}137.0,,
+M304_{{PATH}},R{{ADDR}}138.0,,
+M312_{{PATH}},R{{ADDR}}139.0,,
+M320_{{PATH}},R{{ADDR}}140.0,,
+M328_{{PATH}},R{{ADDR}}141.0,,
+M336_{{PATH}},R{{ADDR}}142.0,,
+M344_{{PATH}},R{{ADDR}}143.0,,
+M352_{{PATH}},R{{ADDR}}144.0,,
+M360_{{PATH}},R{{ADDR}}145.0,,
+M368_{{PATH}},R{{ADDR}}146.0,,
+M376_{{PATH}},R{{ADDR}}147.0,,
+M384_{{PATH}},R{{ADDR}}148.0,,
+M392_{{PATH}},R{{ADDR}}149.0,,
 
-M_NOK__PATH__,R__ADDR__153.0,m-code out of range,
+M_NOK_{{PATH}},R{{ADDR}}153.0,m-code out of range,
 
-// -------------------------------------------------------
-// local variables Rx154.0 - Rx175.7
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
+!! -------------------------------------------------------
+!! local variables Rx154.0 - Rx175.7
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
-m1code__PATH__,R__ADDR__154.0,_PATH__:1st m code is active,
-m1codm__PATH__,R__ADDR__154.1,_PATH__:memory 1st m code active,
-rem1co__PATH__,R__ADDR__154.2,_PATH__:re 1st m code active,
-fem1co__PATH__,R__ADDR__154.3,_PATH__:fe 1st m code active,
-m1cook__PATH__,R__ADDR__154.4,_PATH__:impulse 1st m code ok,
-erm1co__PATH__,R__ADDR__154.5,_PATH__:range error 1st m code,
-edivm1__PATH__,R__ADDR__154.6,_PATH__:divsion error 1st m code,
-exmwm1__PATH__,R__ADDR__154.7,_PATH__:error writing 1st m code,
+!! -----------------------------------
+!! bool
+!! -----------------------------------
+m1code_{{PATH}},R{{ADDR}}154.0,{{PATH}}:1st m code is active,
+m1codm_{{PATH}},R{{ADDR}}154.1,{{PATH}}:memory 1st m code active,
+rem1co_{{PATH}},R{{ADDR}}154.2,{{PATH}}:re 1st m code active,
+fem1co_{{PATH}},R{{ADDR}}154.3,{{PATH}}:fe 1st m code active,
+m1cook_{{PATH}},R{{ADDR}}154.4,{{PATH}}:impulse 1st m code ok,
+erm1co_{{PATH}},R{{ADDR}}154.5,{{PATH}}:range error 1st m code,
+edivm1_{{PATH}},R{{ADDR}}154.6,{{PATH}}:divsion error 1st m code,
+exmwm1_{{PATH}},R{{ADDR}}154.7,{{PATH}}:error writing 1st m code,
 
-m1exec__PATH__,R__ADDR__155.0,_PATH__:1st m-function executed,
-m1fin__PATH__,R__ADDR__155.1,_PATH__:1st m-function finished,
-#if m_code_support == 1 || m_code_support == 2
-m2code__PATH__,R__ADDR__155.2,_PATH__:2nd m code is active,
-m2codm__PATH__,R__ADDR__155.3,_PATH__:memory 2nd m code active,
-rem2co__PATH__,R__ADDR__155.4,_PATH__:re 2nd m code active,
-fem2co__PATH__,R__ADDR__155.5,_PATH__:fe 2nd m code active,
-m2cook__PATH__,R__ADDR__155.6,_PATH__:impulse 2nd m code ok,
-erm2co__PATH__,R__ADDR__155.7,_PATH__:range error 2nd m code,
+m1exec_{{PATH}},R{{ADDR}}155.0,{{PATH}}:1st m-function executed,
+m1fin_{{PATH}},R{{ADDR}}155.1,{{PATH}}:1st m-function finished,
+#if m_code_support == 1 or m_code_support == 2
+m2code_{{PATH}},R{{ADDR}}155.2,{{PATH}}:2nd m code is active,
+m2codm_{{PATH}},R{{ADDR}}155.3,{{PATH}}:memory 2nd m code active,
+rem2co_{{PATH}},R{{ADDR}}155.4,{{PATH}}:re 2nd m code active,
+fem2co_{{PATH}},R{{ADDR}}155.5,{{PATH}}:fe 2nd m code active,
+m2cook_{{PATH}},R{{ADDR}}155.6,{{PATH}}:impulse 2nd m code ok,
+erm2co_{{PATH}},R{{ADDR}}155.7,{{PATH}}:range error 2nd m code,
 
-edivm2__PATH__,R__ADDR__156.0,_PATH__:divsion error 2nd m code,
-exmwm2__PATH__,R__ADDR__156.1,_PATH__:error writing 2nd m code,
-m2exec__PATH__,R__ADDR__156.2,_PATH__:2nd m-function executed,
-m2fin__PATH__,R__ADDR__156.3,_PATH__:2nd m-function finished,
-m3code__PATH__,R__ADDR__156.4,_PATH__:3rd m code is active,
-m3codm__PATH__,R__ADDR__156.5,_PATH__:memory 3rd m code active,
-rem3co__PATH__,R__ADDR__156.6,_PATH__:re 3rd m code active,
-fem3co__PATH__,R__ADDR__156.7,_PATH__:fe 3rd m code active,
+edivm2_{{PATH}},R{{ADDR}}156.0,{{PATH}}:divsion error 2nd m code,
+exmwm2_{{PATH}},R{{ADDR}}156.1,{{PATH}}:error writing 2nd m code,
+m2exec_{{PATH}},R{{ADDR}}156.2,{{PATH}}:2nd m-function executed,
+m2fin_{{PATH}},R{{ADDR}}156.3,{{PATH}}:2nd m-function finished,
+m3code_{{PATH}},R{{ADDR}}156.4,{{PATH}}:3rd m code is active,
+m3codm_{{PATH}},R{{ADDR}}156.5,{{PATH}}:memory 3rd m code active,
+rem3co_{{PATH}},R{{ADDR}}156.6,{{PATH}}:re 3rd m code active,
+fem3co_{{PATH}},R{{ADDR}}156.7,{{PATH}}:fe 3rd m code active,
 
-m3cook__PATH__,R__ADDR__157.0,_PATH__:impulse 3rd m code ok,
-erm3co__PATH__,R__ADDR__157.1,_PATH__:range error 3rd m code,
-edivm3__PATH__,R__ADDR__157.2,_PATH__:divsion error 3rd m code,
-exmwm3__PATH__,R__ADDR__157.3,_PATH__:error writing 3rd m code,
-m3exec__PATH__,R__ADDR__157.4,_PATH__:3rd m-function executed,
-m3fin__PATH__,R__ADDR__157.5,_PATH__:3rd m-function finished,
-exr1m2__PATH__,R__ADDR__157.6,_PATH__:error reading 2nd m code,
-exr1m3__PATH__,R__ADDR__157.7,_PATH__:error reading 3rd m code,
+m3cook_{{PATH}},R{{ADDR}}157.0,{{PATH}}:impulse 3rd m code ok,
+erm3co_{{PATH}},R{{ADDR}}157.1,{{PATH}}:range error 3rd m code,
+edivm3_{{PATH}},R{{ADDR}}157.2,{{PATH}}:divsion error 3rd m code,
+exmwm3_{{PATH}},R{{ADDR}}157.3,{{PATH}}:error writing 3rd m code,
+m3exec_{{PATH}},R{{ADDR}}157.4,{{PATH}}:3rd m-function executed,
+m3fin_{{PATH}},R{{ADDR}}157.5,{{PATH}}:3rd m-function finished,
+exr1m2_{{PATH}},R{{ADDR}}157.6,{{PATH}}:error reading 2nd m code,
+exr1m3_{{PATH}},R{{ADDR}}157.7,{{PATH}}:error reading 3rd m code,
 #endif
 #if m_code_support == 2
-m4code__PATH__,R__ADDR__158.0,_PATH__:4th m-code is active,
-m4codm__PATH__,R__ADDR__158.1,_PATH__:memory 4th m-code active,
-rem4co__PATH__,R__ADDR__158.2,_PATH__:re 4th m-code active,
-fem4co__PATH__,R__ADDR__158.3,_PATH__:fe 4th m-code active,
-m4cook__PATH__,R__ADDR__158.4,_PATH__:impulse 4th m-code ok,
-erm4co__PATH__,R__ADDR__158.5,_PATH__:range error 4th m-code,
-edivm4__PATH__,R__ADDR__158.6,_PATH__:divsion error 4th m-code,
-exmwm4__PATH__,R__ADDR__158.7,_PATH__:error writing 4th m-code,
+m4code_{{PATH}},R{{ADDR}}158.0,{{PATH}}:4th m-code is active,
+m4codm_{{PATH}},R{{ADDR}}158.1,{{PATH}}:memory 4th m-code active,
+rem4co_{{PATH}},R{{ADDR}}158.2,{{PATH}}:re 4th m-code active,
+fem4co_{{PATH}},R{{ADDR}}158.3,{{PATH}}:fe 4th m-code active,
+m4cook_{{PATH}},R{{ADDR}}158.4,{{PATH}}:impulse 4th m-code ok,
+erm4co_{{PATH}},R{{ADDR}}158.5,{{PATH}}:range error 4th m-code,
+edivm4_{{PATH}},R{{ADDR}}158.6,{{PATH}}:divsion error 4th m-code,
+exmwm4_{{PATH}},R{{ADDR}}158.7,{{PATH}}:error writing 4th m-code,
 
-m4exec__PATH__,R__ADDR__159.0,_PATH__:4th m-function executed,
-m4fin__PATH__,R__ADDR__159.1,_PATH__:4th m-function finished,
-exr1m4__PATH__,R__ADDR__159.2,_PATH__:error reading 4th m-code,
-m5code__PATH__,R__ADDR__159.3,_PATH__:5th m-code is active,
-m5codm__PATH__,R__ADDR__159.4,_PATH__:memory 5th m-code active,
-rem5co__PATH__,R__ADDR__159.5,_PATH__:re 5th m-code active,
-fem5co__PATH__,R__ADDR__159.6,_PATH__:fe 5th m-code active,
-m5cook__PATH__,R__ADDR__159.7,_PATH__:impulse 5th m-code ok,
+m4exec_{{PATH}},R{{ADDR}}159.0,{{PATH}}:4th m-function executed,
+m4fin_{{PATH}},R{{ADDR}}159.1,{{PATH}}:4th m-function finished,
+exr1m4_{{PATH}},R{{ADDR}}159.2,{{PATH}}:error reading 4th m-code,
+m5code_{{PATH}},R{{ADDR}}159.3,{{PATH}}:5th m-code is active,
+m5codm_{{PATH}},R{{ADDR}}159.4,{{PATH}}:memory 5th m-code active,
+rem5co_{{PATH}},R{{ADDR}}159.5,{{PATH}}:re 5th m-code active,
+fem5co_{{PATH}},R{{ADDR}}159.6,{{PATH}}:fe 5th m-code active,
+m5cook_{{PATH}},R{{ADDR}}159.7,{{PATH}}:impulse 5th m-code ok,
 
-erm5co__PATH__,R__ADDR__160.0,_PATH__:range error 5th m-code,
-edivm5__PATH__,R__ADDR__160.1,_PATH__:divsion error 5th m-code,
-exmwm5__PATH__,R__ADDR__160.2,_PATH__:error writing 5th m-code,
-m5exec__PATH__,R__ADDR__160.3,_PATH__:5th m-function executed,
-m5fin__PATH__,R__ADDR__160.4,_PATH__:5th m-function finished,
-exr1m5__PATH__,R__ADDR__160.5,_PATH__:error reading 5th m-code,
+erm5co_{{PATH}},R{{ADDR}}160.0,{{PATH}}:range error 5th m-code,
+edivm5_{{PATH}},R{{ADDR}}160.1,{{PATH}}:divsion error 5th m-code,
+exmwm5_{{PATH}},R{{ADDR}}160.2,{{PATH}}:error writing 5th m-code,
+m5exec_{{PATH}},R{{ADDR}}160.3,{{PATH}}:5th m-function executed,
+m5fin_{{PATH}},R{{ADDR}}160.4,{{PATH}}:5th m-function finished,
+exr1m5_{{PATH}},R{{ADDR}}160.5,{{PATH}}:error reading 5th m-code,
 #endif

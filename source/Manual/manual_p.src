@@ -1,292 +1,292 @@
-//:--------------------------------------------------------------------------:
-//: File              : manual__PATH__.src                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific management of manual modes             :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:13.08.14:1.1.0  :Blp    :In case of 1 axis, the axis wasn't selected      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : manual_{{PATH}}.src                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific management of manual modes             :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:13.08.14:1.1.0  :Blp    :In case of 1 axis, the axis wasn't selected      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-//  _PATH__: global variables to store the selected axis
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!!  {{PATH}}: global variables to store the selected axis
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variables to store the selected axis
+{{PATH}}: global variables to store the selected axis
 *)
 #endif
 
-// -----------------------------------------------
-// 1st axis
-// -----------------------------------------------
-                 RD        K_1AX__PATH__        ;"key 1st axis"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-#if axis_number__PATH__ > 1
-                 RD.STK.NOT M_K2AX__PATH__      ;"memory 2nd axis selected"
-   #if axis_number__PATH__ > 2
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
+!! -----------------------------------------------
+!! 1st axis
+!! -----------------------------------------------
+                 RD        K_1AX_{{PATH}}        ;"key 1st axis"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+#if axis_number_{{PATH}} > 1
+                 RD.STK.NOT M_K2AX_{{PATH}}      ;"memory 2nd axis selected"
+   #if axis_number_{{PATH}} > 2
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
    #endif
-   #if axis_number__PATH__ > 3
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
+   #if axis_number_{{PATH}} > 3
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
    #endif
-   #if axis_number__PATH__ > 4
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
+   #if axis_number_{{PATH}} > 4
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
    #endif
-   #if axis_number__PATH__ > 5
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
+   #if axis_number_{{PATH}} > 5
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
    #endif
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
    #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
    #endif
                  OR.STK
 #else
-                 OR.NOT    M_K2AX__PATH__       ;"memory 2nd axis selected"
+                 OR.NOT    M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
 #endif
-                 WRT       M_K1AX__PATH__       ;"memory 1st axis selected"
+                 WRT       M_K1AX_{{PATH}}       ;"memory 1st axis selected"
 
-// -----------------------------------------------
-// 2nd axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 1
-                 RD        K_2AX__PATH__        ;"key 2nd axis"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-   #if axis_number__PATH__ > 2
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
+!! -----------------------------------------------
+!! 2nd axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 1
+                 RD        K_2AX_{{PATH}}        ;"key 2nd axis"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+   #if axis_number_{{PATH}} > 2
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
    #endif
-   #if axis_number__PATH__ > 3
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
+   #if axis_number_{{PATH}} > 3
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
    #endif
-   #if axis_number__PATH__ > 4
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
+   #if axis_number_{{PATH}} > 4
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
    #endif
-   #if axis_number__PATH__ > 5
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
+   #if axis_number_{{PATH}} > 5
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
    #endif
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
    #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
-   #endif
-                 OR.STK
-                 WRT       M_K2AX__PATH__       ;"memory 2nd axis selected"
-#endif
-// -----------------------------------------------
-// 3rd axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 2
-                 RD        K_3AX__PATH__        ;"key 3rd axis"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K3AX__PATH__       ;"memory 3rd axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-   #if axis_number__PATH__ > 3
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
-   #endif
-   #if axis_number__PATH__ > 4
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
-   #endif
-   #if axis_number__PATH__ > 5
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
-   #endif
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
-   #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
    #endif
                  OR.STK
-                 WRT       M_K3AX__PATH__       ;"memory 3rd axis selected"
+                 WRT       M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
 #endif
-// -----------------------------------------------
-// 4th axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 3
-                 RD        K_4AX__PATH__        ;"key 3rd axis"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K4AX__PATH__       ;"memory 4th axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
-   #if axis_number__PATH__ > 4
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
+!! -----------------------------------------------
+!! 3rd axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 2
+                 RD        K_3AX_{{PATH}}        ;"key 3rd axis"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+   #if axis_number_{{PATH}} > 3
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
    #endif
-   #if axis_number__PATH__ > 5
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
+   #if axis_number_{{PATH}} > 4
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
    #endif
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+   #if axis_number_{{PATH}} > 5
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
    #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+   #endif
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
    #endif
                  OR.STK
-                 WRT       M_K4AX__PATH__       ;"memory 4th axis selected"
+                 WRT       M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
 #endif
-// -----------------------------------------------
-// 5th axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 4
-                 RD        K_5AX__PATH__        ;"key 5th axis"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K5AX__PATH__       ;"memory 5th axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
-   #if axis_number__PATH__ > 5
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
+!! -----------------------------------------------
+!! 4th axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 3
+                 RD        K_4AX_{{PATH}}        ;"key 3rd axis"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K4AX_{{PATH}}       ;"memory 4th axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+   #if axis_number_{{PATH}} > 4
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
    #endif
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+   #if axis_number_{{PATH}} > 5
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
    #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+   #endif
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
    #endif
                  OR.STK
-                 WRT       M_K5AX__PATH__       ;"memory 5th axis selected"
+                 WRT       M_K4AX_{{PATH}}       ;"memory 4th axis selected"
 #endif
-// -----------------------------------------------
-// 6th axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 5
-                 RD        K_6AX__PATH__        ;"key 6th axis selected"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K6AX__PATH__       ;"memory 6th axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
-   #if axis_number__PATH__ > 6
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+!! -----------------------------------------------
+!! 5th axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 4
+                 RD        K_5AX_{{PATH}}        ;"key 5th axis"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
+   #if axis_number_{{PATH}} > 5
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
    #endif
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
    #endif
-                 OR.STK
-                 WRT       M_K6AX__PATH__       ;"memory 6th axis selected"
-#endif
-// -----------------------------------------------
-// 7th axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 6
-                 RD        K_7AX__PATH__        ;"key 7th axis selected"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K7AX__PATH__       ;"memory 7th axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
-   #if axis_number__PATH__ > 7
-                 AND.NOT   M_K8AX__PATH__       ;"memory 8th axis selected"
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
    #endif
                  OR.STK
-                 WRT       M_K7AX__PATH__       ;"memory 7th axis selected"
+                 WRT       M_K5AX_{{PATH}}       ;"memory 5th axis selected"
 #endif
-// -----------------------------------------------
-// 8th axis
-// -----------------------------------------------
-#if axis_number__PATH__ > 7
-                 RD        K_8AX__PATH__        ;"key 8th axis selected"
-                 AND.NOT   REFRUN__PATH__       ;"reference return active"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 RD.STK    M_K8AX__PATH__       ;"memory 8th axis selected"
-                 AND.NOT   M_K1AX__PATH__       ;"memory 1st axis selected"
-                 AND.NOT   M_K2AX__PATH__       ;"memory 2nd axis selected"
-                 AND.NOT   M_K3AX__PATH__       ;"memory 3rd axis selected"
-                 AND.NOT   M_K4AX__PATH__       ;"memory 4th axis selected"
-                 AND.NOT   M_K5AX__PATH__       ;"memory 5th axis selected"
-                 AND.NOT   M_K6AX__PATH__       ;"memory 6th axis selected"
-                 AND.NOT   M_K7AX__PATH__       ;"memory 7th axis selected"
+!! -----------------------------------------------
+!! 6th axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 5
+                 RD        K_6AX_{{PATH}}        ;"key 6th axis selected"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K6AX_{{PATH}}       ;"memory 6th axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+   #if axis_number_{{PATH}} > 6
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+   #endif
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+   #endif
                  OR.STK
-                 WRT       M_K8AX__PATH__       ;"memory 8th axis selected"
+                 WRT       M_K6AX_{{PATH}}       ;"memory 6th axis selected"
 #endif
-// ---------------------------------------------------------------------------
-//  _PATH__: global variables to store the moving direction
-// ---------------------------------------------------------------------------
+!! -----------------------------------------------
+!! 7th axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 6
+                 RD        K_7AX_{{PATH}}        ;"key 7th axis selected"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
+   #if axis_number_{{PATH}} > 7
+                 AND.NOT   M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+   #endif
+                 OR.STK
+                 WRT       M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+#endif
+!! -----------------------------------------------
+!! 8th axis
+!! -----------------------------------------------
+#if axis_number_{{PATH}} > 7
+                 RD        K_8AX_{{PATH}}        ;"key 8th axis selected"
+                 AND.NOT   REFRUN_{{PATH}}       ;"reference return active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 RD.STK    M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+                 AND.NOT   M_K1AX_{{PATH}}       ;"memory 1st axis selected"
+                 AND.NOT   M_K2AX_{{PATH}}       ;"memory 2nd axis selected"
+                 AND.NOT   M_K3AX_{{PATH}}       ;"memory 3rd axis selected"
+                 AND.NOT   M_K4AX_{{PATH}}       ;"memory 4th axis selected"
+                 AND.NOT   M_K5AX_{{PATH}}       ;"memory 5th axis selected"
+                 AND.NOT   M_K6AX_{{PATH}}       ;"memory 6th axis selected"
+                 AND.NOT   M_K7AX_{{PATH}}       ;"memory 7th axis selected"
+                 OR.STK
+                 WRT       M_K8AX_{{PATH}}       ;"memory 8th axis selected"
+#endif
+!! ---------------------------------------------------------------------------
+!!  {{PATH}}: global variables to store the moving direction
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variables to store the moving direction
+{{PATH}}: global variables to store the moving direction
 *)
 #endif
-                 RD        K_PLUS__PATH__       ;"key plus direction"
-                 WRT       M_KPLUS__PATH__      ;"memory axis plus dir."
+                 RD        K_PLUS_{{PATH}}       ;"key plus direction"
+                 WRT       M_KPLUS_{{PATH}}      ;"memory axis plus dir."
 
-                 RD        K_MINUS__PATH__      ;"key minus direction"
-                 WRT       M_KMINUS__PATH__     ;"memory axis minus dir."
+                 RD        K_MINUS_{{PATH}}      ;"key minus direction"
+                 WRT       M_KMINUS_{{PATH}}     ;"memory axis minus dir."
 
-// ---------------------------------------------------------------------------
-// call of the ref and hd/inc functions
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! call of the ref and hd/inc functions
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 call of the ref and hd/inc functions
 *)
 #endif
 
-                 CALLU     RefReturn__PATH__    ;"reference position return"
-                 CALLU     Hd_Inc__PATH__       ;"handle / incremental feed"
+                 CALLU     RefReturn_{{PATH}}    ;"reference position return"
+                 CALLU     Hd_Inc_{{PATH}}       ;"handle / incremental feed"
 
-// ---------------------------------------------------------------------------
-// _PATH__: conditions to enable axis movement
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: conditions to enable axis movement
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: conditions to enable axis movement
+{{PATH}}: conditions to enable axis movement
 *)
 #endif
-                 RD.NOT    M_HD__PATH__         ;"mode handle selected"
-#if operatorspanel == 0 || soft_op_panel == 1
+                 RD.NOT    M_HD_{{PATH}}         ;"mode handle selected"
+#if operatorspanel == 0 or soft_op_panel == 1
                  OR        SOP_RUN              ;"software op-panel active"
 #endif
-                 AND       M_MAN__PATH__        ;"manual mode active"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
                  AND.NOT   WIN_WR               ;"window write active"
-                 AND       POW_OK__PATH__       ;"power supply axis ok"
-                 WRT       AX_MEN__PATH__       ;"axis move enable"
+                 AND       POW_OK_{{PATH}}       ;"power supply axis ok"
+                 WRT       AX_MEN_{{PATH}}       ;"axis move enable"
 
-// ---------------------------------------------------------------------------
-// _PATH__: manual rapid traverse
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: manual rapid traverse
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: manual rapid traverse
+{{PATH}}: manual rapid traverse
 *)
 #endif
-                 RD        K_RT__PATH__         ;"key rapid traverse"
-                 AND       AX_MEN__PATH__       ;"axis move enable"
-                 AND.NOT   SETUP__PATH__        ;"set-up active"
-                 AND       REF_OK__PATH__       ;"all axis referenced"
-                 WRT       RT__PATH__           ;"rapid traverse select."
-                 WRT       L_RT__PATH__         ;"led rapid traverse"
+                 RD        K_RT_{{PATH}}         ;"key rapid traverse"
+                 AND       AX_MEN_{{PATH}}       ;"axis move enable"
+                 AND.NOT   SETUP_{{PATH}}        ;"set-up active"
+                 AND       REF_OK_{{PATH}}       ;"all axis referenced"
+                 WRT       RT_{{PATH}}           ;"rapid traverse select."
+                 WRT       L_RT_{{PATH}}         ;"led rapid traverse"

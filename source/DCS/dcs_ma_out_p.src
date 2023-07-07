@@ -1,188 +1,188 @@
-//:--------------------------------------------------------------------------:
-//: File              : dcs_ma_out__PATH__.src                                   :
-//: Creation date     : 16.07.2018                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : path specific DCS related outputs to the machine     :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : dcs_ma_out_{{PATH}}.src                                   :
+!!: Creation date     : 16.07.2018                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : path specific DCS related outputs to the machine     :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:02.06.20: 3.0.0 :Blp    :0i-D and 3xi-A removed                           :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
 #if net_comment == 1
 (*-------------------------------------------------
-_PATH__: output signals
+{{PATH}}: output signals
 -------------------------------------------------*)
 #endif
 
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-// ---------------------------------------------------------------------------
-// _PATH__: spindle torque on
-// replace T_BIT000 with the real spindle STO output Yxxx.y
-// ---------------------------------------------------------------------------
+#if spindle_support_{{PATH}} == 1 and spindle_support_P01 > -1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle torque on
+!! replace T_BIT000 with the real spindle STO output Yxxx.y
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
-_PATH__: spindle torque on
+{{PATH}}: spindle torque on
 replace T_BIT000 with the real spindle STO output Yxxx.y
 *)
    #endif
-                 RD        SP_TRQ_ON__PATH__    ;"spindle torque on"
+                 RD        SP_TRQ_ON_{{PATH}}    ;"spindle torque on"
                  WRT       T_BIT000             ;"temporary bit 000"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__: brake control of the 1st axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if brake_1st_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: brake control of the 1st axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if brake_1st_axis_{{PATH}} == 1
    #if net_comment == 1
 (*
-_PATH__:brake control of the 1st axis
+{{PATH}}:brake control of the 1st axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
    #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK1__PATH__        ;"Safe Brake sig. 1st axis"
+                 AND       *BRK1_{{PATH}}        ;"Safe Brake sig. 1st axis"
                  WRT       T_BIT000             ;"temporary bit 000"
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 2nd axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 1
-   #if brake_2nd_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 2nd axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 1
+   #if brake_2nd_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 2nd axis
+{{PATH}}:brake control of the 2nd axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK2__PATH__        ;"Safe Brake sig. 2nd axis"
-                 WRT       T_BIT000             ;"temporary bit 000"
-   #endif
-#endif
-
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 3rd axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 2
-   #if brake_3rd_axis__PATH__ == 1
-      #if net_comment == 1
-(*
-_PATH__:brake control of the 3rd axis
-replace T_BIT000 with the real brake output Yxxx.y
-*)
-      #endif
-                 RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK3__PATH__        ;"Safe Brake sig. 3rd axis"
+                 AND       *BRK2_{{PATH}}        ;"Safe Brake sig. 2nd axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 4th axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 3
-   #if brake_4th_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 3rd axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 2
+   #if brake_3rd_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 4th axis
+{{PATH}}:brake control of the 3rd axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK4__PATH__        ;"Safe Brake sig. 4th axis"
+                 AND       *BRK3_{{PATH}}        ;"Safe Brake sig. 3rd axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 5th axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 4
-   #if brake_5th_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 4th axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 3
+   #if brake_4th_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 5th axis
+{{PATH}}:brake control of the 4th axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK5__PATH__        ;"Safe Brake sig. 5th axis"
+                 AND       *BRK4_{{PATH}}        ;"Safe Brake sig. 4th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 6th axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 5
-   #if brake_6th_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 5th axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 4
+   #if brake_5th_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 6th axis
+{{PATH}}:brake control of the 5th axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK6__PATH__        ;"Safe Brake sig. 6th axis"
+                 AND       *BRK5_{{PATH}}        ;"Safe Brake sig. 5th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 7th axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 6
-   #if brake_7th_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 6th axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 5
+   #if brake_6th_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 7th axis
+{{PATH}}:brake control of the 6th axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK7__PATH__        ;"Safe Brake sig. 7th axis"
+                 AND       *BRK6_{{PATH}}        ;"Safe Brake sig. 6th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// _PATH__:brake control of the 8th axis
-// replace T_BIT000 with the real brake output Yxxx.y
-// ---------------------------------------------------------------------------
-#if axis_number__PATH__ > 7
-   #if brake_8th_axis__PATH__ == 1
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 7th axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 6
+   #if brake_7th_axis_{{PATH}} == 1
       #if net_comment == 1
 (*
-_PATH__:brake control of the 8th axis
+{{PATH}}:brake control of the 7th axis
 replace T_BIT000 with the real brake output Yxxx.y
 *)
       #endif
                  RD        MCC_ACT              ;"mcc activated"
-                 AND       *BRK8__PATH__        ;"Safe Brake sig. 8th axis"
+                 AND       *BRK7_{{PATH}}        ;"Safe Brake sig. 7th axis"
+                 WRT       T_BIT000             ;"temporary bit 000"
+   #endif
+#endif
+
+!! ---------------------------------------------------------------------------
+!! {{PATH}}:brake control of the 8th axis
+!! replace T_BIT000 with the real brake output Yxxx.y
+!! ---------------------------------------------------------------------------
+#if axis_number_{{PATH}} > 7
+   #if brake_8th_axis_{{PATH}} == 1
+      #if net_comment == 1
+(*
+{{PATH}}:brake control of the 8th axis
+replace T_BIT000 with the real brake output Yxxx.y
+*)
+      #endif
+                 RD        MCC_ACT              ;"mcc activated"
+                 AND       *BRK8_{{PATH}}        ;"Safe Brake sig. 8th axis"
                  WRT       T_BIT000             ;"temporary bit 000"
    #endif
 #endif

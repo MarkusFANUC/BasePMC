@@ -1,800 +1,800 @@
-//:--------------------------------------------------------------------------:
-//: File              : nc_pmc__PATH__.sym                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Symbol definitions for the path specific CNC <-> PMC :
-//:                   : interface                                            :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:03.09.14: 1.1.0 :Blp    :Signals for One Touch Macro Call added           :
-//:--------------------------------------------------------------------------:
-//:20.07.18: 2.0.0 :Blp    :HCLP signal independent of MPG                   :
-//:        :       :       :4th and 5th M-code added                         :
-//:        :       :       :PMC axis control signals for path 11-15 added    :
-//:--------------------------------------------------------------------------:
-//:03.05.21: 3.0.0 :Blp    :MCSP signal added                                :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : nc_pmc_{{PATH}}.sym                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Symbol definitions for the path specific CNC <-> PMC :
+!!:                   : interface                                            :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:03.09.14: 1.1.0 :Blp    :Signals for One Touch Macro Call added           :
+!!:--------------------------------------------------------------------------:
+!!:20.07.18: 2.0.0 :Blp    :HCLP signal independent of MPG                   :
+!!:        :       :       :4th and 5th M-code added                         :
+!!:        :       :       :PMC axis control signals for path 11-15 added    :
+!!:--------------------------------------------------------------------------:
+!!:03.05.21: 3.0.0 :Blp    :MCSP signal added                                :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Input signal to the PMC from the CNC
-// ===========================================================================
-// -----------------------------------
-// byte:
-// -----------------------------------
-MFCS__PATH__,F__ADDR__010,_PATH__:m-function code signal,
+!! ===========================================================================
+!! Input signal to the PMC from the CNC
+!! ===========================================================================
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
+MFCS_{{PATH}},F{{ADDR}}010,{{PATH}}:m-function code signal,
 
 #if m_code_support == 1
-MF2CS__PATH__,F__ADDR__014,_PATH__:2nd m function code signal,
-MF3CS__PATH__,F__ADDR__016,_PATH__:3rd m function code signal,
+MF2CS_{{PATH}},F{{ADDR}}014,{{PATH}}:2nd m function code signal,
+MF3CS_{{PATH}},F{{ADDR}}016,{{PATH}}:3rd m function code signal,
 #endif
 
 #if m_code_support == 2
-MF2CS__PATH__,F__ADDR__014,_PATH__:2nd m-function code signal,
-MF3CS__PATH__,F__ADDR__564,_PATH__:3rd m-function code signal,
-MF4CS__PATH__,F__ADDR__568,_PATH__:4th m-function code signal,
-MF5CS__PATH__,F__ADDR__572,_PATH__:5th m-function code signal,
+MF2CS_{{PATH}},F{{ADDR}}014,{{PATH}}:2nd m-function code signal,
+MF3CS_{{PATH}},F{{ADDR}}564,{{PATH}}:3rd m-function code signal,
+MF4CS_{{PATH}},F{{ADDR}}568,{{PATH}}:4th m-function code signal,
+MF5CS_{{PATH}},F{{ADDR}}572,{{PATH}}:5th m-function code signal,
 #endif
 
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-S00-S31__PATH__,F__ADDR__022,_PATH__:spindle speed code,
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+S00-S31_{{PATH}},F{{ADDR}}022,{{PATH}}:spindle speed code,
 #endif
 
-#if operatorspanel == 0 || soft_op_panel == 1
-*FV0O_7O__PATH__,F__ADDR__078,_PATH__:sop: feedrate override,
-*JV0O_15O__PATH__,F__ADDR__079,_PATH__:sop: jog feed rate ovr,
+#if operatorspanel == 0 or soft_op_panel == 1
+*FV0O_7O_{{PATH}},F{{ADDR}}078,{{PATH}}:sop: feedrate override,
+*JV0O_15O_{{PATH}},F{{ADDR}}079,{{PATH}}:sop: jog feed rate ovr,
 #endif
 
-// UO200__PATH__,F__ADDR__280,_PATH__:outputs custom macro UO200-231,
-// UO216__PATH__,F__ADDR__282,_PATH__:output custom macro UO216-231,
-// UO300__PATH__,F__ADDR__284,_PATH__:outputs custom macro UO300-331,
+!! UO200_{{PATH}},F{{ADDR}}280,{{PATH}}:outputs custom macro UO200-231,
+!! UO216_{{PATH}},F{{ADDR}}282,{{PATH}}:output custom macro UO216-231,
+!! UO300_{{PATH}},F{{ADDR}}284,{{PATH}}:outputs custom macro UO300-331,
 
-// -----------------------------------
-// bool:
-// -----------------------------------
-RWD__PATH__,F__ADDR__000.0,_PATH__:rewinding signal,
-SPL__PATH__,F__ADDR__000.4,_PATH__:feed hold lamp signal,
-STL__PATH__,F__ADDR__000.5,_PATH__:cycle start lamp signal,
-SA__PATH__,F__ADDR__000.6,_PATH__:servo ready signal,
-OP__PATH__,F__ADDR__000.7,_PATH__:automatic operation lamp,
-AL__PATH__,F__ADDR__001.0,_PATH__:alarm signal,
-RST__PATH__,F__ADDR__001.1,_PATH__:resetting signal,
-BAL__PATH__,F__ADDR__001.2,_PATH__:battery alarm signal,
-DEN__PATH__,F__ADDR__001.3,_PATH__:distribution end signal,
-MA__PATH__,F__ADDR__001.7,_PATH__:cnc ready signal,
-MDRN__PATH__,F__ADDR__002.7,_PATH__:dry run check signal,
-MINC__PATH__,F__ADDR__003.0,_PATH__:mode incremental feed,
-MH__PATH__,F__ADDR__003.1,_PATH__:mode handle,
-MJ__PATH__,F__ADDR__003.2,_PATH__:jog feed sel. check signal,
-MMDI__PATH__,F__ADDR__003.3,_PATH__:mode mdi selected,
-MRMT__PATH__,F__ADDR__003.4,_PATH__:dnc operation,
-MMEM__PATH__,F__ADDR__003.5,_PATH__:mode memory operation,
-MEDT__PATH__,F__ADDR__003.6,_PATH__:mode edit,
-MTCHIN__PATH__,F__ADDR__003.7,_PATH__:teach in sel. check signal,
-MBDT1__PATH__,F__ADDR__004.0,_PATH__:blk skip btd1 check signal,
-MMLK__PATH__,F__ADDR__004.1,_PATH__:all axis lock check signal,
-MSBK__PATH__,F__ADDR__004.3,_PATH__:single block check signal,
-MAFL__PATH__,F__ADDR__004.4,_PATH__:aux. funct. lock check,
-MREF__PATH__,F__ADDR__004.5,_PATH__:mode manual ref. return,
-MBDT2__PATH__,F__ADDR__005.0,_PATH__:skip block signal mbdt2,
-B_RST__PATH__,F__ADDR__006.1,_PATH__:button reset,
-MF__PATH__,F__ADDR__007.0,_PATH__:m-function strobe signal,
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-SF__PATH__,F__ADDR__007.2,_PATH__:spindle strobe signal,
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
+RWD_{{PATH}},F{{ADDR}}000.0,{{PATH}}:rewinding signal,
+SPL_{{PATH}},F{{ADDR}}000.4,{{PATH}}:feed hold lamp signal,
+STL_{{PATH}},F{{ADDR}}000.5,{{PATH}}:cycle start lamp signal,
+SA_{{PATH}},F{{ADDR}}000.6,{{PATH}}:servo ready signal,
+OP_{{PATH}},F{{ADDR}}000.7,{{PATH}}:automatic operation lamp,
+AL_{{PATH}},F{{ADDR}}001.0,{{PATH}}:alarm signal,
+RST_{{PATH}},F{{ADDR}}001.1,{{PATH}}:resetting signal,
+BAL_{{PATH}},F{{ADDR}}001.2,{{PATH}}:battery alarm signal,
+DEN_{{PATH}},F{{ADDR}}001.3,{{PATH}}:distribution end signal,
+MA_{{PATH}},F{{ADDR}}001.7,{{PATH}}:cnc ready signal,
+MDRN_{{PATH}},F{{ADDR}}002.7,{{PATH}}:dry run check signal,
+MINC_{{PATH}},F{{ADDR}}003.0,{{PATH}}:mode incremental feed,
+MH_{{PATH}},F{{ADDR}}003.1,{{PATH}}:mode handle,
+MJ_{{PATH}},F{{ADDR}}003.2,{{PATH}}:jog feed sel. check signal,
+MMDI_{{PATH}},F{{ADDR}}003.3,{{PATH}}:mode mdi selected,
+MRMT_{{PATH}},F{{ADDR}}003.4,{{PATH}}:dnc operation,
+MMEM_{{PATH}},F{{ADDR}}003.5,{{PATH}}:mode memory operation,
+MEDT_{{PATH}},F{{ADDR}}003.6,{{PATH}}:mode edit,
+MTCHIN_{{PATH}},F{{ADDR}}003.7,{{PATH}}:teach in sel. check signal,
+MBDT1_{{PATH}},F{{ADDR}}004.0,{{PATH}}:blk skip btd1 check signal,
+MMLK_{{PATH}},F{{ADDR}}004.1,{{PATH}}:all axis lock check signal,
+MSBK_{{PATH}},F{{ADDR}}004.3,{{PATH}}:single block check signal,
+MAFL_{{PATH}},F{{ADDR}}004.4,{{PATH}}:aux. funct. lock check,
+MREF_{{PATH}},F{{ADDR}}004.5,{{PATH}}:mode manual ref. return,
+MBDT2_{{PATH}},F{{ADDR}}005.0,{{PATH}}:skip block signal mbdt2,
+B_RST_{{PATH}},F{{ADDR}}006.1,{{PATH}}:button reset,
+MF_{{PATH}},F{{ADDR}}007.0,{{PATH}}:m-function strobe signal,
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+SF_{{PATH}},F{{ADDR}}007.2,{{PATH}}:spindle strobe signal,
 #endif
 
-#if t_code_support__PATH__ > 0 && t_code_support_P01 > -1
-TF__PATH__,F__ADDR__007.3,_PATH__:tool function strobe,
+#if t_code_support_{{PATH}} > 0 and t_code_support_P01 > -1
+TF_{{PATH}},F{{ADDR}}007.3,{{PATH}}:tool function strobe,
 #endif
 
-#if b_code_support__PATH__ > 0 && b_code_support_P01 > -1
-BF__PATH__,F__ADDR__007.7,_PATH__:2nd aux. function strobe,
+#if b_code_support_{{PATH}} > 0 and b_code_support_P01 > -1
+BF_{{PATH}},F{{ADDR}}007.7,{{PATH}}:2nd aux. function strobe,
 #endif
 
-#if m_code_support == 1 || m_code_support == 2
-MF2__PATH__,F__ADDR__008.4,_PATH__:2nd m function strobe,
-MF3__PATH__,F__ADDR__008.5,_PATH__:3rd m function strobe,
+#if m_code_support == 1 or m_code_support == 2
+MF2_{{PATH}},F{{ADDR}}008.4,{{PATH}}:2nd m function strobe,
+MF3_{{PATH}},F{{ADDR}}008.5,{{PATH}}:3rd m function strobe,
 #endif
 
 #if m_code_support == 2
-MF4__PATH__,F__ADDR__008.6,_PATH__:4th m-function strobe,
-MF5__PATH__,F__ADDR__008.7,_PATH__:5th m-function strobe,
+MF4_{{PATH}},F{{ADDR}}008.6,{{PATH}}:4th m-function strobe,
+MF5_{{PATH}},F{{ADDR}}008.7,{{PATH}}:5th m-function strobe,
 #endif
 
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-ALMA__PATH__,F__ADDR__045.0,_PATH__:alm signal serial spindle,
-SSTA__PATH__,F__ADDR__045.1,_PATH__:spindle speed zero,
-SARA__PATH__,F__ADDR__045.3,_PATH__:sp speed arrival signal,
-   #if spindle_orientation__PATH__ > 0
-ORARA__PATH__,F__ADDR__045.7,_PATH__:orient. completion signal,
+#if spindle_support_{{PATH}} == 1 and spindle_support_P01 > -1
+ALMA_{{PATH}},F{{ADDR}}045.0,{{PATH}}:alm signal serial spindle,
+SSTA_{{PATH}},F{{ADDR}}045.1,{{PATH}}:spindle speed zero,
+SARA_{{PATH}},F{{ADDR}}045.3,{{PATH}}:sp speed arrival signal,
+   #if spindle_orientation_{{PATH}} > 0
+ORARA_{{PATH}},F{{ADDR}}045.7,{{PATH}}:orient. completion signal,
    #endif
-   #if cs_contour_ctrl__PATH__ == 1
-FSCSL__PATH__,F__ADDR__044.1,_PATH__:Cs contour ctrl active,
+   #if cs_contour_ctrl_{{PATH}} == 1
+FSCSL_{{PATH}},F{{ADDR}}044.1,{{PATH}}:Cs contour ctrl active,
    #endif
-EXOFA__PATH__,F__ADDR__047.4,spindle exitation off,
+EXOFA_{{PATH}},F{{ADDR}}047.4,spindle exitation off,
 #endif
 
-#if operatorspanel == 0 || soft_op_panel == 1
-OUT0__PATH__,F__ADDR__072.0,_PATH__:sop: emergency stop,
-OUT1__PATH__,F__ADDR__072.1,_PATH__:sop: external reset,
-OUT2__PATH__,F__ADDR__072.2,_PATH__:sop: nc start,
-OUT3__PATH__,F__ADDR__072.3,_PATH__:sop: dnc mode,
-OUT4__PATH__,F__ADDR__072.4,_PATH__:sop: optional stop m01,
-OUT5__PATH__,F__ADDR__072.5,_PATH__:sop: coolant on,
-OUT6__PATH__,F__ADDR__072.6,_PATH__:sop: spindle on,
-OUT7__PATH__,F__ADDR__072.7,_PATH__:sop: spindle ccw,
-MD1O__PATH__,F__ADDR__073.0,_PATH__:sop: signal md1,
-MD2O__PATH__,F__ADDR__073.1,_PATH__:sop: signal md2,
-MD4O__PATH__,F__ADDR__073.2,_PATH__:sop: signal md4,
-ZRNO__PATH__,F__ADDR__073.4,_PATH__:sop: signal zrn,
-BDTO__PATH__,F__ADDR__075.2,_PATH__:sop: optional block skip,
-SBKO__PATH__,F__ADDR__075.3,_PATH__:sop: single block,
-MLKO__PATH__,F__ADDR__075.4,_PATH__:sop: machine lock,
-DRNO__PATH__,F__ADDR__075.5,_PATH__:sop: dry run,
-SPO__PATH__,F__ADDR__075.7,_PATH__:sop: feed hold,
-MP1O__PATH__,F__ADDR__076.0,_PATH__:sop: hd feed magnific. mp1,
-MP2O__PATH__,F__ADDR__076.1,_PATH__:sop: hd feed magnific. mp2,
-ROV1O__PATH__,F__ADDR__076.4,_PATH__:sop: rapid traverse rov1,
-ROV2O__PATH__,F__ADDR__076.5,_PATH__:sop: rapid traverse rov2,
-HS1AO__PATH__,F__ADDR__077.0,_PATH__:sop: hd axis sel. signal1,
-HS1BO__PATH__,F__ADDR__077.1,_PATH__:sop: hd axis sel. signal2,
-HS1CO__PATH__,F__ADDR__077.2,_PATH__:sop: hd axis sel. signal3,
-HS1DO__PATH__,F__ADDR__077.3,_PATH__:sop: hd axis sel. signal4,
-RTO__PATH__,F__ADDR__077.6,_PATH__:sop: manual rapid traverse,
-J1O+__PATH__,F__ADDR__081.0,_PATH__:sop: 1st axis + direction,
-J1O-__PATH__,F__ADDR__081.1,_PATH__:sop: 1st axis - direction,
-   #if axis_number__PATH__ > 1
-J2O+__PATH__,F__ADDR__081.2,_PATH__:sop: 2nd axis + direction,
-J2O-__PATH__,F__ADDR__081.3,_PATH__:sop: 2nd axis - direction,
+#if operatorspanel == 0 or soft_op_panel == 1
+OUT0_{{PATH}},F{{ADDR}}072.0,{{PATH}}:sop: emergency stop,
+OUT1_{{PATH}},F{{ADDR}}072.1,{{PATH}}:sop: external reset,
+OUT2_{{PATH}},F{{ADDR}}072.2,{{PATH}}:sop: nc start,
+OUT3_{{PATH}},F{{ADDR}}072.3,{{PATH}}:sop: dnc mode,
+OUT4_{{PATH}},F{{ADDR}}072.4,{{PATH}}:sop: optional stop m01,
+OUT5_{{PATH}},F{{ADDR}}072.5,{{PATH}}:sop: coolant on,
+OUT6_{{PATH}},F{{ADDR}}072.6,{{PATH}}:sop: spindle on,
+OUT7_{{PATH}},F{{ADDR}}072.7,{{PATH}}:sop: spindle ccw,
+MD1O_{{PATH}},F{{ADDR}}073.0,{{PATH}}:sop: signal md1,
+MD2O_{{PATH}},F{{ADDR}}073.1,{{PATH}}:sop: signal md2,
+MD4O_{{PATH}},F{{ADDR}}073.2,{{PATH}}:sop: signal md4,
+ZRNO_{{PATH}},F{{ADDR}}073.4,{{PATH}}:sop: signal zrn,
+BDTO_{{PATH}},F{{ADDR}}075.2,{{PATH}}:sop: optional block skip,
+SBKO_{{PATH}},F{{ADDR}}075.3,{{PATH}}:sop: single block,
+MLKO_{{PATH}},F{{ADDR}}075.4,{{PATH}}:sop: machine lock,
+DRNO_{{PATH}},F{{ADDR}}075.5,{{PATH}}:sop: dry run,
+SPO_{{PATH}},F{{ADDR}}075.7,{{PATH}}:sop: feed hold,
+MP1O_{{PATH}},F{{ADDR}}076.0,{{PATH}}:sop: hd feed magnific. mp1,
+MP2O_{{PATH}},F{{ADDR}}076.1,{{PATH}}:sop: hd feed magnific. mp2,
+ROV1O_{{PATH}},F{{ADDR}}076.4,{{PATH}}:sop: rapid traverse rov1,
+ROV2O_{{PATH}},F{{ADDR}}076.5,{{PATH}}:sop: rapid traverse rov2,
+HS1AO_{{PATH}},F{{ADDR}}077.0,{{PATH}}:sop: hd axis sel. signal1,
+HS1BO_{{PATH}},F{{ADDR}}077.1,{{PATH}}:sop: hd axis sel. signal2,
+HS1CO_{{PATH}},F{{ADDR}}077.2,{{PATH}}:sop: hd axis sel. signal3,
+HS1DO_{{PATH}},F{{ADDR}}077.3,{{PATH}}:sop: hd axis sel. signal4,
+RTO_{{PATH}},F{{ADDR}}077.6,{{PATH}}:sop: manual rapid traverse,
+J1O+_{{PATH}},F{{ADDR}}081.0,{{PATH}}:sop: 1st axis + direction,
+J1O-_{{PATH}},F{{ADDR}}081.1,{{PATH}}:sop: 1st axis - direction,
+   #if axis_number_{{PATH}} > 1
+J2O+_{{PATH}},F{{ADDR}}081.2,{{PATH}}:sop: 2nd axis + direction,
+J2O-_{{PATH}},F{{ADDR}}081.3,{{PATH}}:sop: 2nd axis - direction,
    #endif
-   #if axis_number__PATH__ > 2
-J3O+__PATH__,F__ADDR__081.4,_PATH__:sop: 3rd axis + direction,
-J3O-__PATH__,F__ADDR__081.5,_PATH__:sop: 3rd axis - direction,
+   #if axis_number_{{PATH}} > 2
+J3O+_{{PATH}},F{{ADDR}}081.4,{{PATH}}:sop: 3rd axis + direction,
+J3O-_{{PATH}},F{{ADDR}}081.5,{{PATH}}:sop: 3rd axis - direction,
    #endif
-   #if axis_number__PATH__ > 3
-J4O+__PATH__,F__ADDR__081.6,_PATH__:sop: 4th axis + direction,
-J4O-__PATH__,F__ADDR__081.7,_PATH__:sop: 4th axis - direction,
-   #endif
-#endif
-
-#if (spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5) && spindle_support_P01 > -1
-   #if rigid_tapping__PATH__ == 1
-RTAP__PATH__,F__ADDR__076.3,_PATH__:rigid tapping in progress,
+   #if axis_number_{{PATH}} > 3
+J4O+_{{PATH}},F{{ADDR}}081.6,{{PATH}}:sop: 4th axis + direction,
+J4O-_{{PATH}},F{{ADDR}}081.7,{{PATH}}:sop: 4th axis - direction,
    #endif
 #endif
 
-ZP1__PATH__,F__ADDR__094.0,_PATH__:ref position 1st axis,
-MV1__PATH__,F__ADDR__102.0,_PATH__:1st axis moving signal,
-INP1__PATH__,F__ADDR__104.0,_PATH__:1st axis in-pos. signal,
-MVD1__PATH__,F__ADDR__106.0,_PATH__:1st axis moving dir.-,
-ZRF1__PATH__,F__ADDR__120.0,_PATH__:1st axis referenced,
-SA1__PATH__,F__ADDR__186.0,_PATH__:1st axis servo ready,
-WPSF1__PATH__,F__ADDR__358.0,_PATH__:wp coord preset fin 1st ax,
-SVD001__PATH__,F__ADDR__688.0,_PATH__:1st axis brake ctrl mode,
-
-#if axis_number__PATH__ > 1 || (spindle_sv_axis__PATH__ == 2 && spindle_support_P01 > -1)
-ZP2__PATH__,F__ADDR__094.1,_PATH__:ref position 2nd axis,
-MV2__PATH__,F__ADDR__102.1,_PATH__:2nd axis moving signal,
-INP2__PATH__,F__ADDR__104.1,_PATH__:2nd axis in-pos. signal,
-MVD2__PATH__,F__ADDR__106.1,_PATH__:2nd axis moving dir.-,
-ZRF2__PATH__,F__ADDR__120.1,_PATH__:2nd axis referenced,
-SA2__PATH__,F__ADDR__186.1,_PATH__:2nd axis servo ready,
-WPSF2__PATH__,F__ADDR__358.1,_PATH__:wp coord preset fin 2nd ax,
-SVD002__PATH__,F__ADDR__688.1,_PATH__:2nd axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 2 || (spindle_sv_axis__PATH__ == 3 && spindle_support_P01 > -1)
-ZP3__PATH__,F__ADDR__094.2,_PATH__:ref position 3rd axis,
-MV3__PATH__,F__ADDR__102.2,_PATH__:3rd axis moving signal,
-INP3__PATH__,F__ADDR__104.2,_PATH__:3rd axis in-pos. signal,
-MVD3__PATH__,F__ADDR__106.2,_PATH__:3rd axis moving dir.-,
-ZRF3__PATH__,F__ADDR__120.2,_PATH__:3rd axis referenced,
-SA3__PATH__,F__ADDR__186.2,_PATH__:3rd axis servo ready,
-WPSF3__PATH__,F__ADDR__358.2,_PATH__:wp coord preset fin 3rd ax,
-SVD003__PATH__,F__ADDR__688.2,_PATH__:3rd axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 3 || (spindle_sv_axis__PATH__ == 4 && spindle_support_P01 > -1)
-ZP4__PATH__,F__ADDR__094.3,_PATH__:ref position 4th axis,
-MV4__PATH__,F__ADDR__102.3,_PATH__:4th axis moving signal,
-INP4__PATH__,F__ADDR__104.3,_PATH__:4th axis in-pos. signal,
-MVD4__PATH__,F__ADDR__106.3,_PATH__:4th axis moving dir.-,
-ZRF4__PATH__,F__ADDR__120.3,_PATH__:4th axis referenced,
-SA4__PATH__,F__ADDR__186.3,_PATH__:4th axis servo ready,
-WPSF4__PATH__,F__ADDR__358.3,_PATH__:wp coord preset fin 4th ax,
-SVD004__PATH__,F__ADDR__688.3,_PATH__:4th axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 4 || (spindle_sv_axis__PATH__ == 5 && spindle_support_P01 > -1)
-ZP5__PATH__,F__ADDR__094.4,_PATH__:ref position 5th axis,
-MV5__PATH__,F__ADDR__102.4,_PATH__:5th axis moving signal,
-INP5__PATH__,F__ADDR__104.4,_PATH__:5th axis in-pos. signal,
-MVD5__PATH__,F__ADDR__106.4,_PATH__:5th axis moving dir.-,
-ZRF5__PATH__,F__ADDR__120.4,_PATH__:5th axis referenced,
-SA5__PATH__,F__ADDR__186.4,_PATH__:5th axis servo ready,
-WPSF5__PATH__,F__ADDR__358.4,_PATH__:wp coord preset fin 5th ax,
-SVD005__PATH__,F__ADDR__688.4,_PATH__:5th axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 5 || (spindle_sv_axis__PATH__ == 6 && spindle_support_P01 > -1)
-ZP6__PATH__,F__ADDR__094.5,_PATH__:ref position 6th axis,
-MV6__PATH__,F__ADDR__102.5,_PATH__:6th axis moving signal,
-INP6__PATH__,F__ADDR__104.5,_PATH__:6th axis in-pos. signal,
-MVD6__PATH__,F__ADDR__106.5,_PATH__:6th axis moving dir.-,
-ZRF6__PATH__,F__ADDR__120.5,_PATH__:6th axis referenced,
-SA6__PATH__,F__ADDR__186.5,_PATH__:6th axis servo ready,
-WPSF6__PATH__,F__ADDR__358.5,_PATH__:wp coord preset fin 6th ax,
-SVD006__PATH__,F__ADDR__688.5,_PATH__:6th axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 6 || (spindle_sv_axis__PATH__ == 7 && spindle_support_P01 > -1) 
-ZP7__PATH__,F__ADDR__094.6,_PATH__:ref position 7th axis,
-MV7__PATH__,F__ADDR__102.6,_PATH__:7th axis moving signal,
-INP7__PATH__,F__ADDR__104.6,_PATH__:7th axis in-pos. signal,
-MVD7__PATH__,F__ADDR__106.6,_PATH__:7th axis moving dir.-,
-ZRF7__PATH__,F__ADDR__120.6,_PATH__:7th axis referenced,
-SA7__PATH__,F__ADDR__186.6,_PATH__:7th axis servo ready,
-WPSF7__PATH__,F__ADDR__358.6,_PATH__:wp coord preset fin 7th ax,
-SVD007__PATH__,F__ADDR__688.6,_PATH__:7th axis brake ctrl mode,
-#endif
-
-#if axis_number__PATH__ > 7 || (spindle_sv_axis__PATH__ == 8 && spindle_support_P01 > -1)
-ZP8__PATH__,F__ADDR__094.7,_PATH__:ref position 8th axis,
-MV8__PATH__,F__ADDR__102.7,_PATH__:8th axis moving signal,
-INP8__PATH__,F__ADDR__104.7,_PATH__:8th axis in-pos. signal,
-MVD8__PATH__,F__ADDR__106.7,_PATH__:8th axis moving dir.-,
-ZRF8__PATH__,F__ADDR__120.7,_PATH__:8th axis referenced,
-SA8__PATH__,F__ADDR__186.7,_PATH__:8th axis servo ready,
-WPSF8__PATH__,F__ADDR__358.7,_PATH__:wp coord preset fin 8th ax,
-SVD008__PATH__,F__ADDR__688.7,_PATH__:8th axis brake ctrl mode,
-#endif
-
-#if spindle_support__PATH__ == 4 && spindle_support_P01 > -1
-   #if spindle_sv_axis__PATH__ == 1
-EACNT1__PATH__,F__ADDR__182.0,_PATH__:1st axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 2
-EACNT2__PATH__,F__ADDR__182.1,_PATH__:2nd axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 3
-EACNT3__PATH__,F__ADDR__182.2,_PATH__:3rd axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 4
-EACNT4__PATH__,F__ADDR__182.3,_PATH__:4th axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 5
-EACNT5__PATH__,F__ADDR__182.4,_PATH__:5th axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 6
-EACNT6__PATH__,F__ADDR__182.5,_PATH__:6th axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 7
-EACNT7__PATH__,F__ADDR__182.6,_PATH__:7th axis sel. status sig.,
-   #endif
-   #if spindle_sv_axis__PATH__ == 8
-EACNT8__PATH__,F__ADDR__182.7,_PATH__:8th axis sel. status sig.,
+#if (spindle_support_{{PATH}} == 1 or spindle_support_{{PATH}} == 5) and spindle_support_P01 > -1
+   #if rigid_tapping_{{PATH}} == 1
+RTAP_{{PATH}},F{{ADDR}}076.3,{{PATH}}:rigid tapping in progress,
    #endif
 #endif
 
-#if spindle_support__PATH__ == 5 && spindle_support_P01 > -1
-   #if spindle_sv_axis__PATH__ == 1
-SVSST1__PATH__,F__ADDR__376.0,_PATH__:1st axis SV zero-speed,
-SVSAR1__PATH__,F__ADDR__377.0,_PATH__:1st axis SV speed arrival,
-SVREV1__PATH__,F__ADDR__521.0,_PATH__:1st axis speed ctrl mode,
-SPP1__PATH__,F__ADDR__522.0,_PATH__:1st axis sp index sign.,
+ZP1_{{PATH}},F{{ADDR}}094.0,{{PATH}}:ref position 1st axis,
+MV1_{{PATH}},F{{ADDR}}102.0,{{PATH}}:1st axis moving signal,
+INP1_{{PATH}},F{{ADDR}}104.0,{{PATH}}:1st axis in-pos. signal,
+MVD1_{{PATH}},F{{ADDR}}106.0,{{PATH}}:1st axis moving dir.-,
+ZRF1_{{PATH}},F{{ADDR}}120.0,{{PATH}}:1st axis referenced,
+SA1_{{PATH}},F{{ADDR}}186.0,{{PATH}}:1st axis servo ready,
+WPSF1_{{PATH}},F{{ADDR}}358.0,{{PATH}}:wp coord preset fin 1st ax,
+SVD001_{{PATH}},F{{ADDR}}688.0,{{PATH}}:1st axis brake ctrl mode,
+
+#if axis_number_{{PATH}} > 1 or (spindle_sv_axis_{{PATH}} == 2 and spindle_support_P01 > -1)
+ZP2_{{PATH}},F{{ADDR}}094.1,{{PATH}}:ref position 2nd axis,
+MV2_{{PATH}},F{{ADDR}}102.1,{{PATH}}:2nd axis moving signal,
+INP2_{{PATH}},F{{ADDR}}104.1,{{PATH}}:2nd axis in-pos. signal,
+MVD2_{{PATH}},F{{ADDR}}106.1,{{PATH}}:2nd axis moving dir.-,
+ZRF2_{{PATH}},F{{ADDR}}120.1,{{PATH}}:2nd axis referenced,
+SA2_{{PATH}},F{{ADDR}}186.1,{{PATH}}:2nd axis servo ready,
+WPSF2_{{PATH}},F{{ADDR}}358.1,{{PATH}}:wp coord preset fin 2nd ax,
+SVD002_{{PATH}},F{{ADDR}}688.1,{{PATH}}:2nd axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 2 or (spindle_sv_axis_{{PATH}} == 3 and spindle_support_P01 > -1)
+ZP3_{{PATH}},F{{ADDR}}094.2,{{PATH}}:ref position 3rd axis,
+MV3_{{PATH}},F{{ADDR}}102.2,{{PATH}}:3rd axis moving signal,
+INP3_{{PATH}},F{{ADDR}}104.2,{{PATH}}:3rd axis in-pos. signal,
+MVD3_{{PATH}},F{{ADDR}}106.2,{{PATH}}:3rd axis moving dir.-,
+ZRF3_{{PATH}},F{{ADDR}}120.2,{{PATH}}:3rd axis referenced,
+SA3_{{PATH}},F{{ADDR}}186.2,{{PATH}}:3rd axis servo ready,
+WPSF3_{{PATH}},F{{ADDR}}358.2,{{PATH}}:wp coord preset fin 3rd ax,
+SVD003_{{PATH}},F{{ADDR}}688.2,{{PATH}}:3rd axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 3 or (spindle_sv_axis_{{PATH}} == 4 and spindle_support_P01 > -1)
+ZP4_{{PATH}},F{{ADDR}}094.3,{{PATH}}:ref position 4th axis,
+MV4_{{PATH}},F{{ADDR}}102.3,{{PATH}}:4th axis moving signal,
+INP4_{{PATH}},F{{ADDR}}104.3,{{PATH}}:4th axis in-pos. signal,
+MVD4_{{PATH}},F{{ADDR}}106.3,{{PATH}}:4th axis moving dir.-,
+ZRF4_{{PATH}},F{{ADDR}}120.3,{{PATH}}:4th axis referenced,
+SA4_{{PATH}},F{{ADDR}}186.3,{{PATH}}:4th axis servo ready,
+WPSF4_{{PATH}},F{{ADDR}}358.3,{{PATH}}:wp coord preset fin 4th ax,
+SVD004_{{PATH}},F{{ADDR}}688.3,{{PATH}}:4th axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 4 or (spindle_sv_axis_{{PATH}} == 5 and spindle_support_P01 > -1)
+ZP5_{{PATH}},F{{ADDR}}094.4,{{PATH}}:ref position 5th axis,
+MV5_{{PATH}},F{{ADDR}}102.4,{{PATH}}:5th axis moving signal,
+INP5_{{PATH}},F{{ADDR}}104.4,{{PATH}}:5th axis in-pos. signal,
+MVD5_{{PATH}},F{{ADDR}}106.4,{{PATH}}:5th axis moving dir.-,
+ZRF5_{{PATH}},F{{ADDR}}120.4,{{PATH}}:5th axis referenced,
+SA5_{{PATH}},F{{ADDR}}186.4,{{PATH}}:5th axis servo ready,
+WPSF5_{{PATH}},F{{ADDR}}358.4,{{PATH}}:wp coord preset fin 5th ax,
+SVD005_{{PATH}},F{{ADDR}}688.4,{{PATH}}:5th axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 5 or (spindle_sv_axis_{{PATH}} == 6 and spindle_support_P01 > -1)
+ZP6_{{PATH}},F{{ADDR}}094.5,{{PATH}}:ref position 6th axis,
+MV6_{{PATH}},F{{ADDR}}102.5,{{PATH}}:6th axis moving signal,
+INP6_{{PATH}},F{{ADDR}}104.5,{{PATH}}:6th axis in-pos. signal,
+MVD6_{{PATH}},F{{ADDR}}106.5,{{PATH}}:6th axis moving dir.-,
+ZRF6_{{PATH}},F{{ADDR}}120.5,{{PATH}}:6th axis referenced,
+SA6_{{PATH}},F{{ADDR}}186.5,{{PATH}}:6th axis servo ready,
+WPSF6_{{PATH}},F{{ADDR}}358.5,{{PATH}}:wp coord preset fin 6th ax,
+SVD006_{{PATH}},F{{ADDR}}688.5,{{PATH}}:6th axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 6 or (spindle_sv_axis_{{PATH}} == 7 and spindle_support_P01 > -1) 
+ZP7_{{PATH}},F{{ADDR}}094.6,{{PATH}}:ref position 7th axis,
+MV7_{{PATH}},F{{ADDR}}102.6,{{PATH}}:7th axis moving signal,
+INP7_{{PATH}},F{{ADDR}}104.6,{{PATH}}:7th axis in-pos. signal,
+MVD7_{{PATH}},F{{ADDR}}106.6,{{PATH}}:7th axis moving dir.-,
+ZRF7_{{PATH}},F{{ADDR}}120.6,{{PATH}}:7th axis referenced,
+SA7_{{PATH}},F{{ADDR}}186.6,{{PATH}}:7th axis servo ready,
+WPSF7_{{PATH}},F{{ADDR}}358.6,{{PATH}}:wp coord preset fin 7th ax,
+SVD007_{{PATH}},F{{ADDR}}688.6,{{PATH}}:7th axis brake ctrl mode,
+#endif
+
+#if axis_number_{{PATH}} > 7 or (spindle_sv_axis_{{PATH}} == 8 and spindle_support_P01 > -1)
+ZP8_{{PATH}},F{{ADDR}}094.7,{{PATH}}:ref position 8th axis,
+MV8_{{PATH}},F{{ADDR}}102.7,{{PATH}}:8th axis moving signal,
+INP8_{{PATH}},F{{ADDR}}104.7,{{PATH}}:8th axis in-pos. signal,
+MVD8_{{PATH}},F{{ADDR}}106.7,{{PATH}}:8th axis moving dir.-,
+ZRF8_{{PATH}},F{{ADDR}}120.7,{{PATH}}:8th axis referenced,
+SA8_{{PATH}},F{{ADDR}}186.7,{{PATH}}:8th axis servo ready,
+WPSF8_{{PATH}},F{{ADDR}}358.7,{{PATH}}:wp coord preset fin 8th ax,
+SVD008_{{PATH}},F{{ADDR}}688.7,{{PATH}}:8th axis brake ctrl mode,
+#endif
+
+#if spindle_support_{{PATH}} == 4 and spindle_support_P01 > -1
+   #if spindle_sv_axis_{{PATH}} == 1
+EACNT1_{{PATH}},F{{ADDR}}182.0,{{PATH}}:1st axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 2
-SVSST2__PATH__,F__ADDR__376.1,_PATH__:2nd axis SV zero-speed,
-SVSAR2__PATH__,F__ADDR__377.1,_PATH__:2nd axis SV speed arrival,
-SVREV2__PATH__,F__ADDR__521.1,_PATH__:2nd axis speed ctrl mode,
-SPP2__PATH__,F__ADDR__522.1,_PATH__:2nd axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 2
+EACNT2_{{PATH}},F{{ADDR}}182.1,{{PATH}}:2nd axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 3
-SVSST3__PATH__,F__ADDR__376.2,_PATH__:3rd axis SV zero-speed,
-SVSAR3__PATH__,F__ADDR__377.2,_PATH__:3rd axis SV speed arrival,
-SVREV3__PATH__,F__ADDR__521.2,_PATH__:3rd axis speed ctrl mode,
-SPP3__PATH__,F__ADDR__522.2,_PATH__:3rd axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 3
+EACNT3_{{PATH}},F{{ADDR}}182.2,{{PATH}}:3rd axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 4
-SVSST4__PATH__,F__ADDR__376.3,_PATH__:4th axis SV zero-speed,
-SVSAR4__PATH__,F__ADDR__377.3,_PATH__:4th axis SV speed arrival,
-SVREV4__PATH__,F__ADDR__521.3,_PATH__:4th axis speed ctrl mode,
-SPP4__PATH__,F__ADDR__522.3,_PATH__:4th axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 4
+EACNT4_{{PATH}},F{{ADDR}}182.3,{{PATH}}:4th axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 5
-SVSST5__PATH__,F__ADDR__376.4,_PATH__:5th axis SV zero-speed,
-SVSAR5__PATH__,F__ADDR__377.4,_PATH__:5th axis SV speed arrival,
-SVREV5__PATH__,F__ADDR__521.4,_PATH__:5th axis speed ctrl mode,
-SPP5__PATH__,F__ADDR__522.4,_PATH__:5th axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 5
+EACNT5_{{PATH}},F{{ADDR}}182.4,{{PATH}}:5th axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 6
-SVSST6__PATH__,F__ADDR__376.5,_PATH__:6th axis SV zero-speed,
-SVSAR6__PATH__,F__ADDR__377.5,_PATH__:6th axis SV speed arrival,
-SVREV6__PATH__,F__ADDR__521.5,_PATH__:6th axis speed ctrl mode,
-SPP6__PATH__,F__ADDR__522.5,_PATH__:6th axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 6
+EACNT6_{{PATH}},F{{ADDR}}182.5,{{PATH}}:6th axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 7
-SVSST7__PATH__,F__ADDR__376.6,_PATH__:7th axis SV zero-speed,
-SVSAR7__PATH__,F__ADDR__377.6,_PATH__:7th axis SV speed arrival,
-SVREV7__PATH__,F__ADDR__521.6,_PATH__:7th axis speed ctrl mode,
-SPP7__PATH__,F__ADDR__522.6,_PATH__:7th axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 7
+EACNT7_{{PATH}},F{{ADDR}}182.6,{{PATH}}:7th axis sel. status sig.,
    #endif
-   #if spindle_sv_axis__PATH__ == 8
-SVSST8__PATH__,F__ADDR__376.7,_PATH__:8th axis SV zero-speed,
-SVSAR8__PATH__,F__ADDR__377.7,_PATH__:8th axis SV speed arrival,
-SVREV8__PATH__,F__ADDR__521.7,_PATH__:8th axis speed ctrl mode,
-SPP8__PATH__,F__ADDR__522.7,_PATH__:8th axis sp index signal,
+   #if spindle_sv_axis_{{PATH}} == 8
+EACNT8_{{PATH}},F{{ADDR}}182.7,{{PATH}}:8th axis sel. status sig.,
    #endif
 #endif
 
-#if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
-MCEXE__PATH__,F__ADDR__512.0,_PATH__:macro call exec. signal,
-MCRQ__PATH__,F__ADDR__512.1,_PATH__:mode change req. signal
-MCSP__PATH__,F__ADDR__512.2,_PATH__:abnormal end signal
-MD1R__PATH__,F__ADDR__513.0,_PATH__:mode notification 1,
-MD2R__PATH__,F__ADDR__513.1,_PATH__:mode notification 2,
-MD4R__PATH__,F__ADDR__513.2,_PATH__:mode notification 4,
-DNCIR__PATH__,F__ADDR__513.5,_PATH__:DNC notification,
-ZRNR__PATH__,F__ADDR__513.7,_PATH__:ZRN notification,
-MCEX1__PATH__,F__ADDR__514.0,_PATH__:macro 1 in progress,
-MCEX2__PATH__,F__ADDR__514.1,_PATH__:macro 2 in progress,
-MCEX3__PATH__,F__ADDR__514.2,_PATH__:macro 3 in progress,
-MCEX4__PATH__,F__ADDR__514.3,_PATH__:macro 4 in progress,
+#if spindle_support_{{PATH}} == 5 and spindle_support_P01 > -1
+   #if spindle_sv_axis_{{PATH}} == 1
+SVSST1_{{PATH}},F{{ADDR}}376.0,{{PATH}}:1st axis SV zero-speed,
+SVSAR1_{{PATH}},F{{ADDR}}377.0,{{PATH}}:1st axis SV speed arrival,
+SVREV1_{{PATH}},F{{ADDR}}521.0,{{PATH}}:1st axis speed ctrl mode,
+SPP1_{{PATH}},F{{ADDR}}522.0,{{PATH}}:1st axis sp index sign.,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 2
+SVSST2_{{PATH}},F{{ADDR}}376.1,{{PATH}}:2nd axis SV zero-speed,
+SVSAR2_{{PATH}},F{{ADDR}}377.1,{{PATH}}:2nd axis SV speed arrival,
+SVREV2_{{PATH}},F{{ADDR}}521.1,{{PATH}}:2nd axis speed ctrl mode,
+SPP2_{{PATH}},F{{ADDR}}522.1,{{PATH}}:2nd axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 3
+SVSST3_{{PATH}},F{{ADDR}}376.2,{{PATH}}:3rd axis SV zero-speed,
+SVSAR3_{{PATH}},F{{ADDR}}377.2,{{PATH}}:3rd axis SV speed arrival,
+SVREV3_{{PATH}},F{{ADDR}}521.2,{{PATH}}:3rd axis speed ctrl mode,
+SPP3_{{PATH}},F{{ADDR}}522.2,{{PATH}}:3rd axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 4
+SVSST4_{{PATH}},F{{ADDR}}376.3,{{PATH}}:4th axis SV zero-speed,
+SVSAR4_{{PATH}},F{{ADDR}}377.3,{{PATH}}:4th axis SV speed arrival,
+SVREV4_{{PATH}},F{{ADDR}}521.3,{{PATH}}:4th axis speed ctrl mode,
+SPP4_{{PATH}},F{{ADDR}}522.3,{{PATH}}:4th axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 5
+SVSST5_{{PATH}},F{{ADDR}}376.4,{{PATH}}:5th axis SV zero-speed,
+SVSAR5_{{PATH}},F{{ADDR}}377.4,{{PATH}}:5th axis SV speed arrival,
+SVREV5_{{PATH}},F{{ADDR}}521.4,{{PATH}}:5th axis speed ctrl mode,
+SPP5_{{PATH}},F{{ADDR}}522.4,{{PATH}}:5th axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 6
+SVSST6_{{PATH}},F{{ADDR}}376.5,{{PATH}}:6th axis SV zero-speed,
+SVSAR6_{{PATH}},F{{ADDR}}377.5,{{PATH}}:6th axis SV speed arrival,
+SVREV6_{{PATH}},F{{ADDR}}521.5,{{PATH}}:6th axis speed ctrl mode,
+SPP6_{{PATH}},F{{ADDR}}522.5,{{PATH}}:6th axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 7
+SVSST7_{{PATH}},F{{ADDR}}376.6,{{PATH}}:7th axis SV zero-speed,
+SVSAR7_{{PATH}},F{{ADDR}}377.6,{{PATH}}:7th axis SV speed arrival,
+SVREV7_{{PATH}},F{{ADDR}}521.6,{{PATH}}:7th axis speed ctrl mode,
+SPP7_{{PATH}},F{{ADDR}}522.6,{{PATH}}:7th axis sp index signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 8
+SVSST8_{{PATH}},F{{ADDR}}376.7,{{PATH}}:8th axis SV zero-speed,
+SVSAR8_{{PATH}},F{{ADDR}}377.7,{{PATH}}:8th axis SV speed arrival,
+SVREV8_{{PATH}},F{{ADDR}}521.7,{{PATH}}:8th axis speed ctrl mode,
+SPP8_{{PATH}},F{{ADDR}}522.7,{{PATH}}:8th axis sp index signal,
+   #endif
+#endif
+
+#if otmc_support_{{PATH}} == 1 and otmc_support_P01 > -1 and operatorspanel == 2
+MCEXE_{{PATH}},F{{ADDR}}512.0,{{PATH}}:macro call exec. signal,
+MCRQ_{{PATH}},F{{ADDR}}512.1,{{PATH}}:mode change req. signal
+MCSP_{{PATH}},F{{ADDR}}512.2,{{PATH}}:abnormal end signal
+MD1R_{{PATH}},F{{ADDR}}513.0,{{PATH}}:mode notification 1,
+MD2R_{{PATH}},F{{ADDR}}513.1,{{PATH}}:mode notification 2,
+MD4R_{{PATH}},F{{ADDR}}513.2,{{PATH}}:mode notification 4,
+DNCIR_{{PATH}},F{{ADDR}}513.5,{{PATH}}:DNC notification,
+ZRNR_{{PATH}},F{{ADDR}}513.7,{{PATH}}:ZRN notification,
+MCEX1_{{PATH}},F{{ADDR}}514.0,{{PATH}}:macro 1 in progress,
+MCEX2_{{PATH}},F{{ADDR}}514.1,{{PATH}}:macro 2 in progress,
+MCEX3_{{PATH}},F{{ADDR}}514.2,{{PATH}}:macro 3 in progress,
+MCEX4_{{PATH}},F{{ADDR}}514.3,{{PATH}}:macro 4 in progress,
 #endif
 
 #if dcs_support == 1
-RSV1__PATH__,F__ADDR__750.0,_PATH__:monitoring result 1st axis,
-*MCFV1__PATH__,F__ADDR__752.0,_PATH__:MCC off signal 1st axis,
-*BRK1__PATH__,F__ADDR__754.0,_PATH__:Safety Brake sig. 1st axis,
-RZV1__PATH__,F__ADDR__759.0,_PATH__:zero mon. result 1st axis,
-POSE1__PATH__,F__ADDR__766.0,_PATH__:pos. inf. effect 1st axis,
-   #if axis_number__PATH__ > 1
-RSV2__PATH__,F__ADDR__750.1,_PATH__:monitoring result 2nd axis,
-*MCFV2__PATH__,F__ADDR__752.1,_PATH__:MCC off signal 2nd axis,
-*BRK2__PATH__,F__ADDR__754.1,_PATH__:Safety Brake sig. 2nd axis,
-RZV2__PATH__,F__ADDR__759.1,_PATH__:zero mon. result 2nd axis,
-POSE2__PATH__,F__ADDR__766.1,_PATH__:pos. inf. effect 2nd axis,
+RSV1_{{PATH}},F{{ADDR}}750.0,{{PATH}}:monitoring result 1st axis,
+*MCFV1_{{PATH}},F{{ADDR}}752.0,{{PATH}}:MCC off signal 1st axis,
+*BRK1_{{PATH}},F{{ADDR}}754.0,{{PATH}}:Safety Brake sig. 1st axis,
+RZV1_{{PATH}},F{{ADDR}}759.0,{{PATH}}:zero mon. result 1st axis,
+POSE1_{{PATH}},F{{ADDR}}766.0,{{PATH}}:pos. inf. effect 1st axis,
+   #if axis_number_{{PATH}} > 1
+RSV2_{{PATH}},F{{ADDR}}750.1,{{PATH}}:monitoring result 2nd axis,
+*MCFV2_{{PATH}},F{{ADDR}}752.1,{{PATH}}:MCC off signal 2nd axis,
+*BRK2_{{PATH}},F{{ADDR}}754.1,{{PATH}}:Safety Brake sig. 2nd axis,
+RZV2_{{PATH}},F{{ADDR}}759.1,{{PATH}}:zero mon. result 2nd axis,
+POSE2_{{PATH}},F{{ADDR}}766.1,{{PATH}}:pos. inf. effect 2nd axis,
    #endif
-   #if axis_number__PATH__ > 2
-RSV3__PATH__,F__ADDR__750.2,_PATH__:monitoring result 3rd axis,
-*MCFV3__PATH__,F__ADDR__752.2,_PATH__:MCC off signal 3rd axis,
-*BRK3__PATH__,F__ADDR__754.2,_PATH__:Safety Brake sig. 3rd axis,
-RZV3__PATH__,F__ADDR__759.2,_PATH__:zero mon. result 3rd axis,
-POSE3__PATH__,F__ADDR__766.2,_PATH__:pos. inf. effect 3rd axis,
+   #if axis_number_{{PATH}} > 2
+RSV3_{{PATH}},F{{ADDR}}750.2,{{PATH}}:monitoring result 3rd axis,
+*MCFV3_{{PATH}},F{{ADDR}}752.2,{{PATH}}:MCC off signal 3rd axis,
+*BRK3_{{PATH}},F{{ADDR}}754.2,{{PATH}}:Safety Brake sig. 3rd axis,
+RZV3_{{PATH}},F{{ADDR}}759.2,{{PATH}}:zero mon. result 3rd axis,
+POSE3_{{PATH}},F{{ADDR}}766.2,{{PATH}}:pos. inf. effect 3rd axis,
    #endif
-   #if axis_number__PATH__ > 3
-RSV4__PATH__,F__ADDR__750.3,_PATH__:monitoring result 4th axis,
-*MCFV4__PATH__,F__ADDR__752.3,_PATH__:MCC off signal 4th axis,
-*BRK4__PATH__,F__ADDR__754.3,_PATH__:Safety Brake sig. 4th axis,
-RZV4__PATH__,F__ADDR__759.3,_PATH__:zero mon. result 4th axis,
-POSE4__PATH__,F__ADDR__766.3,_PATH__:pos. inf. effect 4th axis,
+   #if axis_number_{{PATH}} > 3
+RSV4_{{PATH}},F{{ADDR}}750.3,{{PATH}}:monitoring result 4th axis,
+*MCFV4_{{PATH}},F{{ADDR}}752.3,{{PATH}}:MCC off signal 4th axis,
+*BRK4_{{PATH}},F{{ADDR}}754.3,{{PATH}}:Safety Brake sig. 4th axis,
+RZV4_{{PATH}},F{{ADDR}}759.3,{{PATH}}:zero mon. result 4th axis,
+POSE4_{{PATH}},F{{ADDR}}766.3,{{PATH}}:pos. inf. effect 4th axis,
    #endif
-   #if axis_number__PATH__ > 4
-RSV5__PATH__,F__ADDR__750.4,_PATH__:monitoring result 5th axis,
-*MCFV5__PATH__,F__ADDR__752.4,_PATH__:MCC off signal 5th axis,
-*BRK5__PATH__,F__ADDR__754.4,_PATH__:Safety Brake sig. 5th axis,
-RZV5__PATH__,F__ADDR__759.4,_PATH__:zero mon. result 5th axis,
-POSE5__PATH__,F__ADDR__766.4,_PATH__:pos. inf. effect 5th axis,
+   #if axis_number_{{PATH}} > 4
+RSV5_{{PATH}},F{{ADDR}}750.4,{{PATH}}:monitoring result 5th axis,
+*MCFV5_{{PATH}},F{{ADDR}}752.4,{{PATH}}:MCC off signal 5th axis,
+*BRK5_{{PATH}},F{{ADDR}}754.4,{{PATH}}:Safety Brake sig. 5th axis,
+RZV5_{{PATH}},F{{ADDR}}759.4,{{PATH}}:zero mon. result 5th axis,
+POSE5_{{PATH}},F{{ADDR}}766.4,{{PATH}}:pos. inf. effect 5th axis,
    #endif
-   #if axis_number__PATH__ > 5
-RSV6__PATH__,F__ADDR__750.5,_PATH__:monitoring result 6th axis,
-*MCFV6__PATH__,F__ADDR__752.5,_PATH__:MCC off signal 6th axis,
-*BRK6__PATH__,F__ADDR__754.5,_PATH__:Safety Brake sig. 6th axis,
-RZV6__PATH__,F__ADDR__759.5,_PATH__:zero mon. result 6th axis,
-POSE6__PATH__,F__ADDR__766.5,_PATH__:pos. inf. effect 6th axis,
+   #if axis_number_{{PATH}} > 5
+RSV6_{{PATH}},F{{ADDR}}750.5,{{PATH}}:monitoring result 6th axis,
+*MCFV6_{{PATH}},F{{ADDR}}752.5,{{PATH}}:MCC off signal 6th axis,
+*BRK6_{{PATH}},F{{ADDR}}754.5,{{PATH}}:Safety Brake sig. 6th axis,
+RZV6_{{PATH}},F{{ADDR}}759.5,{{PATH}}:zero mon. result 6th axis,
+POSE6_{{PATH}},F{{ADDR}}766.5,{{PATH}}:pos. inf. effect 6th axis,
    #endif
-   #if axis_number__PATH__ > 6
-RSV7__PATH__,F__ADDR__750.6,_PATH__:monitoring result 7th axis,
-*MCFV7__PATH__,F__ADDR__752.6,_PATH__:MCC off signal 7th axis,
-*BRK7__PATH__,F__ADDR__754.6,_PATH__:Safety Brake sig. 7th axis,
-RZV7__PATH__,F__ADDR__759.6,_PATH__:zero mon. result 7th axis,
-POSE7__PATH__,F__ADDR__766.6,_PATH__:pos. inf. effect 7th axis,
+   #if axis_number_{{PATH}} > 6
+RSV7_{{PATH}},F{{ADDR}}750.6,{{PATH}}:monitoring result 7th axis,
+*MCFV7_{{PATH}},F{{ADDR}}752.6,{{PATH}}:MCC off signal 7th axis,
+*BRK7_{{PATH}},F{{ADDR}}754.6,{{PATH}}:Safety Brake sig. 7th axis,
+RZV7_{{PATH}},F{{ADDR}}759.6,{{PATH}}:zero mon. result 7th axis,
+POSE7_{{PATH}},F{{ADDR}}766.6,{{PATH}}:pos. inf. effect 7th axis,
    #endif
-   #if axis_number__PATH__ > 7
-RSV8__PATH__,F__ADDR__750.7,_PATH__:monitoring result 8th axis,
-*MCFV8__PATH__,F__ADDR__752.7,_PATH__:MCC off signal 8th axis,
-*BRK8__PATH__,F__ADDR__754.7,_PATH__:Safety Brake sig. 8th axis,
-RZV8__PATH__,F__ADDR__759.7,_PATH__:zero mon. result 8th axis,
-POSE8__PATH__,F__ADDR__766.7,_PATH__:pos. inf. effect 8th axis,
+   #if axis_number_{{PATH}} > 7
+RSV8_{{PATH}},F{{ADDR}}750.7,{{PATH}}:monitoring result 8th axis,
+*MCFV8_{{PATH}},F{{ADDR}}752.7,{{PATH}}:MCC off signal 8th axis,
+*BRK8_{{PATH}},F{{ADDR}}754.7,{{PATH}}:Safety Brake sig. 8th axis,
+RZV8_{{PATH}},F{{ADDR}}759.7,{{PATH}}:zero mon. result 8th axis,
+POSE8_{{PATH}},F{{ADDR}}766.7,{{PATH}}:pos. inf. effect 8th axis,
    #endif
-   #if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-RSP1__PATH__,F__ADDR__751.0,_PATH__:monit. result 1st spindle,
-RSP2__PATH__,F__ADDR__751.1,_PATH__:monit. result 2nd spindle,
-RSP3__PATH__,F__ADDR__751.2,_PATH__:monit. result 3rd spindle,
-RSP4__PATH__,F__ADDR__751.3,_PATH__:monit. result 4th spindle,
-RZP1__PATH__,F__ADDR__751.4,_PATH__:zero mon. result 1st spin.,
-RZP2__PATH__,F__ADDR__751.5,_PATH__:zero mon. result 2nd spin.,
-RZP3__PATH__,F__ADDR__751.6,_PATH__:zero mon. result 3rd spin.,
-RZP4__PATH__,F__ADDR__751.7,_PATH__:zero mon. result 4th spin.,
-*MCFP1__PATH__,F__ADDR__753.0,_PATH__:MCC off signal 1st spindle,
-*MCFP2__PATH__,F__ADDR__753.1,_PATH__:MCC off signal 2nd spindle,
-*MCFP3__PATH__,F__ADDR__753.2,_PATH__:MCC off signal 3rd spindle,
-*MCFP4__PATH__,F__ADDR__753.3,_PATH__:MCC off signal 4th spindle,
-   #endif
-#endif
-
-// ===========================================================================
-// Output signal from the PMC to the CNC
-// ===========================================================================
-// -----------------------------------
-// byte:
-// -----------------------------------
-*JV-15__PATH__,G__ADDR__010,_PATH__:manual feed ovr signal,
-*FV0-7__PATH__,G__ADDR__012,_PATH__:feed override signal,
-*HROV__PATH__,G__ADDR__096,_PATH__:1% step rapid traverse ovr,
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-SOV__PATH__,G__ADDR__030,_PATH__:spindle speed ovr signal,
-ROXL__PATH__,G__ADDR__032,_PATH__:sp motor speed command,
-   #if spindle_orientation__PATH__ == 2   // Spindle orientation ext. stop position
-SHA__PATH__,G__ADDR__078,_PATH__:SHA00-SHA11,
+   #if spindle_support_{{PATH}} == 1 and spindle_support_P01 > -1
+RSP1_{{PATH}},F{{ADDR}}751.0,{{PATH}}:monit. result 1st spindle,
+RSP2_{{PATH}},F{{ADDR}}751.1,{{PATH}}:monit. result 2nd spindle,
+RSP3_{{PATH}},F{{ADDR}}751.2,{{PATH}}:monit. result 3rd spindle,
+RSP4_{{PATH}},F{{ADDR}}751.3,{{PATH}}:monit. result 4th spindle,
+RZP1_{{PATH}},F{{ADDR}}751.4,{{PATH}}:zero mon. result 1st spin.,
+RZP2_{{PATH}},F{{ADDR}}751.5,{{PATH}}:zero mon. result 2nd spin.,
+RZP3_{{PATH}},F{{ADDR}}751.6,{{PATH}}:zero mon. result 3rd spin.,
+RZP4_{{PATH}},F{{ADDR}}751.7,{{PATH}}:zero mon. result 4th spin.,
+*MCFP1_{{PATH}},F{{ADDR}}753.0,{{PATH}}:MCC off signal 1st spindle,
+*MCFP2_{{PATH}},F{{ADDR}}753.1,{{PATH}}:MCC off signal 2nd spindle,
+*MCFP3_{{PATH}},F{{ADDR}}753.2,{{PATH}}:MCC off signal 3rd spindle,
+*MCFP4_{{PATH}},F{{ADDR}}753.3,{{PATH}}:MCC off signal 4th spindle,
    #endif
 #endif
 
-// *FVXEA__PATH__,G__ADDR__151,feed override group A,
-// *FVXEB__PATH__,G__ADDR__163,feed override group B,
-// *FVXEC__PATH__,G__ADDR__175,feed override group C,
-// *FVXED__PATH__,G__ADDR__187,feed override group D,
+!! ===========================================================================
+!! Output signal from the PMC to the CNC
+!! ===========================================================================
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
+*JV-15_{{PATH}},G{{ADDR}}010,{{PATH}}:manual feed ovr signal,
+*FV0-7_{{PATH}},G{{ADDR}}012,{{PATH}}:feed override signal,
+*HROV_{{PATH}},G{{ADDR}}096,{{PATH}}:1% step rapid traverse ovr,
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+SOV_{{PATH}},G{{ADDR}}030,{{PATH}}:spindle speed ovr signal,
+ROXL_{{PATH}},G{{ADDR}}032,{{PATH}}:sp motor speed command,
+   #if spindle_orientation_{{PATH}} == 2   !! Spindle orientation ext. stop position
+SHA_{{PATH}},G{{ADDR}}078,{{PATH}}:SHA00-SHA11,
+   #endif
+#endif
 
-// -----------------------------------
-// bool:
-// -----------------------------------
-#if m_code_support == 1 || m_code_support == 2
-MFIN2__PATH__,G__ADDR__004.4,_PATH__:2nd m funct. compl. signal,
-MFIN3__PATH__,G__ADDR__004.5,_PATH__:3rd m funct. compl. signal,
+!! *FVXEA_{{PATH}},G{{ADDR}}151,feed override group A,
+!! *FVXEB_{{PATH}},G{{ADDR}}163,feed override group B,
+!! *FVXEC_{{PATH}},G{{ADDR}}175,feed override group C,
+!! *FVXED_{{PATH}},G{{ADDR}}187,feed override group D,
+
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
+#if m_code_support == 1 or m_code_support == 2
+MFIN2_{{PATH}},G{{ADDR}}004.4,{{PATH}}:2nd m funct. compl. signal,
+MFIN3_{{PATH}},G{{ADDR}}004.5,{{PATH}}:3rd m funct. compl. signal,
 #endif
 #if m_code_support == 2
-MFIN4__PATH__,G__ADDR__004.6,_PATH__:4th m-funct. compl. signal,
-MFIN5__PATH__,G__ADDR__004.7,_PATH__:5th m-funct. compl. signal,
+MFIN4_{{PATH}},G{{ADDR}}004.6,{{PATH}}:4th m-funct. compl. signal,
+MFIN5_{{PATH}},G{{ADDR}}004.7,{{PATH}}:5th m-funct. compl. signal,
 #endif
 
-MFIN__PATH__,G__ADDR__005.0,_PATH__:aux. funct. compl. signal,
-#if t_code_support__PATH__ > 0 && t_code_support_P01 > -1
-TFIN__PATH__,G__ADDR__005.3,_PATH__:tool function completion,
+MFIN_{{PATH}},G{{ADDR}}005.0,{{PATH}}:aux. funct. compl. signal,
+#if t_code_support_{{PATH}} > 0 and t_code_support_P01 > -1
+TFIN_{{PATH}},G{{ADDR}}005.3,{{PATH}}:tool function completion,
 #endif
-AFL__PATH__,G__ADDR__005.6,_PATH__:auxiliary function lock,
-#if b_code_support__PATH__ > 0 && b_code_support_P01 > -1
-BFIN__PATH__,G__ADDR__005.7,_PATH__:2nd aux compl. signal,
+AFL_{{PATH}},G{{ADDR}}005.6,{{PATH}}:auxiliary function lock,
+#if b_code_support_{{PATH}} > 0 and b_code_support_P01 > -1
+BFIN_{{PATH}},G{{ADDR}}005.7,{{PATH}}:2nd aux compl. signal,
 #endif
-SRN__PATH__,G__ADDR__006.0,_PATH__:program restart signal,
-OVC__PATH__,G__ADDR__006.4,_PATH__:override cancel signal,
-ST__PATH__,G__ADDR__007.2,_PATH__:cycle start signal,
-*FLWU__PATH__,G__ADDR__007.5,_PATH__:follow-up signal,
-*IT__PATH__,G__ADDR__008.0,_PATH__:all axis interlock signal,
-*CSL__PATH__,G__ADDR__008.1,_PATH__:cutting block start lock,
-*BSL__PATH__,G__ADDR__008.3,_PATH__:block start lock signal,
-*ESP__PATH__,G__ADDR__008.4,_PATH__:emergency stop signal,
-*SP__PATH__,G__ADDR__008.5,_PATH__:feed hold signal,
-RRW__PATH__,G__ADDR__008.6,_PATH__:reset and rewind signal,
-ERS__PATH__,G__ADDR__008.7,_PATH__:external reset signal,
+SRN_{{PATH}},G{{ADDR}}006.0,{{PATH}}:program restart signal,
+OVC_{{PATH}},G{{ADDR}}006.4,{{PATH}}:override cancel signal,
+ST_{{PATH}},G{{ADDR}}007.2,{{PATH}}:cycle start signal,
+*FLWU_{{PATH}},G{{ADDR}}007.5,{{PATH}}:follow-up signal,
+*IT_{{PATH}},G{{ADDR}}008.0,{{PATH}}:all axis interlock signal,
+*CSL_{{PATH}},G{{ADDR}}008.1,{{PATH}}:cutting block start lock,
+*BSL_{{PATH}},G{{ADDR}}008.3,{{PATH}}:block start lock signal,
+*ESP_{{PATH}},G{{ADDR}}008.4,{{PATH}}:emergency stop signal,
+*SP_{{PATH}},G{{ADDR}}008.5,{{PATH}}:feed hold signal,
+RRW_{{PATH}},G{{ADDR}}008.6,{{PATH}}:reset and rewind signal,
+ERS_{{PATH}},G{{ADDR}}008.7,{{PATH}}:external reset signal,
 
 #if handwheel_support > 0
-HS1A__PATH__,G__ADDR__018.0,_PATH__:handwheel sel. signal 1,
-HS1B__PATH__,G__ADDR__018.1,_PATH__:handwheel sel. signal 2,
-HS1C__PATH__,G__ADDR__018.2,_PATH__:handwheel sel. signal 3,
-HS1D__PATH__,G__ADDR__018.3,_PATH__:handwheel sel. signal 4,
+HS1A_{{PATH}},G{{ADDR}}018.0,{{PATH}}:handwheel sel. signal 1,
+HS1B_{{PATH}},G{{ADDR}}018.1,{{PATH}}:handwheel sel. signal 2,
+HS1C_{{PATH}},G{{ADDR}}018.2,{{PATH}}:handwheel sel. signal 3,
+HS1D_{{PATH}},G{{ADDR}}018.3,{{PATH}}:handwheel sel. signal 4,
 #endif
-HCLP__PATH__,G__ADDR__023.3,_PATH__:pulse gen. max. feed sel.,
+HCLP_{{PATH}},G{{ADDR}}023.3,{{PATH}}:pulse gen. max. feed sel.,
 
-MP1__PATH__,G__ADDR__019.4,_PATH__:increment feed1,
-MP2__PATH__,G__ADDR__019.5,_PATH__:increment feed2,
-RT__PATH__,G__ADDR__019.7,_PATH__:rapid traverse select.,
-MD1__PATH__,G__ADDR__043.0,_PATH__:mode selection signal 1,
-MD2__PATH__,G__ADDR__043.1,_PATH__:mode selection signal 2,
-MD4__PATH__,G__ADDR__043.2,_PATH__:mode selection signal 4,
-DNCI__PATH__,G__ADDR__043.5,_PATH__:dnc selection signal,
-ZRN__PATH__,G__ADDR__043.7,_PATH__:ref. pos. select sign.,
-BDT1__PATH__,G__ADDR__044.0,_PATH__:skip block (bdt1),
-MLK__PATH__,G__ADDR__044.1,_PATH__:all axis machine lock,
-BDT2__PATH__,G__ADDR__045.0,_PATH__:skip block signal (bdt2),
-SBK__PATH__,G__ADDR__046.1,_PATH__:single block signal,
-DRN__PATH__,G__ADDR__046.7,_PATH__:dry run signal,
-UI000__PATH__,G__ADDR__054.0,_PATH__:custom macro #1000,
-IGNVRY__PATH__,G__ADDR__066.0,_PATH__:ignore servo ready,
+MP1_{{PATH}},G{{ADDR}}019.4,{{PATH}}:increment feed1,
+MP2_{{PATH}},G{{ADDR}}019.5,{{PATH}}:increment feed2,
+RT_{{PATH}},G{{ADDR}}019.7,{{PATH}}:rapid traverse select.,
+MD1_{{PATH}},G{{ADDR}}043.0,{{PATH}}:mode selection signal 1,
+MD2_{{PATH}},G{{ADDR}}043.1,{{PATH}}:mode selection signal 2,
+MD4_{{PATH}},G{{ADDR}}043.2,{{PATH}}:mode selection signal 4,
+DNCI_{{PATH}},G{{ADDR}}043.5,{{PATH}}:dnc selection signal,
+ZRN_{{PATH}},G{{ADDR}}043.7,{{PATH}}:ref. pos. select sign.,
+BDT1_{{PATH}},G{{ADDR}}044.0,{{PATH}}:skip block (bdt1),
+MLK_{{PATH}},G{{ADDR}}044.1,{{PATH}}:all axis machine lock,
+BDT2_{{PATH}},G{{ADDR}}045.0,{{PATH}}:skip block signal (bdt2),
+SBK_{{PATH}},G{{ADDR}}046.1,{{PATH}}:single block signal,
+DRN_{{PATH}},G{{ADDR}}046.7,{{PATH}}:dry run signal,
+UI000_{{PATH}},G{{ADDR}}054.0,{{PATH}}:custom macro #1000,
+IGNVRY_{{PATH}},G{{ADDR}}066.0,{{PATH}}:ignore servo ready,
 
-// ------------------------------------
-// spindle specific signals
-// ------------------------------------
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-SFIN__PATH__,G__ADDR__005.2,_PATH__:sp function compl. signal,
-SAR__PATH__,G__ADDR__029.4,_PATH__:spindle speed arrival,
-*SSTP__PATH__,G__ADDR__029.6,_PATH__:spindle stop signal,
-SIND__PATH__,G__ADDR__033.7,_PATH__:spindle mode select signal,
+!! ------------------------------------
+!! spindle specific signals
+!! ------------------------------------
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+SFIN_{{PATH}},G{{ADDR}}005.2,{{PATH}}:sp function compl. signal,
+SAR_{{PATH}},G{{ADDR}}029.4,{{PATH}}:spindle speed arrival,
+*SSTP_{{PATH}},G{{ADDR}}029.6,{{PATH}}:spindle stop signal,
+SIND_{{PATH}},G{{ADDR}}033.7,{{PATH}}:spindle mode select signal,
 #endif
-#if (spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5) && spindle_support_P01 > -1
-   #if rigid_tapping__PATH__ == 1
-RGTAP__PATH__,G__ADDR__061.0,_PATH__:rigid tapping signal,
-   #endif
-#endif
-#if spindle_support__PATH__ == 1 && spindle_support_P01 > -1
-SRVA__PATH__,G__ADDR__070.4,_PATH__:ccw command signal,
-SFRA__PATH__,G__ADDR__070.5,_PATH__:cw command signal,
-MRDYA__PATH__,G__ADDR__070.7,_PATH__:machine ready signal,
-ARSTA__PATH__,G__ADDR__071.0,_PATH__:alarm reset signal,
-*ESPA__PATH__,G__ADDR__071.1,_PATH__:emergency stop spindle,
-   #if spindle_orientation__PATH__ > 0
-ORCMA__PATH__,G__ADDR__070.6,_PATH__:orientation command signal,
-INDXA__PATH__,G__ADDR__072.0,_PATH__:orient stop pos. change,
-   #endif
-SOGNA__PATH__,G__ADDR__071.4,_PATH__:soft start/stop signal,
-   #if cs_contour_ctrl__PATH__ == 1
-CON__PATH__,G__ADDR__027.7,_PATH__:Cs contour ctrl on,
+#if (spindle_support_{{PATH}} == 1 or spindle_support_{{PATH}} == 5) and spindle_support_P01 > -1
+   #if rigid_tapping_{{PATH}} == 1
+RGTAP_{{PATH}},G{{ADDR}}061.0,{{PATH}}:rigid tapping signal,
    #endif
 #endif
-#if spindle_support__PATH__ == 2 && spindle_support_P01 > -1
-SGN1__PATH__,G__ADDR__033.5,_PATH__:polarity spec. signal,
-SSIN1__PATH__,G__ADDR__033.6,_PATH__:sp. polarity select signal,
-#endif
-
-// ------------------------------------
-// axes specific signals
-// ------------------------------------
-J1+__PATH__,G__ADDR__100.0,_PATH__:feed 1st axis + direction,
-J1-__PATH__,G__ADDR__102.0,_PATH__:feed 1st axis -direction,
-*+L1__PATH__,G__ADDR__114.0,_PATH__:overtravel + 1st axis,
-*-L1__PATH__,G__ADDR__116.0,_PATH__:overtravel - 1st axis,
-*+ED1__PATH__,G__ADDR__118.0,_PATH__:external dec. + 1st axis,
-*-ED1__PATH__,G__ADDR__120.0,_PATH__:external dec. - 1st axis,
-SVF1__PATH__,G__ADDR__126.0,_PATH__:servo off 1st axis,
-*IT1__PATH__,G__ADDR__130.0,_PATH__:interlock 1st axis,
-*DEC1__PATH__,G__ADDR__196.0,_PATH__:dec. signal 1st axis,
-WPRST1__PATH__,G__ADDR__358.0,_PATH__:wp coord preset 1st axis,
-
-#if axis_number__PATH__ > 1
-J2+__PATH__,G__ADDR__100.1,_PATH__:feed 2nd axis + direction,
-J2-__PATH__,G__ADDR__102.1,_PATH__:feed 2nd axis - direction,
-*+L2__PATH__,G__ADDR__114.1,_PATH__:overtravel + 2nd axis,
-*-L2__PATH__,G__ADDR__116.1,_PATH__:overtravel - 2nd axis,
-*+ED2__PATH__,G__ADDR__118.1,_PATH__:external dec. + 2st axis,
-*-ED2__PATH__,G__ADDR__120.1,_PATH__:external dec. - 2st axis,
-SVF2__PATH__,G__ADDR__126.1,_PATH__:servo off 2nd axis,
-*IT2__PATH__,G__ADDR__130.1,_PATH__:interlock 2nd axis,
-*DEC2__PATH__,G__ADDR__196.1,_PATH__:dec. signal 2nd axis,
-WPRST2__PATH__,G__ADDR__358.1,_PATH__:wp coord preset 2nd axis,
-#endif
-
-#if axis_number__PATH__ > 2
-J3+__PATH__,G__ADDR__100.2,_PATH__:feed 3rd axis + direction,
-J3-__PATH__,G__ADDR__102.2,_PATH__:feed 3rd axis - direction,
-*+L3__PATH__,G__ADDR__114.2,_PATH__:overtravel + 3rd axis,
-*-L3__PATH__,G__ADDR__116.2,_PATH__:overtravel - 3rd axis,
-*+ED3__PATH__,G__ADDR__118.2,_PATH__:external dec. + 3rd axis,
-*-ED3__PATH__,G__ADDR__120.2,_PATH__:external dec. - 3rd axis,
-SVF3__PATH__,G__ADDR__126.2,_PATH__:servo off 3rd axis,
-*IT3__PATH__,G__ADDR__130.2,_PATH__:interlock 3rd axis,
-*DEC3__PATH__,G__ADDR__196.2,_PATH__:dec. signal 3rd axis,
-WPRST3__PATH__,G__ADDR__358.2,_PATH__:wp coord preset 3rd axis,
-#endif
-
-#if axis_number__PATH__ > 3
-J4+__PATH__,G__ADDR__100.3,_PATH__:feed 4th axis + direction,
-J4-__PATH__,G__ADDR__102.3,_PATH__:feed 4th axis - direction,
-*+L4__PATH__,G__ADDR__114.3,_PATH__:overtravel + 4th axis,
-*-L4__PATH__,G__ADDR__116.3,_PATH__:overtravel - 4th axis,
-*+ED4__PATH__,G__ADDR__118.3,_PATH__:external dec. + 4st axis,
-*-ED4__PATH__,G__ADDR__120.3,_PATH__:external dec. - 4st axis,
-SVF4__PATH__,G__ADDR__126.3,_PATH__:servo off 4th axis,
-*IT4__PATH__,G__ADDR__130.3,_PATH__:interlock 4th axis,
-*DEC4__PATH__,G__ADDR__196.3,_PATH__:dec. signal 4th axis,
-WPRST4__PATH__,G__ADDR__358.3,_PATH__:wp coord preset 4th axis,
-#endif
-
-#if axis_number__PATH__ > 4
-J5+__PATH__,G__ADDR__100.4,_PATH__:feed 5th axis + direction,
-J5-__PATH__,G__ADDR__102.4,_PATH__:feed 5th axis - direction,
-*+L5__PATH__,G__ADDR__114.4,_PATH__:overtravel + 5th axis,
-*-L5__PATH__,G__ADDR__116.4,_PATH__:overtravel - 5th axis,
-*+ED5__PATH__,G__ADDR__118.4,_PATH__:external dec. + 5st axis,
-*-ED5__PATH__,G__ADDR__120.4,_PATH__:external dec. - 5st axis,
-SVF5__PATH__,G__ADDR__126.4,_PATH__:servo off 5th axis,
-*IT5__PATH__,G__ADDR__130.4,_PATH__:interlock 5th axis,
-*DEC5__PATH__,G__ADDR__196.4,_PATH__:dec. signal 5th axis,
-WPRST5__PATH__,G__ADDR__358.4,_PATH__:wp coord preset 5th axis,
-#endif
-
-#if axis_number__PATH__ > 5
-J6+__PATH__,G__ADDR__100.5,_PATH__:feed 6th axis + direction,
-J6-__PATH__,G__ADDR__102.5,_PATH__:feed 6th axis - direction,
-*+L6__PATH__,G__ADDR__114.5,_PATH__:overtravel + 6th axis,
-*-L6__PATH__,G__ADDR__116.5,_PATH__:overtravel - 6th axis,
-*+ED6__PATH__,G__ADDR__118.5,_PATH__:external dec. + 6st axis,
-*-ED6__PATH__,G__ADDR__120.5,_PATH__:external dec. - 6st axis,
-SVF6__PATH__,G__ADDR__126.5,_PATH__:servo off 6th axis,
-*IT6__PATH__,G__ADDR__130.5,_PATH__:interlock 6th axis,
-*DEC6__PATH__,G__ADDR__196.5,_PATH__:dec. signal 6th axis,
-WPRST6__PATH__,G__ADDR__358.5,_PATH__:wp coord preset 6th axis,
-#endif
-
-#if axis_number__PATH__ > 6
-J7+__PATH__,G__ADDR__100.6,_PATH__:feed 7th axis + direction,
-J7-__PATH__,G__ADDR__102.6,_PATH__:feed 7th axis - direction,
-*+L7__PATH__,G__ADDR__114.6,_PATH__:overtravel + 7th axis,
-*-L7__PATH__,G__ADDR__116.6,_PATH__:overtravel - 7th axis,
-*+ED7__PATH__,G__ADDR__118.6,_PATH__:external dec. + 7st axis,
-*-ED7__PATH__,G__ADDR__120.6,_PATH__:external dec. - 7st axis,
-SVF7__PATH__,G__ADDR__126.6,_PATH__:servo off 7th axis,
-*IT7__PATH__,G__ADDR__130.6,_PATH__:interlock 7th axis,
-*DEC7__PATH__,G__ADDR__196.6,_PATH__:dec. signal 7th axis,
-WPRST7__PATH__,G__ADDR__358.6,_PATH__:wp coord preset 7th axis,
-#endif
-
-#if axis_number__PATH__ > 7
-J8+__PATH__,G__ADDR__100.7,_PATH__:feed 8th axis + direction,
-J8-__PATH__,G__ADDR__102.7,_PATH__:feed 8th axis - direction,
-*+L8__PATH__,G__ADDR__114.7,_PATH__:overtravel + 8th axis,
-*-L8__PATH__,G__ADDR__116.7,_PATH__:overtravel - 8th axis,
-*+ED8__PATH__,G__ADDR__118.7,_PATH__:external dec. + 8st axis,
-*-ED8__PATH__,G__ADDR__120.7,_PATH__:external dec. - 8st axis,
-SVF8__PATH__,G__ADDR__126.7,_PATH__:servo off 8th axis,
-*IT8__PATH__,G__ADDR__130.7,_PATH__:interlock 8th axis,
-*DEC8__PATH__,G__ADDR__196.7,_PATH__:dec. signal 8th axis,
-WPRST8__PATH__,G__ADDR__358.7,_PATH__:wp coord preset 8th axis,
-#endif
-
-#if spindle_support__PATH__ == 4 && spindle_support_P01 > -1
-   #if spindle_sv_axis__PATH__ == 1
-EAX1__PATH__,G__ADDR__136.0,_PATH__:1st axis is pmc axis,
+#if spindle_support_{{PATH}} == 1 and spindle_support_P01 > -1
+SRVA_{{PATH}},G{{ADDR}}070.4,{{PATH}}:ccw command signal,
+SFRA_{{PATH}},G{{ADDR}}070.5,{{PATH}}:cw command signal,
+MRDYA_{{PATH}},G{{ADDR}}070.7,{{PATH}}:machine ready signal,
+ARSTA_{{PATH}},G{{ADDR}}071.0,{{PATH}}:alarm reset signal,
+*ESPA_{{PATH}},G{{ADDR}}071.1,{{PATH}}:emergency stop spindle,
+   #if spindle_orientation_{{PATH}} > 0
+ORCMA_{{PATH}},G{{ADDR}}070.6,{{PATH}}:orientation command signal,
+INDXA_{{PATH}},G{{ADDR}}072.0,{{PATH}}:orient stop pos. change,
    #endif
-   #if spindle_sv_axis__PATH__ == 2
-EAX2__PATH__,G__ADDR__136.1,_PATH__:2nd axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 3
-EAX3__PATH__,G__ADDR__136.2,_PATH__:3rd axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 4
-EAX4__PATH__,G__ADDR__136.3,_PATH__:4th axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 5
-EAX5__PATH__,G__ADDR__136.4,_PATH__:5th axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 6
-EAX6__PATH__,G__ADDR__136.5,_PATH__:6th axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 7
-EAX7__PATH__,G__ADDR__136.6,_PATH__:7th axis is pmc axis,
-   #endif
-   #if spindle_sv_axis__PATH__ == 8
-EAX8__PATH__,G__ADDR__136.7,_PATH__:8th axis is pmc axis,
-   #endif
-
-   #if __ADDR__ < 10
-ESOFA__PATH__,G__ADDR__142.4,_PATH__:servo off pmc axis group A,
-OVCEA__PATH__,G__ADDR__150.5,_PATH__:override cancel group A,
-   #endif
-   #if __ADDR__ == 10
-ESOFB__PATH__,G5154.4,_PATH__:servo off signal group B,
-OVCEB__PATH__,G5162.5,_PATH__:override cancel group B,
-   #endif
-   #if __ADDR__ == 11
-ESOFB__PATH__,G6154.4,_PATH__:servo off signal group B,
-OVCEB__PATH__,G6162.5,_PATH__:override cancel group B,
-   #endif
-   #if __ADDR__ == 12
-ESOFB__PATH__,G7154.4,_PATH__:servo off signal group B,
-OVCEB__PATH__,G7162.5,_PATH__:override cancel group B,
-   #endif
-   #if __ADDR__ == 13
-ESOFB__PATH__,G8154.4,_PATH__:servo off signal group B,
-OVCEB__PATH__,G8162.5,_PATH__:override cancel group B,
-   #endif
-   #if __ADDR__ == 14
-ESOFB__PATH__,G9154.4,_PATH__:servo off signal group B,
-OVCEB__PATH__,G9162.5,_PATH__:override cancel group B,
+SOGNA_{{PATH}},G{{ADDR}}071.4,{{PATH}}:soft start/stop signal,
+   #if cs_contour_ctrl_{{PATH}} == 1
+CON_{{PATH}},G{{ADDR}}027.7,{{PATH}}:Cs contour ctrl on,
    #endif
 #endif
+#if spindle_support_{{PATH}} == 2 and spindle_support_P01 > -1
+SGN1_{{PATH}},G{{ADDR}}033.5,{{PATH}}:polarity spec. signal,
+SSIN1_{{PATH}},G{{ADDR}}033.6,{{PATH}}:sp. polarity select signal,
+#endif
 
-#if spindle_support__PATH__ == 5 && spindle_support_P01 > -1
-   #if spindle_sv_axis__PATH__ == 1
-SRVON1__PATH__,G__ADDR__521.0,_PATH__:1st axis speed ctrl mode,
-SVRVS1__PATH__,G__ADDR__523.0,_PATH__:1st axis SV reverse signal,
+!! ------------------------------------
+!! axes specific signals
+!! ------------------------------------
+J1+_{{PATH}},G{{ADDR}}100.0,{{PATH}}:feed 1st axis + direction,
+J1-_{{PATH}},G{{ADDR}}102.0,{{PATH}}:feed 1st axis -direction,
+*+L1_{{PATH}},G{{ADDR}}114.0,{{PATH}}:overtravel + 1st axis,
+*-L1_{{PATH}},G{{ADDR}}116.0,{{PATH}}:overtravel - 1st axis,
+*+ED1_{{PATH}},G{{ADDR}}118.0,{{PATH}}:external dec. + 1st axis,
+*-ED1_{{PATH}},G{{ADDR}}120.0,{{PATH}}:external dec. - 1st axis,
+SVF1_{{PATH}},G{{ADDR}}126.0,{{PATH}}:servo off 1st axis,
+*IT1_{{PATH}},G{{ADDR}}130.0,{{PATH}}:interlock 1st axis,
+*DEC1_{{PATH}},G{{ADDR}}196.0,{{PATH}}:dec. signal 1st axis,
+WPRST1_{{PATH}},G{{ADDR}}358.0,{{PATH}}:wp coord preset 1st axis,
+
+#if axis_number_{{PATH}} > 1
+J2+_{{PATH}},G{{ADDR}}100.1,{{PATH}}:feed 2nd axis + direction,
+J2-_{{PATH}},G{{ADDR}}102.1,{{PATH}}:feed 2nd axis - direction,
+*+L2_{{PATH}},G{{ADDR}}114.1,{{PATH}}:overtravel + 2nd axis,
+*-L2_{{PATH}},G{{ADDR}}116.1,{{PATH}}:overtravel - 2nd axis,
+*+ED2_{{PATH}},G{{ADDR}}118.1,{{PATH}}:external dec. + 2st axis,
+*-ED2_{{PATH}},G{{ADDR}}120.1,{{PATH}}:external dec. - 2st axis,
+SVF2_{{PATH}},G{{ADDR}}126.1,{{PATH}}:servo off 2nd axis,
+*IT2_{{PATH}},G{{ADDR}}130.1,{{PATH}}:interlock 2nd axis,
+*DEC2_{{PATH}},G{{ADDR}}196.1,{{PATH}}:dec. signal 2nd axis,
+WPRST2_{{PATH}},G{{ADDR}}358.1,{{PATH}}:wp coord preset 2nd axis,
+#endif
+
+#if axis_number_{{PATH}} > 2
+J3+_{{PATH}},G{{ADDR}}100.2,{{PATH}}:feed 3rd axis + direction,
+J3-_{{PATH}},G{{ADDR}}102.2,{{PATH}}:feed 3rd axis - direction,
+*+L3_{{PATH}},G{{ADDR}}114.2,{{PATH}}:overtravel + 3rd axis,
+*-L3_{{PATH}},G{{ADDR}}116.2,{{PATH}}:overtravel - 3rd axis,
+*+ED3_{{PATH}},G{{ADDR}}118.2,{{PATH}}:external dec. + 3rd axis,
+*-ED3_{{PATH}},G{{ADDR}}120.2,{{PATH}}:external dec. - 3rd axis,
+SVF3_{{PATH}},G{{ADDR}}126.2,{{PATH}}:servo off 3rd axis,
+*IT3_{{PATH}},G{{ADDR}}130.2,{{PATH}}:interlock 3rd axis,
+*DEC3_{{PATH}},G{{ADDR}}196.2,{{PATH}}:dec. signal 3rd axis,
+WPRST3_{{PATH}},G{{ADDR}}358.2,{{PATH}}:wp coord preset 3rd axis,
+#endif
+
+#if axis_number_{{PATH}} > 3
+J4+_{{PATH}},G{{ADDR}}100.3,{{PATH}}:feed 4th axis + direction,
+J4-_{{PATH}},G{{ADDR}}102.3,{{PATH}}:feed 4th axis - direction,
+*+L4_{{PATH}},G{{ADDR}}114.3,{{PATH}}:overtravel + 4th axis,
+*-L4_{{PATH}},G{{ADDR}}116.3,{{PATH}}:overtravel - 4th axis,
+*+ED4_{{PATH}},G{{ADDR}}118.3,{{PATH}}:external dec. + 4st axis,
+*-ED4_{{PATH}},G{{ADDR}}120.3,{{PATH}}:external dec. - 4st axis,
+SVF4_{{PATH}},G{{ADDR}}126.3,{{PATH}}:servo off 4th axis,
+*IT4_{{PATH}},G{{ADDR}}130.3,{{PATH}}:interlock 4th axis,
+*DEC4_{{PATH}},G{{ADDR}}196.3,{{PATH}}:dec. signal 4th axis,
+WPRST4_{{PATH}},G{{ADDR}}358.3,{{PATH}}:wp coord preset 4th axis,
+#endif
+
+#if axis_number_{{PATH}} > 4
+J5+_{{PATH}},G{{ADDR}}100.4,{{PATH}}:feed 5th axis + direction,
+J5-_{{PATH}},G{{ADDR}}102.4,{{PATH}}:feed 5th axis - direction,
+*+L5_{{PATH}},G{{ADDR}}114.4,{{PATH}}:overtravel + 5th axis,
+*-L5_{{PATH}},G{{ADDR}}116.4,{{PATH}}:overtravel - 5th axis,
+*+ED5_{{PATH}},G{{ADDR}}118.4,{{PATH}}:external dec. + 5st axis,
+*-ED5_{{PATH}},G{{ADDR}}120.4,{{PATH}}:external dec. - 5st axis,
+SVF5_{{PATH}},G{{ADDR}}126.4,{{PATH}}:servo off 5th axis,
+*IT5_{{PATH}},G{{ADDR}}130.4,{{PATH}}:interlock 5th axis,
+*DEC5_{{PATH}},G{{ADDR}}196.4,{{PATH}}:dec. signal 5th axis,
+WPRST5_{{PATH}},G{{ADDR}}358.4,{{PATH}}:wp coord preset 5th axis,
+#endif
+
+#if axis_number_{{PATH}} > 5
+J6+_{{PATH}},G{{ADDR}}100.5,{{PATH}}:feed 6th axis + direction,
+J6-_{{PATH}},G{{ADDR}}102.5,{{PATH}}:feed 6th axis - direction,
+*+L6_{{PATH}},G{{ADDR}}114.5,{{PATH}}:overtravel + 6th axis,
+*-L6_{{PATH}},G{{ADDR}}116.5,{{PATH}}:overtravel - 6th axis,
+*+ED6_{{PATH}},G{{ADDR}}118.5,{{PATH}}:external dec. + 6st axis,
+*-ED6_{{PATH}},G{{ADDR}}120.5,{{PATH}}:external dec. - 6st axis,
+SVF6_{{PATH}},G{{ADDR}}126.5,{{PATH}}:servo off 6th axis,
+*IT6_{{PATH}},G{{ADDR}}130.5,{{PATH}}:interlock 6th axis,
+*DEC6_{{PATH}},G{{ADDR}}196.5,{{PATH}}:dec. signal 6th axis,
+WPRST6_{{PATH}},G{{ADDR}}358.5,{{PATH}}:wp coord preset 6th axis,
+#endif
+
+#if axis_number_{{PATH}} > 6
+J7+_{{PATH}},G{{ADDR}}100.6,{{PATH}}:feed 7th axis + direction,
+J7-_{{PATH}},G{{ADDR}}102.6,{{PATH}}:feed 7th axis - direction,
+*+L7_{{PATH}},G{{ADDR}}114.6,{{PATH}}:overtravel + 7th axis,
+*-L7_{{PATH}},G{{ADDR}}116.6,{{PATH}}:overtravel - 7th axis,
+*+ED7_{{PATH}},G{{ADDR}}118.6,{{PATH}}:external dec. + 7st axis,
+*-ED7_{{PATH}},G{{ADDR}}120.6,{{PATH}}:external dec. - 7st axis,
+SVF7_{{PATH}},G{{ADDR}}126.6,{{PATH}}:servo off 7th axis,
+*IT7_{{PATH}},G{{ADDR}}130.6,{{PATH}}:interlock 7th axis,
+*DEC7_{{PATH}},G{{ADDR}}196.6,{{PATH}}:dec. signal 7th axis,
+WPRST7_{{PATH}},G{{ADDR}}358.6,{{PATH}}:wp coord preset 7th axis,
+#endif
+
+#if axis_number_{{PATH}} > 7
+J8+_{{PATH}},G{{ADDR}}100.7,{{PATH}}:feed 8th axis + direction,
+J8-_{{PATH}},G{{ADDR}}102.7,{{PATH}}:feed 8th axis - direction,
+*+L8_{{PATH}},G{{ADDR}}114.7,{{PATH}}:overtravel + 8th axis,
+*-L8_{{PATH}},G{{ADDR}}116.7,{{PATH}}:overtravel - 8th axis,
+*+ED8_{{PATH}},G{{ADDR}}118.7,{{PATH}}:external dec. + 8st axis,
+*-ED8_{{PATH}},G{{ADDR}}120.7,{{PATH}}:external dec. - 8st axis,
+SVF8_{{PATH}},G{{ADDR}}126.7,{{PATH}}:servo off 8th axis,
+*IT8_{{PATH}},G{{ADDR}}130.7,{{PATH}}:interlock 8th axis,
+*DEC8_{{PATH}},G{{ADDR}}196.7,{{PATH}}:dec. signal 8th axis,
+WPRST8_{{PATH}},G{{ADDR}}358.7,{{PATH}}:wp coord preset 8th axis,
+#endif
+
+#if spindle_support_{{PATH}} == 4 and spindle_support_P01 > -1
+   #if spindle_sv_axis_{{PATH}} == 1
+EAX1_{{PATH}},G{{ADDR}}136.0,{{PATH}}:1st axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 2
-SRVON2__PATH__,G__ADDR__521.1,_PATH__:2nd axis speed ctrl mode,
-SVRVS2__PATH__,G__ADDR__523.1,_PATH__:2nd axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 2
+EAX2_{{PATH}},G{{ADDR}}136.1,{{PATH}}:2nd axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 3
-SRVON3__PATH__,G__ADDR__521.2,_PATH__:3rd axis speed ctrl mode,
-SVRVS3__PATH__,G__ADDR__523.2,_PATH__:3rd axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 3
+EAX3_{{PATH}},G{{ADDR}}136.2,{{PATH}}:3rd axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 4
-SRVON4__PATH__,G__ADDR__521.3,_PATH__:4th axis speed ctrl mode,
-SVRVS4__PATH__,G__ADDR__523.3,_PATH__:4th axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 4
+EAX4_{{PATH}},G{{ADDR}}136.3,{{PATH}}:4th axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 5
-SRVON5__PATH__,G__ADDR__521.4,_PATH__:5th axis speed ctrl mode,
-SVRVS5__PATH__,G__ADDR__523.4,_PATH__:5th axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 5
+EAX5_{{PATH}},G{{ADDR}}136.4,{{PATH}}:5th axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 6
-SRVON6__PATH__,G__ADDR__521.5,_PATH__:6th axis speed ctrl mode,
-SVRVS6__PATH__,G__ADDR__523.5,_PATH__:6th axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 6
+EAX6_{{PATH}},G{{ADDR}}136.5,{{PATH}}:6th axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 7
-SRVON7__PATH__,G__ADDR__521.6,_PATH__:7th axis speed ctrl mode,
-SVRVS7__PATH__,G__ADDR__523.6,_PATH__:7th axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 7
+EAX7_{{PATH}},G{{ADDR}}136.6,{{PATH}}:7th axis is pmc axis,
    #endif
-   #if spindle_sv_axis__PATH__ == 8
-SRVON8__PATH__,G__ADDR__521.7,_PATH__:8th axis speed ctrl mode,
-SVRVS8__PATH__,G__ADDR__523.7,_PATH__:8th axis SV reverse signal,
+   #if spindle_sv_axis_{{PATH}} == 8
+EAX8_{{PATH}},G{{ADDR}}136.7,{{PATH}}:8th axis is pmc axis,
+   #endif
+
+   #if {{ADDR}} < 10
+ESOFA_{{PATH}},G{{ADDR}}142.4,{{PATH}}:servo off pmc axis group A,
+OVCEA_{{PATH}},G{{ADDR}}150.5,{{PATH}}:override cancel group A,
+   #endif
+   #if {{ADDR}} == 10
+ESOFB_{{PATH}},G5154.4,{{PATH}}:servo off signal group B,
+OVCEB_{{PATH}},G5162.5,{{PATH}}:override cancel group B,
+   #endif
+   #if {{ADDR}} == 11
+ESOFB_{{PATH}},G6154.4,{{PATH}}:servo off signal group B,
+OVCEB_{{PATH}},G6162.5,{{PATH}}:override cancel group B,
+   #endif
+   #if {{ADDR}} == 12
+ESOFB_{{PATH}},G7154.4,{{PATH}}:servo off signal group B,
+OVCEB_{{PATH}},G7162.5,{{PATH}}:override cancel group B,
+   #endif
+   #if {{ADDR}} == 13
+ESOFB_{{PATH}},G8154.4,{{PATH}}:servo off signal group B,
+OVCEB_{{PATH}},G8162.5,{{PATH}}:override cancel group B,
+   #endif
+   #if {{ADDR}} == 14
+ESOFB_{{PATH}},G9154.4,{{PATH}}:servo off signal group B,
+OVCEB_{{PATH}},G9162.5,{{PATH}}:override cancel group B,
    #endif
 #endif
 
-#if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
-MCST1__PATH__,G__ADDR__512.0,_PATH__:macro call 1 start,
-MCST2__PATH__,G__ADDR__512.1,_PATH__:macro call 2 start,
-MCST3__PATH__,G__ADDR__512.2,_PATH__:macro call 3 start,
-MCST4__PATH__,G__ADDR__512.3,_PATH__:macro call 4 start,
-MCFIN__PATH__,G__ADDR__514.0,_PATH__:mode change completion,
+#if spindle_support_{{PATH}} == 5 and spindle_support_P01 > -1
+   #if spindle_sv_axis_{{PATH}} == 1
+SRVON1_{{PATH}},G{{ADDR}}521.0,{{PATH}}:1st axis speed ctrl mode,
+SVRVS1_{{PATH}},G{{ADDR}}523.0,{{PATH}}:1st axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 2
+SRVON2_{{PATH}},G{{ADDR}}521.1,{{PATH}}:2nd axis speed ctrl mode,
+SVRVS2_{{PATH}},G{{ADDR}}523.1,{{PATH}}:2nd axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 3
+SRVON3_{{PATH}},G{{ADDR}}521.2,{{PATH}}:3rd axis speed ctrl mode,
+SVRVS3_{{PATH}},G{{ADDR}}523.2,{{PATH}}:3rd axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 4
+SRVON4_{{PATH}},G{{ADDR}}521.3,{{PATH}}:4th axis speed ctrl mode,
+SVRVS4_{{PATH}},G{{ADDR}}523.3,{{PATH}}:4th axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 5
+SRVON5_{{PATH}},G{{ADDR}}521.4,{{PATH}}:5th axis speed ctrl mode,
+SVRVS5_{{PATH}},G{{ADDR}}523.4,{{PATH}}:5th axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 6
+SRVON6_{{PATH}},G{{ADDR}}521.5,{{PATH}}:6th axis speed ctrl mode,
+SVRVS6_{{PATH}},G{{ADDR}}523.5,{{PATH}}:6th axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 7
+SRVON7_{{PATH}},G{{ADDR}}521.6,{{PATH}}:7th axis speed ctrl mode,
+SVRVS7_{{PATH}},G{{ADDR}}523.6,{{PATH}}:7th axis SV reverse signal,
+   #endif
+   #if spindle_sv_axis_{{PATH}} == 8
+SRVON8_{{PATH}},G{{ADDR}}521.7,{{PATH}}:8th axis speed ctrl mode,
+SVRVS8_{{PATH}},G{{ADDR}}523.7,{{PATH}}:8th axis SV reverse signal,
+   #endif
+#endif
+
+#if otmc_support_{{PATH}} == 1 and otmc_support_P01 > -1 and operatorspanel == 2
+MCST1_{{PATH}},G{{ADDR}}512.0,{{PATH}}:macro call 1 start,
+MCST2_{{PATH}},G{{ADDR}}512.1,{{PATH}}:macro call 2 start,
+MCST3_{{PATH}},G{{ADDR}}512.2,{{PATH}}:macro call 3 start,
+MCST4_{{PATH}},G{{ADDR}}512.3,{{PATH}}:macro call 4 start,
+MCFIN_{{PATH}},G{{ADDR}}514.0,{{PATH}}:mode change completion,
 #endif
 
 #if dcs_support == 1
-*VLDV1__PATH__,G__ADDR__750.0,_PATH__:safety check req. 1st ax.,
-SVA1__PATH__,G__ADDR__752.0,_PATH__:saf. sel. sig. A 1st axis,
-SVB1__PATH__,G__ADDR__753.0,_PATH__:saf. sel. sig. B 1st axis,
-SVZR1__PATH__,G__ADDR__755.0,_PATH__:zero mon. req. 1st axis,
-   #if axis_number__PATH__ > 1
-*VLDV2__PATH__,G__ADDR__750.1,_PATH__:safety check req. 2nd ax.,
-SVA2__PATH__,G__ADDR__752.1,_PATH__:saf. sel. sig. A 2nd axis,
-SVB2__PATH__,G__ADDR__753.1,_PATH__:saf. sel. sig. B 2nd axis,
-SVZR2__PATH__,G__ADDR__755.1,_PATH__:zero mon. req. 2nd axis,
+*VLDV1_{{PATH}},G{{ADDR}}750.0,{{PATH}}:safety check req. 1st ax.,
+SVA1_{{PATH}},G{{ADDR}}752.0,{{PATH}}:saf. sel. sig. A 1st axis,
+SVB1_{{PATH}},G{{ADDR}}753.0,{{PATH}}:saf. sel. sig. B 1st axis,
+SVZR1_{{PATH}},G{{ADDR}}755.0,{{PATH}}:zero mon. req. 1st axis,
+   #if axis_number_{{PATH}} > 1
+*VLDV2_{{PATH}},G{{ADDR}}750.1,{{PATH}}:safety check req. 2nd ax.,
+SVA2_{{PATH}},G{{ADDR}}752.1,{{PATH}}:saf. sel. sig. A 2nd axis,
+SVB2_{{PATH}},G{{ADDR}}753.1,{{PATH}}:saf. sel. sig. B 2nd axis,
+SVZR2_{{PATH}},G{{ADDR}}755.1,{{PATH}}:zero mon. req. 2nd axis,
    #endif
-   #if axis_number__PATH__ > 2
-*VLDV3__PATH__,G__ADDR__750.2,_PATH__:safety check req. 3rd ax.,
-SVA3__PATH__,G__ADDR__752.2,_PATH__:saf. sel. sig. A 3rd axis,
-SVB3__PATH__,G__ADDR__753.2,_PATH__:saf. sel. sig. B 3rd axis,
-SVZR3__PATH__,G__ADDR__755.2,_PATH__:zero mon. req. 3rd axis,
+   #if axis_number_{{PATH}} > 2
+*VLDV3_{{PATH}},G{{ADDR}}750.2,{{PATH}}:safety check req. 3rd ax.,
+SVA3_{{PATH}},G{{ADDR}}752.2,{{PATH}}:saf. sel. sig. A 3rd axis,
+SVB3_{{PATH}},G{{ADDR}}753.2,{{PATH}}:saf. sel. sig. B 3rd axis,
+SVZR3_{{PATH}},G{{ADDR}}755.2,{{PATH}}:zero mon. req. 3rd axis,
    #endif
-   #if axis_number__PATH__ > 3
-*VLDV4__PATH__,G__ADDR__750.3,_PATH__:safety check req. 4th ax.,
-SVA4__PATH__,G__ADDR__752.3,_PATH__:saf. sel. sig. A 4th axis,
-SVB4__PATH__,G__ADDR__753.3,_PATH__:saf. sel. sig. B 4th axis,
-SVZR4__PATH__,G__ADDR__755.3,_PATH__:zero mon. req. 4th axis,
+   #if axis_number_{{PATH}} > 3
+*VLDV4_{{PATH}},G{{ADDR}}750.3,{{PATH}}:safety check req. 4th ax.,
+SVA4_{{PATH}},G{{ADDR}}752.3,{{PATH}}:saf. sel. sig. A 4th axis,
+SVB4_{{PATH}},G{{ADDR}}753.3,{{PATH}}:saf. sel. sig. B 4th axis,
+SVZR4_{{PATH}},G{{ADDR}}755.3,{{PATH}}:zero mon. req. 4th axis,
    #endif
-   #if axis_number__PATH__ > 4
-*VLDV5__PATH__,G__ADDR__750.4,_PATH__:safety check req. 5th ax.,
-SVA5__PATH__,G__ADDR__752.4,_PATH__:saf. sel. sig. A 5th axis,
-SVB5__PATH__,G__ADDR__753.4,_PATH__:saf. sel. sig. B 5th axis,
-SVZR5__PATH__,G__ADDR__755.4,_PATH__:zero mon. req. 5th axis,
+   #if axis_number_{{PATH}} > 4
+*VLDV5_{{PATH}},G{{ADDR}}750.4,{{PATH}}:safety check req. 5th ax.,
+SVA5_{{PATH}},G{{ADDR}}752.4,{{PATH}}:saf. sel. sig. A 5th axis,
+SVB5_{{PATH}},G{{ADDR}}753.4,{{PATH}}:saf. sel. sig. B 5th axis,
+SVZR5_{{PATH}},G{{ADDR}}755.4,{{PATH}}:zero mon. req. 5th axis,
    #endif
-   #if axis_number__PATH__ > 5
-*VLDV6__PATH__,G__ADDR__750.5,_PATH__:safety check req. 6th ax.,
-SVA6__PATH__,G__ADDR__752.5,_PATH__:saf. sel. sig. A 6th axis,
-SVB6__PATH__,G__ADDR__753.5,_PATH__:saf. sel. sig. B 6th axis,
-SVZR6__PATH__,G__ADDR__755.5,_PATH__:zero mon. req. 6th axis,
+   #if axis_number_{{PATH}} > 5
+*VLDV6_{{PATH}},G{{ADDR}}750.5,{{PATH}}:safety check req. 6th ax.,
+SVA6_{{PATH}},G{{ADDR}}752.5,{{PATH}}:saf. sel. sig. A 6th axis,
+SVB6_{{PATH}},G{{ADDR}}753.5,{{PATH}}:saf. sel. sig. B 6th axis,
+SVZR6_{{PATH}},G{{ADDR}}755.5,{{PATH}}:zero mon. req. 6th axis,
    #endif
-   #if axis_number__PATH__ > 6
-*VLDV7__PATH__,G__ADDR__750.6,_PATH__:safety check req. 7th ax.,
-SVA7__PATH__,G__ADDR__752.6,_PATH__:saf. sel. sig. A 7th axis,
-SVB7__PATH__,G__ADDR__753.6,_PATH__:saf. sel. sig. B 7th axis,
-SVZR7__PATH__,G__ADDR__755.6,_PATH__:zero mon. req. 7th axis,
+   #if axis_number_{{PATH}} > 6
+*VLDV7_{{PATH}},G{{ADDR}}750.6,{{PATH}}:safety check req. 7th ax.,
+SVA7_{{PATH}},G{{ADDR}}752.6,{{PATH}}:saf. sel. sig. A 7th axis,
+SVB7_{{PATH}},G{{ADDR}}753.6,{{PATH}}:saf. sel. sig. B 7th axis,
+SVZR7_{{PATH}},G{{ADDR}}755.6,{{PATH}}:zero mon. req. 7th axis,
    #endif
-   #if axis_number__PATH__ > 7
-*VLDV8__PATH__,G__ADDR__750.7,_PATH__:safety check req. 8th ax.,
-SVA8__PATH__,G__ADDR__752.7,_PATH__:saf. sel. sig. A 8th axis,
-SVB8__PATH__,G__ADDR__753.7,_PATH__:saf. sel. sig. B 6th axis,
-SVZR8__PATH__,G__ADDR__755.7,_PATH__:zero mon. req. 8th axis,
+   #if axis_number_{{PATH}} > 7
+*VLDV8_{{PATH}},G{{ADDR}}750.7,{{PATH}}:safety check req. 8th ax.,
+SVA8_{{PATH}},G{{ADDR}}752.7,{{PATH}}:saf. sel. sig. A 8th axis,
+SVB8_{{PATH}},G{{ADDR}}753.7,{{PATH}}:saf. sel. sig. B 6th axis,
+SVZR8_{{PATH}},G{{ADDR}}755.7,{{PATH}}:zero mon. req. 8th axis,
    #endif
-   #if (spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5) && spindle_support_P01 > -1
-*VLDP1__PATH__,G__ADDR__751.0,_PATH__:saf. check req. 1st spin.,
-*VLDP2__PATH__,G__ADDR__751.1,_PATH__:saf. check req. 2nd spin.,
-*VLDP3__PATH__,G__ADDR__751.2,_PATH__:saf. check req. 3rd spin.,
-*VLDP4__PATH__,G__ADDR__751.3,_PATH__:saf. check req. 4th spin.,
-SPZR1__PATH__,G__ADDR__751.4,_PATH__:zero mon. req. 1st spin.,
-SPZR2__PATH__,G__ADDR__751.5,_PATH__:zero mon. req. 2nd spin.,
-SPZR3__PATH__,G__ADDR__751.6,_PATH__:zero mon. req. 3rd spin.,
-SPZR4__PATH__,G__ADDR__751.7,_PATH__:zero mon. req. 4th spin.,
-SPA1__PATH__,G__ADDR__754.0,_PATH__:saf. sel. A 1st spindle,
-SPA2__PATH__,G__ADDR__754.1,_PATH__:saf. sel. A 2nd spindle,
-SPA3__PATH__,G__ADDR__754.2,_PATH__:saf. sel. A 3rd spindle,
-SPA4__PATH__,G__ADDR__754.3,_PATH__:saf. sel. A 4th spindle,
-SPB1__PATH__,G__ADDR__754.4,_PATH__:saf. sel. B 1st spindle,
-SPB2__PATH__,G__ADDR__754.5,_PATH__:saf. sel. B 2nd spindle,
-SPB3__PATH__,G__ADDR__754.6,_PATH__:saf. sel. B 3rd spindle,
-SPB4__PATH__,G__ADDR__754.7,_PATH__:saf. sel. B 4th spindle,
+   #if (spindle_support_{{PATH}} == 1 or spindle_support_{{PATH}} == 5) and spindle_support_P01 > -1
+*VLDP1_{{PATH}},G{{ADDR}}751.0,{{PATH}}:saf. check req. 1st spin.,
+*VLDP2_{{PATH}},G{{ADDR}}751.1,{{PATH}}:saf. check req. 2nd spin.,
+*VLDP3_{{PATH}},G{{ADDR}}751.2,{{PATH}}:saf. check req. 3rd spin.,
+*VLDP4_{{PATH}},G{{ADDR}}751.3,{{PATH}}:saf. check req. 4th spin.,
+SPZR1_{{PATH}},G{{ADDR}}751.4,{{PATH}}:zero mon. req. 1st spin.,
+SPZR2_{{PATH}},G{{ADDR}}751.5,{{PATH}}:zero mon. req. 2nd spin.,
+SPZR3_{{PATH}},G{{ADDR}}751.6,{{PATH}}:zero mon. req. 3rd spin.,
+SPZR4_{{PATH}},G{{ADDR}}751.7,{{PATH}}:zero mon. req. 4th spin.,
+SPA1_{{PATH}},G{{ADDR}}754.0,{{PATH}}:saf. sel. A 1st spindle,
+SPA2_{{PATH}},G{{ADDR}}754.1,{{PATH}}:saf. sel. A 2nd spindle,
+SPA3_{{PATH}},G{{ADDR}}754.2,{{PATH}}:saf. sel. A 3rd spindle,
+SPA4_{{PATH}},G{{ADDR}}754.3,{{PATH}}:saf. sel. A 4th spindle,
+SPB1_{{PATH}},G{{ADDR}}754.4,{{PATH}}:saf. sel. B 1st spindle,
+SPB2_{{PATH}},G{{ADDR}}754.5,{{PATH}}:saf. sel. B 2nd spindle,
+SPB3_{{PATH}},G{{ADDR}}754.6,{{PATH}}:saf. sel. B 3rd spindle,
+SPB4_{{PATH}},G{{ADDR}}754.7,{{PATH}}:saf. sel. B 4th spindle,
    #endif
 #endif

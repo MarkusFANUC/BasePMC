@@ -1,145 +1,145 @@
-//:--------------------------------------------------------------------------:
-//: File              : mmi_out__PATH__.sym                                      :
-//: Creation date     : 27.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : symbols of outputs man-machine-interface (path)      :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
-//:        :       :       :led for one touch macro added                    :
-//:--------------------------------------------------------------------------:
-//:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : mmi_out_{{PATH}}.sym                                      :
+!!: Creation date     : 27.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : symbols of outputs man-machine-interface (path)      :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+!!:        :       :       :led for one touch macro added                    :
+!!:--------------------------------------------------------------------------:
+!!:25.06.21: 3.0.0 :Blp    :virtual operator's panel added                   :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Data Table
-// ===========================================================================
-// -------------------------------------------------------
-// global variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! ===========================================================================
+!! Data Table
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool:
-// -----------------------------------
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
 
-// -------------------------------------------------------
-// local variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! -------------------------------------------------------
+!! local variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 
-// ===========================================================================
-// Internal Relay
-// ===========================================================================
-// -------------------------------------------------------
-// output map area variables R920.0 - R9xx.7 (global)
-// -------------------------------------------------------
-L_MMEM__PATH__,R__ADDR__920.0,_PATH__:led mode mem,
-L_MEDT__PATH__,R__ADDR__920.1,_PATH__:led mode edit,
-L_MMDI__PATH__,R__ADDR__920.2,_PATH__:led mode mdi,
-L_DNC__PATH__,R__ADDR__920.3,_PATH__:led dnc operation,
-L_MREF__PATH__,R__ADDR__920.4,_PATH__:led mode ref,
-L_MJ__PATH__,R__ADDR__920.5,_PATH__:led mode jog,
-L_INC__PATH__,R__ADDR__920.6,_PATH__:led mode inc,
-L_HD__PATH__,R__ADDR__920.7,_PATH__:led mode handle,
+!! ===========================================================================
+!! Internal Relay
+!! ===========================================================================
+!! -------------------------------------------------------
+!! output map area variables R920.0 - R9xx.7 (global)
+!! -------------------------------------------------------
+L_MMEM_{{PATH}},R{{ADDR}}920.0,{{PATH}}:led mode mem,
+L_MEDT_{{PATH}},R{{ADDR}}920.1,{{PATH}}:led mode edit,
+L_MMDI_{{PATH}},R{{ADDR}}920.2,{{PATH}}:led mode mdi,
+L_DNC_{{PATH}},R{{ADDR}}920.3,{{PATH}}:led dnc operation,
+L_MREF_{{PATH}},R{{ADDR}}920.4,{{PATH}}:led mode ref,
+L_MJ_{{PATH}},R{{ADDR}}920.5,{{PATH}}:led mode jog,
+L_INC_{{PATH}},R{{ADDR}}920.6,{{PATH}}:led mode inc,
+L_HD_{{PATH}},R{{ADDR}}920.7,{{PATH}}:led mode handle,
 
-L_SBK__PATH__,R__ADDR__922.0,_PATH__:led single block,
-L_SKIP__PATH__,R__ADDR__922.1,_PATH__:led block skip,
-L_OSTP__PATH__,R__ADDR__922.2,_PATH__:led optional stop m01,
-L_PGMT__PATH__,R__ADDR__922.3,_PATH__:led program test,
-L_DRN__PATH__,R__ADDR__922.4,_PATH__:led dry run,
-L_REST__PATH__,R__ADDR__922.5,_PATH__:led program restart,
-L_TEACH__PATH__,R__ADDR__922.6,_PATH__:led teach in mode,
+L_SBK_{{PATH}},R{{ADDR}}922.0,{{PATH}}:led single block,
+L_SKIP_{{PATH}},R{{ADDR}}922.1,{{PATH}}:led block skip,
+L_OSTP_{{PATH}},R{{ADDR}}922.2,{{PATH}}:led optional stop m01,
+L_PGMT_{{PATH}},R{{ADDR}}922.3,{{PATH}}:led program test,
+L_DRN_{{PATH}},R{{ADDR}}922.4,{{PATH}}:led dry run,
+L_REST_{{PATH}},R{{ADDR}}922.5,{{PATH}}:led program restart,
+L_TEACH_{{PATH}},R{{ADDR}}922.6,{{PATH}}:led teach in mode,
 
-L_STL__PATH__,R__ADDR__923.0,_PATH__:led cycle start lamp,
-L_SPL__PATH__,R__ADDR__923.1,_PATH__:led cycle stop,
-L_PGSP__PATH__,R__ADDR__923.2,_PATH__:led program stop,
+L_STL_{{PATH}},R{{ADDR}}923.0,{{PATH}}:led cycle start lamp,
+L_SPL_{{PATH}},R{{ADDR}}923.1,{{PATH}}:led cycle stop,
+L_PGSP_{{PATH}},R{{ADDR}}923.2,{{PATH}}:led program stop,
 
-#if start_address_op == 0 || handwheel_support == 2 || virtual_op_panel == 1
-L_RST__PATH__,R__ADDR__923.3,_PATH__:led rst key,
+#if start_address_op == 0 or handwheel_support == 2 or virtual_op_panel == 1
+L_RST_{{PATH}},R{{ADDR}}923.3,{{PATH}}:led rst key,
 #endif
 
 #if start_address_op == 0
-L_EMG__PATH__,R__ADDR__923.4,_PATH__:led emergency stop,
+L_EMG_{{PATH}},R{{ADDR}}923.4,{{PATH}}:led emergency stop,
 #endif
 
-L_X1__PATH__,R__ADDR__925.0,_PATH__:led 1 increment,
-L_X10__PATH__,R__ADDR__925.1,_PATH__:led 10 increment,
-L_X100__PATH__,R__ADDR__925.2,_PATH__:led 100 increment,
-L_X1000__PATH__,R__ADDR__925.3,_PATH__:led 1000 increment,
+L_X1_{{PATH}},R{{ADDR}}925.0,{{PATH}}:led 1 increment,
+L_X10_{{PATH}},R{{ADDR}}925.1,{{PATH}}:led 10 increment,
+L_X100_{{PATH}},R{{ADDR}}925.2,{{PATH}}:led 100 increment,
+L_X1000_{{PATH}},R{{ADDR}}925.3,{{PATH}}:led 1000 increment,
 
-L_RT__PATH__,R__ADDR__925.5,led rapid traverse,
+L_RT_{{PATH}},R{{ADDR}}925.5,led rapid traverse,
 
-#if coolant_support__PATH__ == 1 && coolant_support_P01 > -1
-L_COOL__PATH__,R__ADDR__926.0,_PATH__:led coolant on,
-#endif
-
-#if spindle_support__PATH__ > 0  && spindle_support_P01 > -1
-L_SPCW__PATH__,R__ADDR__927.0,_PATH__:led spindle cw,
-L_SPCCW__PATH__,R__ADDR__927.1,_PATH__:led spindle ccw,
-L_SPSP__PATH__,R__ADDR__927.2,_PATH__:led spindle stop,
+#if coolant_support_{{PATH}} == 1 and coolant_support_P01 > -1
+L_COOL_{{PATH}},R{{ADDR}}926.0,{{PATH}}:led coolant on,
 #endif
 
-#if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
-L_MC1__PATH__,R__ADDR__927.4,_PATH__:led macro call 1,
-L_MC2__PATH__,R__ADDR__927.5,_PATH__:led macro call 2,
-L_MC3__PATH__,R__ADDR__927.6,_PATH__:led macro call 3,
-L_MC4__PATH__,R__ADDR__927.7,_PATH__:led macro call 4,
+#if spindle_support_{{PATH}} > 0  and spindle_support_P01 > -1
+L_SPCW_{{PATH}},R{{ADDR}}927.0,{{PATH}}:led spindle cw,
+L_SPCCW_{{PATH}},R{{ADDR}}927.1,{{PATH}}:led spindle ccw,
+L_SPSP_{{PATH}},R{{ADDR}}927.2,{{PATH}}:led spindle stop,
 #endif
 
-L_1AX__PATH__,R__ADDR__928.0,_PATH__:led 1st axis sel.,
-L_1AXP__PATH__,R__ADDR__929.0,_PATH__:led 1st axis + dir.,
-L_1AXM__PATH__,R__ADDR__930.0,_PATH__:led 1st axis - dir.,
-#if axis_number__PATH__ > 1
-L_2AX__PATH__,R__ADDR__928.1,_PATH__:led 2nd axis sel.,
-L_2AXP__PATH__,R__ADDR__929.1,_PATH__:led 2nd axis + dir.,
-L_2AXM__PATH__,R__ADDR__930.1,_PATH__:led 2nd axis - dir.,
+#if otmc_support_{{PATH}} == 1 and otmc_support_P01 > -1 and operatorspanel == 2
+L_MC1_{{PATH}},R{{ADDR}}927.4,{{PATH}}:led macro call 1,
+L_MC2_{{PATH}},R{{ADDR}}927.5,{{PATH}}:led macro call 2,
+L_MC3_{{PATH}},R{{ADDR}}927.6,{{PATH}}:led macro call 3,
+L_MC4_{{PATH}},R{{ADDR}}927.7,{{PATH}}:led macro call 4,
 #endif
-#if axis_number__PATH__ > 2
-L_3AX__PATH__,R__ADDR__928.2,_PATH__:led 3rd axis sel.,
-L_3AXP__PATH__,R__ADDR__929.2,_PATH__:led 3rd axis + dir.,
-L_3AXM__PATH__,R__ADDR__930.2,_PATH__:led 3rd axis - dir.,
+
+L_1AX_{{PATH}},R{{ADDR}}928.0,{{PATH}}:led 1st axis sel.,
+L_1AXP_{{PATH}},R{{ADDR}}929.0,{{PATH}}:led 1st axis + dir.,
+L_1AXM_{{PATH}},R{{ADDR}}930.0,{{PATH}}:led 1st axis - dir.,
+#if axis_number_{{PATH}} > 1
+L_2AX_{{PATH}},R{{ADDR}}928.1,{{PATH}}:led 2nd axis sel.,
+L_2AXP_{{PATH}},R{{ADDR}}929.1,{{PATH}}:led 2nd axis + dir.,
+L_2AXM_{{PATH}},R{{ADDR}}930.1,{{PATH}}:led 2nd axis - dir.,
 #endif
-#if axis_number__PATH__ > 3
-L_4AX__PATH__,R__ADDR__928.3,_PATH__:led 4th axis sel.,
-L_4AXP__PATH__,R__ADDR__929.3,_PATH__:led 4th axis + dir.,
-L_4AXM__PATH__,R__ADDR__930.3,_PATH__:led 4th axis - dir.,
+#if axis_number_{{PATH}} > 2
+L_3AX_{{PATH}},R{{ADDR}}928.2,{{PATH}}:led 3rd axis sel.,
+L_3AXP_{{PATH}},R{{ADDR}}929.2,{{PATH}}:led 3rd axis + dir.,
+L_3AXM_{{PATH}},R{{ADDR}}930.2,{{PATH}}:led 3rd axis - dir.,
 #endif
-#if axis_number__PATH__ > 4
-L_5AX__PATH__,R__ADDR__928.4,_PATH__:led 5th axis sel.,
-L_5AXP__PATH__,R__ADDR__929.4,_PATH__:led 5th axis + dir.,
-L_5AXM__PATH__,R__ADDR__930.4,_PATH__:led 5th axis - dir.,
+#if axis_number_{{PATH}} > 3
+L_4AX_{{PATH}},R{{ADDR}}928.3,{{PATH}}:led 4th axis sel.,
+L_4AXP_{{PATH}},R{{ADDR}}929.3,{{PATH}}:led 4th axis + dir.,
+L_4AXM_{{PATH}},R{{ADDR}}930.3,{{PATH}}:led 4th axis - dir.,
 #endif
-#if axis_number__PATH__ > 5
-L_6AX__PATH__,R__ADDR__928.5,_PATH__:led 6th axis sel.,
-L_6AXP__PATH__,R__ADDR__929.5,_PATH__:led 6th axis + dir.,
-L_6AXM__PATH__,R__ADDR__930.5,_PATH__:led 6th axis - dir.,
+#if axis_number_{{PATH}} > 4
+L_5AX_{{PATH}},R{{ADDR}}928.4,{{PATH}}:led 5th axis sel.,
+L_5AXP_{{PATH}},R{{ADDR}}929.4,{{PATH}}:led 5th axis + dir.,
+L_5AXM_{{PATH}},R{{ADDR}}930.4,{{PATH}}:led 5th axis - dir.,
 #endif
-#if axis_number__PATH__ > 6
-L_7AX__PATH__,R__ADDR__928.6,_PATH__:led 7th axis sel.,
-L_7AXP__PATH__,R__ADDR__929.6,_PATH__:led 7th axis + dir.,
-L_7AXM__PATH__,R__ADDR__930.6,_PATH__:led 7th axis - dir.,
+#if axis_number_{{PATH}} > 5
+L_6AX_{{PATH}},R{{ADDR}}928.5,{{PATH}}:led 6th axis sel.,
+L_6AXP_{{PATH}},R{{ADDR}}929.5,{{PATH}}:led 6th axis + dir.,
+L_6AXM_{{PATH}},R{{ADDR}}930.5,{{PATH}}:led 6th axis - dir.,
 #endif
-#if axis_number__PATH__ > 7
-L_8AX__PATH__,R__ADDR__928.7,_PATH__:led 8th axis sel.,
-L_8AXP__PATH__,R__ADDR__929.7,_PATH__:led 8th axis + dir.,
-L_8AXM__PATH__,R__ADDR__930.7,_PATH__:led 8th axis - dir.,
+#if axis_number_{{PATH}} > 6
+L_7AX_{{PATH}},R{{ADDR}}928.6,{{PATH}}:led 7th axis sel.,
+L_7AXP_{{PATH}},R{{ADDR}}929.6,{{PATH}}:led 7th axis + dir.,
+L_7AXM_{{PATH}},R{{ADDR}}930.6,{{PATH}}:led 7th axis - dir.,
+#endif
+#if axis_number_{{PATH}} > 7
+L_8AX_{{PATH}},R{{ADDR}}928.7,{{PATH}}:led 8th axis sel.,
+L_8AXP_{{PATH}},R{{ADDR}}929.7,{{PATH}}:led 8th axis + dir.,
+L_8AXM_{{PATH}},R{{ADDR}}930.7,{{PATH}}:led 8th axis - dir.,
 #endif

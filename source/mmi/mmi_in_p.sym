@@ -1,152 +1,152 @@
-//:--------------------------------------------------------------------------:
-//: File              : mmi_in__PATH__.sym                                       :
-//: Creation date     : 16.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : symbols of inputs man-machine-interface (path)       :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
-//:        :       :       :keys for one touch macro added                   :
-//:--------------------------------------------------------------------------:
-//:04.07.17: 2.0.0 :Blp    :variable K_MESRST added                          :
-//:--------------------------------------------------------------------------:
-//:21.12.18: 2.1.0 :Blp    :variables K_AX_B and K_INCR added                :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : mmi_in_{{PATH}}.sym                                       :
+!!: Creation date     : 16.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : symbols of inputs man-machine-interface (path)       :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:02.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+!!:        :       :       :keys for one touch macro added                   :
+!!:--------------------------------------------------------------------------:
+!!:04.07.17: 2.0.0 :Blp    :variable K_MESRST added                          :
+!!:--------------------------------------------------------------------------:
+!!:21.12.18: 2.1.0 :Blp    :variables K_AX_B and K_INCR added                :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// inputs
-// ===========================================================================
-// -----------------------------------
-// byte
-// -----------------------------------
+!! ===========================================================================
+!! inputs
+!! ===========================================================================
+!! -----------------------------------
+!! byte
+!! -----------------------------------
 
-// -----------------------------------
-// bool:
-// -----------------------------------
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
 
-// ===========================================================================
-// Data Table
-// ===========================================================================
-// -------------------------------------------------------
-// global variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! ===========================================================================
+!! Data Table
+!! ===========================================================================
+!! -------------------------------------------------------
+!! global variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool:
-// -----------------------------------
+!! -----------------------------------
+!! bool:
+!! -----------------------------------
 
-// -------------------------------------------------------
-// local variables 
-// -------------------------------------------------------
-// -----------------------------------
-// byte:
-// -----------------------------------
+!! -------------------------------------------------------
+!! local variables 
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte:
+!! -----------------------------------
 
-// -----------------------------------
-// bool
-// -----------------------------------
+!! -----------------------------------
+!! bool
+!! -----------------------------------
 
-// ===========================================================================
-// Internal Relay
-// ===========================================================================
-// -------------------------------------------------------
-// input map area variables R__ADDR__900.0 - R__ADDR__919.7 (global)
-// -------------------------------------------------------
-// -----------------------------------
-// byte
-// -----------------------------------
-OPMAP__PATH__,R__ADDR__900,_PATH__:op map start address,
-K_AX_B__PATH__,R__ADDR__904,_PATH__: byte axes key,
-K_INCR__PATH__,R__ADDR__905,_PATH__: byte increment key,
-FOVRS__PATH__,R__ADDR__916,_PATH__:feed override in %,
-SOVRS__PATH__,R__ADDR__918,_PATH__:spindle override in %,
+!! ===========================================================================
+!! Internal Relay
+!! ===========================================================================
+!! -------------------------------------------------------
+!! input map area variables R{{ADDR}}900.0 - R{{ADDR}}919.7 (global)
+!! -------------------------------------------------------
+!! -----------------------------------
+!! byte
+!! -----------------------------------
+OPMAP_{{PATH}},R{{ADDR}}900,{{PATH}}:op map start address,
+K_AX_B_{{PATH}},R{{ADDR}}904,{{PATH}}: byte axes key,
+K_INCR_{{PATH}},R{{ADDR}}905,{{PATH}}: byte increment key,
+FOVRS_{{PATH}},R{{ADDR}}916,{{PATH}}:feed override in %,
+SOVRS_{{PATH}},R{{ADDR}}918,{{PATH}}:spindle override in %,
 
-// -----------------------------------
-// bool
-// -----------------------------------
-K_MMEM__PATH__,R__ADDR__900.0,_PATH__:key mode mem,
-K_MEDT__PATH__,R__ADDR__900.1,_PATH__:key mode edit,
-K_MMDI__PATH__,R__ADDR__900.2,_PATH__:key mode mdi,
-K_DNC__PATH__,R__ADDR__900.3,_PATH__:key dnc operation mode,
-K_MREF__PATH__,R__ADDR__900.4,_PATH__:key mode ref,
-K_MJ__PATH__,R__ADDR__900.5,_PATH__:key mode jog,
-K_INC__PATH__,R__ADDR__900.6,_PATH__:key inc feed,
-K_HD__PATH__,R__ADDR__900.7,_PATH__:key handle,
+!! -----------------------------------
+!! bool
+!! -----------------------------------
+K_MMEM_{{PATH}},R{{ADDR}}900.0,{{PATH}}:key mode mem,
+K_MEDT_{{PATH}},R{{ADDR}}900.1,{{PATH}}:key mode edit,
+K_MMDI_{{PATH}},R{{ADDR}}900.2,{{PATH}}:key mode mdi,
+K_DNC_{{PATH}},R{{ADDR}}900.3,{{PATH}}:key dnc operation mode,
+K_MREF_{{PATH}},R{{ADDR}}900.4,{{PATH}}:key mode ref,
+K_MJ_{{PATH}},R{{ADDR}}900.5,{{PATH}}:key mode jog,
+K_INC_{{PATH}},R{{ADDR}}900.6,{{PATH}}:key inc feed,
+K_HD_{{PATH}},R{{ADDR}}900.7,{{PATH}}:key handle,
 
-K_SBK__PATH__,R__ADDR__902.0,_PATH__:key single block,
-K_SKIP__PATH__,R__ADDR__902.1,_PATH__:key block skip,
-K_OSTP__PATH__,R__ADDR__902.2,_PATH__:key optional stop m01,
-K_PGMT__PATH__,R__ADDR__902.3,_PATH__:key program test,
-K_DRN__PATH__,R__ADDR__902.4,_PATH__:key dry run,
-K_REST__PATH__,R__ADDR__902.5,_PATH__:key program restart,
-K_TEACH__PATH__,R__ADDR__902.6,_PATH__:key teach in,
+K_SBK_{{PATH}},R{{ADDR}}902.0,{{PATH}}:key single block,
+K_SKIP_{{PATH}},R{{ADDR}}902.1,{{PATH}}:key block skip,
+K_OSTP_{{PATH}},R{{ADDR}}902.2,{{PATH}}:key optional stop m01,
+K_PGMT_{{PATH}},R{{ADDR}}902.3,{{PATH}}:key program test,
+K_DRN_{{PATH}},R{{ADDR}}902.4,{{PATH}}:key dry run,
+K_REST_{{PATH}},R{{ADDR}}902.5,{{PATH}}:key program restart,
+K_TEACH_{{PATH}},R{{ADDR}}902.6,{{PATH}}:key teach in,
 
-K_ST__PATH__,R__ADDR__903.0,_PATH__:key cycle start,
-K_CYSP__PATH__,R__ADDR__903.1,_PATH__:key cycle stop,
-K_PGSP__PATH__,R__ADDR__903.2,_PATH__:pgm stop key,
+K_ST_{{PATH}},R{{ADDR}}903.0,{{PATH}}:key cycle start,
+K_CYSP_{{PATH}},R{{ADDR}}903.1,{{PATH}}:key cycle stop,
+K_PGSP_{{PATH}},R{{ADDR}}903.2,{{PATH}}:pgm stop key,
 
-K_RST__PATH__,R__ADDR__903.3,_PATH__:reset key,
+K_RST_{{PATH}},R{{ADDR}}903.3,{{PATH}}:reset key,
 
 #if handwheel_support == 2
-K_MESRST__PATH__,R__ADDR__903.7,_PATH__:message reset key,
+K_MESRST_{{PATH}},R{{ADDR}}903.7,{{PATH}}:message reset key,
 #endif
 
-K_1AX__PATH__,R__ADDR__904.0,_PATH__:key 1st axis,
-#if axis_number__PATH__ > 1
-K_2AX__PATH__,R__ADDR__904.1,_PATH__:key 2nd axis,
+K_1AX_{{PATH}},R{{ADDR}}904.0,{{PATH}}:key 1st axis,
+#if axis_number_{{PATH}} > 1
+K_2AX_{{PATH}},R{{ADDR}}904.1,{{PATH}}:key 2nd axis,
 #endif
-#if axis_number__PATH__ > 2
-K_3AX__PATH__,R__ADDR__904.2,_PATH__:key 3rd axis,
+#if axis_number_{{PATH}} > 2
+K_3AX_{{PATH}},R{{ADDR}}904.2,{{PATH}}:key 3rd axis,
 #endif
-#if axis_number__PATH__ > 3
-K_4AX__PATH__,R__ADDR__904.3,_PATH__:key 4th axis,
+#if axis_number_{{PATH}} > 3
+K_4AX_{{PATH}},R{{ADDR}}904.3,{{PATH}}:key 4th axis,
 #endif
-#if axis_number__PATH__ > 4
-K_5AX__PATH__,R__ADDR__904.4,_PATH__:key 5th axis,
+#if axis_number_{{PATH}} > 4
+K_5AX_{{PATH}},R{{ADDR}}904.4,{{PATH}}:key 5th axis,
 #endif
-#if axis_number__PATH__ > 5
-K_6AX__PATH__,R__ADDR__904.5,_PATH__:key 6th axis,
+#if axis_number_{{PATH}} > 5
+K_6AX_{{PATH}},R{{ADDR}}904.5,{{PATH}}:key 6th axis,
 #endif
-#if axis_number__PATH__ > 6
-K_7AX__PATH__,R__ADDR__904.6,_PATH__:key 7th axis,
+#if axis_number_{{PATH}} > 6
+K_7AX_{{PATH}},R{{ADDR}}904.6,{{PATH}}:key 7th axis,
 #endif
-#if axis_number__PATH__ > 7
-K_8AX__PATH__,R__ADDR__904.7,_PATH__:key 8th axis,
-#endif
-
-K_X1__PATH__,R__ADDR__905.0,_PATH__:key 1 increment,
-K_X10__PATH__,R__ADDR__905.1,_PATH__:key 10 increment,
-K_X100__PATH__,R__ADDR__905.2,_PATH__:key 100 increment,
-K_X1000__PATH__,R__ADDR__905.3,_PATH__:key 1000 increment,
-
-K_RT__PATH__,R__ADDR__905.5,_PATH__:key rapid traverse,
-K_PLUS__PATH__,R__ADDR__905.6,_PATH__:key plus direction,
-K_MINUS__PATH__,R__ADDR__905.7,_PATH__:key minus direction,
-
-#if coolant_support__PATH__ == 1 && coolant_support_P01 > -1
-K_COOL__PATH__,R__ADDR__906.0,_PATH__:key coolant on / off,
+#if axis_number_{{PATH}} > 7
+K_8AX_{{PATH}},R{{ADDR}}904.7,{{PATH}}:key 8th axis,
 #endif
 
-#if spindle_support__PATH__ > 0 && spindle_support_P01 > -1
-K_SPCW__PATH__,R__ADDR__907.0,_PATH__:key spindle cw,
-K_SPCCW__PATH__,R__ADDR__907.1,_PATH__:key spindle ccw,
-K_SPSP__PATH__,R__ADDR__907.2,_PATH__:key spindle stop,
+K_X1_{{PATH}},R{{ADDR}}905.0,{{PATH}}:key 1 increment,
+K_X10_{{PATH}},R{{ADDR}}905.1,{{PATH}}:key 10 increment,
+K_X100_{{PATH}},R{{ADDR}}905.2,{{PATH}}:key 100 increment,
+K_X1000_{{PATH}},R{{ADDR}}905.3,{{PATH}}:key 1000 increment,
+
+K_RT_{{PATH}},R{{ADDR}}905.5,{{PATH}}:key rapid traverse,
+K_PLUS_{{PATH}},R{{ADDR}}905.6,{{PATH}}:key plus direction,
+K_MINUS_{{PATH}},R{{ADDR}}905.7,{{PATH}}:key minus direction,
+
+#if coolant_support_{{PATH}} == 1 and coolant_support_P01 > -1
+K_COOL_{{PATH}},R{{ADDR}}906.0,{{PATH}}:key coolant on / off,
 #endif
 
-#if otmc_support__PATH__ == 1 && otmc_support_P01 > -1 && operatorspanel == 2
-K_MC1__PATH__,R__ADDR__908.1,_PATH__:key macro call 1,
-K_MC2__PATH__,R__ADDR__908.2,_PATH__:key macro call 2,
-K_MC3__PATH__,R__ADDR__908.3,_PATH__:key macro call 3,
-K_MC4__PATH__,R__ADDR__908.4,_PATH__:key macro call 4,
+#if spindle_support_{{PATH}} > 0 and spindle_support_P01 > -1
+K_SPCW_{{PATH}},R{{ADDR}}907.0,{{PATH}}:key spindle cw,
+K_SPCCW_{{PATH}},R{{ADDR}}907.1,{{PATH}}:key spindle ccw,
+K_SPSP_{{PATH}},R{{ADDR}}907.2,{{PATH}}:key spindle stop,
+#endif
+
+#if otmc_support_{{PATH}} == 1 and otmc_support_P01 > -1 and operatorspanel == 2
+K_MC1_{{PATH}},R{{ADDR}}908.1,{{PATH}}:key macro call 1,
+K_MC2_{{PATH}},R{{ADDR}}908.2,{{PATH}}:key macro call 2,
+K_MC3_{{PATH}},R{{ADDR}}908.3,{{PATH}}:key macro call 3,
+K_MC4_{{PATH}},R{{ADDR}}908.4,{{PATH}}:key macro call 4,
 #endif

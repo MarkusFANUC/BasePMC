@@ -1,36 +1,36 @@
-//:--------------------------------------------------------------------------:
-//: File              : op_55keys_in.src                                     :
-//: Creation date     : 20.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Inputs operator's panel with 55-keys                 :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:13.06.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
-//:        :       :       :keys for one touch macro added                   :
-//:--------------------------------------------------------------------------:
-//:15.11.16: 2.0.0 :Blp    :selection of pgm_protect_key added               :
-//:        :       :       :in case of SOP, edit enable of SOP will be used  :
-//:--------------------------------------------------------------------------:
-//:03.09.21: 3.0.0 :Blp    :path specific comment of coolant key removed     :
-//:        :       :       :virtual operator's panel added                   :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : op_55keys_in.src                                     :
+!!: Creation date     : 20.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Inputs operator's panel with 55-keys                 :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:13.06.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+!!:        :       :       :keys for one touch macro added                   :
+!!:--------------------------------------------------------------------------:
+!!:15.11.16: 2.0.0 :Blp    :selection of pgm_protect_key added               :
+!!:        :       :       :in case of SOP, edit enable of SOP will be used  :
+!!:--------------------------------------------------------------------------:
+!!:03.09.21: 3.0.0 :Blp    :path specific comment of coolant key removed     :
+!!:        :       :       :virtual operator's panel added                   :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ------------------------------------
-// activation of virtual operator's panel
-// ------------------------------------
-#if virtual_op_panel == 1 && start_address_op > 0  && demo_control == 1
+!! ------------------------------------
+!! activation of virtual operator's panel
+!! ------------------------------------
+#if virtual_op_panel == 1 and start_address_op > 0  and demo_control == 1
    #if net_comment == 1
 (*
 disable virtual operator panel selection
@@ -73,7 +73,7 @@ activation of virtual operator panel
                  WRT       VIRTUAL_OP           ;"virtual op with 55key"
 #endif
 
-#if virtual_op_panel == 1 && start_address_op > 0  && demo_control == 0
+#if virtual_op_panel == 1 and start_address_op > 0  and demo_control == 0
    #if net_comment == 1
 (*
 activation of virtual operator panel
@@ -91,9 +91,9 @@ activation of virtual operator panel
                  SET       VIRTUAL_OP           ;"Virtual operator panel 55Key"
 #endif
 
-// ------------------------------------
-// memory protect key
-// ------------------------------------
+!! ------------------------------------
+!! memory protect key
+!! ------------------------------------
 #if net_comment == 1
 (*
 memory protect key
@@ -105,7 +105,7 @@ memory protect key
                  WRT       K_PKEY               ;"memory protection key"
    #else
                  RD        iF_PKEY              ;"op55: input protect key"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_PKEY              ;"op55: input protect key"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -124,9 +124,9 @@ memory protect key
 #endif
 
 #if start_address_op == 0
-// ------------------------------------
-// EMG and RESET key for panel emulation
-// ------------------------------------
+!! ------------------------------------
+!! EMG and RESET key for panel emulation
+!! ------------------------------------
    #if net_comment == 1
 (*
 EMG and RESET key for panel emulation
@@ -137,10 +137,10 @@ EMG and RESET key for panel emulation
 
 #endif
 
-#if virtual_op_panel == 1 && start_address_op > 0
-// ------------------------------------
-// EMG and RESET key for virtual op
-// ------------------------------------
+#if virtual_op_panel == 1 and start_address_op > 0
+!! ------------------------------------
+!! EMG and RESET key for virtual op
+!! ------------------------------------
    #if net_comment == 1
 (*
 EMG and RESET key for virtual op
@@ -155,19 +155,19 @@ EMG and RESET key for virtual op
                  WRT       K_EMG                ;"emgergency stop key"
 #endif
 
-// ---------------------------------------------------------------------------
-// nc modes
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key mem mode
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! nc modes
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key mem mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key mem mode
 *)
 #endif
                  RD        iF_K_A01             ;"op55: key A01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A01             ;"op55: virtual key A01"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -176,16 +176,16 @@ key mem mode
                  WRT       K_MMEM               ;"key mode mem"
 
 
-// ------------------------------------
-// key single block
-// ------------------------------------
+!! ------------------------------------
+!! key single block
+!! ------------------------------------
 #if net_comment == 1
 (*
 key single block
 *)
 #endif
                  RD        iF_K_B01             ;"op55: key B01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B01             ;"op55: virtual key B01"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -193,16 +193,16 @@ key single block
 #endif
                  WRT       K_SBK                ;"key single block"
 
-// ------------------------------------
-// key block skip
-// ------------------------------------
+!! ------------------------------------
+!! key block skip
+!! ------------------------------------
 #if net_comment == 1
 (*
 key block skip
 *)
 #endif
                  RD        iF_K_B02             ;"op55: key B02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B02             ;"op55: virtual key B02"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -210,16 +210,16 @@ key block skip
 #endif
                  WRT       K_SKIP               ;"key block skip"
 
-// ------------------------------------
-// key optional stop
-// ------------------------------------
+!! ------------------------------------
+!! key optional stop
+!! ------------------------------------
 #if net_comment == 1
 (*
 key optional stop
 *)
 #endif
                  RD        iF_K_B03             ;"op55: key B03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B03             ;"op55: virtual key B03"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -227,16 +227,16 @@ key optional stop
 #endif
                  WRT       K_OSTP               ;"key optional stop m01"
 
-// ------------------------------------
-// key program restart
-// ------------------------------------
+!! ------------------------------------
+!! key program restart
+!! ------------------------------------
 #if net_comment == 1
 (*
 key program restart
 *)
 #endif
                  RD        iF_K_C01             ;"op55: key C01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C01             ;"op55: virtual key C01"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -244,16 +244,16 @@ key program restart
 #endif
                  WRT       K_REST               ;"key program restart"
 
-// ------------------------------------
-// key program test
-// ------------------------------------
+!! ------------------------------------
+!! key program test
+!! ------------------------------------
 #if net_comment == 1
 (*
 key program test
 *)
 #endif
                  RD        iF_K_C02             ;"op55: key C02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C02             ;"op55: virtual key C02"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -261,16 +261,16 @@ key program test
 #endif
                  WRT       K_PGMT               ;"key program test"
 
-// ------------------------------------
-// key dry run
-// ------------------------------------
+!! ------------------------------------
+!! key dry run
+!! ------------------------------------
 #if net_comment == 1
 (*
 key dry run
 *)
 #endif
                  RD        iF_K_C03             ;"op55: key C03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C03             ;"op55: virtual key C03"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -279,16 +279,16 @@ key dry run
                  WRT       K_DRN                ;"key dry run"
 
 
-// ------------------------------------
-// key edit mode
-// ------------------------------------
+!! ------------------------------------
+!! key edit mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key edit mode
 *)
 #endif
                  RD        iF_K_A02             ;"op55: key A02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A02             ;"op55: virtual key A02"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -296,16 +296,16 @@ key edit mode
 #endif
                  WRT       K_MEDT               ;"key mode edit"
 
-// ------------------------------------
-// key mdi mode
-// ------------------------------------
+!! ------------------------------------
+!! key mdi mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key mdi mode
 *)
 #endif
                  RD        iF_K_A03             ;"op55: key A03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A03             ;"op55: virtual key A03"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -313,16 +313,16 @@ key mdi mode
 #endif
                  WRT       K_MMDI               ;"key mode mdi"
 
-// ------------------------------------
-// key dnc mode
-// ------------------------------------
+!! ------------------------------------
+!! key dnc mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key dnc mode
 *)
 #endif
                  RD        iF_K_A04             ;"op55: key A04"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A04             ;"op55: virtual key A04"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -330,16 +330,16 @@ key dnc mode
 #endif
                  WRT       K_DNC                ;"key dnc operation mode"
 
-// ------------------------------------
-// key ref mode
-// ------------------------------------
+!! ------------------------------------
+!! key ref mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key ref mode
 *)
 #endif
                  RD        iF_K_A05             ;"op55: key A05"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A05             ;"op55: virtual key A05"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -347,16 +347,16 @@ key ref mode
 #endif
                  WRT       K_MREF               ;"key mode ref"
 
-// ------------------------------------
-// key jog mode
-// ------------------------------------
+!! ------------------------------------
+!! key jog mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key jog mode
 *)
 #endif
                  RD        iF_K_A06             ;"op55: key A06"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A06             ;"op55: virtual key A06"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -365,16 +365,16 @@ key jog mode
                  WRT       K_MJ                 ;"key mode jog"
 
 
-// ------------------------------------
-// key inc mode
-// ------------------------------------
+!! ------------------------------------
+!! key inc mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key inc mode
 *)
 #endif
                  RD        iF_K_A07             ;"op55: key A07"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A07             ;"op55: virtual key A07"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -382,16 +382,16 @@ key inc mode
 #endif
                  WRT       K_INC                ;"key inc feed"
 
-// ------------------------------------
-// key handle mode
-// ------------------------------------
+!! ------------------------------------
+!! key handle mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key handle mode
 *)
 #endif
                  RD        iF_K_A08             ;"op55: key A08"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A08             ;"op55: virtual key A08"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -399,16 +399,16 @@ key handle mode
 #endif
                  WRT       K_HD                 ;"key handle"
 
-// ------------------------------------
-// key teach in mode
-// ------------------------------------
+!! ------------------------------------
+!! key teach in mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 key teach in mode
 *)
 #endif
                  RD        iF_K_B04             ;"op55: key B04"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B04             ;"op55: virtual key B04"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -417,19 +417,19 @@ key teach in mode
                  WRT       K_TEACH              ;"key teach in"
 
 
-// ---------------------------------------------------------------------------
-// nc control
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key cycle stop
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! nc control
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key cycle stop
+!! ------------------------------------
 #if net_comment == 1
 (*
 key cycle stop
 *)
 #endif
                  RD        iF_K_E01             ;"op55: key E01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E01             ;"op55: virtual key E01"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -438,9 +438,9 @@ key cycle stop
                  WRT       K_CYSP               ;"key cycle stop"
 
 
-// ------------------------------------
-// key cycle start
-// ------------------------------------
+!! ------------------------------------
+!! key cycle start
+!! ------------------------------------
 #if net_comment == 1
 (*
 key cycle start
@@ -448,7 +448,7 @@ key cycle start
 #endif
 
                  RD        iF_K_E02             ;"op55: key E02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E02             ;"op55: virtual key E02"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -457,19 +457,19 @@ key cycle start
                  WRT       K_ST                 ;"key cycle start"
 
 #if otmc_support_P01 > -1
-// ---------------------------------------------------------------------------
-// one touch macro call
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key macro call 1
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! one touch macro call
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key macro call 1
+!! ------------------------------------
    #if net_comment == 1
 (*
  key macro call 1
 *)
    #endif
                  RD        iF_K_C05             ;"op55: key C05"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C05             ;"op55: virtual key C05"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -477,16 +477,16 @@ key cycle start
    #endif
                  WRT       K_MC1                ;"key macro call 1"
 
-// ------------------------------------
-// key macro call 2
-// ------------------------------------
+!! ------------------------------------
+!! key macro call 2
+!! ------------------------------------
    #if net_comment == 1
 (*
  key macro call 2
 *)
    #endif
                  RD        iF_K_C06             ;"op55: key C06"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C06             ;"op55: virtual key C06"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -494,16 +494,16 @@ key cycle start
    #endif
                  WRT       K_MC2                ;"key macro call 2"
 
-// ------------------------------------
-// key macro call 3
-// ------------------------------------
+!! ------------------------------------
+!! key macro call 3
+!! ------------------------------------
    #if net_comment == 1
 (*
  key macro call 3
 *)
    #endif
                  RD        iF_K_C07             ;"op55: key C07"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C07             ;"op55: virtual key C07"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -511,16 +511,16 @@ key cycle start
    #endif
                  WRT       K_MC3                ;"key macro call 3"
 
-// ------------------------------------
-// key macro call 4
-// ------------------------------------
+!! ------------------------------------
+!! key macro call 4
+!! ------------------------------------
    #if net_comment == 1
 (*
  key macro call 4
 *)
    #endif
                  RD        iF_K_C08             ;"op55: key C08"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C08             ;"op55: virtual key C08"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -530,19 +530,19 @@ key cycle start
 #endif
 
 
-// ---------------------------------------------------------------------------
-// axes
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key 1 increment
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! axes
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key 1 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 1 increment
 *)
 #endif
                  RD        iF_K_B05             ;"op55: key B05"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B05             ;"op55: virtual key B05"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -550,16 +550,16 @@ key 1 increment
 #endif
                  WRT       K_X1                 ;"key 1 increment"
 
-// ------------------------------------
-// key 10 increment
-// ------------------------------------
+!! ------------------------------------
+!! key 10 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 10 increment
 *)
 #endif
                  RD        iF_K_B06             ;"op55: key B06"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B06             ;"op55: virtual key B06"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -567,16 +567,16 @@ key 10 increment
 #endif
                  WRT       K_X10                ;"key 10 increment"
 
-// ------------------------------------
-// key 100 increment
-// ------------------------------------
+!! ------------------------------------
+!! key 100 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 100 increment
 *)
 #endif
                  RD        iF_K_B07             ;"op55: key B07"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B07             ;"op55: virtual key B07"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -584,16 +584,16 @@ key 100 increment
 #endif
                  WRT       K_X100               ;"key 100 increment"
 
-// ------------------------------------
-// key 1000 increment
-// ------------------------------------
+!! ------------------------------------
+!! key 1000 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 1000 increment
 *)
 #endif
                  RD        iF_K_B08             ;"op55: key B08"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B08             ;"op55: virtual key B08"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -602,16 +602,16 @@ key 1000 increment
                  WRT       K_X1000              ;"key 1000 increment"
 
 
-// ------------------------------------
-// key 1st axis
-// ------------------------------------
+!! ------------------------------------
+!! key 1st axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 1st axis
 *)
 #endif
                  RD        iF_K_B09             ;"op55: key B09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B09             ;"op55: virtual key B09"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -619,16 +619,16 @@ key 1st axis
 #endif
                  WRT       K_1AX                ;"key 1st axis"
 
-// ------------------------------------
-// key 2nd axis
-// ------------------------------------
+!! ------------------------------------
+!! key 2nd axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 2nd axis
 *)
 #endif
                  RD        iF_K_B10             ;"op55: key B10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B10             ;"op55: virtual key B10"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -636,16 +636,16 @@ key 2nd axis
 #endif
                  WRT       K_2AX                ;"key 2nd axis"
 
-// ------------------------------------
-// key 3rd axis
-// ------------------------------------
+!! ------------------------------------
+!! key 3rd axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 3rd axis
 *)
  #endif
                  RD        iF_K_B11             ;"op55: key B11"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_B11             ;"op55: virtual key B11"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -653,16 +653,16 @@ key 3rd axis
 #endif
                  WRT       K_3AX                ;"key 3rd axis"
 
-// ------------------------------------
-// key 4th axis
-// ------------------------------------
+!! ------------------------------------
+!! key 4th axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 4th axis
 *)
 #endif
                  RD        iF_K_C09             ;"op55: key C09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C09             ;"op55: virtual key C09"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -670,16 +670,16 @@ key 4th axis
 #endif
                  WRT       K_4AX                ;"key 4th axis"
 
-// ------------------------------------
-// key 5th axis
-// ------------------------------------
+!! ------------------------------------
+!! key 5th axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 5th axis
 *)
 #endif
                  RD        iF_K_C10             ;"op55: key C10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C10             ;"op55: virtual key C10"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -687,16 +687,16 @@ key 5th axis
 #endif
                  WRT       K_5AX                ;"key 5th axis"
 
-// ------------------------------------
-// key 6th axis
-// ------------------------------------
+!! ------------------------------------
+!! key 6th axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 6th axis
 *)
 #endif
                  RD        iF_K_C11             ;"op55: key C11"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_C11             ;"op55: virtual key C11"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -704,16 +704,16 @@ key 6th axis
 #endif
                  WRT       K_6AX                ;"key 6th axis"
 
-// ------------------------------------
-// key 7th axis
-// ------------------------------------
+!! ------------------------------------
+!! key 7th axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 7th axis
 *)
 #endif
                  RD        iF_K_A09             ;"op55: key A09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A09             ;"op55: virtual key A09"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -721,16 +721,16 @@ key 7th axis
 #endif
                  WRT       K_7AX                ;"key 7th axis"
 
-// ------------------------------------
-// key 8th axis
-// ------------------------------------
+!! ------------------------------------
+!! key 8th axis
+!! ------------------------------------
 #if net_comment == 1
 (*
 key 8th axis
 *)
 #endif
                  RD        iF_K_A10             ;"op55: key A10"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_A10             ;"op55: virtual key A10"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -738,16 +738,16 @@ key 8th axis
    #endif
                  WRT       K_8AX                ;"key 8th axis"
 
-// ------------------------------------
-// key plus direction
-// ------------------------------------
+!! ------------------------------------
+!! key plus direction
+!! ------------------------------------
 #if net_comment == 1
 (*
 key plus direction
 *)
 #endif
                  RD        iF_K_D09             ;"op55: key D09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_D09             ;"op55: virtual key D09"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -755,16 +755,16 @@ key plus direction
 #endif
                  WRT       K_PLUS               ;"key plus direction"
 
-// ------------------------------------
-// key rapid traverse
-// ------------------------------------
+!! ------------------------------------
+!! key rapid traverse
+!! ------------------------------------
 #if net_comment == 1
 (*
 key rapid traverse
 *)
 #endif
                  RD        iF_K_D10             ;"op55: key D10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_D10             ;"op55: virtual key D10"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -772,16 +772,16 @@ key rapid traverse
 #endif
                  WRT       K_RT                 ;"key rapid traverse"
 
-// ------------------------------------
-// key minus direction
-// ------------------------------------
+!! ------------------------------------
+!! key minus direction
+!! ------------------------------------
 #if net_comment == 1
 (*
 key minus direction
 *)
 #endif
                  RD        iF_K_D11             ;"op55: key D11"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_D11             ;"op55: virtual key D11"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -790,19 +790,19 @@ key minus direction
                  WRT       K_MINUS              ;"key minus direction"
 
 #if spindle_support_P01 > -1
-// ---------------------------------------------------------------------------
-// spindle
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key spindle clockwise
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! spindle
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key spindle clockwise
+!! ------------------------------------
    #if net_comment == 1
 (*
 key spindle clockwise
 *)
    #endif
                  RD        iF_K_E09             ;"op55: key E09"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E09             ;"op55: virtual key E09"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -810,16 +810,16 @@ key spindle clockwise
    #endif
                  WRT       K_SPCW               ;"key spindle cw"
 
-// ------------------------------------
-// key spindle stop
-// ------------------------------------
+!! ------------------------------------
+!! key spindle stop
+!! ------------------------------------
    #if net_comment == 1
 (*
 key spindle stop
 *)
    #endif
                  RD        iF_K_E10             ;"op55: key E10"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E10             ;"op55: virtual key E10"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -827,16 +827,16 @@ key spindle stop
    #endif
                  WRT       K_SPSP               ;"key spindle stop"
 
-// ------------------------------------
-// key spindle counterclockwise
-// ------------------------------------
+!! ------------------------------------
+!! key spindle counterclockwise
+!! ------------------------------------
    #if net_comment == 1
 (*
 key spindle counterclockwise
 *)
    #endif
                  RD        iF_K_E11             ;"op55: key E11"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E11             ;"op55: virtual key E11"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -846,19 +846,19 @@ key spindle counterclockwise
 #endif
 
 #if coolant_support_P01 > -1
-// ---------------------------------------------------------------------------
-// coolant
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// key coolant on / off
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! coolant
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! key coolant on / off
+!! ------------------------------------
    #if net_comment == 1
 (*
 key coolant on / off
 *)
    #endif
                  RD        iF_K_E05             ;"op55: key E05"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  RD.STK    iV_K_E05             ;"op55: virtual key E05"
                  AND       VIRTUAL_OP           ;"Virtual operator panel 55Key"
@@ -868,9 +868,9 @@ key coolant on / off
 
 #endif
 
-// ---------------------------------------------------------------------------
-// decoding feed override
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! decoding feed override
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 initialisation of temporary variable
@@ -887,7 +887,7 @@ initialisation of temporary variable
 apply a mask to the feed override inputs
 *)
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  RD        VIRTUAL_OP           ;"Virtual operator panel 55Key"
                  MOVE      
                            1
@@ -951,9 +951,9 @@ decoding feed override to decimal value
                  WRT       e_fovr               ;"error decoding feed override"
 
 #if spindle_support_P01 > -1
-// ---------------------------------------------------------------------------
-// decoding the spindle override
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! decoding the spindle override
+!! ---------------------------------------------------------------------------
    #if spindle_override == 0
       #if net_comment == 1
 (*
@@ -967,9 +967,9 @@ decoding the spindle override
                            SOVRS                ;"spindle override in %"
    #endif
 
-// ---------------------------------------------------------------------------
-// decoding the spindle override to decimal value
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! decoding the spindle override to decimal value
+!! ---------------------------------------------------------------------------
    #if spindle_override == 1
       #if net_comment == 1
 (*
@@ -977,7 +977,7 @@ decoding the spindle override to decimal value
 *)
       #endif
                  RD        iF_S_OVR0            ;"op55: spindle override bit0"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"virtual op with 55key"
                  RD.STK    iV_S_OVR0            ;"op55: virtual spindle ovr bit0"
                  AND       VIRTUAL_OP           ;"virtual op with 55key"
@@ -986,7 +986,7 @@ decoding the spindle override to decimal value
                  WRT       T_BIT000             ;"temporary bit 000"
 
                  RD        iF_S_OVR1            ;"op55: spindle override bit1"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"virtual op with 55key"
                  RD.STK    iV_S_OVR1            ;"op55: virtual spindle ovr bit1"
                  AND       VIRTUAL_OP           ;"virtual op with 55key"
@@ -995,7 +995,7 @@ decoding the spindle override to decimal value
                  WRT       T_BIT001             ;"temporary bit 001"
 
                  RD        iF_S_OVR2            ;"op55: spindle override bit2"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  AND.NOT   VIRTUAL_OP           ;"virtual op with 55key"
                  RD.STK    iV_S_OVR2            ;"op55: virtual spindle ovr bit2"
                  AND       VIRTUAL_OP           ;"virtual op with 55key"

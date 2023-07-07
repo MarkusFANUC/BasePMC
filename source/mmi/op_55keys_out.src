@@ -1,34 +1,34 @@
-//:--------------------------------------------------------------------------:
-//: File              : op_55keys_out.src                                    :
-//: Creation date     : 20.09.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Outputs operator's panel with 55-keys                :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:03.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
-//:        :       :       :led for one touch macro added                    :
-//:--------------------------------------------------------------------------:
-//:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
-//:--------------------------------------------------------------------------:
-//:03.09.21: 3.0.0 :Blp    :virtual operator's panel added, led SOP removed  :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : op_55keys_out.src                                    :
+!!: Creation date     : 20.09.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Outputs operator's panel with 55-keys                :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:03.09.14: 1.1.0 :Blp    :keys for coolant support reworked (1 key for all):
+!!:        :       :       :led for one touch macro added                    :
+!!:--------------------------------------------------------------------------:
+!!:24.10.16: 2.0.0 :Blp    :path 11-15 added                                 :
+!!:--------------------------------------------------------------------------:
+!!:03.09.21: 3.0.0 :Blp    :virtual operator's panel added, led SOP removed  :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 1
-// ---------------------------------------------------------------------------
-// led virtual operator panel switching
-// ---------------------------------------------------------------------------
+#if virtual_op_panel == 1 and start_address_op > 0 and demo_control == 1
+!! ---------------------------------------------------------------------------
+!! led virtual operator panel switching
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 led virtual operator panel switching
@@ -45,9 +45,9 @@ led virtual operator panel switching
 
 
 #if nbr_of_path > 1
-// ---------------------------------------------------------------------------
-// led's of path switching
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of path switching
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 led path switching
@@ -56,35 +56,35 @@ led path switching
    #if nbr_of_path == 2
                  RD        PATH_P02             ;"path 02 selected"
                  WRT       oF_L_D02             ;"op55: led D02"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_D02             ;"op55: virtual led D02"
       #endif
    #endif
    #if nbr_of_path > 2
                  RD        K_PATH+              ;"key path plus"
                  WRT       oF_L_D02             ;"op55: led D02"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_D02             ;"op55: virtual led D02"
       #endif
 
                  RD        K_PATH-              ;"key path minus"
                  WRT       oF_L_D03             ;"op55: led D03"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_D03             ;"op55: virtual led D03"
       #endif
 
    #endif
                  RD        PATHSYN              ;"Path syncronization signal"
                  WRT       oF_L_D01             ;"op55: led D01"
-      #if virtual_op_panel == 1 && start_address_op > 0
+      #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_D01             ;"op55: virtual led D01"
       #endif
 #endif
 
 #if start_address_op == 0
-// ------------------------------------
-// led PROT key for panel emulation
-// ------------------------------------
+!! ------------------------------------
+!! led PROT key for panel emulation
+!! ------------------------------------
    #if net_comment == 1
 (*
 led protection key for panel emulation
@@ -93,9 +93,9 @@ led protection key for panel emulation
                  RD        L_PKEY               ;"led protection key"
                  WRT       oF_L_A12             ;"op55: led A12"
 
-// ------------------------------------
-// led EMG for panel emulation
-// ------------------------------------
+!! ------------------------------------
+!! led EMG for panel emulation
+!! ------------------------------------
    #if net_comment == 1
 (*
 led emergency stop for panel emulation
@@ -176,10 +176,10 @@ led emergency stop for panel emulation
                  WRT       oF_L_C12             ;"op55: led C12"
 #endif
 
-#if start_address_op == 0 || virtual_op_panel == 1
-// ------------------------------------
-// led RST for panel emulation
-// ------------------------------------
+#if start_address_op == 0 or virtual_op_panel == 1
+!! ------------------------------------
+!! led RST for panel emulation
+!! ------------------------------------
    #if net_comment == 1
 (*
 led reset for panel emulation
@@ -257,19 +257,19 @@ led reset for panel emulation
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
    #endif
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A11             ;"op55: led A11"
    #else
                  WRT       oF_L_B12             ;"op55: led B12"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// led's of operating modes
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// led mem mode
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of operating modes
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! led mem mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led mem mode
@@ -348,14 +348,14 @@ led mem mode
                  OR.STK
 #endif
                  WRT       oF_L_A01             ;"op55: led A01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A01             ;"op55: virtual led A01"
 #endif
 
 
-// ------------------------------------
-// led edit mode
-// ------------------------------------
+!! ------------------------------------
+!! led edit mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led edit mode
@@ -434,13 +434,13 @@ led edit mode
                  OR.STK
 #endif
                  WRT       oF_L_A02             ;"op55: led A02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A02             ;"op55: virtual led A02"
 #endif
 
-// ------------------------------------
-// led mdi mode
-// ------------------------------------
+!! ------------------------------------
+!! led mdi mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led mdi mode
@@ -519,13 +519,13 @@ led mdi mode
                  OR.STK
 #endif
                  WRT       oF_L_A03             ;"op55: led A03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A03             ;"op55: virtual led A03"
 #endif
 
-// ------------------------------------
-// led dnc mode
-// ------------------------------------
+!! ------------------------------------
+!! led dnc mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led dnc mode
@@ -603,20 +603,20 @@ led dnc mode
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
+#if virtual_op_panel == 1 and start_address_op > 0 and demo_control == 0
                  AND.NOT    VIRTUAL_OP          ;"virtual op with 55key"
                  RD.STK     VIRTUAL_OP          ;"virtual op with 55key"
                  AND        500MS               ;"500 ms"
                  OR.STK     
 #endif
                  WRT       oF_L_A04             ;"op55: led A04"
-#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
+#if virtual_op_panel == 1 and start_address_op > 0 and demo_control == 0
                  WRT       oV_L_A04             ;"op55: virtual led A04"
 #endif
 
-// ------------------------------------
-// led single block
-// ------------------------------------
+!! ------------------------------------
+!! led single block
+!! ------------------------------------
 #if net_comment == 1
 (*
 led single block
@@ -695,14 +695,14 @@ led single block
                  OR.STK
 #endif
                  WRT       oF_L_B01             ;"op55: led B01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B01             ;"op55: virtual led B01"
 #endif
 
 
-// ------------------------------------
-// led block skip
-// ------------------------------------
+!! ------------------------------------
+!! led block skip
+!! ------------------------------------
 #if net_comment == 1
 (*
 led block skip
@@ -781,13 +781,13 @@ led block skip
                  OR.STK
 #endif
                  WRT       oF_L_B02             ;"op55: led B02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B02             ;"op55: virtual led B02"
 #endif
 
-// ------------------------------------
-// led optional stop
-// ------------------------------------
+!! ------------------------------------
+!! led optional stop
+!! ------------------------------------
 #if net_comment == 1
 (*
 led optional stop
@@ -866,13 +866,13 @@ led optional stop
                  OR.STK
 #endif
                  WRT       oF_L_B03             ;"op55: led B03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B03             ;"op55: virtual led B03"
 #endif
 
-// ------------------------------------
-// led program restart
-// ------------------------------------
+!! ------------------------------------
+!! led program restart
+!! ------------------------------------
 #if net_comment == 1
 (*
 led program restart
@@ -951,13 +951,13 @@ led program restart
                  OR.STK
 #endif
                  WRT       oF_L_C01             ;"op55: led C01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C01             ;"op55: virtual led C01"
 #endif
 
-// ------------------------------------
-// led program test
-// ------------------------------------
+!! ------------------------------------
+!! led program test
+!! ------------------------------------
 #if net_comment == 1
 (*
 led program test
@@ -1036,13 +1036,13 @@ led program test
                  OR.STK
 #endif
                  WRT       oF_L_C02             ;"op55: led C02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C02             ;"op55: virtual led C02"
 #endif
 
-// ------------------------------------
-// led dry run
-// ------------------------------------
+!! ------------------------------------
+!! led dry run
+!! ------------------------------------
 #if net_comment == 1
 (*
 led dry run
@@ -1121,13 +1121,13 @@ led dry run
                  OR.STK
 #endif
                  WRT       oF_L_C03             ;"op55: led C03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C03             ;"op55: virtual led C03"
 #endif
 
-// ------------------------------------
-// led ref mode
-// ------------------------------------
+!! ------------------------------------
+!! led ref mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led ref mode
@@ -1238,13 +1238,13 @@ led ref mode
    #endif
 #endif
                  WRT       oF_L_A05             ;"op55: led A05"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A05             ;"op55: virtual led A05"
 #endif
 
-// ------------------------------------
-// led jog mode
-// ------------------------------------
+!! ------------------------------------
+!! led jog mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led jog mode
@@ -1323,13 +1323,13 @@ led jog mode
                  OR.STK
 #endif
                  WRT       oF_L_A06             ;"op55: led A06"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A06             ;"op55: virtual led A06"
 #endif
 
-// ------------------------------------
-// led inc mode
-// ------------------------------------
+!! ------------------------------------
+!! led inc mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led inc mode
@@ -1408,14 +1408,14 @@ led inc mode
                  OR.STK
 #endif
                  WRT       oF_L_A07             ;"op55: led A07"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A07             ;"op55: virtual led A07"
 #endif
 
 #if handwheel_support > 0
-// ------------------------------------
-// led handle mode
-// ------------------------------------
+!! ------------------------------------
+!! led handle mode
+!! ------------------------------------
    #if net_comment == 1
 (*
 led handle mode
@@ -1494,14 +1494,14 @@ led handle mode
                  OR.STK
    #endif
                  WRT       oF_L_A08             ;"op55: led A08"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A08             ;"op55: virtual led A08"
    #endif
 #endif
 
-// ------------------------------------
-// led teach in mode
-// ------------------------------------
+!! ------------------------------------
+!! led teach in mode
+!! ------------------------------------
 #if net_comment == 1
 (*
 led teach in mode
@@ -1580,16 +1580,16 @@ led teach in mode
                  OR.STK
 #endif
                  WRT       oF_L_B04             ;"op55: led B04"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B04             ;"op55: virtual led B04"
 #endif
 
-// ---------------------------------------------------------------------------
-// led's of nc control
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// led cycle stop
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of nc control
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! led cycle stop
+!! ------------------------------------
 #if net_comment == 1
 (*
 led cycle stop
@@ -1668,13 +1668,13 @@ led cycle stop
                  OR.STK
 #endif
                  WRT       oF_L_E01             ;"op55: led E01"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E01             ;"op55: virtual led E01"
 #endif
 
-// ------------------------------------
-// led cycle start
-// ------------------------------------
+!! ------------------------------------
+!! led cycle start
+!! ------------------------------------
 #if net_comment == 1
 (*
 led cycle start
@@ -1753,13 +1753,13 @@ led cycle start
                  OR.STK
 #endif
                  WRT       oF_L_E02             ;"op55: led E02"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E02             ;"op55: virtual led E02"
 #endif
 
-// ------------------------------------
-// led program stop
-// ------------------------------------
+!! ------------------------------------
+!! led program stop
+!! ------------------------------------
 #if net_comment == 1
 (*
 led program stop
@@ -1838,17 +1838,17 @@ led program stop
                  OR.STK
 #endif
                  WRT       oF_L_E03             ;"op55: led E03"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E03             ;"op55: virtual led E03"
 #endif
 
 #if otmc_support_P01 > -1
-// ---------------------------------------------------------------------------
-// one touch macro call
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// led macro call 1
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! one touch macro call
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! led macro call 1
+!! ------------------------------------
    #if net_comment == 1
 (*
 led custom macro call 1
@@ -1960,13 +1960,13 @@ led custom macro call 1
       #endif
    #endif
                  WRT       oF_L_C05             ;"op55: led C05"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C05             ;"op55: virtual led C05"
    #endif
 
-// ------------------------------------
-// led macro call 2
-// ------------------------------------
+!! ------------------------------------
+!! led macro call 2
+!! ------------------------------------
    #if net_comment == 1
 (*
 led custom macro call 2
@@ -2077,13 +2077,13 @@ led custom macro call 2
       #endif
    #endif
                  WRT       oF_L_C06             ;"op55: led C06"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C06             ;"op55: virtual led C06"
    #endif
 
-// ------------------------------------
-// led macro call 3
-// ------------------------------------
+!! ------------------------------------
+!! led macro call 3
+!! ------------------------------------
    #if net_comment == 1
 (*
 led custom macro call 3
@@ -2194,13 +2194,13 @@ led custom macro call 3
       #endif
    #endif
                  WRT       oF_L_C07             ;"op55: led C07"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C07             ;"op55: virtual led C07"
    #endif
 
-// ------------------------------------
-// led macro call 4
-// ------------------------------------
+!! ------------------------------------
+!! led macro call 4
+!! ------------------------------------
    #if net_comment == 1
 (*
 led custom macro call 4
@@ -2311,15 +2311,15 @@ led custom macro call 4
       #endif
    #endif
                  WRT       oF_L_C08             ;"op55: led C08"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C08             ;"op55: virtual led C08"
    #endif
 #endif
 
 #if dcs_support == 1
-// ---------------------------------------------------------------------------
-// led of protection door
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! led of protection door
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 led protection door
@@ -2327,18 +2327,18 @@ led protection door
    #endif
                  RD        L_DOOR               ;"key unlock prot. door"
                  WRT       oF_L_E04             ;"op55: led E04"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E04             ;"op55: virtual led E04"
    #endif
 #endif
 
-// ---------------------------------------------------------------------------
-// led's of axis selection
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of axis selection
+!! ---------------------------------------------------------------------------
 
-// ------------------------------------
-// led 1st axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 1st axis selected
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 1st axis selected
@@ -2417,13 +2417,13 @@ led 1st axis selected
                  OR.STK
 #endif
                  WRT       oF_L_B09             ;"op55: led B09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B09             ;"op55: virtual led B09"
 #endif
 
-// ------------------------------------
-// led 2nd axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 2nd axis selected
+!! ------------------------------------
    #if net_comment == 1
 (*
 led 2nd axis selected
@@ -2535,13 +2535,13 @@ led 2nd axis selected
    #endif
 #endif
                  WRT       oF_L_B10             ;"op55: led B10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B10             ;"op55: virtual led B10"
 #endif
 
-// ------------------------------------
-// led 3rd axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 3rd axis selected
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 3rd axis selected
@@ -2652,13 +2652,13 @@ led 3rd axis selected
    #endif
 #endif
                  WRT       oF_L_B11             ;"op55: led B11"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B11             ;"op55: virtual led B11"
 #endif
 
-// ------------------------------------
-// led 4th axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 4th axis selected
+!! ------------------------------------
    #if net_comment == 1
 (*
 led 4th axis selected
@@ -2769,13 +2769,13 @@ led 4th axis selected
    #endif
 #endif
                  WRT       oF_L_C09             ;"op55: led C09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C09             ;"op55: virtual led C09"
 #endif
 
-// ------------------------------------
-// led 5th axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 5th axis selected
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 5th axis selected
@@ -2886,13 +2886,13 @@ led 5th axis selected
    #endif
 #endif
                  WRT       oF_L_C10             ;"op55: led C10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C10             ;"op55: virtual led C10"
 #endif
 
-// ------------------------------------
-// led 6th axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 6th axis selected
+!! ------------------------------------
    #if net_comment == 1
 (*
 led 6th axis selected
@@ -3003,13 +3003,13 @@ led 6th axis selected
    #endif
 #endif
                  WRT       oF_L_C11             ;"op55: led C11"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_C11             ;"op55: virtual led C11"
 #endif
 
-// ------------------------------------
-// led 7th axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 7th axis selected
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 7th axis selected
@@ -3120,13 +3120,13 @@ led 7th axis selected
    #endif
 #endif
                  WRT       oF_L_A09             ;"op55: led A09"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A09             ;"op55: virtual led A09"
 #endif
 
-// ------------------------------------
-// led 8th axis selected
-// ------------------------------------
+!! ------------------------------------
+!! led 8th axis selected
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 8th axis selected
@@ -3237,13 +3237,13 @@ led 8th axis selected
    #endif
 #endif
                  WRT       oF_L_A10             ;"op55: led A10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_A10             ;"op55: virtual led A10"
 #endif
 
-// ------------------------------------
-// led axis plus direction
-// ------------------------------------
+!! ------------------------------------
+!! led axis plus direction
+!! ------------------------------------
 #if net_comment == 1
 (*
 led axis plus direction
@@ -3741,7 +3741,7 @@ led axis plus direction
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
+#if virtual_op_panel == 1 and start_address_op > 0 and demo_control == 0
                  RD.STK    V_OP_SW              ;"switching to virtual op"
                  AND       100MS                ;"100 ms"
                  OR.STK    
@@ -3750,9 +3750,9 @@ led axis plus direction
                  WRT       oF_L_D09             ;"op55: led D09"
 
 
-// ------------------------------------
-// led axis minus direction
-// ------------------------------------
+!! ------------------------------------
+!! led axis minus direction
+!! ------------------------------------
 #if net_comment == 1
 (*
 led axis minus direction
@@ -4250,7 +4250,7 @@ led axis minus direction
                  AND       PATH_P15             ;"path 15 selected"
                  OR.STK
 #endif
-#if virtual_op_panel == 1 && start_address_op > 0 && demo_control == 0
+#if virtual_op_panel == 1 and start_address_op > 0 and demo_control == 0
                  RD.STK    V_OP_SW              ;"switching to virtual op"
                  AND       100MS                ;"100 ms"
                  OR.STK    
@@ -4258,9 +4258,9 @@ led axis minus direction
 #endif
                  WRT       oF_L_D11             ;"op55: led D11"
 
-// ------------------------------------
-// led manual rapid traverse
-// ------------------------------------
+!! ------------------------------------
+!! led manual rapid traverse
+!! ------------------------------------
 #if net_comment == 1
 (*
 led manual rapid traverse
@@ -4339,16 +4339,16 @@ led manual rapid traverse
                  OR.STK
 #endif
                  WRT       oF_L_D10             ;"op55: led D10"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_D10             ;"op55: virtual led D10"
 #endif
 
-// ---------------------------------------------------------------------------
-// led's of increment selection
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// led 1 increment
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of increment selection
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! led 1 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 1 increment
@@ -4428,13 +4428,13 @@ led 1 increment
                  OR.STK
 #endif
                  WRT       oF_L_B05             ;"op55: led B05"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B05             ;"op55: virtual led B05"
 #endif
 
-// ------------------------------------
-// led 10 increment
-// ------------------------------------
+!! ------------------------------------
+!! led 10 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 10 increment
@@ -4514,14 +4514,14 @@ led 10 increment
                  OR.STK
 #endif
                  WRT       oF_L_B06             ;"op55: led B06"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B06             ;"op55: virtual led B06"
 #endif
 
 
-// ------------------------------------
-// led 100 increment
-// ------------------------------------
+!! ------------------------------------
+!! led 100 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 100 increment
@@ -4601,13 +4601,13 @@ led 100 increment
                  OR.STK
 #endif
                  WRT       oF_L_B07             ;"op55: led B07"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B07             ;"op55: virtual led B07"
 #endif
 
-// ------------------------------------
-// led 1000 increment
-// ------------------------------------
+!! ------------------------------------
+!! led 1000 increment
+!! ------------------------------------
 #if net_comment == 1
 (*
 led 1000 increment
@@ -4686,18 +4686,18 @@ led 1000 increment
                  OR.STK
 #endif
                  WRT       oF_L_B08             ;"op55: led B08"
-#if virtual_op_panel == 1 && start_address_op > 0
+#if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_B08             ;"op55: virtual led B08"
 #endif
 
 
 #if spindle_support_P01 > -1
-// ---------------------------------------------------------------------------
-// led's of manual spindle
-// ---------------------------------------------------------------------------
-// ------------------------------------
-// led spindle cw
-// ------------------------------------
+!! ---------------------------------------------------------------------------
+!! led's of manual spindle
+!! ---------------------------------------------------------------------------
+!! ------------------------------------
+!! led spindle cw
+!! ------------------------------------
    #if net_comment == 1
 (*
 led spindle cw
@@ -4808,13 +4808,13 @@ led spindle cw
       #endif
    #endif
                  WRT       oF_L_E09             ;"op55: led E09"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E09             ;"op55: virtual led E09"
    #endif
 
-// ------------------------------------
-// led spindle stop
-// ------------------------------------
+!! ------------------------------------
+!! led spindle stop
+!! ------------------------------------
    #if net_comment == 1
 (*
 led spindle stop
@@ -4925,13 +4925,13 @@ led spindle stop
       #endif
    #endif
                  WRT       oF_L_E10             ;"op55: led E10"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E10             ;"op55: virtual led E10"
    #endif
 
-// ------------------------------------
-// led spindle ccw
-// ------------------------------------
+!! ------------------------------------
+!! led spindle ccw
+!! ------------------------------------
    #if net_comment == 1
 (*
 led spindle ccw
@@ -5042,15 +5042,15 @@ led spindle ccw
       #endif
    #endif
                  WRT       oF_L_E11             ;"op55: led E11"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E11             ;"op55: virtual led E11"
    #endif
 #endif
 
 #if coolant_support_P01 > -1
-// ---------------------------------------------------------------------------
-// led coolant on
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! led coolant on
+!! ---------------------------------------------------------------------------
    #if net_comment == 1
 (*
 led coolant on
@@ -5161,7 +5161,7 @@ led coolant on
       #endif
    #endif
                  WRT       oF_L_E05             ;"op55: led E05"
-   #if virtual_op_panel == 1 && start_address_op > 0
+   #if virtual_op_panel == 1 and start_address_op > 0
                  WRT       oV_L_E05             ;"op55: virtual led E05"
    #endif
 #endif

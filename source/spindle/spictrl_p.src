@@ -1,39 +1,39 @@
-//:--------------------------------------------------------------------------:
-//: File              : spictrl__PATH__.src                                      :
-//: Creation date     : 09.12.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Spindle control                                      :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : spictrl_{{PATH}}.src                                      :
+!!: Creation date     : 09.12.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Spindle control                                      :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Code
-// ===========================================================================
+!! ===========================================================================
+!! Code
+!! ===========================================================================
 
-// ---------------------------------------------------------------------------
-// s code decoding (uses the high speed M/S/T/B interface)
-// parameter setting: 3001 bit 7 = 1 (MHI)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! s code decoding (uses the high speed M/S/T/B interface)
+!! parameter setting: 3001 bit 7 = 1 (MHI)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
 s code decoding (uses the high speed M/S/T/B interface)
@@ -41,181 +41,181 @@ parameter setting: 3001 bit 7 = 1 (MHI)
 *)
 #endif
 
-// -----------------------------------------------
-// _PATH__: sending completition signal to the cnc
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: sending completition signal to the cnc
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: sending completition signal to the cnc
+{{PATH}}: sending completition signal to the cnc
 *)
 #endif
-                 RD        s_fin__PATH__        ;"s_code finished"
-                 AND       SF__PATH__           ;"spindle strobe signal"
-                 RD.STK.NOT s_fin__PATH__       ;"s_code finished"
-                 AND       SFIN__PATH__         ;"sp function compl. signal"
+                 RD        s_fin_{{PATH}}        ;"s_code finished"
+                 AND       SF_{{PATH}}           ;"spindle strobe signal"
+                 RD.STK.NOT s_fin_{{PATH}}       ;"s_code finished"
+                 AND       SFIN_{{PATH}}         ;"sp function compl. signal"
                  OR.STK
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       SFIN__PATH__         ;"sp function compl. signal"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       SFIN_{{PATH}}         ;"sp function compl. signal"
 
-// ---------------------------------------------------------------------------
-// _PATH__: s code strobe
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: s code strobe
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: s code strobe
+{{PATH}}: s code strobe
 *)
 #endif
-                 RD        SF__PATH__           ;"spindle strobe signal"
-                 AND.NOT   SFIN__PATH__         ;"sp function compl. signal"
-                 RD.STK.NOT SF__PATH__          ;"spindle strobe signal"
-                 AND       SFIN__PATH__         ;"sp function compl. signal"
+                 RD        SF_{{PATH}}           ;"spindle strobe signal"
+                 AND.NOT   SFIN_{{PATH}}         ;"sp function compl. signal"
+                 RD.STK.NOT SF_{{PATH}}          ;"spindle strobe signal"
+                 AND       SFIN_{{PATH}}         ;"sp function compl. signal"
                  OR.STK
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       s_code__PATH__       ;"s_code active"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       s_code_{{PATH}}       ;"s_code active"
 
-// -----------------------------------------------
-// _PATH__: check if programmed spindle speed changes
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: check if programmed spindle speed changes
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: check if programmed spindle speed changes
+{{PATH}}: check if programmed spindle speed changes
 *)
 #endif
-                 RD        s_code__PATH__       ;"s_code active"
+                 RD        s_code_{{PATH}}       ;"s_code active"
                  EQD       
-                           S00-S31__PATH__      ;"spindle speed code"
-                           mscode__PATH__       ;"memory spindle speed code"
-                 WRT       nospch__PATH__       ;"no spindle speed change"
+                           S00-S31_{{PATH}}      ;"spindle speed code"
+                           mscode_{{PATH}}       ;"memory spindle speed code"
+                 WRT       nospch_{{PATH}}       ;"no spindle speed change"
 
-// -----------------------------------------------
-// _PATH__: memory for the actual programmed spindle speed
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: memory for the actual programmed spindle speed
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: memory for the actual programmed spindle speed
+{{PATH}}: memory for the actual programmed spindle speed
 *)
 #endif
-                 RD        s_fin__PATH__        ;"s_code finished"
+                 RD        s_fin_{{PATH}}        ;"s_code finished"
                  OR.NOT    FICYCL               ;"first cycle finished"
                  MOVD      
-                           S00-S31__PATH__      ;"spindle speed code"
-                           mscode__PATH__       ;"memory spindle speed code"
+                           S00-S31_{{PATH}}      ;"spindle speed code"
+                           mscode_{{PATH}}       ;"memory spindle speed code"
 
-// -----------------------------------------------
-// _PATH__: rising edge of the speed change
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: rising edge of the speed change
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: rising edge of the speed change
+{{PATH}}: rising edge of the speed change
 *)
 #endif
-                 RD        s_code__PATH__       ;"s_code active"
-                 AND.NOT   nospch__PATH__       ;"no spindle speed change"
-                 AND.NOT   ms_cod__PATH__       ;"memory s_code"
-                 WRT       RE_SCH__PATH__       ;"rising edge speed change"
+                 RD        s_code_{{PATH}}       ;"s_code active"
+                 AND.NOT   nospch_{{PATH}}       ;"no spindle speed change"
+                 AND.NOT   ms_cod_{{PATH}}       ;"memory s_code"
+                 WRT       RE_SCH_{{PATH}}       ;"rising edge speed change"
 
-                 RD        s_code__PATH__       ;"s_code active"
-                 WRT       ms_cod__PATH__       ;"memory s_code"
+                 RD        s_code_{{PATH}}       ;"s_code active"
+                 WRT       ms_cod_{{PATH}}       ;"memory s_code"
 
-// -----------------------------------------------
-// _PATH__: speed change finished
-// -----------------------------------------------
+!! -----------------------------------------------
+!! {{PATH}}: speed change finished
+!! -----------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: speed change finished
+{{PATH}}: speed change finished
 *)
 #endif
-                 RD        s_code__PATH__       ;"s_code active"
-                 WRT       s_fin__PATH__        ;"s_code finished"
+                 RD        s_code_{{PATH}}       ;"s_code active"
+                 WRT       s_fin_{{PATH}}        ;"s_code finished"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: manual spindle start / stop
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: manual spindle start / stop
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: manual spindle start / stop
+{{PATH}}: manual spindle start / stop
 *)
 #endif
-                 RD        K_SPCW__PATH__       ;"key spindle cw"
-                 AND.NOT   K_SPCCW__PATH__      ;"key spindle ccw"
-                 AND.NOT   K_SPSP__PATH__       ;"key spindle stop"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       mspcw__PATH__        ;"manual spindle start cw"
+                 RD        K_SPCW_{{PATH}}       ;"key spindle cw"
+                 AND.NOT   K_SPCCW_{{PATH}}      ;"key spindle ccw"
+                 AND.NOT   K_SPSP_{{PATH}}       ;"key spindle stop"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       mspcw_{{PATH}}        ;"manual spindle start cw"
 
-                 RD        K_SPCCW__PATH__      ;"key spindle ccw"
-                 AND.NOT   K_SPCW__PATH__       ;"key spindle cw"
-                 AND.NOT   K_SPSP__PATH__       ;"key spindle stop"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       mspccw__PATH__       ;"manual spindle start ccw"
+                 RD        K_SPCCW_{{PATH}}      ;"key spindle ccw"
+                 AND.NOT   K_SPCW_{{PATH}}       ;"key spindle cw"
+                 AND.NOT   K_SPSP_{{PATH}}       ;"key spindle stop"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       mspccw_{{PATH}}       ;"manual spindle start ccw"
 
-                 RD        K_SPSP__PATH__       ;"key spindle stop"
-                 RD.STK.NOT SP_CW__PATH__       ;"spindle start cw"
-                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
+                 RD        K_SPSP_{{PATH}}       ;"key spindle stop"
+                 RD.STK.NOT SP_CW_{{PATH}}       ;"spindle start cw"
+                 AND.NOT   SP_CCW_{{PATH}}       ;"spindle start ccw"
                  OR.STK
-                 AND.NOT   K_SPCW__PATH__       ;"key spindle cw"
-                 AND.NOT   K_SPCCW__PATH__      ;"key spindle ccw"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       msp_sp__PATH__       ;"manual spindle stop"
-                 WRT       L_SPSP__PATH__       ;"led spindle stop"
+                 AND.NOT   K_SPCW_{{PATH}}       ;"key spindle cw"
+                 AND.NOT   K_SPCCW_{{PATH}}      ;"key spindle ccw"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       msp_sp_{{PATH}}       ;"manual spindle stop"
+                 WRT       L_SPSP_{{PATH}}       ;"led spindle stop"
 
-// ---------------------------------------------------------------------------
-// _PATH__: M00, M01: memorize spindle rotation state
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: M00, M01: memorize spindle rotation state
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: M00, M01: memorize spindle rotation state
+{{PATH}}: M00, M01: memorize spindle rotation state
 *)
 #endif
-                 RD        M000__PATH__         ;"stop program run"
-                 RD.STK    M001__PATH__         ;"optional stop"
-                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 RD        M000_{{PATH}}         ;"stop program run"
+                 RD.STK    M001_{{PATH}}         ;"optional stop"
+                 AND       O_STOP_{{PATH}}       ;"optional stop m01 active"
                  OR.STK
-                 RD.STK    SP_CW__PATH__        ;"spindle start cw"
-                 OR        SP_CCW__PATH__       ;"spindle start ccw"
+                 RD.STK    SP_CW_{{PATH}}        ;"spindle start cw"
+                 OR        SP_CCW_{{PATH}}       ;"spindle start ccw"
                  AND.STK
-                 OR        sp_m__PATH__         ;"memory spindle turning"
-                 RD.STK.NOT ST__PATH__          ;"cycle start signal"
-                 RD.STK.NOT SP_CW__PATH__       ;"spindle start cw"
-                 AND.NOT   SP_CCW__PATH__       ;"spindle start ccw"
+                 OR        sp_m_{{PATH}}         ;"memory spindle turning"
+                 RD.STK.NOT ST_{{PATH}}          ;"cycle start signal"
+                 RD.STK.NOT SP_CW_{{PATH}}       ;"spindle start cw"
+                 AND.NOT   SP_CCW_{{PATH}}       ;"spindle start ccw"
                  OR.STK
                  AND.STK
-                 AND       M_AUTO__PATH__       ;"automatic mode active"
-                 AND.NOT   RST__PATH__          ;"resetting signal"
-                 WRT       sp_m__PATH__         ;"memory spindle turning"
+                 AND       M_AUTO_{{PATH}}       ;"automatic mode active"
+                 AND.NOT   RST_{{PATH}}          ;"resetting signal"
+                 WRT       sp_m_{{PATH}}         ;"memory spindle turning"
 
-                 RD        SP_CCW__PATH__       ;"spindle start ccw"
-                 OR        spccwm__PATH__       ;"memory spindle turning ccw"
-                 AND       sp_m__PATH__         ;"memory spindle turning"
-                 WRT       spccwm__PATH__       ;"memory spindle turning ccw"
+                 RD        SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 OR        spccwm_{{PATH}}       ;"memory spindle turning ccw"
+                 AND       sp_m_{{PATH}}         ;"memory spindle turning"
+                 WRT       spccwm_{{PATH}}       ;"memory spindle turning ccw"
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle stop conditions
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle stop conditions
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: spindle stop conditions
+{{PATH}}: spindle stop conditions
 *)
 #endif
-                 RD        msp_sp__PATH__       ;"manual spindle stop"
-                 OR        M005__PATH__         ;"spindle stop"
-                 OR        M000__PATH__         ;"stop program run"
-                 RD.STK    M001__PATH__         ;"optional stop"
-                 AND       O_STOP__PATH__       ;"optional stop m01 active"
+                 RD        msp_sp_{{PATH}}       ;"manual spindle stop"
+                 OR        M005_{{PATH}}         ;"spindle stop"
+                 OR        M000_{{PATH}}         ;"stop program run"
+                 RD.STK    M001_{{PATH}}         ;"optional stop"
+                 AND       O_STOP_{{PATH}}       ;"optional stop m01 active"
                  OR.STK
-#if spindle_orientation__PATH__ > 0 && spindle_support__PATH__ == 1
-                 OR        OR_FIN__PATH__       ;"sp orientation finished"
+#if spindle_orientation_{{PATH}} > 0 and spindle_support_{{PATH}} == 1
+                 OR        OR_FIN_{{PATH}}       ;"sp orientation finished"
 #endif
-                 OR        RST__PATH__          ;"resetting signal"
-                 OR.NOT    POW_OK__PATH__       ;"power suply axis ok"
-                 OR        M_1XXX__PATH__       ;"emergency message active"
-#if spindle_support__PATH__ == 1 || spindle_support__PATH__ == 5
-   #if rigid_tapping__PATH__ == 1
-                 OR        RTAP__PATH__         ;"rigid tapping in progress"
+                 OR        RST_{{PATH}}          ;"resetting signal"
+                 OR.NOT    POW_OK_{{PATH}}       ;"power suply axis ok"
+                 OR        M_1XXX_{{PATH}}       ;"emergency message active"
+#if spindle_support_{{PATH}} == 1 or spindle_support_{{PATH}} == 5
+   #if rigid_tapping_{{PATH}} == 1
+                 OR        RTAP_{{PATH}}         ;"rigid tapping in progress"
    #endif
 #endif
-#if spindle_support__PATH__ == 1 && cs_contour_ctrl__PATH__ == 1
-                 OR        M027__PATH__         ;"Cs contour ctrl on"
+#if spindle_support_{{PATH}} == 1 and cs_contour_ctrl_{{PATH}} == 1
+                 OR        M027_{{PATH}}         ;"Cs contour ctrl on"
 #endif
 #if dcs_support == 1
                  RD.STK.NOT HTR                 ;"hold to run button"
@@ -223,190 +223,190 @@ _PATH__: spindle stop conditions
                  AND.NOT   *SGOPN               ;"guard state doors closed"
                  OR.STK    
 #endif
-                 WRT       s_stpc__PATH__       ;"spindle stop conditions"
+                 WRT       s_stpc_{{PATH}}       ;"spindle stop conditions"
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle start in automatic modes
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle start in automatic modes
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: spindle start in automatic modes
+{{PATH}}: spindle start in automatic modes
 *)
 #endif
-                 RD        M003__PATH__         ;"spindle start clockwise"
-#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
-                 OR        M013__PATH__         ;"sp start cw coolant on"
+                 RD        M003_{{PATH}}         ;"spindle start clockwise"
+#if coolant_support_{{PATH}} > 0 and coolant_support_P01 > -1
+                 OR        M013_{{PATH}}         ;"sp start cw coolant on"
 #endif
-                 RD.STK    ST__PATH__           ;"cycle start signal"
-                 AND       sp_m__PATH__         ;"memory spindle turning"
-                 AND.NOT   spccwm__PATH__       ;"memory spindle turning ccw"
+                 RD.STK    ST_{{PATH}}           ;"cycle start signal"
+                 AND       sp_m_{{PATH}}         ;"memory spindle turning"
+                 AND.NOT   spccwm_{{PATH}}       ;"memory spindle turning ccw"
                  OR.STK
-                 WRT       aspcw__PATH__        ;"sp start cw in auto-mode"
+                 WRT       aspcw_{{PATH}}        ;"sp start cw in auto-mode"
 
-                 RD        M004__PATH__         ;"spindle start counterclockwise"
-#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
-                 OR        M014__PATH__         ;"sp start ccw coolant on"
+                 RD        M004_{{PATH}}         ;"spindle start counterclockwise"
+#if coolant_support_{{PATH}} > 0 and coolant_support_P01 > -1
+                 OR        M014_{{PATH}}         ;"sp start ccw coolant on"
 #endif
-                 RD.STK    ST__PATH__           ;"cycle start signal"
-                 AND       sp_m__PATH__         ;"memory spindle turning"
-                 AND       spccwm__PATH__       ;"memory spindle turning ccw"
+                 RD.STK    ST_{{PATH}}           ;"cycle start signal"
+                 AND       sp_m_{{PATH}}         ;"memory spindle turning"
+                 AND       spccwm_{{PATH}}       ;"memory spindle turning ccw"
                  OR.STK
-                 WRT       aspccw__PATH__       ;"sp start ccw in auto-mode"
+                 WRT       aspccw_{{PATH}}       ;"sp start ccw in auto-mode"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable SP_CW__PATH__ (spindle start clockwise)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable SP_CW_{{PATH}} (spindle start clockwise)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable SP_CW__PATH__ (spindle start clockwise)
+{{PATH}}: global variable SP_CW_{{PATH}} (spindle start clockwise)
 *)
 #endif
-                 RD        aspcw__PATH__        ;"sp start cw in auto-mode"
-                 OR        mspcw__PATH__        ;"manual spindle start cw"
-                 OR        SP_CW__PATH__        ;"spindle start cw"
-                 AND.NOT   aspccw__PATH__       ;"sp start ccw in auto-mode"
-                 AND.NOT   mspccw__PATH__       ;"manual spindle start ccw"
-                 AND.NOT   s_stpc__PATH__       ;"spindle stop conditions"
-                 WRT       SP_CW__PATH__        ;"spindle start cw"
+                 RD        aspcw_{{PATH}}        ;"sp start cw in auto-mode"
+                 OR        mspcw_{{PATH}}        ;"manual spindle start cw"
+                 OR        SP_CW_{{PATH}}        ;"spindle start cw"
+                 AND.NOT   aspccw_{{PATH}}       ;"sp start ccw in auto-mode"
+                 AND.NOT   mspccw_{{PATH}}       ;"manual spindle start ccw"
+                 AND.NOT   s_stpc_{{PATH}}       ;"spindle stop conditions"
+                 WRT       SP_CW_{{PATH}}        ;"spindle start cw"
 
-                 RD        SP_CW__PATH__        ;"spindle start cw"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       L_SPCW__PATH__       ;"led spindle cw"
+                 RD        SP_CW_{{PATH}}        ;"spindle start cw"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       L_SPCW_{{PATH}}       ;"led spindle cw"
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable SP_CCW__PATH__ (spindle start counterclockwise)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable SP_CCW_{{PATH}} (spindle start counterclockwise)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable SP_CCW__PATH__ (spindle start counterclockwise)
+{{PATH}}: global variable SP_CCW_{{PATH}} (spindle start counterclockwise)
 *)
 #endif
-                 RD        aspccw__PATH__       ;"sp start ccw in auto-mode"
-                 OR        mspccw__PATH__       ;"manual spindle start ccw"
-                 OR        SP_CCW__PATH__       ;"spindle start ccw"
-                 AND.NOT   aspcw__PATH__        ;"sp start cw in auto-mode"
-                 AND.NOT   mspcw__PATH__        ;"manual spindle start cw"
-                 AND.NOT   s_stpc__PATH__       ;"spindle stop conditions"
-                 WRT       SP_CCW__PATH__       ;"spindle start ccw"
+                 RD        aspccw_{{PATH}}       ;"sp start ccw in auto-mode"
+                 OR        mspccw_{{PATH}}       ;"manual spindle start ccw"
+                 OR        SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 AND.NOT   aspcw_{{PATH}}        ;"sp start cw in auto-mode"
+                 AND.NOT   mspcw_{{PATH}}        ;"manual spindle start cw"
+                 AND.NOT   s_stpc_{{PATH}}       ;"spindle stop conditions"
+                 WRT       SP_CCW_{{PATH}}       ;"spindle start ccw"
 
-                 RD        SP_CCW__PATH__       ;"spindle start ccw"
-                 AND       M_MAN__PATH__        ;"manual mode active"
-                 WRT       L_SPCCW__PATH__      ;"led spindle ccw"
+                 RD        SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 AND       M_MAN_{{PATH}}        ;"manual mode active"
+                 WRT       L_SPCCW_{{PATH}}      ;"led spindle ccw"
 
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle override
-// to show the spindle override on the screen set parameter
-// 3106 bit 5 = 1 (SOV)                                    
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle override
+!! to show the spindle override on the screen set parameter
+!! 3106 bit 5 = 1 (SOV)                                    
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: spindle override
+{{PATH}}: spindle override
 to show the spindle override on the screen set parameter
 3106 bit 5 = 1 (SOV)                                    
 *)
 #endif
                  RD        LOG1                 ;"logic one"
                  MOVB      
-                           SOVRS__PATH__        ;"spindle override in %"
-                           SOV__PATH__          ;"spindle speed override"
+                           SOVRS_{{PATH}}        ;"spindle override in %"
+                           SOV_{{PATH}}          ;"spindle speed override"
 
-// ---------------------------------------------------------------------------
-// _PATH__: spindle specific functions
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: spindle specific functions
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: spindle specific functions
+{{PATH}}: spindle specific functions
 *)
 #endif
-                 CALLU     SpiRun__PATH__       // SPINDLE SPEED CONTROL
+                 CALLU     SpiRun_{{PATH}}       !! SPINDLE SPEED CONTROL
 
-// ---------------------------------------------------------------------------
-// _PATH__: global variable:  SAR    (speed arrival signal)
-// ---------------------------------------------------------------------------
+!! ---------------------------------------------------------------------------
+!! {{PATH}}: global variable:  SAR    (speed arrival signal)
+!! ---------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: global variable:  SAR__PATH__  (speed arrival signal)
+{{PATH}}: global variable:  SAR_{{PATH}}  (speed arrival signal)
 To use the SAR signal set parameter 3708 bit 0 = 1 (SAR) and a
 delay time in parameter 3740
 *)
 #endif
-                 RD        SP_SAR__PATH__       ;"spindle speed arrival"
-                 OR        SP_STP__PATH__       ;"spindle stopped"
-                 WRT       SAR__PATH__          ;"spindle speed arrival"
+                 RD        SP_SAR_{{PATH}}       ;"spindle speed arrival"
+                 OR        SP_STP_{{PATH}}       ;"spindle stopped"
+                 WRT       SAR_{{PATH}}          ;"spindle speed arrival"
 
-// --------------------------------------------------------------------------
-// _PATH__: management of M03 and M04
-// --------------------------------------------------------------------------
+!! --------------------------------------------------------------------------
+!! {{PATH}}: management of M03 and M04
+!! --------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: management of M03 and M04
+{{PATH}}: management of M03 and M04
 *)
 #endif
-                 RD        M003__PATH__         ;"spindle start cw"
-                 AND       SP_CW__PATH__        ;"spindle start cw"
-                 RST       M003__PATH__         ;"spindle start cw"
+                 RD        M003_{{PATH}}         ;"spindle start cw"
+                 AND       SP_CW_{{PATH}}        ;"spindle start cw"
+                 RST       M003_{{PATH}}         ;"spindle start cw"
 
-                 RD        M004__PATH__         ;"spindle start ccw"
-                 AND       SP_CCW__PATH__       ;"spindle start ccw"
-                 RST       M004__PATH__         ;"spindle start ccw"
+                 RD        M004_{{PATH}}         ;"spindle start ccw"
+                 AND       SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 RST       M004_{{PATH}}         ;"spindle start ccw"
 
 
-#if coolant_support__PATH__ > 0 && coolant_support_P01 > -1
-// --------------------------------------------------------------------------
-// _PATH__: management of M13 and M14
-// --------------------------------------------------------------------------
+#if coolant_support_{{PATH}} > 0 and coolant_support_P01 > -1
+!! --------------------------------------------------------------------------
+!! {{PATH}}: management of M13 and M14
+!! --------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: management of M13 and M14
+{{PATH}}: management of M13 and M14
 *)
 #endif
-                 RD        M013__PATH__         ;"sp start cw coolant on"
-                 AND       SP_CW__PATH__        ;"spindle start cw"
-                 AND       COOLON__PATH__       ;"coolant on"
-                 RST       M013__PATH__         ;"sp start cw coolant on"
+                 RD        M013_{{PATH}}         ;"sp start cw coolant on"
+                 AND       SP_CW_{{PATH}}        ;"spindle start cw"
+                 AND       COOLON_{{PATH}}       ;"coolant on"
+                 RST       M013_{{PATH}}         ;"sp start cw coolant on"
 
-                 RD        M014__PATH__         ;"sp start ccw coolant on"
-                 AND       SP_CCW__PATH__       ;"spindle start ccw"
-                 AND       COOLON__PATH__       ;"coolant on"
-                 RST       M014__PATH__         ;"sp start ccw coolant on"
+                 RD        M014_{{PATH}}         ;"sp start ccw coolant on"
+                 AND       SP_CCW_{{PATH}}       ;"spindle start ccw"
+                 AND       COOLON_{{PATH}}       ;"coolant on"
+                 RST       M014_{{PATH}}         ;"sp start ccw coolant on"
 #endif
 
-// --------------------------------------------------------------------------
-// _PATH__: management of M05
-// --------------------------------------------------------------------------
+!! --------------------------------------------------------------------------
+!! {{PATH}}: management of M05
+!! --------------------------------------------------------------------------
 #if net_comment == 1
 (*
-_PATH__: management of M05
+{{PATH}}: management of M05
 *)
 #endif
-                 RD        M005__PATH__         ;"spindle stop"
-                 AND       SP_STP__PATH__       ;"spindle stopped"
-                 RST       M005__PATH__         ;"spindle stop"
+                 RD        M005_{{PATH}}         ;"spindle stop"
+                 AND       SP_STP_{{PATH}}       ;"spindle stopped"
+                 RST       M005_{{PATH}}         ;"spindle stop"
 
 
 #if dcs_support == 1
-   #if spindle_support__PATH__ == 1
-// --------------------------------------------------------------------------
-// _PATH__: checking DCS spindle specific MCC off signals
-// --------------------------------------------------------------------------
+   #if spindle_support_{{PATH}} == 1
+!! --------------------------------------------------------------------------
+!! {{PATH}}: checking DCS spindle specific MCC off signals
+!! --------------------------------------------------------------------------
       #if net_comment == 1
 (*
-_PATH__: checking DCS spindle specific MCC off signals
+{{PATH}}: checking DCS spindle specific MCC off signals
 *)
       #endif
-                 RD.NOT    M*MCFP1__PATH__      ;"1st spindle MCC off signal"
-                 WRT       MCFPx_NOK__PATH__    ;"mcc spindles not ok"
+                 RD.NOT    M*MCFP1_{{PATH}}      ;"1st spindle MCC off signal"
+                 WRT       MCFPx_NOK_{{PATH}}    ;"mcc spindles not ok"
 
-// --------------------------------------------------------------------------
-// _PATH__: checking DCS spindle specific monitoring signals
-// --------------------------------------------------------------------------
+!! --------------------------------------------------------------------------
+!! {{PATH}}: checking DCS spindle specific monitoring signals
+!! --------------------------------------------------------------------------
       #if net_comment == 1
 (*
-_PATH__: checking DCS spindle specific monitoring signals
+{{PATH}}: checking DCS spindle specific monitoring signals
 *)
       #endif
-                 RD.NOT    MRSP1__PATH__        ;"1st spindle monit. result"
-                 WRT       RSPs_NOK__PATH__     ;"rsp monitoring not ok"
+                 RD.NOT    MRSP1_{{PATH}}        ;"1st spindle monit. result"
+                 WRT       RSPs_NOK_{{PATH}}     ;"rsp monitoring not ok"
    #endif
 #endif

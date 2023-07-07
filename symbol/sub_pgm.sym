@@ -1,28 +1,28 @@
-//:--------------------------------------------------------------------------:
-//: File              : sub_pgm.sym                                          :
-//: Creation date     : 05.12.2013                                           :
-//: Last modification : see table below                                      :
-//: Author            : FANUC FA Switzerland / Peter Bloesch                 :
-//: Description       : Symbols for the subprograms                          :
-//:--------------------------------------------------------------------------:
-//
-//:--------------------------------------------------------------------------:
-//:                     Modification                                         :
-//:--------------------------------------------------------------------------:
-//: Date   :Version: Sign  :Description                                      :
-//:--------------------------------------------------------------------------:
-//:03.09.14: 1.1.0 :Blp    :One touch macro call added                       :
-//:--------------------------------------------------------------------------:
-//:29.09.16: 2.0.0 :Blp    :path 11-15 added                                 :
-//:--------------------------------------------------------------------------:
-//:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
-//:--------------------------------------------------------------------------:
-//:        :       :       :                                                 :
-//:--------------------------------------------------------------------------:
+!!:--------------------------------------------------------------------------:
+!!: File              : sub_pgm.sym                                          :
+!!: Creation date     : 05.12.2013                                           :
+!!: Last modification : see table below                                      :
+!!: Author            : FANUC FA Switzerland / Peter Bloesch                 :
+!!: Description       : Symbols for the subprograms                          :
+!!:--------------------------------------------------------------------------:
+!!
+!!:--------------------------------------------------------------------------:
+!!:                     Modification                                         :
+!!:--------------------------------------------------------------------------:
+!!: Date   :Version: Sign  :Description                                      :
+!!:--------------------------------------------------------------------------:
+!!:03.09.14: 1.1.0 :Blp    :One touch macro call added                       :
+!!:--------------------------------------------------------------------------:
+!!:29.09.16: 2.0.0 :Blp    :path 11-15 added                                 :
+!!:--------------------------------------------------------------------------:
+!!:12.12.18: 2.1.0 :Blp    :Portable manual pulse generator added            :
+!!:--------------------------------------------------------------------------:
+!!:        :       :       :                                                 :
+!!:--------------------------------------------------------------------------:
 
-// ===========================================================================
-// Subprograms
-// ===========================================================================
+!! ===========================================================================
+!! Subprograms
+!! ===========================================================================
 MMI_Input,P0001,mmi inputs,
 Init,P0002,initialization,
 ModDec,P0003,decoding of op. modes,
@@ -47,7 +47,7 @@ Lubric,P0013,lubrication,
 Window,P0014,window read/write function,
 MessDisp,P0015,message display control,
 MMI_Output,P0016,mmi outputs,
-#if otmc_support_P01 > -1 && operatorspanel == 2
+#if otmc_support_P01 > -1 and operatorspanel == 2
 OneTouchMacro,P0030,one touch macro call,
 #endif
 MultiPath,P0100,Multipath related functions,
@@ -60,7 +60,7 @@ Op_Keyb_55_In,P0101,op. 55-key inputs,
 #if operatorspanel == 3
 iPendant_In,P0101,iPendant inputs,
 #endif
-#if operatorspanel == 0 || soft_op_panel == 1
+#if operatorspanel == 0 or soft_op_panel == 1
 Op_Keyb_Sop_In,P0102,software op. inputs,
 #endif
 #if handwheel_support == 2
@@ -162,132 +162,132 @@ M_Codes_P15,P0144,P15:m code decoding,
 #if spindle_support_P01 > 0
 SpiCtrl_P01,P0150,P01:spindle control,
 SpiRun_P01,P0151,P01:spindle speed control,
-   #if spindle_support_P01 == 1 && spindle_orientation_P01 > 0
+   #if spindle_support_P01 == 1 and spindle_orientation_P01 > 0
 SpiOri_P01,P0152,P01:spindle orientation,
    #endif
 #endif
 #if nbr_of_path > 1
-   #if spindle_support_P02 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P02 > 0 and spindle_support_P01 > -1
 SpiCtrl_P02,P0153,P02:spindle control,
 SpiRun_P02,P0154,P02:spindle speed control,
-      #if spindle_support_P02 == 1 && spindle_orientation_P02 > 0
+      #if spindle_support_P02 == 1 and spindle_orientation_P02 > 0
 SpiOri_P02,P0155,P02:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 2
-   #if spindle_support_P03 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P03 > 0 and spindle_support_P01 > -1
 SpiCtrl_P03,P0156,P03:spindle control,
 SpiRun_P03,P0157,P03:spindle speed control,
-      #if spindle_support_P03 == 1 && spindle_orientation_P03 > 0
+      #if spindle_support_P03 == 1 and spindle_orientation_P03 > 0
 SpiOri_P03,P0158,P03:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 3
-   #if spindle_support_P04 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P04 > 0 and spindle_support_P01 > -1
 SpiCtrl_P04,P0159,P04:spindle control,
 SpiRun_P04,P0160,P04:spindle speed control,
-      #if spindle_support_P04 == 1 && spindle_orientation_P04 > 0
+      #if spindle_support_P04 == 1 and spindle_orientation_P04 > 0
 SpiOri_P04,P0161,P04:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 4
-   #if spindle_support_P05 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P05 > 0 and spindle_support_P01 > -1
 SpiCtrl_P05,P0162,P05:spindle control,
 SpiRun_P05,P0163,P05:spindle speed control,
-      #if spindle_support_P05 == 1 && spindle_orientation_P05 > 0
+      #if spindle_support_P05 == 1 and spindle_orientation_P05 > 0
 SpiOri_P05,P0164,P05:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 5
-   #if spindle_support_P06 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P06 > 0 and spindle_support_P01 > -1
 SpiCtrl_P06,P0165,P06:spindle control,
 SpiRun_P06,P0166,P06:spindle speed control,
-      #if spindle_support_P06 == 1 && spindle_orientation_P06 > 0
+      #if spindle_support_P06 == 1 and spindle_orientation_P06 > 0
 SpiOri_P06,P0167,P06:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 6
-   #if spindle_support_P07 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P07 > 0 and spindle_support_P01 > -1
 SpiCtrl_P07,P0168,P07:spindle control,
 SpiRun_P07,P0169,P07:spindle speed control,
-      #if spindle_support_P07 == 1 && spindle_orientation_P07 > 0
+      #if spindle_support_P07 == 1 and spindle_orientation_P07 > 0
 SpiOri_P07,P0170,P07:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 7
-   #if spindle_support_P08 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P08 > 0 and spindle_support_P01 > -1
 SpiCtrl_P08,P0171,P08:spindle control,
 SpiRun_P08,P0172,P08:spindle speed control,
-      #if spindle_support_P08 == 1 && spindle_orientation_P08 > 0
+      #if spindle_support_P08 == 1 and spindle_orientation_P08 > 0
 SpiOri_P08,P0173,P08:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 8
-   #if spindle_support_P09 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P09 > 0 and spindle_support_P01 > -1
 SpiCtrl_P09,P0174,P09:spindle control,
 SpiRun_P09,P0175,P09:spindle speed control,
-      #if spindle_support_P09 == 1 && spindle_orientation_P09 > 0
+      #if spindle_support_P09 == 1 and spindle_orientation_P09 > 0
 SpiOri_P09,P0176,P09:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 9
-   #if spindle_support_P10 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P10 > 0 and spindle_support_P01 > -1
 SpiCtrl_P10,P0177,P10:spindle control,
 SpiRun_P10,P0178,P10:spindle speed control,
-      #if spindle_support_P10 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P10 == 1 and spindle_orientation_P10 > 0
 SpiOri_P10,P0179,P10:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 10
-   #if spindle_support_P11 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P11 > 0 and spindle_support_P01 > -1
 SpiCtrl_P11,P0180,P11:spindle control,
 SpiRun_P11,P0181,P11:spindle speed control,
-      #if spindle_support_P11 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P11 == 1 and spindle_orientation_P10 > 0
 SpiOri_P11,P0182,P11:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 11
-   #if spindle_support_P12 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P12 > 0 and spindle_support_P01 > -1
 SpiCtrl_P12,P0183,P12:spindle control,
 SpiRun_P12,P0184,P12:spindle speed control,
-      #if spindle_support_P12 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P12 == 1 and spindle_orientation_P10 > 0
 SpiOri_P12,P0185,P12:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 12
-   #if spindle_support_P13 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P13 > 0 and spindle_support_P01 > -1
 SpiCtrl_P13,P0186,P13:spindle control,
 SpiRun_P13,P0187,P13:spindle speed control,
-      #if spindle_support_P13 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P13 == 1 and spindle_orientation_P10 > 0
 SpiOri_P13,P0188,P13:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 13
-   #if spindle_support_P14 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P14 > 0 and spindle_support_P01 > -1
 SpiCtrl_P14,P0189,P14:spindle control,
 SpiRun_P14,P0190,P14:spindle speed control,
-      #if spindle_support_P14 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P14 == 1 and spindle_orientation_P10 > 0
 SpiOri_P14,P0191,P14:spindle orientation,
       #endif
    #endif
 #endif
 #if nbr_of_path > 14
-   #if spindle_support_P15 > 0 && spindle_support_P01 > -1
+   #if spindle_support_P15 > 0 and spindle_support_P01 > -1
 SpiCtrl_P15,P0192,P15:spindle control,
 SpiRun_P15,P0193,P15:spindle speed control,
-      #if spindle_support_P15 == 1 && spindle_orientation_P10 > 0
+      #if spindle_support_P15 == 1 and spindle_orientation_P10 > 0
 SpiOri_P15,P0194,P15:spindle orientation,
       #endif
    #endif
@@ -298,72 +298,72 @@ SpiOri_P15,P0194,P15:spindle orientation,
 Tool_P01,P0200,P01:tool management,
 #endif
 #if nbr_of_path > 1
-   #if t_code_support_P02 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P02 > 0 and t_code_support_P01 > -1
 Tool_P02,P0201,P02:tool management,
    #endif
 #endif
 #if nbr_of_path > 2
-   #if t_code_support_P03 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P03 > 0 and t_code_support_P01 > -1
 Tool_P03,P0202,P03:tool management,
    #endif
 #endif
 #if nbr_of_path > 3
-   #if t_code_support_P04 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P04 > 0 and t_code_support_P01 > -1
 Tool_P04,P0203,P04:tool management,
    #endif
 #endif
 #if nbr_of_path > 4
-   #if t_code_support_P05 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P05 > 0 and t_code_support_P01 > -1
 Tool_P05,P0204,P05:tool management,
    #endif
 #endif
 #if nbr_of_path > 5
-   #if t_code_support_P06 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P06 > 0 and t_code_support_P01 > -1
 Tool_P06,P0205,P06:tool management,
    #endif
 #endif
 #if nbr_of_path > 6
-   #if t_code_support_P07 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P07 > 0 and t_code_support_P01 > -1
 Tool_P07,P0206,P07:tool management,
    #endif
 #endif
 #if nbr_of_path > 7
-   #if t_code_support_P08 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P08 > 0 and t_code_support_P01 > -1
 Tool_P08,P0207,P08:tool management,
    #endif
 #endif
 #if nbr_of_path > 8
-   #if t_code_support_P09 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P09 > 0 and t_code_support_P01 > -1
 Tool_P09,P0208,P09:tool management,
    #endif
 #endif
 #if nbr_of_path > 9
-   #if t_code_support_P10 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P10 > 0 and t_code_support_P01 > -1
 Tool_P10,P0209,P10:tool management,
    #endif
 #endif
 #if nbr_of_path > 10
-   #if t_code_support_P11 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P11 > 0 and t_code_support_P01 > -1
 Tool_P11,P0210,P11:tool management,
    #endif
 #endif
 #if nbr_of_path > 11
-   #if t_code_support_P12 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P12 > 0 and t_code_support_P01 > -1
 Tool_P12,P0211,P12:tool management,
    #endif
 #endif
 #if nbr_of_path > 12
-   #if t_code_support_P13 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P13 > 0 and t_code_support_P01 > -1
 Tool_P13,P0212,P13:tool management,
    #endif
 #endif
 #if nbr_of_path > 13
-   #if t_code_support_P14 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P14 > 0 and t_code_support_P01 > -1
 Tool_P14,P0213,P14:tool management,
    #endif
 #endif
 #if nbr_of_path > 14
-   #if t_code_support_P15 > 0 && t_code_support_P01 > -1
+   #if t_code_support_P15 > 0 and t_code_support_P01 > -1
 Tool_P15,P0214,P15:tool management,
    #endif
 #endif
@@ -373,72 +373,72 @@ Tool_P15,P0214,P15:tool management,
 B_Codes_P01,P0220,P01:b code decoding,
 #endif
 #if nbr_of_path > 1
-   #if b_code_support_P02 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P02 > 0 and b_code_support_P01 > -1
 B_Codes_P02,P0221,P02:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 2
-   #if b_code_support_P03 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P03 > 0 and b_code_support_P01 > -1
 B_Codes_P03,P0222,P03:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 3
-   #if b_code_support_P04 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P04 > 0 and b_code_support_P01 > -1
 B_Codes_P04,P0223,P04:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 4
-   #if b_code_support_P05 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P05 > 0 and b_code_support_P01 > -1
 B_Codes_P05,P0224,P05:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 5
-   #if b_code_support_P06 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P06 > 0 and b_code_support_P01 > -1
 B_Codes_P06,P0225,P06:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 6
-   #if b_code_support_P07 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P07 > 0 and b_code_support_P01 > -1
 B_Codes_P07,P0226,P07:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 7
-   #if b_code_support_P08 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P08 > 0 and b_code_support_P01 > -1
 B_Codes_P08,P0227,P08:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 8
-   #if b_code_support_P09 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P09 > 0 and b_code_support_P01 > -1
 B_Codes_P09,P0228,P09:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 9
-   #if b_code_support_P10 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P10 > 0 and b_code_support_P01 > -1
 B_Codes_P10,P0229,P10:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 10
-   #if b_code_support_P11 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P11 > 0 and b_code_support_P01 > -1
 B_Codes_P11,P0230,P11:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 11
-   #if b_code_support_P12 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P12 > 0 and b_code_support_P01 > -1
 B_Codes_P12,P0231,P12:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 12
-   #if b_code_support_P13 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P13 > 0 and b_code_support_P01 > -1
 B_Codes_P13,P0232,P13:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 13
-   #if b_code_support_P14 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P14 > 0 and b_code_support_P01 > -1
 B_Codes_P14,P0233,P14:b code decoding,
    #endif
 #endif
 #if nbr_of_path > 14
-   #if b_code_support_P15 > 0 && b_code_support_P01 > -1
+   #if b_code_support_P15 > 0 and b_code_support_P01 > -1
 B_Codes_P15,P0234,P15:b code decoding,
    #endif
 #endif
@@ -969,78 +969,78 @@ Axis08_P15,P459,P15:8th axis,
 Coolant_P01,P0460,P01:coolant support,
 #endif
 #if nbr_of_path > 1
-   #if coolant_support_P02 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P02 > 0 and coolant_support_P01 > -1
 Coolant_P02,P0461,P02:coolant support,
    #endif
 #endif
 #if nbr_of_path > 2
-   #if coolant_support_P03 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P03 > 0 and coolant_support_P01 > -1
 Coolant_P03,P0462,P03:coolant support,
    #endif
 #endif
 #if nbr_of_path > 3
-   #if coolant_support_P04 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P04 > 0 and coolant_support_P01 > -1
 Coolant_P04,P0463,P04:coolant support,
    #endif
 #endif
 #if nbr_of_path > 4
-   #if coolant_support_P05 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P05 > 0 and coolant_support_P01 > -1
 Coolant_P05,P0464,P05:coolant support,
    #endif
 #endif
 #if nbr_of_path > 5
-   #if coolant_support_P06 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P06 > 0 and coolant_support_P01 > -1
 Coolant_P06,P0465,P06:coolant support,
    #endif
 #endif
 #if nbr_of_path > 6
-   #if coolant_support_P07 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P07 > 0 and coolant_support_P01 > -1
 Coolant_P07,P0466,P07:coolant support,
    #endif
 #endif
 #if nbr_of_path > 7
-   #if coolant_support_P08 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P08 > 0 and coolant_support_P01 > -1
 Coolant_P08,P0467,P08:coolant support,
    #endif
 #endif
 #if nbr_of_path > 8
-   #if coolant_support_P09 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P09 > 0 and coolant_support_P01 > -1
 Coolant_P09,P0468,P09:coolant support,
    #endif
 #endif
 #if nbr_of_path > 9
-   #if coolant_support_P10 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P10 > 0 and coolant_support_P01 > -1
 Coolant_P10,P0469,P10:coolant support,
    #endif
 #endif
 
 #if nbr_of_path > 10
-   #if coolant_support_P11 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P11 > 0 and coolant_support_P01 > -1
 Coolant_P11,P0470,P11:coolant support,
    #endif
 #endif
 #if nbr_of_path > 11
-   #if coolant_support_P12 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P12 > 0 and coolant_support_P01 > -1
 Coolant_P12,P0471,P12:coolant support,
    #endif
 #endif
 #if nbr_of_path > 12
-   #if coolant_support_P13 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P13 > 0 and coolant_support_P01 > -1
 Coolant_P13,P0472,P13:coolant support,
    #endif
 #endif
 #if nbr_of_path > 13
-   #if coolant_support_P14 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P14 > 0 and coolant_support_P01 > -1
 Coolant_P14,P0473,P14:coolant support,
    #endif
 #endif
 #if nbr_of_path > 14
-   #if coolant_support_P15 > 0 && coolant_support_P01 > -1
+   #if coolant_support_P15 > 0 and coolant_support_P01 > -1
 Coolant_P15,P0474,P15:coolant support,
    #endif
 #endif
 
-#if operatorspanel == 0 || soft_op_panel == 1
+#if operatorspanel == 0 or soft_op_panel == 1
 Sop_In_P01,P0480,P01:soft. op. inputs,
 #endif
 #if nbr_of_path > 1
@@ -1097,7 +1097,7 @@ Hmop_Out,P0502,hmop outputs,
 Hmop_LCD,P0503,hmop lcd display,
 #endif
 
-#if otmc_support_P01 > -1 && operatorspanel == 2
+#if otmc_support_P01 > -1 and operatorspanel == 2
    #if otmc_support_P01 == 1 
 OneTouchMac_P01,P0510,P01:one touch macro call,
    #endif
